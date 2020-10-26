@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PokerJacks</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="resend_otp"><u>Resend OTP</u></string>
+    <string name="server_error">Looks like we\'re having\nsome server issues\n\nPlease check back soon</string>
+    <string name="internet_error">Check your mobile data or\nWIFI connection</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="add_bank_cb_text">The above particulars I entered were belongs to me in all aspects</string>
+    <string name="delete_account"><u>Delete Account</u></string>
 </resources>

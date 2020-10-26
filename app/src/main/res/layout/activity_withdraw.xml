@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/toolbar_layout" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_withdraw"
+        android:layout_below="@+id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="@dimen/size_16dp"
+                app:cardBackgroundColor="@color/dark_30"
+                app:cardCornerRadius="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_wallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/ic_wallet_icon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/iv_wallet"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Withdrawable"
+                            android:textColor="#A5A5A5"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tv_withdrawable_money"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#F1F1F1"
+                            android:textSize="26sp"
+                            tools:text="₹15,500.34" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="( Winnings )"
+                            android:textColor="#A5A5A5"
+                            android:textSize="@dimen/text_12sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/ll_validForWithdraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_16dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginEnd="@dimen/size_16dp"
+                    android:layout_marginBottom="@dimen/size_40dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_AccountInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+
+                        <RadioButton
+                            android:id="@+id/rb_accountType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/radio_button_selector"
+                            android:checked="true"
+                            android:paddingStart="@dimen/size_16dp"
+                            android:text="Bank Transfer"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+
+                        <TextView
+                            android:id="@+id/tv_changeBankAcc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="@dimen/size_4dp"
+                            android:text="Change"
+                            android:textColor="@color/text_blue"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_BankAccount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/rb_accountType"
+                            android:layout_marginStart="44dp"
+                            android:layout_marginTop="@dimen/size_4dp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            tools:text="State Bank of India - ****3550" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_manageAccount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="44dp"
+                        android:paddingTop="@dimen/size_4dp"
+                        android:paddingBottom="@dimen/size_4dp"
+                        android:text="+ Manage Bank Account"
+                        android:textColor="#B1BEDF"
+                        android:textSize="@dimen/text_12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_16dp"
+                    android:layout_marginEnd="@dimen/size_16dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/et_withdrawAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/size_8dp"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="₹ Amount"
+                        android:inputType="number"
+                        android:textColor="@color/white_blue"
+                        android:textSize="28sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white_blue" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/size_16dp"
+                        android:text="Notes:\n\n1. Minimum amount that can be withdrawn is Rs.200/-\n\n2. Amount withdrawn will be credited to your bank account within 2 working days"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_invalidForWithdraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_10dp"
+                android:layout_marginBottom="@dimen/size_16dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:text="To start withdrawing your winnings:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp" />
+
+                <TextView
+                    android:id="@+id/tv_emailVerify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:drawableEnd="@drawable/ic_approved_blue"
+                    android:drawablePadding="@dimen/size_8dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="1. Please verify your emaiL"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp" />
+
+                <TextView
+                    android:id="@+id/tv_panVerify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:drawableEnd="@drawable/ic_approved_blue"
+                    android:drawablePadding="@dimen/size_8dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="2. Please verify your PAN"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp" />
+
+                <TextView
+                    android:id="@+id/tv_addressVerify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:drawableEnd="@drawable/ic_approved_blue"
+                    android:drawablePadding="@dimen/size_8dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="3. Please verify your Address"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp" />
+
+                <TextView
+                    android:id="@+id/tv_accountPresent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:drawableEnd="@drawable/ic_approved_blue"
+                    android:drawablePadding="@dimen/size_8dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="4. Please add a bank account"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_withdraw"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/size_20dp"
+        android:background="@drawable/blue_gradient_button"
+        android:text="Withdraw"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_16sp" />
+
+</RelativeLayout>

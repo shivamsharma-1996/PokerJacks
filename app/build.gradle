@@ -1,36 +1,145 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
 
     defaultConfig {
         applicationId "com.gtgt.pokerjacks"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        flavorDimensions "default"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        stage {
+            buildConfigField "String", "HOME_URL_PLATFORM", "\"https://api.f11fantasy.com/\""
+        }
+        production {
+            buildConfigField "String", "HOME_URL_PLATFORM", "\"https://api.rummyjacks.com/\""
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    kapt {
+        generateStubs = true
+    }
+    repositories {
+        jcenter()
+        maven { url 'https://jitpack.io' }
+        mavenCentral()
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
 
+    implementation 'com.google.android.material:material:1.3.0-alpha03'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+    implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
+
+    implementation 'org.kodein.di:kodein-di-generic-jvm:6.2.1'
+    implementation 'org.kodein.di:kodein-di-framework-android-x:6.2.1'
+
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.androidisland.arch:vita:0.1.0'
+
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.3.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.3.0-beta01'
+
+    kapt 'androidx.databinding:databinding-compiler:4.0.2'
+
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    implementation 'com.airbnb.android:lottie:3.4.0'
+
+    implementation('io.socket:socket.io-client:1.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+//    implementation 'com.github.nkzawa:socket.io-client:0.6.0'
+
+    //pin view
+    implementation 'com.chaos.view:pinview:1.4.3'
+
+
+    implementation 'com.eightbitlab:blurview:1.6.3'
+
+
+    //date picker library
+    implementation 'com.brucetoo.pickview:library:1.2.3'
+
+    implementation 'androidx.biometric:biometric:1.0.1'
+
+    implementation 'com.github.devlight.shadowlayout:library:1.0.2'
+
+    implementation 'com.github.myinnos:AndroidScratchCard:v1.0'
+
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
+
+    implementation 'com.karumi:dexter:6.0.1'
+
+    implementation 'com.github.yalantis:ucrop:2.2.4'
+
+    implementation 'com.paytm.appinvokesdk:appinvokesdk:1.2'
+
+    //Image Picker Library
+    implementation 'com.github.yalantis:ucrop:2.2.4'
+
+    implementation 'com.github.devsideal:VectorChildFinder:1.0.0'
 }

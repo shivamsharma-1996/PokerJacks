@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/toolbar_layout" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_suspendAccount"
+        android:layout_below="@id/header"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginTop="@dimen/size_20dp"
+        android:layout_marginEnd="@dimen/size_20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:text="1.	The Company adheres to responsible gaming practices to ensure safety of customers within the system and play responsibly. The Company is committed to integrity, fairness and reliability and we always do best to prevent gaming-related problems. Limiting payments made by its customers and Self-Deactivation of Accounts by the customers themselves are some of the Responsible Gaming features of the Company."
+                android:textColor="@color/white_blue"
+                android:textSize="@dimen/text_14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:text="2.	By Clicking on ‘Suspend my Account’, you can disable your Rummy Account for either 24 hours or 1 week. You cannot play any forms of Rummy Game during the suspended period"
+                android:textColor="@color/white_blue"
+                android:textSize="@dimen/text_14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:text="3.	You may contact Customer Care to unblock your account. However if you wish to give no control to us, you may check the box in ‘Suspend my Account’ pop up. This way your account will stay suspended during your suspension time and we cannot unblock it even if you contact Customer Support."
+                android:textColor="@color/white_blue"
+                android:textSize="@dimen/text_14sp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_suspendAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/size_20dp"
+        android:background="@drawable/gray_button"
+        android:text="Suspend my Account"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

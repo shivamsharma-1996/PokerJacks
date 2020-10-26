@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/toolbar_layout_nav" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="@dimen/size_16dp"
+                app:cardBackgroundColor="@color/dark_30"
+                app:cardCornerRadius="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_wallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="@dimen/size_12dp"
+                        android:src="@drawable/ic_wallet_icon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/iv_wallet"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Balance"
+                            android:textColor="#A5A5A5"
+                            android:textSize="16sp" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_totalBalance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#F1F1F1"
+                                android:textSize="26sp"
+                                tools:text="₹15,500.34" />
+
+                            <ImageView
+                                android:id="@+id/iv_expandWallet"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="end|center"
+                                android:src="@drawable/ic_more_gray" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="( Unutilized Cash + Winnings + Bonus )"
+                            android:textColor="#A5A5A5"
+                            android:textSize="@dimen/text_12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_walletDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/iv_wallet"
+                        android:layout_marginTop="@dimen/size_10dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <!--UnUtilized cash-->
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/size_10dp"
+                            app:cardBackgroundColor="#414141"
+                            app:cardCornerRadius="5dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/iv_cash"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/size_8dp"
+                                    android:src="@drawable/ic_cash" />
+
+                                <TextView
+                                    android:id="@+id/tv_unUtilizedCash"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/size_8dp"
+                                    android:layout_toEndOf="@id/iv_cash"
+                                    android:includeFontPadding="false"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_16sp"
+                                    tools:text="₹5,500.34" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tv_unUtilizedCash"
+                                    android:layout_marginBottom="@dimen/size_8dp"
+                                    android:layout_toEndOf="@id/iv_cash"
+                                    android:text="Untilized Cash"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_12sp" />
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <!--winning-->
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/size_10dp"
+                            app:cardBackgroundColor="#414141"
+                            app:cardCornerRadius="5dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/iv_winning"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/size_8dp"
+                                    android:src="@drawable/ic_winnings" />
+
+                                <TextView
+                                    android:id="@+id/tv_winnings"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/size_8dp"
+                                    android:layout_toEndOf="@id/iv_winning"
+                                    android:includeFontPadding="false"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_16sp"
+                                    tools:text="₹5,500.34" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tv_winnings"
+                                    android:layout_marginBottom="@dimen/size_8dp"
+                                    android:layout_toEndOf="@id/iv_winning"
+                                    android:text="Winnings"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_12sp" />
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <!--usable bonus-->
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/size_10dp"
+                            app:cardBackgroundColor="#414141"
+                            app:cardCornerRadius="5dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/iv_usableBonus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/size_8dp"
+                                    android:src="@drawable/ic_usable_bonus_bag" />
+
+                                <TextView
+                                    android:id="@+id/tv_usableBonus"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/size_8dp"
+                                    android:layout_toEndOf="@id/iv_usableBonus"
+                                    android:includeFontPadding="false"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_16sp"
+                                    tools:text="₹5,500.34" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tv_usableBonus"
+                                    android:layout_marginBottom="@dimen/size_8dp"
+                                    android:layout_toEndOf="@id/iv_usableBonus"
+                                    android:text="Usable Bonus"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_12sp" />
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_16dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹"
+                        android:textColor="@color/white"
+                        android:textSize="28sp" />
+
+                    <EditText
+                        android:id="@+id/et_addMoney"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/size_24dp"
+                        android:layout_marginEnd="@dimen/size_8dp"
+                        android:layout_toStartOf="@id/tv_applyPromoCode"
+                        android:background="@null"
+                        android:hint="Amount"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textColorHint="#656565"
+                        android:textSize="28sp" />
+
+                    <TextView
+                        android:id="@+id/tv_applyPromoCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:text="Apply Promocode"
+                        android:textColor="#A5A5A5"
+                        android:textSize="@dimen/text_14sp"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_offerApplied"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/tv_successCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/size_8dp"
+                            android:textColor="#9BD65E"
+                            android:textSize="@dimen/text_14sp"
+                            tools:text="YR2020" />
+
+                        <TextView
+                            android:id="@+id/tv_removeOffer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/ic_close_offer"
+                            android:drawablePadding="@dimen/size_4dp"
+                            android:text="Applied"
+                            android:textColor="#A5A5A5"
+                            android:textSize="@dimen/text_14sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#A5A5A5" />
+
+                <TextView
+                    android:id="@+id/tv_promoCodeDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/size_16dp"
+                    android:textColor="#9BD65E"
+                    android:textSize="@dimen/text_14sp"
+                    android:visibility="gone"
+                    tools:text="Cash back of ₹ 500 will be added" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@id/btn_addMoney"
+                        android:weightSum="3">
+
+                        <Button
+                            android:id="@+id/btn_amount1"
+                            android:layout_width="@dimen/size_60dp"
+                            android:layout_height="@dimen/size_28dp"
+                            android:layout_marginEnd="@dimen/size_10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/gray_button"
+                            android:text="₹1000"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <Button
+                            android:id="@+id/btn_amount2"
+                            android:layout_width="@dimen/size_60dp"
+                            android:layout_height="@dimen/size_28dp"
+                            android:layout_marginEnd="@dimen/size_10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/gray_button"
+                            android:text="₹2000"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <Button
+                            android:id="@+id/btn_amount3"
+                            android:layout_width="@dimen/size_60dp"
+                            android:layout_height="@dimen/size_28dp"
+                            android:layout_marginEnd="@dimen/size_16dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/gray_button"
+                            android:text="₹5000"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14sp" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btn_addMoney"
+                        android:layout_width="112dp"
+                        android:layout_height="44dp"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/blue_gradient_button"
+                        android:text="Add Money"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_withdraw"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_64dp"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_16dp"
+                app:cardBackgroundColor="@color/dark_30"
+                app:cardCornerRadius="@dimen/size_8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_8dp"
+                        android:src="@drawable/ic_bank_wallet" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/size_16dp"
+                        android:text="Withdraw"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_recentTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_64dp"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_16dp"
+                app:cardBackgroundColor="@color/dark_30"
+                app:cardCornerRadius="@dimen/size_8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_8dp"
+                        android:src="@drawable/ic_recent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/size_16dp"
+                        android:text="Recent Transactions"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_bonusDist"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_64dp"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_16dp"
+                app:cardBackgroundColor="@color/dark_30"
+                app:cardCornerRadius="@dimen/size_8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_8dp"
+                        android:src="@drawable/ic_wallet_bonus" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/size_16dp"
+                        android:text="Bonus Disbursements"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_16dp"
+                android:weightSum="2">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_walletSC"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/size_64dp"
+                    android:layout_marginStart="@dimen/size_16dp"
+                    android:layout_marginTop="@dimen/size_16dp"
+                    android:layout_marginEnd="@dimen/size_12dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/dark_30"
+                    app:cardCornerRadius="@dimen/size_8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/dimen_8dp"
+                            android:src="@drawable/ic_wallet_scratch" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/dimen_8dp"
+                            android:text="Scratch Cards"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_walletOffers"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/size_64dp"
+                    android:layout_marginStart="@dimen/size_12dp"
+                    android:layout_marginTop="@dimen/size_16dp"
+                    android:layout_marginEnd="@dimen/size_16dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/dark_30"
+                    app:cardCornerRadius="@dimen/size_8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/dimen_8dp"
+                            android:src="@drawable/ic_offers_wallet" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/dimen_8dp"
+                            android:text="Offers"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
