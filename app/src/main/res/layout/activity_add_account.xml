@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/toolbar_layout" />
+
+    <!--bank account-->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/sv_addBankAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/cb_addBank"
+        android:layout_below="@id/header"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_addBankAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_16dp"
+            android:layout_marginEnd="@dimen/size_16dp"
+            android:layout_marginBottom="@dimen/size_16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:text="Name as per Bank"
+                android:textColor="@color/white_blue"
+                android:textSize="@dimen/text_16sp" />
+
+            <EditText
+                android:id="@+id/et_userNameBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_12dp"
+                android:background="@drawable/dark_bg_8dp"
+                android:fontFamily="@font/proximanova_regular"
+                android:hint="Name"
+                android:inputType="textVisiblePassword"
+                android:maxLines="1"
+                android:padding="@dimen/size_16dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white_blue"
+                android:textSize="@dimen/text_16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:text="Bank account Number"
+                android:textColor="@color/white_blue"
+                android:textSize="@dimen/text_16sp" />
+
+            <EditText
+                android:id="@+id/et_accNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_12dp"
+                android:background="@drawable/dark_bg_8dp"
+                android:fontFamily="@font/proximanova_regular"
+                android:hint="Account Number"
+                android:inputType="number|textVisiblePassword"
+                android:padding="@dimen/size_16dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white_blue"
+                android:textSize="@dimen/text_16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:text="IFSC Code"
+                android:textColor="@color/white_blue"
+                android:textSize="@dimen/text_16sp" />
+
+            <EditText
+                android:id="@+id/et_ifsc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_12dp"
+                android:background="@drawable/dark_bg_8dp"
+                android:digits="0123456789QWERTYUIOPASDFGHJKLZXCVBNM"
+                android:fontFamily="@font/proximanova_regular"
+                android:hint="IFSC"
+                android:inputType="textCapCharacters|textVisiblePassword"
+                android:maxLength="11"
+                android:padding="@dimen/size_16dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white_blue"
+                android:textSize="@dimen/text_16sp" />
+
+            <TextView
+                android:id="@+id/tv_ifscValidation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:textColor="@color/white_blue"
+                android:textSize="@dimen/text_14sp"
+                android:visibility="gone"
+                tools:text="State Bank of India, Madhapur" />
+
+            <LinearLayout
+                android:id="@+id/ll_ifscInValid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/size_8dp"
+                    android:text="Bank Name"
+                    android:textColor="@color/white_blue"
+                    android:textSize="@dimen/text_16sp" />
+
+                <EditText
+                    android:id="@+id/et_bankName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/size_12dp"
+                    android:background="@drawable/dark_bg_8dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:hint="Bank"
+                    android:padding="@dimen/size_16dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white_blue"
+                    android:textSize="@dimen/text_16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/size_8dp"
+                    android:text="Branch Name"
+                    android:textColor="@color/white_blue"
+                    android:textSize="@dimen/text_16sp" />
+
+                <EditText
+                    android:id="@+id/et_branchName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/size_12dp"
+                    android:background="@drawable/dark_bg_8dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:hint="Branch"
+                    android:padding="@dimen/size_16dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white_blue"
+                    android:textSize="@dimen/text_16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/size_8dp"
+                    android:text="IFSC Code"
+                    android:textColor="@color/white_blue"
+                    android:textSize="@dimen/text_16sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/size_12dp"
+                    android:background="@drawable/dark_bg_8dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:padding="@dimen/size_16dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!--UPI-->
+    <LinearLayout
+        android:id="@+id/ll_addUPI"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:layout_marginStart="@dimen/size_16dp"
+        android:layout_marginEnd="@dimen/size_16dp"
+        android:layout_marginBottom="@dimen/size_16dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_8dp"
+            android:text="Enter your UPI Id"
+            android:textColor="@color/white_blue"
+            android:textSize="@dimen/text_16sp" />
+
+        <EditText
+            android:id="@+id/et_upi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_12dp"
+            android:background="@drawable/dark_bg_8dp"
+            android:fontFamily="@font/proximanova_regular"
+            android:hint="UPI"
+            android:maxLines="1"
+            android:padding="@dimen/size_16dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_blue"
+            android:textSize="@dimen/text_16sp" />
+
+    </LinearLayout>
+
+    <!--paytm-->
+    <LinearLayout
+        android:id="@+id/ll_addPaytmAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:layout_marginStart="@dimen/size_16dp"
+        android:layout_marginEnd="@dimen/size_16dp"
+        android:layout_marginBottom="@dimen/size_16dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_8dp"
+            android:text="Paytm Number"
+            android:textColor="@color/white_blue"
+            android:textSize="@dimen/text_16sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dark_bg_8dp">
+
+            <EditText
+                android:id="@+id/et_paytmNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/size_12dp"
+                android:layout_toStartOf="@id/tv_changeNumber"
+                android:background="@null"
+                android:enabled="false"
+                android:fontFamily="@font/proximanova_regular"
+                android:inputType="number"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:padding="@dimen/size_16dp"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white_blue"
+                android:textSize="@dimen/text_16sp" />
+
+            <TextView
+                android:id="@+id/tv_changeNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/size_12dp"
+                android:text="Change"
+                android:textColor="@color/white_blue"
+                android:textSize="@dimen/text_12sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cb_addBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_addBank"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:buttonTint="@color/light_blue"
+        android:checked="true"
+        android:fontFamily="@font/proximanova_regular"
+        android:paddingStart="@dimen/size_8dp"
+        android:paddingTop="@dimen/size_8dp"
+        android:text="@string/add_bank_cb_text"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_14sp" />
+
+    <Button
+        android:id="@+id/btn_addBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/size_20dp"
+        android:background="@drawable/blue_gradient_button"
+        android:fontFamily="@font/proximanova_regular"
+        android:text="Proceed"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_16sp" />
+
+</RelativeLayout>

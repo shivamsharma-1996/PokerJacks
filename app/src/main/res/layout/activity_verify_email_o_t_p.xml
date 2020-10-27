@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#151515">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <include layout="@layout/toolbar_layout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_24dp"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="OTP sent to"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_16sp" />
+
+        <TextView
+            android:id="@+id/tv_user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_24dp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_16sp"
+            tools:text="Chakradhar.p@gtgt.in" />
+
+        <com.chaos.view.PinView
+            android:id="@+id/enter_email_otp"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_28dp"
+            android:cursorVisible="true"
+            android:fontFamily="@font/proximanova_regular"
+            android:inputType="number"
+            android:itemBackground="@drawable/dark_bg_8dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_28dp"
+            app:cursorColor="@color/white"
+            app:cursorWidth="2dp"
+            app:hideLineWhenFilled="true"
+            app:itemCount="4"
+            app:itemHeight="74dp"
+            app:itemRadius="5dp"
+            app:itemSpacing="@dimen/size_24dp"
+            app:itemWidth="58dp"
+            app:lineColor="@color/white"
+            app:viewType="none" />
+
+        <TextView
+            android:id="@+id/btn_resend_otp_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_24dp"
+            android:text="@string/resend_otp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_14sp" />
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_verify_email"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginTop="@dimen/size_50dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:layout_marginBottom="@dimen/size_20dp"
+        android:background="@drawable/blue_gradient_button"
+        android:fontFamily="@font/proximanova_regular"
+        android:text="Verify"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

@@ -1,0 +1,50 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    // shimmer effect dimens
+
+    // text size
+    <dimen name="text_20sp">20dp</dimen>
+    <dimen name="text_8sp">8dp</dimen>
+    <dimen name="text_10sp">10dp</dimen>
+    <dimen name="text_24sp">24dp</dimen>
+    <dimen name="text_18sp">18dp</dimen>
+    <dimen name="text_16sp">16dp</dimen>
+    <dimen name="text_14sp">14dp</dimen>
+    <dimen name="text_12sp">12dp</dimen>
+
+    // size
+    <dimen name="size_1dp">1dp</dimen>
+    <dimen name="size_2dp">2dp</dimen>
+    <dimen name="size_4dp">4dp</dimen>
+    <dimen name="size_6dp">6dp</dimen>
+    <dimen name="size_8dp">8dp</dimen>
+    <dimen name="size_10dp">10dp</dimen>
+    <dimen name="size_12dp">12dp</dimen>
+    <dimen name="size_14dp">14dp</dimen>
+    <dimen name="size_16dp">16dp</dimen>
+    <dimen name="size_18dp">18dp</dimen>
+    <dimen name="size_20dp">20dp</dimen>
+    <dimen name="size_50dp">50dp</dimen>
+    <dimen name="size_45dp">45dp</dimen>
+    <dimen name="size_150dp">150dp</dimen>
+    <dimen name="size_60dp">60dp</dimen>
+    <dimen name="size_56dp">56dp</dimen>
+    <dimen name="size_40dp">40dp</dimen>
+    <dimen name="size_24dp">24dp</dimen>
+    <dimen name="size_200dp">200dp</dimen>
+    <dimen name="size_30dp">30dp</dimen>
+    <dimen name="size_5dp">5dp</dimen>
+    <dimen name="size_32dp">32dp</dimen>
+    <dimen name="size_250dp">250dp</dimen>
+    <dimen name="size_80dp">80dp</dimen>
+    <dimen name="size_70dp">70dp</dimen>
+    <dimen name="size_48dp">48dp</dimen>
+    <dimen name="size_64dp">64dp</dimen>
+    <dimen name="size_72dp">72dp</dimen>
+    <dimen name="size_28dp">28dp</dimen>
+    <dimen name="size_36dp">36dp</dimen>
+
+</resources>

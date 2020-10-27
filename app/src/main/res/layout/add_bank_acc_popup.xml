@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size_16dp"
+            android:background="@drawable/dialog_bg"
+            android:orientation="vertical"
+            android:padding="@dimen/size_16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/sf_semibold"
+                android:text="Add Accounts"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:src="@drawable/left_popup_img" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_gravity="end"
+                    android:src="@drawable/right_popup_img" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/white_blue" />
+            </FrameLayout>
+
+            <RadioGroup
+                android:id="@+id/rg_accType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rb_addBankAcc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_28dp"
+                    android:layout_marginBottom="@dimen/dimen_20dp"
+                    android:button="@drawable/radio_button_selector"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:paddingStart="@dimen/dimen_16dp"
+                    android:text="Bank Account"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/rb_addUPI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_20dp"
+                    android:button="@drawable/radio_button_selector"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:paddingStart="@dimen/dimen_16dp"
+                    android:text="UPI"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/rb_add_PaytmAcc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radio_button_selector"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:paddingStart="@dimen/dimen_16dp"
+                    android:text="Paytm"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp"
+                    tools:ignore="RtlSymmetry" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btn_addAccType"
+                android:layout_width="250dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/size_28dp"
+                android:background="@drawable/blue_gradient_button"
+                android:gravity="center"
+                android:text="Add"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btn_closeD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_close_dialog" />
+    </FrameLayout>
+</RelativeLayout>
