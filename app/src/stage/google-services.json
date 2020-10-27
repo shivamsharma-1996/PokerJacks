@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "118076664581",
+    "firebase_url": "https://pokerdev-ea4f0.firebaseio.com",
+    "project_id": "pokerdev-ea4f0",
+    "storage_bucket": "pokerdev-ea4f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118076664581:android:fd6c2f258242df4706656c",
+        "android_client_info": {
+          "package_name": "com.gtgt.pokerjacks.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "118076664581-umgl6jg08m9b9pbviir6u0r7jq9q94qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApaJOH0sgolsa9Up8wJgpX7rJQjGomMYA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "118076664581-umgl6jg08m9b9pbviir6u0r7jq9q94qb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

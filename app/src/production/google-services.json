@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "544166396585",
+    "firebase_url": "https://pocker-jacks-prod.firebaseio.com",
+    "project_id": "pocker-jacks-prod",
+    "storage_bucket": "pocker-jacks-prod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544166396585:android:ccb40744160300652a9fb8",
+        "android_client_info": {
+          "package_name": "com.gtgt.pokerjacks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544166396585-tiqbpo0nc26u9aetpv4a7adicneuuqi3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwpkQILAopQbflLq0dqxIYhcWoBWwPoSc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544166396585-tiqbpo0nc26u9aetpv4a7adicneuuqi3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

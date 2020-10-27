@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.wallet.WithdrawActivity"></activity>
+        <activity android:name=".InsufficientBalanceActivity"></activity>
+        <activity android:name=".ui.wallet.WithdrawActivity" />
         <activity android:name=".ui.profile.AccConfirmationActivity" />
         <activity android:name=".ui.profile.AddAccountActivity" />
         <activity android:name=".ui.profile.ManageBankAccountActivity" />
