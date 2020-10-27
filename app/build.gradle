@@ -39,22 +39,18 @@ android {
         stage {
             versionName "1.0"
             resValue 'string', 'app_name', 'Dev PockerJacks'
+
+            buildConfigField "String", "HOME_URL_PLATFORM", "\"https://api.f11fantasy.com/\""
         }
 
         production {
             versionName "1.0"
             resValue 'string', 'app_name', 'PockerJacks'
-        }
-    }
 
-    productFlavors {
-        stage {
-            buildConfigField "String", "HOME_URL_PLATFORM", "\"https://api.f11fantasy.com/\""
-        }
-        production {
             buildConfigField "String", "HOME_URL_PLATFORM", "\"https://api.rummyjacks.com/\""
         }
     }
+
 
     lintOptions {
         abortOnError false
