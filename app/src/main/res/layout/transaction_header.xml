@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <!--<variable
+            name="transaction"
+            type="com.gtgt.rummy.ui.wallet.model.RecentTransactionInfo" />-->
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_32dp"
+        android:background="@color/dark_30"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/size_20dp"
+            android:gravity="center_vertical"
+            android:textColor="#A5A5A5"
+            android:text="04-11-2019" />
+        <!--android:text="@{transaction.creationDate}"-->
+    </LinearLayout>
+</layout>

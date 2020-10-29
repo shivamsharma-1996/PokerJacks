@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/size_20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_20dp"
+            android:text="Have a Coupon Code?"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="@dimen/size_20dp"
+            android:background="@drawable/dark_bg_8dp">
+
+            <EditText
+                android:id="@+id/et_promoCode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/size_20dp"
+                android:layout_toStartOf="@+id/tv_applyPromoCode"
+                android:background="@null"
+                android:hint="Enter Coupon Code"
+                android:textColor="@color/white"
+                android:textColorHint="#A5A5A5"
+                android:inputType="textCapCharacters|textVisiblePassword"
+                android:textSize="@dimen/text_16sp" />
+
+            <TextView
+                android:id="@+id/tv_applyPromoCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/size_8dp"
+                android:layout_marginEnd="@dimen/size_20dp"
+                android:text="Apply"
+                android:textColor="@color/text_blue"
+                android:textSize="@dimen/text_16sp" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_coupons"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/coupons_items"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <LinearLayout
+            android:id="@+id/ll_no_coupons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/no_coupons_img" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Bonus Offers present at the moment"
+                android:textColor="#F1F1F1"
+                android:textSize="@dimen/text_16sp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

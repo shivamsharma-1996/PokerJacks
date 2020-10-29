@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <!--<variable
+            name="data"
+            type="com.gtgt.rummy.ui.offers.model.TotalScratchCards" />-->
+
+        <import type="android.view.View" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="182dp"
+        android:layout_marginStart="@dimen/size_12dp"
+        android:layout_marginEnd="@dimen/size_12dp"
+        android:layout_marginBottom="@dimen/size_24dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_closeCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/blue_card" />
+        <!--android:visibility="@{data.card_type.equals(`Open`) ? View.GONE : View.VISIBLE}"-->
+
+        <FrameLayout
+            android:id="@+id/fl_openCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/scratch_card_bg">
+            <!--android:visibility="@{data.card_type.equals(`Open`) ? View.VISIBLE : View.GONE}"-->
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/size_10dp"
+                android:background="@drawable/scratch_card_bg" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="@dimen/size_10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:fontFamily="@font/sf_regular"
+                    android:gravity="center"
+                    android:text="You won"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_10sp" />
+
+                <TextView
+                    android:id="@+id/tv_winSc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:fontFamily="@font/sf_regular"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_14sp" />
+                <!--android:text="@{`₹`+String.valueOf(data.formattedIssuedAmount)}"-->
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_closeInactiveCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/blue_card">
+            <!--android:visibility="@{data.card_type.equals(`ClosedInactive`) ? View.VISIBLE : View.GONE}"-->
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:alpha="0.8"
+                android:background="@color/black"
+                android:fontFamily="@font/sf_regular"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_8sp"
+                tools:text="2019-08-30" />
+            <!--android:text="@{data.formatedCardOpenAt}"-->
+        </FrameLayout>
+
+    </FrameLayout>
+</layout>

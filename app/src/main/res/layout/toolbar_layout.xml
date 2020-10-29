@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -18,7 +18,25 @@
         android:layout_marginStart="@dimen/size_40dp"
         android:fontFamily="@font/proximanova_regular"
         android:text="Profile"
+        android:layout_toRightOf="@+id/iv_back"
+        android:layout_centerVertical="true"
         android:textColor="@color/white_blue"
         android:textSize="@dimen/text_18sp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/size_16dp"
+        android:drawableEnd="@drawable/ic_filter"
+        android:drawablePadding="@dimen/size_6dp"
+        android:fontFamily="@font/sf_semibold"
+        android:includeFontPadding="false"
+        android:text="Filter"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_14sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -5,28 +5,33 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.replaceFragment
 import com.gtgt.pokerjacks.extensions.replaceFragmentIfNoFragment
 import com.gtgt.pokerjacks.extensions.showToast
-import com.gtgt.pokerjacks.ui.kyc.KycFragment
 import com.gtgt.pokerjacks.ui.lobby.LobbyFragment
-import com.gtgt.pokerjacks.ui.offers.OffersFragment
-import com.gtgt.pokerjacks.ui.profile.ProfileFragment
-import com.gtgt.pokerjacks.ui.wallet.WalletFragment
+import com.gtgt.pokerjacks.ui.offers.offer.OffersFragment
+import com.gtgt.pokerjacks.ui.profile.profile.ProfileFragment
+import com.gtgt.pokerjacks.ui.tourneys.TourneysFragment
+import com.gtgt.pokerjacks.ui.wallet.wallet.WalletFragment
 import kotlinx.android.synthetic.main.bottom_nav_layout.*
+
 
 class MainActivity : BaseActivity(), View.OnClickListener {
 
-    private val kycFragment by lazy { KycFragment() }
+    private val kycFragment by lazy { TourneysFragment() }
     private val offersFragment by lazy { OffersFragment() }
     private val lobbyFragment by lazy { LobbyFragment() }
     private val walletFragment by lazy { WalletFragment() }
     private val profileFragment by lazy { ProfileFragment() }
     private var selectedScreen = 2
     private var number_of_clicks = 0
+    val fadeout: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_out) }
+    val fadeIn: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_in) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,36 +40,51 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initUI() {
-        nav0.setOnClickListener(this)
-        nav1.setOnClickListener(this)
-        nav2.setOnClickListener(this)
-        nav3.setOnClickListener(this)
-        nav4.setOnClickListener(this)
+        fl_nav0.setOnClickListener(this)
+        fl_nav1.setOnClickListener(this)
+        fl_nav2.setOnClickListener(this)
+        fl_nav3.setOnClickListener(this)
+        fl_nav4.setOnClickListener(this)
 
         onLobbyClicked(isDefault = true)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.nav0 -> {
-                if (!nav0.isSelected)
-                    onKycClicked()
+            R.id.fl_nav0 -> {
+                if (!nav0.isSelected) {
+                    nav0.startAnimation(fadeout)
+                    nav0.startAnimation(fadeIn)
+                    onTourneysClicked()
+                }
             }
-            R.id.nav1 -> {
-                if (!nav1.isSelected)
+            R.id.fl_nav1 -> {
+                if (!nav1.isSelected) {
+                    nav1.startAnimation(fadeout)
+                    nav1.startAnimation(fadeIn)
                     onOffersClciked()
+                }
             }
-            R.id.nav2 -> {
-                if (!nav2.isSelected)
+            R.id.fl_nav2 -> {
+                if (!nav2.isSelected) {
+                    nav2.startAnimation(fadeout)
+                    nav2.startAnimation(fadeIn)
                     onLobbyClicked(isDefault = false)
+                }
             }
-            R.id.nav3 -> {
-                if (!nav3.isSelected)
+            R.id.fl_nav3 -> {
+                if (!nav3.isSelected) {
+                    nav3.startAnimation(fadeout)
+                    nav3.startAnimation(fadeIn)
                     onWalletClicked()
+                }
             }
-            R.id.nav4 -> {
-                if (!nav4.isSelected)
+            R.id.fl_nav4 -> {
+                if (!nav4.isSelected) {
+                    nav4.startAnimation(fadeout)
+                    nav4.startAnimation(fadeIn)
                     onProfileClciked()
+                }
             }
         }
     }
@@ -81,7 +101,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private fun onLobbyClicked(isDefault: Boolean = false) {
         if (isDefault)
-            replaceFragmentIfNoFragment(offersFragment, R.id.fl_homeContainer)
+            replaceFragmentIfNoFragment(lobbyFragment, R.id.fl_homeContainer)
         else
             replaceFragment(lobbyFragment, R.id.fl_homeContainer)
         setBottomBarSelected(2)
@@ -92,7 +112,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         setBottomBarSelected(1)
     }
 
-    private fun onKycClicked() {
+    private fun onTourneysClicked() {
         replaceFragment(kycFragment, R.id.fl_homeContainer)
         setBottomBarSelected(0)
     }
@@ -124,6 +144,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     requestLayout()
                 }
             }*/
+
+//            nav0.clearAnimation()
+//            nav1.clearAnimation()
+//            nav2.clearAnimation()
+//            nav3.clearAnimation()
+//            nav4.clearAnimation()
         }
     }
 

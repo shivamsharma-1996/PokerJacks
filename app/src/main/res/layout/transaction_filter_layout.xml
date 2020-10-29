@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dark_bg_8dp"
+    android:orientation="vertical"
+    android:padding="@dimen/size_24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_18sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_applyFilter"
+        android:layout_width="@dimen/size_80dp"
+        android:layout_height="@dimen/size_32dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/blue_gradient_button"
+        android:text="Apply"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_applyFilter"
+        android:layout_marginTop="@dimen/size_16dp"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cb_all"
+            android:layout_marginBottom="@dimen/size_12dp"
+            android:buttonTint="@color/dark_blue"
+            android:paddingStart="@dimen/size_16dp"
+            android:text="All"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_filters"
+            android:orientation="vertical"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

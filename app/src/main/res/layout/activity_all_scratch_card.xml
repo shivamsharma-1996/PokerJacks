@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_offerHeader"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginBottom="-40dp"
+        android:background="@drawable/blue_bg_no_corners">
+
+
+        <ImageView
+            android:id="@+id/iv_backSC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_60dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_totalRewards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_32dp"
+                tools:text="₹12,500" />
+
+            <TextView
+                android:id="@+id/tv_rewords"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_regular"
+                android:text="Total Rewards"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_offerHeader"
+        android:background="@drawable/referral_items_bg"
+        android:elevation="@dimen/dimen_4dp"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_allScratchCards"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            tools:listitem="@layout/all_scratch_card_items"
+            android:paddingStart="@dimen/size_16dp"
+            android:paddingTop="@dimen/size_16dp"
+            android:paddingEnd="@dimen/size_16dp" />
+
+        <ImageView
+            android:id="@+id/iv_no_scratch_card_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="52dp"
+            android:src="@drawable/no_scratch_card_img"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_no_scratch_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No scratch cards present at the moment"
+            android:textColor="#F1F1F1"
+            android:textSize="@dimen/text_16sp"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

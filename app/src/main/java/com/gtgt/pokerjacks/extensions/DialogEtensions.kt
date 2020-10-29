@@ -2,11 +2,19 @@ package com.gtgt.pokerjacks.extensions
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
+import android.os.Handler
 import android.view.LayoutInflater
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gtgt.pokerjacks.BuildConfig
 import com.gtgt.pokerjacks.R
+import kotlinx.android.synthetic.main.banned_state_bottom_sheet.view.*
+import kotlinx.android.synthetic.main.banned_state_dialog.view.*
+import kotlinx.android.synthetic.main.banned_state_dialog.view.tv_cash
+import kotlinx.android.synthetic.main.coming_soon_dialog.view.*
 import kotlinx.android.synthetic.main.network_error_dialog.view.*
 import kotlinx.android.synthetic.main.server_error_dialog.view.*
 import okhttp3.Request
@@ -120,5 +128,78 @@ fun Activity.networkErrorDialog(closeActivity: Boolean = true, refresh: () -> Un
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
+    }
+}
+
+fun Context.showComingSoonDialog(
+    onPopupClosed: () -> Unit
+) {
+    if (BuildConfig.FLAVOR == "production") {
+        //Creation of Logout confirmation dialog
+        val dialogView =
+            LayoutInflater.from(this).inflate(R.layout.coming_soon_dialog, null)
+        //Now we need an AlertDialog.Builder object
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView)
+
+        //finally creating the alert dialog and displaying it
+        val alertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.show()
+
+        dialogView.iv_closeComingSoon.onOneClick {
+            onPopupClosed()
+            alertDialog.dismiss()
+        }
+    }
+}
+
+fun Context.showBannedStatesDialog() {
+    //Creation of Logout confirmation dialog
+    val dialogView =
+        LayoutInflater.from(this).inflate(R.layout.banned_state_dialog, null)
+    //Now we need an AlertDialog.Builder object
+    val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+
+    //setting the view of the builder to our custom view that we already inflated
+    builder.setView(dialogView)
+
+    //finally creating the alert dialog and displaying it
+    val alertDialog = builder.create()
+    alertDialog.setCancelable(false)
+    alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    alertDialog.show()
+
+    dialogView.tv_cash.paintFlags = dialogView.tv_cash.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+    dialogView.iv_closeDialog.onOneClick {
+        alertDialog.dismiss()
+    }
+
+    runOnMain {
+        if (alertDialog.isShowing) {
+            Handler().postDelayed({
+                alertDialog.dismiss()
+            }, 3000)
+        }
+    }
+}
+
+fun Context.showBannedStatesBottomSheet() {
+    val dialogView =
+        LayoutInflater.from(this).inflate(R.layout.banned_state_bottom_sheet, null)
+    val dialog = BottomSheetDialog(this)
+    dialog.setContentView(dialogView)
+    dialog.setCancelable(true)
+    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.show()
+
+    dialogView.tv_cash.paintFlags = dialogView.tv_cash.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+    dialogView.btn_locationOk.onOneClick {
+        dialog.dismiss()
     }
 }

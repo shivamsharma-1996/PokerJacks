@@ -2,63 +2,105 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="76dp"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
     app:cardBackgroundColor="@color/dark"
+    android:clickable="true"
     app:cardCornerRadius="8dp"
-    app:cardElevation="8dp">
+    app:cardElevation="8dp"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_gravity="center"
+        android:padding="@dimen/size_16dp"
+        android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/nav0"
+        <FrameLayout
+            android:id="@+id/fl_nav0"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:background="@android:color/transparent"
-            android:src="@drawable/tournys_selector" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <ImageButton
-            android:id="@+id/nav1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:background="@android:color/transparent"
-            android:src="@drawable/offers_selector" />
+            <ImageButton
+                android:id="@+id/nav0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:scaleType="fitCenter"
+                android:src="@drawable/tournys_selector" />
+        </FrameLayout>
 
-        <ImageButton
-            android:id="@+id/nav2"
+        <FrameLayout
+            android:id="@+id/fl_nav1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:background="@android:color/transparent"
-            android:src="@drawable/lobby_selector" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <ImageButton
-            android:id="@+id/nav3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:background="@android:color/transparent"
-            android:src="@drawable/wallet_selector" />
+            <ImageButton
+                android:id="@+id/nav1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:scaleType="fitCenter"
+                android:src="@drawable/offers_selector" />
+        </FrameLayout>
 
-        <ImageButton
-            android:id="@+id/nav4"
+        <FrameLayout
+            android:id="@+id/fl_nav2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:background="@android:color/transparent"
-            android:src="@drawable/profile_selector" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/nav2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:scaleType="fitCenter"
+                android:src="@drawable/lobby_selector" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_nav3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/nav3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:scaleType="fitCenter"
+                android:src="@drawable/wallet_selector" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_nav4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/nav4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:scaleType="fitCenter"
+                android:src="@drawable/profile_selector" />
+        </FrameLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

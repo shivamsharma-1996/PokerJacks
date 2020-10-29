@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_popup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginTop="@dimen/size_60dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:layout_marginBottom="@dimen/size_60dp"
+        app:cardCornerRadius="@dimen/size_8dp"
+        app:cardElevation="@null">
+
+        <LinearLayout
+            android:id="@+id/rl_player_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/dark_30"
+            android:orientation="vertical"
+            android:padding="@dimen/size_20dp">
+
+            <TextView
+                android:id="@+id/iv_promotional"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:gravity="center"
+                android:text="Update your User Name"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_16dp"
+                android:background="@drawable/blue_border"
+                android:orientation="vertical"
+                android:padding="@dimen/size_12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:text="Set Your User Name"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_2dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="Your User Name is your identity on Rummy Jacks and it can only be set once. Set it right!"
+                    android:textColor="#F1F1F1"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_14dp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:text="Choosing a User Name"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_2dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="Your user name should contain a minimum of 6 characters and a maximum of 12 characters."
+                    android:textColor="#F1F1F1"
+                    android:textSize="@dimen/text_12sp" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#58657c"
+                app:cardCornerRadius="@dimen/size_4dp"
+                app:cardElevation="@null">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/size_12dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_updateName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/size_4dp"
+                            android:background="@null"
+                            android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@-_*"
+                            android:fontFamily="@font/proximanova_regular"
+                            android:hint="User Name"
+                            android:imeOptions="actionDone"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLength="12"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:textColorHint="#AFAFAF"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_nameStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginBottom="@dimen/size_4dp"
+                            android:src="@drawable/ic_rejected"
+                            android:visibility="invisible" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/white_blue" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_8dp"
+                        android:fontFamily="@font/proximanova_regular"
+                        android:text="*Minimum 6 Characters, Maximum 12 Characters"
+                        android:textColor="#F1F1F1"
+                        android:textSize="@dimen/text_8sp" />
+
+                    <TextView
+                        android:id="@+id/tv_errorMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proximanova_regular"
+                        android:textColor="#FF2E2E"
+                        android:textSize="@dimen/text_8sp"
+                        android:visibility="gone"
+                        tools:text="* User Name already exists" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_20dp"
+                android:fontFamily="@font/proximanova_regular"
+                android:text="Have a Referral Code?"
+                android:textColor="#F1F1F1"
+                android:textSize="@dimen/text_12sp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_12dp"
+                app:cardBackgroundColor="#58657c"
+                app:cardCornerRadius="@dimen/size_4dp"
+                app:cardElevation="@null">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/size_12dp">
+
+                    <EditText
+                        android:id="@+id/et_referralCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/size_20dp"
+                        android:layout_marginBottom="@dimen/size_4dp"
+                        android:layout_toLeftOf="@+id/iv_referralStatus"
+                        android:background="@null"
+                        android:fontFamily="@font/proximanova_regular"
+                        android:hint="Enter Referral Code"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:maxLength="20"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textColorHint="#AFAFAF"
+                        android:textSize="@dimen/text_14sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_referralStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="end"
+                        android:layout_marginBottom="@dimen/size_4dp"
+                        android:src="@drawable/ic_rejected"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_errorMsgReferral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_6dp"
+                android:fontFamily="@font/proximanova_regular"
+                android:textColor="#FF2E2E"
+                android:textSize="@dimen/text_8sp"
+                android:visibility="gone"
+                tools:text="* User Name already exists" />
+
+            <Button
+                android:id="@+id/btn_updateName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_48dp"
+                android:layout_marginTop="@dimen/size_30dp"
+                android:alpha="0.7"
+                android:background="@drawable/blue_gradient_button"
+                android:enabled="false"
+                android:fontFamily="@font/sf_medium"
+                android:text="Proceed"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_30"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_20dp"
+            android:layout_marginBottom="@dimen/size_24dp"
+            android:src="@drawable/ic_location_alert" />
+
+
+        <TextView
+            android:id="@+id/tv_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="CASH"
+            android:textAlignment="center"
+            android:textColor="@color/text_blue"
+            android:textSize="@dimen/text_20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_4dp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:text="FREE TO PLAY"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/size_20dp"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="We do not offer cash games in your Location. However, you can continue playing ‘Free to Play’ games."
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_locationOk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_20dp"
+            android:layout_marginEnd="@dimen/size_20dp"
+            android:layout_marginBottom="@dimen/size_20dp"
+            android:background="@drawable/blue_gradient_button"
+            android:text="Ok"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp" />
+    </LinearLayout>
+</RelativeLayout>

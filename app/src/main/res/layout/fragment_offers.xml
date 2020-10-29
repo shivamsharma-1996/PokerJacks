@@ -1,14 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.offers.OffersFragment">
+    android:orientation="vertical"
+    android:transitionName="@string/transaction_name">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include
+        android:id="@+id/header"
+        layout="@layout/toolbar_layout_nav" />
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/size_16dp"
+                app:cardBackgroundColor="@color/dark_30"
+                app:cardCornerRadius="@dimen/size_5dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingStart="68dp"
+                    android:paddingTop="@dimen/size_14dp"
+                    android:paddingEnd="68dp"
+                    android:paddingBottom="@dimen/size_14dp">
+
+                    <TextView
+                        android:id="@+id/tv_bonusReceived"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/size_6dp"
+                        android:fontFamily="@font/sf_semibold"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_20sp"
+                        tools:text="₹15,500" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_regular"
+                        android:text="Issued Bonus"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/bonusInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="10dp"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_info" />
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/ll_scratchCards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_20dp"
+                android:layout_marginTop="@dimen/size_14dp"
+                android:layout_marginBottom="@dimen/size_14dp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_sc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_semibold"
+                        android:gravity="center"
+                        android:text="Scratch Cards"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_viewAllSC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="@dimen/size_14dp"
+                        android:drawableEnd="@drawable/ic_next_white"
+                        android:drawablePadding="@dimen/size_4dp"
+                        android:fontFamily="@font/sf_regular"
+                        android:text="View all"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_12sp" />
+                </FrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_scratchCards"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/scratch_card_items"
+                    android:layout_marginTop="@dimen/size_14dp" />
+
+                <TextView
+                    android:id="@+id/tv_no_scratch_cards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="67dp"
+                    android:layout_marginBottom="67dp"
+                    android:text="No scratch cards present at the moment"
+                    android:textColor="#F1F1F1"
+                    android:textSize="@dimen/text_16sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bonusOffers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_20dp"
+                android:layout_marginBottom="@dimen/size_14dp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_semibold"
+                        android:gravity="center"
+                        android:text="Bonus offers"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_viewAllBC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="@dimen/size_14dp"
+                        android:drawableEnd="@drawable/ic_next_white"
+                        android:drawablePadding="@dimen/size_4dp"
+                        android:fontFamily="@font/sf_regular"
+                        android:text="View all"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_12sp" />
+                </FrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_BonusCards"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/bonus_offer_items"
+                    android:layout_marginTop="@dimen/size_14dp" />
+
+                <TextView
+                    android:id="@+id/tv_no_bonus_offers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="58dp"
+                    android:layout_marginBottom="58dp"
+                    android:text="No Bonus Offers present at the moment"
+                    android:textColor="#F1F1F1"
+                    android:textSize="@dimen/text_16sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_referrals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_20dp"
+                android:layout_marginBottom="@dimen/size_14dp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_semibold"
+                        android:gravity="center"
+                        android:text="Your referrals so far"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_viewAllReferrals"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="@dimen/size_14dp"
+                        android:drawableEnd="@drawable/ic_next_white"
+                        android:drawablePadding="@dimen/size_4dp"
+                        android:fontFamily="@font/sf_regular"
+                        android:text="View all"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_12sp" />
+                </FrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_referrals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/referral_items"
+                    android:layout_marginTop="@dimen/size_14dp" />
+
+                <TextView
+                    android:id="@+id/tv_no_referrals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/dimen_35dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_marginEnd="@dimen/dimen_35dp"
+                    android:layout_marginBottom="55dp"
+                    android:text="You do not have any referrals so far, Start referring your friends"
+                    android:textAlignment="center"
+                    android:textColor="#F1F1F1"
+                    android:textSize="@dimen/text_16sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

@@ -12,22 +12,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.wallet.WithdrawActivity"></activity>
-        <activity android:name=".ui.profile.AccConfirmationActivity" />
-        <activity android:name=".ui.profile.AddAccountActivity" />
-        <activity android:name=".ui.profile.ManageBankAccountActivity" />
-        <activity android:name=".ui.profile.ResponsibleGamingActivity" />
-        <activity android:name=".ui.profile.vrify_email.VerifyEmailOTPActivity" />
-        <activity android:name=".ui.profile.verify_pan.VerifyPanActivity" />
-        <activity android:name=".ui.profile.vrify_email.VerifyEmailActivity" />
-        <activity android:name=".ui.profile.verify_address.VerifyAddressActivity" />
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.profile.update_name.UpdateNameActivity"></activity>
+        <activity android:name=".ui.splash_screen.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.offers.bonus.AllBonusActivity" />
+        <activity android:name=".ui.offers.scratch_card.ScratchCardActivity" />
+        <activity android:name=".ui.offers.referral.AllReferralsActivity" />
+        <activity android:name=".ui.offers.bonus.CouponsActivty" />
+        <activity android:name=".ui.offers.scratch_card.AllScratchCardActivity" />
+        <activity android:name=".ui.wallet.bonus_distribution.RecentDistributionsActivity" />
+        <activity android:name=".ui.wallet.bonus_distribution.BonusDistributionActivity" />
+        <activity android:name=".ui.wallet.recent_transaction.RecentTransactionsActivity" />
+        <activity android:name=".ui.wallet.withdraw.WithdrawActivity" />
+        <activity android:name=".ui.profile.manage_account.AccConfirmationActivity" />
+        <activity android:name=".ui.profile.manage_account.AddAccountActivity" />
+        <activity android:name=".ui.profile.manage_account.ManageBankAccountActivity" />
+        <activity android:name=".ui.profile.suspend_account.ResponsibleGamingActivity" />
+        <activity android:name=".ui.profile.vrify_email.VerifyEmailOTPActivity" />
+        <activity android:name=".ui.profile.verify_pan.VerifyPanActivity" />
+        <activity android:name=".ui.profile.vrify_email.VerifyEmailActivity" />
+        <activity android:name=".ui.profile.verify_address.VerifyAddressActivity" />
+        <activity android:name=".ui.MainActivity" />
     </application>
 
 </manifest>

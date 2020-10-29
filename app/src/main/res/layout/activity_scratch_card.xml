@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <!--<variable
+            name="viewModel"
+            type="com.gtgt.rummy.ui.offers.view.ScratchCardActivity" />
+
+        <variable
+            name="data"
+            type="com.gtgt.rummy.ui.offers.model.TotalScratchCards" />-->
+
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:transitionName="@string/transaction_name"
+        tools:context=".ui.offers.view.ScratchCardActivity">
+
+        <ImageView
+            android:id="@+id/iv_closeSC"
+            android:layout_width="@dimen/size_28dp"
+            android:layout_height="@dimen/size_28dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/size_28dp"
+            android:src="@drawable/ic_close_dialog" />
+        <!--android:onClick="@{() -> viewModel.onClose()}"-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="74dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="204dp"
+                android:layout_height="257dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/scratch_card_bg"
+                    android:orientation="vertical">
+
+                    <!--win-->
+                    <FrameLayout
+                        android:id="@+id/fl_scWin"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/size_12dp"
+                            android:background="@drawable/ic_launcher_foreground" />
+
+                        <TextView
+                            android:id="@+id/tv_winSc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="@dimen/size_20dp"
+                            android:fontFamily="@font/sf_regular"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_20sp"
+                            tools:text="You won\n₹2500" />
+                    </FrameLayout>
+
+                    <!--loss-->
+                    <FrameLayout
+                        android:id="@+id/fl_scLoss"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/size_12dp"
+                            android:background="@drawable/ic_launcher_foreground"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginTop="@dimen/size_20dp"
+                            android:layout_marginBottom="@dimen/size_30dp"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="Better luck\nNext time!"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_20sp" />
+                    </FrameLayout>
+                </FrameLayout>
+
+                <in.myinnos.androidscratchcard.ScratchCard
+                    android:id="@+id/scratchCard"
+                    android:layout_width="204dp"
+                    android:layout_height="257dp"
+                    android:layout_gravity="center"
+                    app:scratchDrawable="@drawable/blue_card" />
+                <!--android:visibility="@{data.card_type.equals(`Open`) ? View.GONE : View.VISIBLE}"-->
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_description1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_20dp"
+                android:layout_marginEnd="@dimen/size_16dp"
+                android:layout_marginBottom="@dimen/size_12dp"
+                android:fontFamily="@font/sf_regular"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_20sp"
+                tools:text="You could win ₹25,000!" />
+
+            <TextView
+                android:id="@+id/tv_description2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_16dp"
+                android:fontFamily="@font/sf_regular"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_14sp"
+                tools:text="Earned by playing for 10 days" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

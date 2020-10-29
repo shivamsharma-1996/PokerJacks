@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/toolbar_layout" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recentTransactions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/transaction_item"
+            android:layout_below="@id/header" />
+
+        <LinearLayout
+            android:id="@+id/ll_no_recent_transactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="99dp"
+            android:layout_below="@id/header"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/no_recent_transactions_img"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_24dp"
+                android:layout_gravity="center"
+                android:text="No Recent Transactions present"
+                android:textColor="#F1F1F1"
+                android:textSize="@dimen/text_16sp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>

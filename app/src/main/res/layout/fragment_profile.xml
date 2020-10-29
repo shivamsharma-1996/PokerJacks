@@ -5,7 +5,7 @@
 
         <variable
             name="host"
-            type="com.gtgt.pokerjacks.ui.profile.ProfileFragment" />
+            type="com.gtgt.pokerjacks.ui.profile.profile.ProfileFragment" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

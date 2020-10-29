@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/size_24dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/transparent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/dark_30"
+            app:cardCornerRadius="@dimen/size_8dp">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/size_8dp"
+                        android:fontFamily="@font/sf_semibold"
+                        android:text="Bonus Disbursements"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp"
+                            android:src="@drawable/left_popup_img" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/right_popup_img" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="#5BF1F1F1" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="1.  "
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="‘Issued Bonus’ will be disbursed to ‘Usable Bonus’ after completion of Cash Rummy Games – Points / Pools / Deals."
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="2.  "
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="An amount equivalent to the ‘Table Spend’ of such Completed Cash Rummy Games will be disbursed from ‘Issued Bonus’ to the ‘Usable Bonus’ account of the User. Henceforth, such Usable Bonus may be utilized to play other Cash Rummy Games."
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="3.  "
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="‘Table Spend’ is the cash utilized by the user on a Cash Rummy Game.
+a.	Pools Rummy - ‘Table Spend’ equals the ‘Entry Fee’ &amp; the ‘Re-Join Fee’, if any.
+b.	Deals Rummy - ‘Table Spend’ equals the ‘Entry Fee’
+c.	Points Rummy - ‘Table Spend’ of the
+i.	Winning User equals the sum of the amounts lost by users other than the Winning user divided by the total number of players, including the Winning User.
+ii.	Users other than the Winning User equals the amount lost by the user."
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="4.  "
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="Bonusses issued to a user under any Scheme can be disbursed to ‘Usable Bonus’ only during their Claim Period"
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="5.  "
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_regular"
+                            android:text="Disbursements will be made on First Expiring, First Out (FEFO) Basis.  That is, bonus/bonusses with the earliest expiry of Claim Period will be disbursed first."
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/btn_closeSD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_dialog" />
+
+    </LinearLayout>
+</RelativeLayout>

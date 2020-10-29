@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99000000">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/bonus_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="103dp"
+        android:clipChildren="false"
+        android:layout_above="@id/btn_applyCoupon"
+        android:overScrollMode="never" />
+
+    <ImageView
+        android:id="@+id/iv_prev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginTop="190dp"
+        android:layout_marginEnd="@dimen/size_12dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_prev"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/iv_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end"
+        android:layout_marginStart="@dimen/size_12dp"
+        android:layout_marginTop="190dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/ic_next" />
+
+    <ImageView
+        android:id="@+id/iv_closeBonus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/size_28dp"
+        android:src="@drawable/ic_close_dialog" />
+
+    <TextView
+        android:id="@+id/tv_bonusCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_closeBonus"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/size_28dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_12sp"
+        tools:text="2 / 5" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_applyCoupon"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:layout_marginBottom="@dimen/size_30dp"
+        android:background="@drawable/blue_gradient_button"
+        android:fontFamily="@font/sf_regular"
+        android:text="Apply now"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_16sp" />
+
+</RelativeLayout>

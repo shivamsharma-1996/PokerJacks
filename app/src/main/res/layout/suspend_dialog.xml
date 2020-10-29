@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/size_30dp"
+                android:layout_marginTop="@dimen/dimen_15dp"
+                android:layout_marginEnd="@dimen/size_30dp"
+                android:padding="@dimen/size_16dp"
+                app:cardBackgroundColor="@color/dark_30"
+                app:cardCornerRadius="@dimen/size_8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/size_16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Suspend my Account"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_15dp"
+                        android:layout_marginEnd="@dimen/dimen_15dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/left_popup_img" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:src="@drawable/right_popup_img" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/white" />
+                    </FrameLayout>
+
+                    <RadioGroup
+                        android:id="@+id/rg_suspend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioButton
+                            android:id="@+id/rb_24hr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size_20dp"
+                            android:layout_marginBottom="@dimen/size_20dp"
+                            android:paddingStart="@dimen/size_16dp"
+                            android:text="24 Hours"
+                            android:checked="true"
+                            android:button="@drawable/radio_button_selector"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            tools:ignore="RtlSymmetry" />
+
+                        <RadioButton
+                            android:id="@+id/rb_1week"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/size_16dp"
+                            android:text="1 Week"
+                            android:button="@drawable/radio_button_selector"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            tools:ignore="RtlSymmetry" />
+                    </RadioGroup>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_36dp"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cb_condition"
+                            android:layout_marginEnd="@dimen/size_16dp"
+                            android:buttonTint="@color/white" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:text="If, however at any stage, I become concerned about suspension, I request not to activate my account in between the suspension time frame"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="@dimen/text_12sp" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_suspendAccount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/size_24dp"
+                        android:background="@drawable/blue_gradient_button"
+                        android:paddingStart="@dimen/size_60dp"
+                        android:paddingEnd="@dimen/size_60dp"
+                        android:text="Suspend"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/btn_closeDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_marginEnd="@dimen/size_12dp"
+            android:src="@drawable/ic_close_dialog" />
+    </FrameLayout>
+
+</RelativeLayout>
