@@ -14,6 +14,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.profile.update_name.UpdateNameActivity"></activity>
         <activity android:name=".ui.splash_screen.SplashActivity">
+        <activity android:name=".InsufficientBalanceActivity"></activity>
+        <activity android:name=".ui.wallet.WithdrawActivity" />
+        <activity android:name=".ui.profile.AccConfirmationActivity" />
+        <activity android:name=".ui.profile.AddAccountActivity" />
+        <activity android:name=".ui.profile.ManageBankAccountActivity" />
+        <activity android:name=".ui.profile.ResponsibleGamingActivity" />
+        <activity android:name=".ui.profile.vrify_email.VerifyEmailOTPActivity" />
+        <activity android:name=".ui.profile.verify_pan.VerifyPanActivity" />
+        <activity android:name=".ui.profile.vrify_email.VerifyEmailActivity" />
+        <activity android:name=".ui.profile.verify_address.VerifyAddressActivity" />
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

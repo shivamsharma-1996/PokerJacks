@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -11,7 +12,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+//        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         flavorDimensions "default"
@@ -28,16 +29,32 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 
     productFlavors {
         stage {
+
+            applicationIdSuffix ".debug"
+
+            versionName "1.0"
+            resValue 'string', 'app_name', 'Dev PockerJacks'
+
             buildConfigField "String", "HOME_URL_PLATFORM", "\"https://api.f11fantasy.com/\""
         }
+
         production {
+            versionName "1.0"
+            resValue 'string', 'app_name', 'PockerJacks'
+
             buildConfigField "String", "HOME_URL_PLATFORM", "\"https://api.rummyjacks.com/\""
         }
     }
+
 
     lintOptions {
         abortOnError false
@@ -113,6 +130,8 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
 //    implementation 'com.github.nkzawa:socket.io-client:0.6.0'
+
+    //Firebase Dependencies
 
     //pin view
     implementation 'com.chaos.view:pinview:1.4.3'
