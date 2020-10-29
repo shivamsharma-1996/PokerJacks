@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_toolbar"
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -16,12 +15,12 @@
         android:id="@+id/tv_commonTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/size_40dp"
+        android:layout_toRightOf="@+id/iv_back"
         android:fontFamily="@font/proximanova_regular"
         android:text="Profile"
-        android:layout_toRightOf="@+id/iv_back"
-        android:layout_centerVertical="true"
         android:textColor="@color/white_blue"
         android:textSize="@dimen/text_18sp" />
 
