@@ -9,8 +9,6 @@ class InsufficientBalanceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insufficient_balance)
 
-        supportActionBar?.hide()
-
         tv_commonTitle.text = "Insufficient Balance"
 
 

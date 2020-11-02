@@ -7,13 +7,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.launchActivity
 import com.gtgt.pokerjacks.extensions.onOneClick
+import com.gtgt.pokerjacks.ui.MainActivity
 import com.gtgt.pokerjacks.ui.offers.bonus.CouponsActivty
 import com.gtgt.pokerjacks.ui.offers.referral.AllReferralsActivity
 import com.gtgt.pokerjacks.ui.offers.scratch_card.AllScratchCardActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bonus_info_popup.view.*
 import kotlinx.android.synthetic.main.fragment_offers.*
 import kotlinx.android.synthetic.main.toolbar_layout_nav.*
@@ -145,11 +148,11 @@ class OffersFragment : BaseFragment() {
             it.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             it.adapter = referralsAdapter
-        }
+        }*/
 
         iv_hb.onOneClick {
             (activity as MainActivity).drawer_layout.openDrawer(GravityCompat.START)
-        }*/
+        }
 
         tv_viewAllSC.onOneClick {
             launchActivity<AllScratchCardActivity>(requestCode = 2) {}

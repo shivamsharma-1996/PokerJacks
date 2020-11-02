@@ -44,7 +44,7 @@ android {
             versionName "1.0"
             resValue 'string', 'app_name', 'Dev PockerJacks'
 
-            buildConfigField "String", "HOME_URL_PLATFORM", "\"https://api.f11fantasy.com/\""
+            buildConfigField "String", "HOME_URL_PLATFORM", "\"http://35.154.18.89:8000/\""
         }
 
         production {
@@ -161,4 +161,17 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.4'
 
     implementation 'com.github.devsideal:VectorChildFinder:1.0.0'
+
+    //dependencies for Google play services
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
+
+    implementation 'com.google.firebase:firebase-analytics-ktx:17.6.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+
+    // Add the SDK for Firebase Cloud Messaging
+    implementation 'com.google.firebase:firebase-messaging:20.3.0'
 }
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'

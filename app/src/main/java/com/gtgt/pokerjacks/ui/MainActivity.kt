@@ -10,12 +10,11 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
-import com.gtgt.pokerjacks.extensions.replaceFragment
-import com.gtgt.pokerjacks.extensions.replaceFragmentIfNoFragment
-import com.gtgt.pokerjacks.extensions.showToast
+import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.lobby.LobbyFragment
 import com.gtgt.pokerjacks.ui.offers.offer.OffersFragment
 import com.gtgt.pokerjacks.ui.profile.profile.ProfileFragment
+import com.gtgt.pokerjacks.ui.side_nav.SideNavFragment
 import com.gtgt.pokerjacks.ui.tourneys.TourneysFragment
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletFragment
 import kotlinx.android.synthetic.main.bottom_nav_layout.*
@@ -28,6 +27,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private val lobbyFragment by lazy { LobbyFragment() }
     private val walletFragment by lazy { WalletFragment() }
     private val profileFragment by lazy { ProfileFragment() }
+    private val sideNavFragment by lazy { SideNavFragment() }
     private var selectedScreen = 2
     private var number_of_clicks = 0
     val fadeout: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_out) }
@@ -36,6 +36,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        putBoolean("IS_USER_LOGIN", true)
+        putPermanentString("OLD_MOBILE", retrieveString("MOBILE"))
         initUI()
     }
 
@@ -47,6 +49,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         fl_nav4.setOnClickListener(this)
 
         onLobbyClicked(isDefault = true)
+        replaceFragment(sideNavFragment, R.id.side_nav, true)
     }
 
     override fun onClick(v: View?) {
@@ -62,7 +65,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 if (!nav1.isSelected) {
                     nav1.startAnimation(fadeout)
                     nav1.startAnimation(fadeIn)
-                    onOffersClciked()
+                    onOffersClicked()
                 }
             }
             R.id.fl_nav2 -> {
@@ -83,23 +86,23 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 if (!nav4.isSelected) {
                     nav4.startAnimation(fadeout)
                     nav4.startAnimation(fadeIn)
-                    onProfileClciked()
+                    onProfileClicked()
                 }
             }
         }
     }
 
-    private fun onProfileClciked() {
+    fun onProfileClicked() {
         replaceFragment(profileFragment, R.id.fl_homeContainer)
         setBottomBarSelected(4)
     }
 
-    private fun onWalletClicked() {
+    fun onWalletClicked() {
         replaceFragment(walletFragment, R.id.fl_homeContainer)
         setBottomBarSelected(3)
     }
 
-    private fun onLobbyClicked(isDefault: Boolean = false) {
+    fun onLobbyClicked(isDefault: Boolean = false) {
         if (isDefault)
             replaceFragmentIfNoFragment(lobbyFragment, R.id.fl_homeContainer)
         else
@@ -107,12 +110,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         setBottomBarSelected(2)
     }
 
-    private fun onOffersClciked() {
+    fun onOffersClicked() {
         replaceFragment(offersFragment, R.id.fl_homeContainer)
         setBottomBarSelected(1)
     }
 
-    private fun onTourneysClicked() {
+    fun onTourneysClicked() {
         replaceFragment(kycFragment, R.id.fl_homeContainer)
         setBottomBarSelected(0)
     }

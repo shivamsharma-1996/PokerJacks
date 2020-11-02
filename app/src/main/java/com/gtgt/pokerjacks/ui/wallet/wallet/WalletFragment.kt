@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.launchActivity
 import com.gtgt.pokerjacks.extensions.onOneClick
+import com.gtgt.pokerjacks.ui.MainActivity
 import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.BonusDistributionActivity
 import com.gtgt.pokerjacks.ui.wallet.recent_transaction.RecentTransactionsActivity
 import com.gtgt.pokerjacks.ui.wallet.withdraw.WithdrawActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import kotlinx.android.synthetic.main.toolbar_layout_nav.*
 
@@ -79,7 +82,7 @@ class WalletFragment : BaseFragment() {
         }
 
         iv_hb.onOneClick {
-//            (activity as MainActivity).drawer_layout.openDrawer(GravityCompat.START)
+            (activity as MainActivity).drawer_layout.openDrawer(GravityCompat.START)
         }
 
         btn_addMoney.onOneClick {

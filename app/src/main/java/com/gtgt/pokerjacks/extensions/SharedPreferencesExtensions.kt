@@ -54,7 +54,42 @@ fun retrieveString(key: String, default: String = ""): String {
     return sp.getString(key, default)!!
 }
 
+fun retrieveBoolean(key: String, default: Boolean = false): Boolean {
+    val sp = MyApplication.sharedPreferences
+    return sp.getBoolean(key, default)
+}
+
 fun Activity.removeSharedPrefByKey(key: String) {
     val sp = MyApplication.sharedPreferences
     sp.edit().remove(key).commit()
+}
+
+fun retrievePermanentString(key: String, default: String = ""): String {
+    val sp = MyApplication.sharedPreferencesDontClear
+    return sp.getString(key, default)!!
+}
+
+fun putPermanentString(key: String, value: String) {
+    val sp = MyApplication.sharedPreferencesDontClear
+    sp.edit().putString(key, value).commit()
+}
+
+fun putPermanentBoolean(key: String, value: Boolean) {
+    val sp = MyApplication.sharedPreferencesDontClear
+    sp.edit().putBoolean(key, value).commit()
+}
+
+fun retrievePermanentBoolean(key: String, default: Boolean = false): Boolean {
+    val sp = MyApplication.sharedPreferencesDontClear
+    return sp.getBoolean(key, default)
+}
+
+fun putPermanentInt(key: String, value: Int) {
+    val sp = MyApplication.sharedPreferencesDontClear
+    sp.edit().putInt(key, value).commit()
+}
+
+fun retrievePermanentInt(key: String, default: Int = 0): Int {
+    val sp = MyApplication.sharedPreferencesDontClear
+    return sp.getInt(key, default)
 }

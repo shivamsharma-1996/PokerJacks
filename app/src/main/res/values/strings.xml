@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PokerJacks</string>
+    <!--    <string name="app_name">PokerJacks</string>-->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="resend_otp"><u>Resend OTP</u></string>
@@ -9,6 +9,11 @@
     <string name="add_bank_cb_text">The above particulars I entered were belongs to me in all aspects</string>
     <string name="delete_account"><u>Delete Account</u></string>
     <string name="transaction_name">Transaction</string>
+    <string name="refer_and_earn_title">Earn ₹5000 for Every Friend</string>
+    <string name="refer_steps">Step: 1\nShare the above code with your friends\n\nStep: 2\nAsk them to install and register themselves on the RummyJacks App\n\nStep: 3\nAsk them to enter your referral code when asked.</string>
+    <string name="share_refer_text">Hey, It\'s Rummy Time! Sign-up on the RummyJacks App to Get upto Rs.1000/- Sign-up Bonus &amp; an additional Rs.2000/- Bonus on your First Payment!\n\nUse Referral code ${it.info.code} after Sign-Up!\nDownload now at <a href="https://rummyjacks.app.link/51dv2CcNJab">https://rummyjacks.app.link/51dv2CcNJab</a></string>
+    <string name="refer_and_earn_title_desc">Enjoy Playing RummyJacks? Share your referral code &amp; ask your friends to install and enter your referral code when asked. Bonus upto ₹5000 gets credited in phases as your friend plays Cash Rummy.</string>
+    <string name="refer_notes">1. You earn upto ₹5000 for Every Friend you refer.\n\n2. Whenever your friend adds Cash on RummyJacks, a percentage of such amount gets added to your \'Issued Bonus\' Account. Maximum Bonus amount is restricted to ₹4500\n\n3. If your friend successfully gets his KYC verified, you\'ll get an additional bonus of ₹500.\n\n4. You may refer a maximum of 20 Friends &amp; earn upto ₹1,00,000</string>
     <string name="tc">By joining this contest, you accept RummyJacks’s T&amp;C(view T&amp;C) and confirm that you are not a resident of Assam, Odisha, Sikkim, Telangana or Nagaland</string>
     <!--    <string name="app_name">PokerJacks</string>-->
 </resources>

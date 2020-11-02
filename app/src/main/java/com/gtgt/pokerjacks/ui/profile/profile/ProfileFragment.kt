@@ -4,16 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.launchActivity
 import com.gtgt.pokerjacks.extensions.onOneClick
+import com.gtgt.pokerjacks.ui.MainActivity
 import com.gtgt.pokerjacks.ui.profile.manage_account.ManageBankAccountActivity
 import com.gtgt.pokerjacks.ui.profile.suspend_account.ResponsibleGamingActivity
 import com.gtgt.pokerjacks.ui.profile.verify_address.VerifyAddressActivity
 import com.gtgt.pokerjacks.ui.profile.verify_pan.VerifyPanActivity
 import com.gtgt.pokerjacks.ui.profile.vrify_email.VerifyEmailActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.toolbar_layout_nav.*
 
 class ProfileFragment : BaseFragment() {
 
@@ -46,6 +50,10 @@ class ProfileFragment : BaseFragment() {
 
         cv_manageBankAcc.onOneClick {
             launchActivity<ManageBankAccountActivity> {  }
+        }
+
+        iv_hb.onOneClick {
+            (activity as MainActivity).drawer_layout.openDrawer(GravityCompat.START)
         }
     }
 }

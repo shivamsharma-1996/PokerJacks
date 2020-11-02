@@ -16,6 +16,5 @@ abstract class FullScreenScreenOnActivity : ScreenOnActivity() {
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         )
-        supportActionBar?.hide()
     }
 }

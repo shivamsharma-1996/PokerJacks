@@ -13,7 +13,10 @@ import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.isRunning
 import com.gtgt.pokerjacks.extensions.launchActivity
+import com.gtgt.pokerjacks.extensions.retrieveBoolean
 import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.login.view.EnterMpinOrTouchIdActivity
+import com.gtgt.pokerjacks.ui.login.view.RegistrationActivity
 
 class SplashActivity : BaseActivity() {
 
@@ -30,7 +33,19 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
-            launchActivity<MainActivity> { }
+            navigateToNextScreen()
+        }, 1000)
+    }
+
+    fun navigateToNextScreen() {
+        Handler().postDelayed({
+            if (retrieveBoolean("IS_USER_LOGIN")) {
+                launchActivity<EnterMpinOrTouchIdActivity> { }
+//                launchActivity<HomeActivity> { }
+            } else {
+                launchActivity<RegistrationActivity> { }
+            }
+            this.finish()
         }, 1000)
     }
 

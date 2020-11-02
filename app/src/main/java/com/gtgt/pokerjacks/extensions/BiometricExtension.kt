@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
+import com.gtgt.pokerjacks.utils.Constants
 import java.util.concurrent.Executor
 
 fun Activity.showBiometricPrompt(callback: () -> Unit, cancelCallBack: () -> Unit) {
@@ -21,7 +22,7 @@ fun Activity.showBiometricPrompt(callback: () -> Unit, cancelCallBack: () -> Uni
     // Set prompt info
     val promptInfo = BiometricPrompt.PromptInfo.Builder()
 //            .setDescription("Description")
-        .setTitle("Rummy")
+        .setTitle(Constants.PRODUCT_NAME)
 //            .setSubtitle("Subtitle")
         .setNegativeButtonText("Cancel")
         // Allows device pin
