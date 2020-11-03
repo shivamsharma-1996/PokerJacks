@@ -8,12 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import com.gtgt.pokerjacks.MyApplication
+import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
-import com.gtgt.pokerjacks.extensions.launchActivity
-import com.gtgt.pokerjacks.extensions.onOneClick
+import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.lobby.HomeViewModel
+import com.gtgt.pokerjacks.ui.login.view.RegistrationActivity
 import com.gtgt.pokerjacks.ui.offers.bonus.AllBonusActivity
 import com.gtgt.pokerjacks.ui.offers.scratch_card.AllScratchCardActivity
 import kotlinx.android.synthetic.main.fragment_side_nav.*
@@ -23,7 +24,8 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
 
     private val REQUESTCODE_PROMO = 101
 
-//    private val profileViewModel: ProfileViewModel by sharedViewModel()
+    //    private val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val homeViewModel: HomeViewModel by store()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -103,12 +105,12 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
 
 
         dialogView.logout_btn_yes.setOnClickListener {
-            /*profileViewModel.logout().observe(viewLifecycleOwner, Observer {
-                if (it.success) {
+            homeViewModel.logout().observe(viewLifecycleOwner, Observer {
+                if (it!!.success) {
                     putBoolean("IS_USER_LOGIN", false)
-                    unSubscribeFromTopic(Constants.TopicName.ALL.name)
-                    unSubscribeFromTopic(Constants.TopicName.NEWUSER.name)
-                    unSubscribeFromTopic(Constants.TopicName.PAIDUSER.name)
+//                    unSubscribeFromTopic(Constants.TopicName.ALL.name)
+//                    unSubscribeFromTopic(Constants.TopicName.NEWUSER.name)
+//                    unSubscribeFromTopic(Constants.TopicName.PAIDUSER.name)
 
                     alertDialog.dismiss()
 
@@ -118,10 +120,10 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
                     )
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
-                    clearUserSavedData()
-                    activity!!.finishAffinity()
+                    activity!!.clearUserSavedData()
+                    activity!!.finish()
                 }
-            })*/
+            })
         }
 
         dialogView.logout_btn_no.setOnClickListener {

@@ -52,6 +52,8 @@ class RegistrationActivity : BaseActivity(), GoogleApiClient.ConnectionCallbacks
                         token.continuePermissionRequest()
                     }
                 }).check()
+
+
         }
 
         viewModel.createUserByMobileResponse.observe(this, Observer {

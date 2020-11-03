@@ -1039,3 +1039,8 @@ fun Context.getServiceProviderName(): String {
 // Get carrier name (Network Operator Name)
     return tManager.networkOperatorName
 }
+
+fun Activity.clearUserSavedData() {
+    MyApplication.sharedPreferences.edit().clear().commit()
+//    DatabaseHelper.clearDB()
+}
