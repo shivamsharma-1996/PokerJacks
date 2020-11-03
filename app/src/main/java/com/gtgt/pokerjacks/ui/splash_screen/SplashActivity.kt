@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.gtgt.pokerjacks.BuildConfig
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.isRunning
@@ -17,6 +18,7 @@ import com.gtgt.pokerjacks.extensions.retrieveBoolean
 import com.gtgt.pokerjacks.ui.MainActivity
 import com.gtgt.pokerjacks.ui.login.view.EnterMpinOrTouchIdActivity
 import com.gtgt.pokerjacks.ui.login.view.RegistrationActivity
+import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : BaseActivity() {
 
@@ -32,7 +34,12 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        Handler().postDelayed({
+    if(BuildConfig.FLAVOR == "production"){
+        iv_dev_img.visibility = View.GONE
+    }
+
+
+    Handler().postDelayed({
             navigateToNextScreen()
         }, 1000)
     }

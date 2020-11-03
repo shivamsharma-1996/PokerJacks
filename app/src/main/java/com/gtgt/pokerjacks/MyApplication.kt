@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.StrictMode
 import androidx.lifecycle.LifecycleObserver
+import com.androidisland.vita.startVita
 import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
 import com.gtgt.pokerjacks.retrofit.WebServicesPlatform
 import org.kodein.di.Kodein
@@ -28,7 +29,7 @@ class MyApplication : Application(), LifecycleObserver, KodeinAware {
 
     override fun onCreate() {
         super.onCreate()
-
+        startVita()
         val builder = StrictMode.VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
 
