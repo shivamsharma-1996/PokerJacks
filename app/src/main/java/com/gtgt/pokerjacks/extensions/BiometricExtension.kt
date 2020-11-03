@@ -47,9 +47,9 @@ private fun getAuthenticationCallback(
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             super.onAuthenticationSucceeded(result)
-            /*vibrate(context, onVibrate = {
+            vibrate(context, onVibrate = {
                 callback()
-            })*/
+            })
         }
 
         override fun onAuthenticationFailed() {

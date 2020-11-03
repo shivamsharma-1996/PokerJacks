@@ -5,18 +5,18 @@ import com.gtgt.pokerjacks.MyApplication
 
 fun putString(key: String, value: String) {
     val sp = MyApplication.sharedPreferences
-    sp.edit().putString(key, value).commit()
+    sp.edit().putString(key, value).apply()
 }
 
 fun putResponse(key: String, value: String?) {
     val sp = MyApplication.sharedPreferences
-    sp.edit().putString(key, value).commit()
+    sp.edit().putString(key, value).apply()
 }
 
 fun putModel(key: String, value: Any) {
     val json = gson.toJson(value)
     val sp = MyApplication.sharedPreferences
-    sp.edit().putString(key, json).commit()
+    sp.edit().putString(key, json).apply()
 }
 
 fun retrieveResponse(key: String): String? {
@@ -26,17 +26,17 @@ fun retrieveResponse(key: String): String? {
 
 fun putInt(key: String, value: Int) {
     val sp = MyApplication.sharedPreferences
-    sp.edit().putInt(key, value).commit()
+    sp.edit().putInt(key, value).apply()
 }
 
 fun putLong(key: String, value: Long) {
     val sp = MyApplication.sharedPreferences
-    sp.edit().putLong(key, value).commit()
+    sp.edit().putLong(key, value).apply()
 }
 
 fun putBoolean(key: String, value: Boolean) {
     val sp = MyApplication.sharedPreferences
-    sp.edit().putBoolean(key, value).commit()
+    sp.edit().putBoolean(key, value).apply()
 }
 
 fun retrieveInt(key: String, default: Int = -1): Int {
@@ -61,7 +61,7 @@ fun retrieveBoolean(key: String, default: Boolean = false): Boolean {
 
 fun Activity.removeSharedPrefByKey(key: String) {
     val sp = MyApplication.sharedPreferences
-    sp.edit().remove(key).commit()
+    sp.edit().remove(key).apply()
 }
 
 fun retrievePermanentString(key: String, default: String = ""): String {
@@ -71,12 +71,12 @@ fun retrievePermanentString(key: String, default: String = ""): String {
 
 fun putPermanentString(key: String, value: String) {
     val sp = MyApplication.sharedPreferencesDontClear
-    sp.edit().putString(key, value).commit()
+    sp.edit().putString(key, value).apply()
 }
 
 fun putPermanentBoolean(key: String, value: Boolean) {
     val sp = MyApplication.sharedPreferencesDontClear
-    sp.edit().putBoolean(key, value).commit()
+    sp.edit().putBoolean(key, value).apply()
 }
 
 fun retrievePermanentBoolean(key: String, default: Boolean = false): Boolean {
@@ -86,7 +86,7 @@ fun retrievePermanentBoolean(key: String, default: Boolean = false): Boolean {
 
 fun putPermanentInt(key: String, value: Int) {
     val sp = MyApplication.sharedPreferencesDontClear
-    sp.edit().putInt(key, value).commit()
+    sp.edit().putInt(key, value).apply()
 }
 
 fun retrievePermanentInt(key: String, default: Int = 0): Int {

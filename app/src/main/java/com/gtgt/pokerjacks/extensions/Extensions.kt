@@ -1044,3 +1044,14 @@ fun Activity.clearUserSavedData() {
     MyApplication.sharedPreferences.edit().clear().commit()
 //    DatabaseHelper.clearDB()
 }
+
+fun vibrate(context: Context, onVibrate: () -> Unit) {
+    val vibe = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        vibe.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
+    } else {
+        //deprecated in API 26
+        vibe.vibrate(150)
+    }
+    onVibrate()
+}

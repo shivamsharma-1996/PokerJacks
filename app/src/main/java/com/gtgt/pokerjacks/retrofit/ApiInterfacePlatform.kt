@@ -5,13 +5,17 @@ import androidx.annotation.NonNull
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.gtgt.pokerjacks.MyApplication
+import com.gtgt.pokerjacks.base.AnyModel
 import com.gtgt.pokerjacks.base.BaseModel
 import com.gtgt.pokerjacks.ui.login.models.*
 import com.gtgt.pokerjacks.ui.profile.manage_account.model.BankFromIFSC
 import com.gtgt.pokerjacks.ui.profile.manage_account.model.CreateBankDetails
 import com.gtgt.pokerjacks.ui.profile.manage_account.model.GetBankDetails
 import com.gtgt.pokerjacks.ui.profile.manage_account.model.GetVerification
+import com.gtgt.pokerjacks.ui.profile.profile.model.GetDepositeLimit
+import com.gtgt.pokerjacks.ui.profile.profile.model.UpdateDepositeLimit
 import com.gtgt.pokerjacks.ui.profile.profile.model.UserProfileDetails
+import com.gtgt.pokerjacks.ui.side_nav.refer_earn.model.GetReferralCode
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -110,5 +114,50 @@ interface ApiInterfacePlatform {
 
     @GET("userService/getUserProfile/")
     fun getUserProfileDetails(): Call<UserProfileDetails>
+
+    @GET("userService/getDepositLimit/")
+    fun getDepositLimit(): Call<GetDepositeLimit>
+
+    @POST("userService/changeDepositLimit/")
+    fun updateDepositLimits(
+        @Body jsonElement: JsonElement
+    ): Call<UpdateDepositeLimit>
+
+    @POST("userService/validateMPIN/")
+    fun validateMPIN(
+        @Body jsonElement: JsonElement
+    ): Call<BaseModel>
+
+    @POST("userService/changeMPIN/")
+    fun changeMPIN(
+        @Body jsonElement: JsonElement
+    ): Call<BaseModel>
+
+    @POST("userService/checkUserName/")
+    fun checkUserName(
+        @Body jsonElement: JsonElement
+    ): Call<BaseModel>
+
+    @POST("userService/checkReferralCode/")
+    fun checkReferralCode(
+        @Body jsonElement: JsonElement
+    ): Call<BaseModel>
+
+    @POST("userService/updateUserName/")
+    fun updateUserName(
+        @Body jsonElement: JsonElement
+    ): Call<BaseModel>
+
+    @GET("userService/getReferralCode/")
+    fun getReferralCode(): Call<GetReferralCode>
+
+    @GET("userService/checkReferralEligible/")
+    fun checkReferralEligible(): Call<AnyModel>
+
+    @POST("userService/applyReferralCode/")
+    fun applyReferralCode(@Body data: JsonElement): Call<AnyModel>
+
+    @POST("userService/blockMe/")
+    fun blockMe(@Body data: JsonElement): Call<BaseModel>
 
 }

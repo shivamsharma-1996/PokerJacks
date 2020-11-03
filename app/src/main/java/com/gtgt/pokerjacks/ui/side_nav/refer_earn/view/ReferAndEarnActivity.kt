@@ -1,4 +1,4 @@
-package com.gtgt.pokerjacks.ui.side_nav
+package com.gtgt.pokerjacks.ui.side_nav.refer_earn.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".MyApplication"
@@ -34,7 +35,7 @@
             android:name=".ui.login.view.SetFingerPrintActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.side_nav.ReferAndEarnActivity"
+            android:name=".ui.side_nav.refer_earn.view.ReferAndEarnActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.profile.update_name.UpdateNameActivity"

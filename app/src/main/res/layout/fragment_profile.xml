@@ -137,7 +137,7 @@
                                 android:orientation="vertical"
                                 android:visibility="gone">
 
-                                <!--<androidx.appcompat.widget.SwitchCompat
+                                <androidx.appcompat.widget.SwitchCompat
                                     android:id="@+id/fp_switch"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                                     android:layout_height="0.5dp"
                                     android:layout_marginTop="@dimen/size_12dp"
                                     android:layout_marginBottom="@dimen/size_12dp"
-                                    android:background="@color/white_dull" />-->
+                                    android:background="@color/white_blue" />
 
                                 <TextView
                                     android:id="@+id/tv_changeMPIN"
@@ -206,14 +206,14 @@
                                 android:textSize="@dimen/text_14sp"
                                 tools:text="₹3.2K Used" />
 
-                            <!--<ProgressBar
+                            <ProgressBar
                                 android:id="@+id/progressBarLimit"
                                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/size_10dp"
                                 android:layout_marginTop="@dimen/size_10dp"
                                 android:layout_marginBottom="@dimen/size_10dp"
-                                android:progressDrawable="@drawable/progressbar_bg" />-->
+                                android:progressDrawable="@drawable/progressbar_bg" />
 
                             <FrameLayout
                                 android:layout_width="match_parent"

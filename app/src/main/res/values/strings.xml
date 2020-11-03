@@ -9,6 +9,7 @@
     <string name="add_bank_cb_text">The above particulars I entered were belongs to me in all aspects</string>
     <string name="delete_account"><u>Delete Account</u></string>
     <string name="transaction_name">Transaction</string>
+    <string name="rupee">₹</string>
     <string name="refer_and_earn_title">Earn ₹5000 for Every Friend</string>
     <string name="refer_steps">Step: 1\nShare the above code with your friends\n\nStep: 2\nAsk them to install and register themselves on the RummyJacks App\n\nStep: 3\nAsk them to enter your referral code when asked.</string>
     <string name="share_refer_text">Hey, It\'s Rummy Time! Sign-up on the RummyJacks App to Get upto Rs.1000/- Sign-up Bonus &amp; an additional Rs.2000/- Bonus on your First Payment!\n\nUse Referral code ${it.info.code} after Sign-Up!\nDownload now at <a href="https://rummyjacks.app.link/51dv2CcNJab">https://rummyjacks.app.link/51dv2CcNJab</a></string>

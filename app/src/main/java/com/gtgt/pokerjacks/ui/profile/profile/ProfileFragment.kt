@@ -1,11 +1,14 @@
 package com.gtgt.pokerjacks.ui.profile.profile
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.base.BaseFragment
@@ -13,10 +16,12 @@ import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
 import com.gtgt.pokerjacks.ui.MainActivity
 import com.gtgt.pokerjacks.ui.profile.manage_account.ManageBankAccountActivity
+import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
 import com.gtgt.pokerjacks.ui.profile.suspend_account.ResponsibleGamingActivity
 import com.gtgt.pokerjacks.ui.profile.verify_address.VerifyAddressActivity
 import com.gtgt.pokerjacks.ui.profile.verify_pan.VerifyPanActivity
 import com.gtgt.pokerjacks.ui.profile.vrify_email.VerifyEmailActivity
+import com.gtgt.pokerjacks.utils.Constants
 import com.gtgt.pokerjacks.utils.ImagePickFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -25,6 +30,14 @@ import kotlinx.android.synthetic.main.toolbar_layout_nav.*
 class ProfileFragment : ImagePickFragment() {
 
     private val profilePicRequestCode = 100
+    private val profileViewModel: ProfileViewModel by viewModel()
+    private var isEmailVerified = false
+    private var isPanVerified = false
+    private var panVerifiedStatus = ""
+    var winningsAmt = 0
+    lateinit var v: View
+    lateinit var alertDialog: AlertDialog
+    private val REQUEST_CODE_USERNAME = 2
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,22 +50,92 @@ class ProfileFragment : ImagePickFragment() {
     override fun onImagePicked(bitmap: Bitmap?, requestCode: Int) {
         bitmap?.let {
             iv_profile.loadBitmap(bitmap)
-            apiServicesPlatform.uploadProfilePic(
-                profilePicPath = ApiInterfacePlatform.createRequestBody(it,"file")
-            ).execute(activity as BaseActivity){
-                if(it.success){
-                    showSnack("Successfully Uploaded")
-                }else{
-                    showToast(it.description)
-                }
-            }
+            profileViewModel.uploadProfilePic(bitmap).observe(this, Observer {
+                showSnack(it)
+            })
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_email_verification.onOneClick {
+        tv_settings.setOnClickListener {
+            if (ll_settings.visibility == View.VISIBLE) {
+                ll_settings.visibility = View.GONE
+                tv_settings.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_more_gray, 0)
+            } else {
+                ll_settings.visibility = View.VISIBLE
+                tv_settings.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_less_gray, 0)
+            }
+        }
+
+        if (retrievePermanentBoolean("IS_FP_ENABLE")) {
+            fp_switch.isChecked = true
+        }
+
+        tv_changeMPIN.onOneClick {
+//            launchActivity<ChangeMPINActivity> { }
+        }
+
+        fp_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                context?.let {
+                    if (canAuthenticateWithBiometrics(it)) {  // Check whether this device can authenticate with biometrics
+                        activity?.showBiometricPrompt(
+                            callback = {
+                                putPermanentBoolean("IS_FP_ENABLE", true)
+                            },
+                            cancelCallBack = {
+                                fp_switch.isChecked = false
+                            }
+                        )
+                    } else {
+                        // Cannot use biometric prompt
+                        showSnack("Cannot use biometric")
+                    }
+                }
+            } else {
+                putPermanentBoolean("IS_FP_ENABLE", false)
+            }
+        }
+
+        profileViewModel.userProfileInfo.observe(viewLifecycleOwner, Observer {
+            tv_username.text = it.username
+            tv_user_phone_number.text = it.mobile
+            tv_user_email.text = it.email
+            iv_profile.loadURL(it.profile_pic_path, R.drawable.ic_profile_placeholder)
+
+            this.isEmailVerified = it.isEmailVerified
+            this.isPanVerified =
+                it.isPanVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
+            panVerifiedStatus=it.isPanVerified
+        })
+
+        profileViewModel.getDespositeLimit.observe(viewLifecycleOwner, Observer {
+            if (it.success) {
+                tv_deposit.text =
+                    "${resources.getString(R.string.rupee)}${it.info.deposits.numberCalculation()} Used"
+                tv_limit.text =
+                    "${resources.getString(R.string.rupee)}${it.info.limit.numberCalculation()}"
+                tv_renewalDate.text = "Renews on ${it.info.renewalDate}"
+
+                progressBarLimit.max = it.info.limit.toInt()
+                progressBarLimit.progress = it.info.deposits.toInt()
+
+                btn_changeLimits.onOneClick {
+                    /*launchActivity<ChangeLimitsActivity>(requestCode = 1) {
+                        putExtra("isEmailVerified", isEmailVerified)
+                        putExtra("isPanVerified", isPanVerified)
+                        putExtra("panVerifiedStatus", panVerifiedStatus)
+                        putExtra("minLimit", it.info.minLimit)
+                        putExtra("maxLimit", it.info.maxLimit)
+                        putExtra("userLimit", it.info.limit)
+                    }*/
+                }
+            }
+        })
+
+        /*btn_email_verification.onOneClick {
             launchActivity<VerifyEmailActivity> { }
         }
 
@@ -62,7 +145,7 @@ class ProfileFragment : ImagePickFragment() {
 
         btn_address_verification.onOneClick {
             launchActivity<VerifyAddressActivity> { }
-        }
+        }*/
 
         cv_responsibleGaming.onOneClick {
             launchActivity<ResponsibleGamingActivity> {  }
@@ -79,5 +162,23 @@ class ProfileFragment : ImagePickFragment() {
         iv_profile.onOneClick {
             choosePicture(profilePicRequestCode)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == 1) {
+            profileViewModel.getDepositLimit()
+        }
+
+        if (resultCode == REQUEST_CODE_USERNAME) {
+            profileViewModel.getUserProfileDetailsInfo()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        profileViewModel.getUserProfileDetailsInfo()
+        profileViewModel.getDepositLimit()
     }
 }

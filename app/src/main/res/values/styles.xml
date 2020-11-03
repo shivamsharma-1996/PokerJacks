@@ -29,4 +29,10 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="SwitchStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/light_blue</item>
+        <item name="colorSwitchThumbNormal">#707070</item>
+        <item name="android:colorForeground">#a5a5a5</item>
+    </style>
+
 </resources>

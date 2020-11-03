@@ -1,11 +1,13 @@
 package com.gtgt.pokerjacks.ui.profile.profile.viewModel
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.gtgt.pokerjacks.base.BaseModel
 import com.gtgt.pokerjacks.base.BaseViewModel
 import com.gtgt.pokerjacks.extensions.execute
+import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
 import com.gtgt.pokerjacks.ui.profile.profile.model.GetDepositeLimit
 import com.gtgt.pokerjacks.ui.profile.profile.model.UpdateDepositeLimit
 import com.gtgt.pokerjacks.ui.profile.profile.model.UserProfileDetailsInfo
@@ -26,6 +28,20 @@ class ProfileViewModel : BaseViewModel() {
     private var _bloclMeResponse: MutableLiveData<BaseModel> = MutableLiveData()
     val bloclMeResponse: LiveData<BaseModel> = _bloclMeResponse
 
+    fun uploadProfilePic(bitmap: Bitmap): LiveData<String> {
+        val profilePicResponse: MutableLiveData<String> = MutableLiveData()
+        apiServicesPlatform.uploadProfilePic(
+            ApiInterfacePlatform.createRequestBody(bitmap, "file")
+        ).execute(activity, true) {
+            if (it.success) {
+                profilePicResponse.value = it.description
+            } else {
+                profilePicResponse.value = it.description
+            }
+        }
+        return profilePicResponse
+    }
+
 
     fun getUserProfileDetailsInfo(showLoading: Boolean = true) {
         apiServicesPlatform.getUserProfileDetails().execute(activity, showLoading){
@@ -38,46 +54,46 @@ class ProfileViewModel : BaseViewModel() {
     }
 
     fun getDepositLimit() {
-        /*apiServicesPlatform.getDepositLimit().execute(activity, true) {
+        apiServicesPlatform.getDepositLimit().execute(activity, true) {
             _getDespositeLimit.value = it
-        }*/
+        }
     }
 
     fun updateDepositLimits(amount: Double, isIncrease: String) {
         val jsonObject = JsonObject()
         jsonObject.addProperty("amount", amount)
 //        jsonObject.addProperty("isIncrease", isIncrease)
-        /*apiServicesPlatform.updateDepositLimits(jsonObject).execute(activity, true) {
+        apiServicesPlatform.updateDepositLimits(jsonObject).execute(activity, true) {
             _updateDepositLimits.value = it
-        }*/
+        }
     }
 
     fun blockMe(blockStatus: String, blockType: String) {
-        /*val jsonObject = JsonObject()
+        val jsonObject = JsonObject()
         jsonObject.addProperty("blockStatus", blockStatus)
         jsonObject.addProperty("blockType", blockType)
         apiServicesPlatform.blockMe(jsonObject).execute(activity, true) {
             _bloclMeResponse.value = it
-        }*/
+        }
     }
 
     fun validateMPIN(oldPassword: String): LiveData<BaseModel> {
         val validateMPINResponse: MutableLiveData<BaseModel> = MutableLiveData()
-        /*val jsonObject = JsonObject()
+        val jsonObject = JsonObject()
         jsonObject.addProperty("oldPassword", oldPassword)
         apiServicesPlatform.validateMPIN(jsonObject).execute(activity, true) {
             validateMPINResponse.value = it
-        }*/
+        }
         return validateMPINResponse
     }
 
     fun changeMPIN(newPassword: String): LiveData<BaseModel> {
         val changeMPINResponse: MutableLiveData<BaseModel> = MutableLiveData()
-        /*val jsonObject = JsonObject()
+        val jsonObject = JsonObject()
         jsonObject.addProperty("newPassword", newPassword)
         apiServicesPlatform.changeMPIN(jsonObject).execute(activity, true) {
             changeMPINResponse.value = it
-        }*/
+        }
         return changeMPINResponse
     }
 
@@ -101,10 +117,10 @@ class ProfileViewModel : BaseViewModel() {
 
     fun checkReferralCode(referralCode: String = "") {
         val jsonObject = JsonObject()
-        /*jsonObject.addProperty("referralCode", referralCode)
+        jsonObject.addProperty("referralCode", referralCode)
         apiServicesPlatform.checkReferralCode(jsonObject).execute(activity, true) {
             _checkReferral.value = it
-        }*/
+        }
     }
 
     private var _updateName: MutableLiveData<BaseModel> = MutableLiveData()
@@ -115,9 +131,9 @@ class ProfileViewModel : BaseViewModel() {
         jsonObject.addProperty("username", username)
         jsonObject.addProperty("isReferredUser", isReferralVerified)
         jsonObject.addProperty("code", code)
-        /*apiServicesPlatform.updateUserName(jsonObject).execute(activity, true) {
+        apiServicesPlatform.updateUserName(jsonObject).execute(activity, true) {
             _updateName.value = it
-        }*/
+        }
     }
 
     fun logout(): LiveData<BaseModel> {

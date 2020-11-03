@@ -17,6 +17,7 @@ import com.gtgt.pokerjacks.ui.lobby.HomeViewModel
 import com.gtgt.pokerjacks.ui.login.view.RegistrationActivity
 import com.gtgt.pokerjacks.ui.offers.bonus.AllBonusActivity
 import com.gtgt.pokerjacks.ui.offers.scratch_card.AllScratchCardActivity
+import com.gtgt.pokerjacks.ui.side_nav.refer_earn.view.ReferAndEarnActivity
 import kotlinx.android.synthetic.main.fragment_side_nav.*
 import kotlinx.android.synthetic.main.logout_confirmation_dialog.view.*
 
