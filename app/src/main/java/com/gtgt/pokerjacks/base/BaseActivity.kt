@@ -8,6 +8,8 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
 
+var currentActivity: AppCompatActivity? = null
+
 abstract class BaseActivity : AppCompatActivity(), KodeinAware {
     override val kodein by kodein(MyApplication.appContext!!)
 
@@ -16,6 +18,12 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        currentActivity = this
+    }
+
+    override fun onResume() {
+        super.onResume()
+        currentActivity = this
     }
 
 }

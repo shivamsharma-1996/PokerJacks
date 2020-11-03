@@ -19,7 +19,9 @@ import android.text.TextWatcher
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.core.content.ContextCompat
@@ -48,6 +50,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.gtgt.pokerjacks.BuildConfig
 import com.gtgt.pokerjacks.MyApplication
+import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.utils.OnOneClickListener
 import com.gtgt.pokerjacks.utils.ProgressBarHandler
 import com.gtgt.pokerjacks.utils.ViewModelWithArgumentsFactory
@@ -56,6 +59,7 @@ import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.base.BaseViewModel
 import eightbitlab.com.blurview.BlurView
 import eightbitlab.com.blurview.RenderScriptBlur
+import kotlinx.android.synthetic.main.snack_view.view.*
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
@@ -87,11 +91,11 @@ fun Fragment.showToast(message: String) {
 
 fun Activity.showSnack(message: String) {
     runOnMain {
-        /*if (isRunning()) {
+        if (isRunning()) {
             var isClosed = false
             var isGame = false
 
-            val rootView = findViewById<View>(R.id.content).rootView as ViewGroup
+            val rootView = findViewById<View>(android.R.id.content).rootView as ViewGroup
             val snackView = layoutInflater.inflate(R.layout.snack_view, null)
             rootView.findViewWithTag<View>("snack")?.let {
                 it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.top_exit))
@@ -130,7 +134,7 @@ fun Activity.showSnack(message: String) {
                     snackView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.top_exit))
                 rootView.removeView(snackView)
             }, (if (isGame) 3000L else 5000L))
-        }*/
+        }
     }
 }
 

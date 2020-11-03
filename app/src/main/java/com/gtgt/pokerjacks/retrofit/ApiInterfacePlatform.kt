@@ -4,6 +4,11 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.gtgt.pokerjacks.base.BaseModel
 import com.gtgt.pokerjacks.ui.login.models.*
+import com.gtgt.pokerjacks.ui.profile.manage_account.model.BankFromIFSC
+import com.gtgt.pokerjacks.ui.profile.manage_account.model.CreateBankDetails
+import com.gtgt.pokerjacks.ui.profile.manage_account.model.GetBankDetails
+import com.gtgt.pokerjacks.ui.profile.manage_account.model.GetVerification
+import com.gtgt.pokerjacks.ui.profile.profile.model.UserProfileDetails
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -35,5 +40,32 @@ interface ApiInterfacePlatform {
 
     @POST("userService/logout/")
     fun logout(): Call<BaseModel>
+
+    @POST("userService/createBankDetails/")
+    fun createBankDetails(
+        @Body data: JsonElement
+    ): Call<CreateBankDetails>
+
+    @GET("userService/getBankDetails/")
+    fun getBankDetails(): Call<GetBankDetails>
+
+    @POST("userService/deleteBankDetails/")
+    fun deleteBankDetails(
+        @Body data: JsonElement
+    ): Call<BaseModel>
+
+    @FormUrlEncoded
+    @POST("userService/getBankVerificationFromUser/")
+    fun getVerification(
+        @Field("bankId") bankId: String
+    ): Call<GetVerification>
+
+    @GET("userService/getBankDetailsfromRedis/")
+    fun getBankDetailsfromIFSC(
+        @Query("ifsc") ifsc: String
+    ): Call<BankFromIFSC>
+
+    @GET("userService/getUserProfile/")
+    fun getUserProfileDetails(): Call<UserProfileDetails>
 
 }

@@ -130,6 +130,8 @@
                     android:hint="Bank"
                     android:padding="@dimen/size_16dp"
                     android:textColor="@color/white"
+                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColorHint="@color/white_blue"
                     android:textSize="@dimen/text_16sp" />
 
@@ -150,26 +152,10 @@
                     android:fontFamily="@font/proximanova_regular"
                     android:hint="Branch"
                     android:padding="@dimen/size_16dp"
+                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white_blue"
-                    android:textSize="@dimen/text_16sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/size_8dp"
-                    android:text="IFSC Code"
-                    android:textColor="@color/white_blue"
-                    android:textSize="@dimen/text_16sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/size_12dp"
-                    android:background="@drawable/dark_bg_8dp"
-                    android:fontFamily="@font/proximanova_regular"
-                    android:padding="@dimen/size_16dp"
-                    android:textColor="@color/white"
                     android:textSize="@dimen/text_16sp" />
 
             </LinearLayout>
