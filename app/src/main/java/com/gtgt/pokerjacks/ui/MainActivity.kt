@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
+import androidx.core.view.GravityCompat
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.*
@@ -17,6 +18,7 @@ import com.gtgt.pokerjacks.ui.profile.profile.ProfileFragment
 import com.gtgt.pokerjacks.ui.side_nav.SideNavFragment
 import com.gtgt.pokerjacks.ui.tourneys.TourneysFragment
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_nav_layout.*
 
 
@@ -158,9 +160,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         when {
-            /*drawer_layout.isDrawerOpen(GravityCompat.START) -> {
+            drawer_layout.isDrawerOpen(GravityCompat.START) -> {
                 drawer_layout.closeDrawer(GravityCompat.START)
-            }*/
+            }
             selectedScreen == 2 -> {
                 number_of_clicks++
                 Handler().postDelayed({ number_of_clicks = 0 }, 2500)

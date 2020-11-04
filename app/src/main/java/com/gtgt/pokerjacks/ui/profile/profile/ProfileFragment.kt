@@ -74,7 +74,7 @@ class ProfileFragment : ImagePickFragment() {
         }
 
         tv_changeMPIN.onOneClick {
-//            launchActivity<ChangeMPINActivity> { }
+            launchActivity<ChangeMPINActivity> { }
         }
 
         fp_switch.setOnCheckedChangeListener { buttonView, isChecked ->

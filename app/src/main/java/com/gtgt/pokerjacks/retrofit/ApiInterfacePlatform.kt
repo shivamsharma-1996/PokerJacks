@@ -74,7 +74,7 @@ interface ApiInterfacePlatform {
     @POST("userService/forgotMPIN/")
     fun forgotMPIN(@Body data: JsonElement): Call<BaseModel>
 
-    @POST("userService/resetMPIN")
+    @POST("userService/resetMPIN/")
     fun resetMPIN(@Body data: JsonElement): Call<CreateMPinResponse>
 
     @POST("userService/logout/")
