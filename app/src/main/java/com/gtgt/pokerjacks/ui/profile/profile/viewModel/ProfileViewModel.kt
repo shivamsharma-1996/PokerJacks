@@ -7,6 +7,7 @@ import com.google.gson.JsonObject
 import com.gtgt.pokerjacks.base.BaseModel
 import com.gtgt.pokerjacks.base.BaseViewModel
 import com.gtgt.pokerjacks.extensions.execute
+import com.gtgt.pokerjacks.extensions.retrieveString
 import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
 import com.gtgt.pokerjacks.ui.profile.profile.model.GetDepositeLimit
 import com.gtgt.pokerjacks.ui.profile.profile.model.UpdateDepositeLimit
@@ -91,6 +92,8 @@ class ProfileViewModel : BaseViewModel() {
         val changeMPINResponse: MutableLiveData<BaseModel> = MutableLiveData()
         val jsonObject = JsonObject()
         jsonObject.addProperty("newPassword", newPassword)
+        jsonObject.addProperty("userUniqueId", retrieveString("USER_ID"))
+        jsonObject.addProperty("deviceId", retrieveString("UNIQUE_ID"))
         apiServicesPlatform.changeMPIN(jsonObject).execute(activity, true) {
             changeMPINResponse.value = it
         }
