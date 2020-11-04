@@ -44,7 +44,7 @@ class ProfileViewModel : BaseViewModel() {
 
 
     fun getUserProfileDetailsInfo(showLoading: Boolean = true) {
-        apiServicesPlatform.getUserProfileDetails().execute(activity, showLoading){
+        apiServicesPlatform.getUserProfileDetails().execute(activity, showLoading) {
             if (it.success) {
                 _userProfileInfo.value = it.info
             } else {
@@ -102,13 +102,13 @@ class ProfileViewModel : BaseViewModel() {
 
     var lastUserName = ""
     fun checkUserName(username: String) {
-        if(lastUserName != username) {
+        if (lastUserName != username) {
             val jsonObject = JsonObject()
             jsonObject.addProperty("username", username)
-            /*apiServicesPlatform.checkUserName(jsonObject).execute(activity, true) {
+            apiServicesPlatform.checkUserName(jsonObject).execute(activity, true) {
                 lastUserName = username
                 _checkName.value = it
-            }*/
+            }
         }
     }
 

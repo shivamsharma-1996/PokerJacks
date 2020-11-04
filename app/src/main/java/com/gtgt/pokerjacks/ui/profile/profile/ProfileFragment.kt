@@ -10,14 +10,12 @@ import android.view.ViewGroup
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
-import com.gtgt.pokerjacks.base.BaseActivity
-import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.*
-import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
 import com.gtgt.pokerjacks.ui.MainActivity
 import com.gtgt.pokerjacks.ui.profile.manage_account.ManageBankAccountActivity
 import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
 import com.gtgt.pokerjacks.ui.profile.suspend_account.ResponsibleGamingActivity
+import com.gtgt.pokerjacks.ui.profile.update_name.UpdateNameActivity
 import com.gtgt.pokerjacks.ui.profile.verify_address.VerifyAddressActivity
 import com.gtgt.pokerjacks.ui.profile.verify_pan.VerifyPanActivity
 import com.gtgt.pokerjacks.ui.profile.vrify_email.VerifyEmailActivity
@@ -109,6 +107,11 @@ class ProfileFragment : ImagePickFragment() {
             this.isPanVerified =
                 it.isPanVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
             panVerifiedStatus=it.isPanVerified
+
+            if(!it.isUserNameUpdated){
+                launchActivity<UpdateNameActivity> {  }
+            }
+
 
             if (!it.isEmailVerified) {
                 btn_start_verification.text = "Verify Email"

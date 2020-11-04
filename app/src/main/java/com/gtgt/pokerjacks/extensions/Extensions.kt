@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Rect
 import android.hardware.biometrics.BiometricManager
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -1054,4 +1055,24 @@ fun vibrate(context: Context, onVibrate: () -> Unit) {
         vibe.vibrate(150)
     }
     onVibrate()
+}
+
+fun View.isKeyboardOpenOrClose(callback: (Boolean) -> Unit) {
+    viewTreeObserver.addOnGlobalLayoutListener {
+        val r = Rect()
+        getWindowVisibleDisplayFrame(r)
+        val screenHeight = rootView.height
+
+        // r.bottom is the position above soft keypad or device button.
+        // if keypad is shown, the r.bottom is smaller than that before.
+        val keypadHeight = screenHeight - r.bottom
+
+        if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+            // keyboard is opened
+            callback(true)
+        } else {
+            // keyboard is closed
+            callback(false)
+        }
+    }
 }

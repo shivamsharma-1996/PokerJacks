@@ -40,6 +40,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.profile.update_name.UpdateNameActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Transparent"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="behind" />
         <activity
             android:name=".ui.splash_screen.SplashActivity"

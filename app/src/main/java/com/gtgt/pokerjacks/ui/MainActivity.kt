@@ -39,6 +39,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         putBoolean("IS_USER_LOGIN", true)
         putPermanentString("OLD_MOBILE", retrieveString("MOBILE"))
         initUI()
+
+
     }
 
     private fun initUI() {
