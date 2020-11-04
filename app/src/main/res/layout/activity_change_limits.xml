@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/size_30dp"
+                android:layout_marginTop="@dimen/dimen_15dp"
+                android:layout_marginEnd="@dimen/size_30dp"
+                android:padding="@dimen/size_16dp"
+                app:cardBackgroundColor="@color/dark_30"
+                app:cardCornerRadius="@dimen/size_8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/size_16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Alter Cash Limits"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_15dp"
+                        android:layout_marginEnd="@dimen/dimen_15dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/left_popup_img" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:src="@drawable/right_popup_img" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/white" />
+                    </FrameLayout>
+
+                    <RadioGroup
+                        android:id="@+id/rg_checkLimits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioButton
+                            android:id="@+id/rb_increase"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size_20dp"
+                            android:layout_marginBottom="@dimen/size_20dp"
+                            android:button="@drawable/radio_button_selector"
+                            android:paddingStart="@dimen/size_16dp"
+                            android:text="Increase my Limits"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            tools:ignore="RtlSymmetry" />
+
+                        <RadioButton
+                            android:id="@+id/rb_decrease"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/radio_button_selector"
+                            android:paddingStart="@dimen/size_16dp"
+                            android:text="Decrease my Limits"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            tools:ignore="RtlSymmetry" />
+
+                    </RadioGroup>
+
+                    <!--verify PAN and EMAIL-->
+                    <LinearLayout
+                        android:id="@+id/ll_verifyEmailPan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_16dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tv_verifyPanEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/size_16dp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14sp"
+                            tools:text="*Please verify your Email and PAN" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_verifyEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/blue_gradient_button"
+                            android:paddingStart="@dimen/size_50dp"
+                            android:paddingEnd="@dimen/size_50dp"
+                            android:text="Verify Email"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+                    </LinearLayout>
+
+                    <!--increase-->
+                    <LinearLayout
+                        android:id="@+id/ll_increaseLimit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_16dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tv_increaseLimit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="₹40,000"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Limit"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size_20dp"
+                            android:layout_marginBottom="@dimen/size_16dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/iv_increaseMinus"
+                                    android:layout_width="@dimen/size_30dp"
+                                    android:layout_height="@dimen/size_30dp"
+                                    android:src="@drawable/minus" />
+
+                                <TextView
+                                    android:id="@+id/tv_increaseMinus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="₹20K"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_14sp" />
+                            </LinearLayout>
+
+                            <SeekBar
+                                android:id="@+id/seekbar_increase"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="-10dp"
+                                android:layout_weight="1"
+                                android:max="10000"
+                                android:progressDrawable="@drawable/seekbar_style"
+                                android:splitTrack="false"
+                                android:thumb="@drawable/seekbar_thumb" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/iv_increasePlus"
+                                    android:layout_width="@dimen/size_30dp"
+                                    android:layout_height="@dimen/size_30dp"
+                                    android:src="@drawable/plus" />
+
+                                <TextView
+                                    android:id="@+id/tv_increasePlus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="₹20K"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_14sp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_increaseLimits"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/blue_gradient_button"
+                            android:paddingStart="@dimen/size_50dp"
+                            android:paddingEnd="@dimen/size_50dp"
+                            android:text="Increase"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+                    </LinearLayout>
+
+                    <!--decrease-->
+                    <LinearLayout
+                        android:id="@+id/ll_decreaseLimit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_16dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tv_decreaseLimit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="₹40,000"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Limit"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size_20dp"
+                            android:layout_marginBottom="@dimen/size_16dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/iv_decreaseMinus"
+                                    android:layout_width="@dimen/size_30dp"
+                                    android:layout_height="@dimen/size_30dp"
+                                    android:src="@drawable/minus" />
+
+                                <TextView
+                                    android:id="@+id/tv_decreaseMinus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_14sp"
+                                    tools:text="₹20K" />
+                            </LinearLayout>
+
+                            <SeekBar
+                                android:id="@+id/seekbar_decrease"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="-10dp"
+                                android:layout_weight="1"
+                                android:max="10000"
+                                android:progressDrawable="@drawable/seekbar_style"
+                                android:splitTrack="false"
+                                android:thumb="@drawable/seekbar_thumb" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/iv_decreasePlus"
+                                    android:layout_width="@dimen/size_30dp"
+                                    android:layout_height="@dimen/size_30dp"
+                                    android:src="@drawable/plus" />
+
+                                <TextView
+                                    android:id="@+id/tv_decreasePlus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_14sp"
+                                    tools:text="₹20K" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_decreaseLimits"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/blue_gradient_button"
+                            android:paddingStart="@dimen/size_50dp"
+                            android:paddingEnd="@dimen/size_50dp"
+                            android:text="Decrease"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/btn_closeDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_marginEnd="@dimen/size_12dp"
+            android:src="@drawable/ic_close_dialog" />
+    </FrameLayout>
+
+</RelativeLayout>

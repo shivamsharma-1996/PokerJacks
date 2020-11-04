@@ -256,29 +256,17 @@ class ProfileFragment : ImagePickFragment() {
                 progressBarLimit.progress = it.info.deposits.toInt()
 
                 btn_changeLimits.onOneClick {
-                    /*launchActivity<ChangeLimitsActivity>(requestCode = 1) {
+                    launchActivity<ChangeLimitsActivity>(requestCode = 1) {
                         putExtra("isEmailVerified", isEmailVerified)
                         putExtra("isPanVerified", isPanVerified)
                         putExtra("panVerifiedStatus", panVerifiedStatus)
                         putExtra("minLimit", it.info.minLimit)
                         putExtra("maxLimit", it.info.maxLimit)
                         putExtra("userLimit", it.info.limit)
-                    }*/
+                    }
                 }
             }
         })
-
-        /*btn_email_verification.onOneClick {
-            launchActivity<VerifyEmailActivity> { }
-        }
-
-        btn_pan_verification.onOneClick {
-            launchActivity<VerifyPanActivity> { }
-        }
-
-        btn_address_verification.onOneClick {
-            launchActivity<VerifyAddressActivity> { }
-        }*/
 
         cv_responsibleGaming.onOneClick {
             launchActivity<ResponsibleGamingActivity> {  }

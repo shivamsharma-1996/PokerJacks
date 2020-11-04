@@ -160,4 +160,10 @@ interface ApiInterfacePlatform {
     @POST("userService/blockMe/")
     fun blockMe(@Body data: JsonElement): Call<BaseModel>
 
+    @POST("userService/updateEmail/")
+    fun updateUserEmailAddress(@Body data: JsonElement): Call<UserProfileDetails>
+
+    @POST("userService/verifyEmail/")
+    fun verifyEmail(@Body data: JsonElement): Call<UserProfileDetails>
+
 }
