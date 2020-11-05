@@ -4,9 +4,9 @@
 
     <data>
 
-        <!--<variable
+        <variable
             name="data"
-            type="com.gtgt.rummy.ui.offers.model.ReferralDataInfo" />-->
+            type="com.gtgt.pokerjacks.ui.offers.model.ReferralDataInfo" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"

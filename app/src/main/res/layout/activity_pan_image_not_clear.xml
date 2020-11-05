@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/toolbar_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:layout_marginStart="@dimen/size_16dp"
+        android:layout_marginTop="@dimen/size_16dp"
+        android:layout_marginEnd="@dimen/size_16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="What you entered…"
+            android:textColor="#A5A5A5"
+            android:textSize="@dimen/text_16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:background="@drawable/dark_bg_8dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/size_16dp"
+            android:paddingTop="@dimen/size_12dp"
+            android:paddingBottom="@dimen/size_12dp">
+
+            <TextView
+                android:id="@+id/tv_entered_pan_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proximanova_regular"
+                android:textColor="#A5A5A5"
+                android:textSize="@dimen/text_16sp"
+                tools:text="DVYPP92699" />
+
+
+            <TextView
+                android:id="@+id/tv_entered_pan_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_8dp"
+                android:fontFamily="@font/proximanova_regular"
+                android:textColor="#A5A5A5"
+                android:textSize="@dimen/text_16sp"
+                tools:text="Yogendra Gorle" />
+
+
+            <TextView
+                android:id="@+id/tv_entered_pan_dob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_8dp"
+                android:fontFamily="@font/proximanova_regular"
+                android:textColor="#A5A5A5"
+                android:textSize="@dimen/text_16sp"
+                tools:text="28/09/1998" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_upload_pan_image"
+            android:layout_width="269dp"
+            android:layout_height="106dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_20dp"
+            android:background="@drawable/bg_upload_pan_img"
+            android:padding="@dimen/dimen_10dp"
+            android:src="@drawable/ic_upload_pan_img" />
+
+        <TextView
+            android:id="@+id/weRecognisedTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_20dp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="What we recognized…"
+            android:textColor="#A5A5A5"
+            android:textSize="@dimen/text_16sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/weRecognisedLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:background="@drawable/dark_bg_8dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/size_16dp"
+            android:paddingTop="@dimen/size_12dp"
+            android:paddingBottom="@dimen/size_12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_recognised_pan_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proximanova_regular"
+                android:textColor="#A5A5A5"
+                android:textSize="@dimen/text_16sp"
+                tools:text="DVYPP92699" />
+
+
+            <TextView
+                android:id="@+id/tv_recognised_pan_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_8dp"
+                android:fontFamily="@font/proximanova_regular"
+                android:textColor="#A5A5A5"
+                android:textSize="@dimen/text_16sp"
+                tools:text="Yogendra Gorle" />
+
+
+            <TextView
+                android:id="@+id/tv_recognised_pan_dob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_8dp"
+                android:fontFamily="@font/proximanova_regular"
+                android:textColor="#A5A5A5"
+                android:textSize="@dimen/text_16sp"
+                tools:text="28/09/1998" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/mistake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:drawableStart="@drawable/ic_in_process_blue"
+            android:drawablePadding="@dimen/size_8dp"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="Oops! Image is not clear for recognition"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_16sp" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/btn_reupload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_8dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:button="@drawable/radio_button_selector"
+                android:paddingStart="@dimen/size_16dp"
+                android:text="Re-upload"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+
+            <RadioButton
+                android:id="@+id/btn_manual_verification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_8dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:button="@drawable/radio_button_selector"
+                android:paddingStart="@dimen/size_16dp"
+                android:text="I uploaded a good quality and correct image, submit for manual verification"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_proceed"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginTop="@dimen/size_50dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:layout_marginBottom="@dimen/size_20dp"
+        android:background="@drawable/blue_gradient_button"
+        android:fontFamily="@font/proximanova_regular"
+        android:text="Proceed"
+        android:textColor="@color/white" />
+
+
+</RelativeLayout>

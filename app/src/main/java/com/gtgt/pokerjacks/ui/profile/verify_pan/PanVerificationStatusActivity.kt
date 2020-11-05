@@ -1,0 +1,298 @@
+package com.gtgt.pokerjacks.ui.profile.verify_pan
+
+import android.app.AlertDialog
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.Handler
+import android.support.v4.os.ResultReceiver
+import android.view.LayoutInflater
+import android.view.View
+import androidx.core.widget.addTextChangedListener
+import com.bruce.pickerview.popwindow.DatePickerPopWin
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.gtgt.pokerjacks.R
+import com.gtgt.pokerjacks.extensions.*
+import com.gtgt.pokerjacks.ui.profile.verify_pan.model.PANErrorCodes
+import com.gtgt.pokerjacks.ui.profile.verify_pan.model.UploadedPanDetailsInfo
+import com.gtgt.pokerjacks.utils.Constants
+import com.gtgt.pokerjacks.utils.ImagePickerActivity
+import kotlinx.android.synthetic.main.activity_verify_pan.*
+import kotlinx.android.synthetic.main.pan_verification_result_dialog.view.*
+import kotlinx.android.synthetic.main.toolbar_layout.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.to
+
+class PanVerificationStatusActivity : ImagePickerActivity() {
+    private var isEdited = false
+
+    private val panViewModel: PanViewModel by store()
+    var panImage: Bitmap? = null
+    override fun onImagePicked(bitmap: Bitmap?) {
+        if (intent != null) {
+            iv_upload_pan_img.setImageBitmap(bitmap)
+            panImage = bitmap
+            isEdited = true
+        }
+    }
+
+    val calendar = Calendar.getInstance().apply {
+        set(Calendar.YEAR, get(Calendar.YEAR) - 18)
+    }
+    val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.US)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_verify_pan)
+
+        tv_commonTitle.text = "PAN Verification"
+
+        iv_back.onOneClick {
+            finish()
+        }
+
+        supportActionBar?.hide()
+
+        iv_upload_pan_img.onOneClick {
+            choosePicture()
+        }
+
+        panViewModel.getUserPanDetails()
+
+        panViewModel.userPanDetails.observe(this, androidx.lifecycle.Observer {
+            if (it.success) {
+                et_user_pan_name.setText(it.info!!.pan_name)
+                et_user_pan_number.setText(it.info.pan_num)
+                et_user_dob.text = it.info.dob
+                tv_upload_pan_img.visibility=View.GONE
+                iv_upload_pan_img.visibility=View.VISIBLE
+//                iv_upload_pan_img.loadURL(it.info.pan_pic_path)
+
+                Glide.with(this)
+                    .asBitmap()
+                    .load(it.info.pan_pic_path)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            panImage = resource
+                            iv_upload_pan_img.setImageBitmap(resource)
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+
+                        }
+                    })
+
+//                it.info.pan_status = Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code
+                when {
+                    it.info.pan_status == Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code -> {
+                        ll_pan_details.alpha = 0.6F
+                        tv_pan_verification_status.text = it.info.comments
+
+                        tv_pan_verification_status.visibility = View.VISIBLE
+                        btn_submit_pan.setBackgroundColor(Color.parseColor("#656565"))
+                        btn_submit_pan.text = "Submitted"
+                        et_user_pan_name.isEnabled = false
+                        et_user_pan_number.isEnabled = false
+                        et_user_dob.isEnabled = false
+                        iv_upload_pan_img.isEnabled = false
+                    }
+                    it.info.pan_status == Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
+
+                        et_user_dob.onOneClick {
+                            val time = SimpleDateFormat(
+                                "yyyy-MM-dd",
+                                Locale.US
+                            ).format(calendar.time)
+
+                            hideKeyboard()
+
+                            val datePickerDialog = DatePickerPopWin.Builder(
+                                this,
+                                DatePickerPopWin.OnDatePickedListener { year, month, day, dateDesc ->
+                                    calendar.set(Calendar.YEAR, year)
+                                    calendar.set(Calendar.MONTH, month - 1)
+                                    calendar.set(Calendar.DAY_OF_MONTH, day)
+
+                                    et_user_dob.text = dateFormat.format(calendar.time)
+                                    isEdited = true
+
+                                }).textConfirm("CONFIRM") //text of confirm button
+                                .textCancel("CANCEL") //text of cancel button
+                                .btnTextSize(16) // button text size
+                                .viewTextSize(40) // pick view text size
+                                .colorCancel(Color.parseColor("#999999")) //color of cancel button
+                                .colorConfirm(Color.parseColor("#009900"))//color of confirm button
+                                .minYear(Calendar.getInstance().get(Calendar.YEAR) - 100)
+                                .maxYear(
+                                    Calendar.getInstance().get(Calendar.YEAR) - 17
+                                ) // max year in loop
+                                .showDayMonthYear(true) // shows like dd mm yyyy (default is false)
+                                .dateChose(time) // date chose when init popwindow
+                                .build()
+
+                            datePickerDialog.showPopWin(this)
+                        }
+
+                        et_user_pan_number.addTextChangedListener {
+                            isEdited = true
+                        }
+
+                        et_user_pan_name.addTextChangedListener {
+                            isEdited = true
+                        }
+
+                        tv_pan_verification_status.visibility = View.VISIBLE
+                        tv_pan_verification_status.text = it.info.comments
+
+                        tv_pan_verification_status.setCompoundDrawablesWithIntrinsicBounds(
+                            R.drawable.ic_rejected_20,
+                            0,
+                            0,
+                            0
+                        )
+                        btn_submit_pan.text = "Re-Submit"
+                        btn_submit_pan.onOneClick {
+                            try {
+                                when {
+                                    !isEdited -> {
+                                        showSnack("Please update the data or upload a fresh image to re-submit")
+                                    }
+                                    et_user_pan_number.text.isEmpty() -> {
+                                        showSnack("Please Enter Your Pan Number")
+                                    }
+                                    et_user_pan_name.text.isEmpty() -> {
+                                        showSnack("Please Enter Your Pan Name")
+                                    }
+                                    et_user_dob.text.isEmpty() -> {
+                                        showSnack("Please Enter Your DOB")
+
+                                    }
+                                    panImage == null -> {
+                                        showSnack("Please Upload Your Pan Card Image to Proceed")
+                                    }
+                                    else -> {
+                                        showPanVerificationDialog()
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                    }
+                    else -> {
+                        ll_pan_details.alpha = 0.6F
+                        tv_pan_verification_status.visibility = View.VISIBLE
+                        tv_pan_verification_status.setCompoundDrawablesWithIntrinsicBounds(
+                            R.drawable.ic_approved_20,
+                            0,
+                            0,
+                            0
+                        )
+                        tv_pan_verification_status.text = it.info.comments
+                        btn_submit_pan.visibility = View.GONE
+                        et_user_pan_name.isEnabled = false
+                        et_user_pan_number.isEnabled = false
+                        et_user_dob.isEnabled = false
+                        iv_upload_pan_img.isEnabled = false
+
+                    }
+                }
+            }
+        })
+    }
+
+    private fun showPanVerificationDialog() {
+        val dialogView =
+            LayoutInflater.from(this).inflate(R.layout.pan_verification_result_dialog, null)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(dialogView)
+
+        val alertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.show()
+
+        panViewModel.submitPanDetails(
+            false,
+            panImage!!,
+            et_user_pan_name.text.toString(),
+            et_user_pan_number.text.toString(),
+            et_user_dob.text.toString()
+        ).observe(this, androidx.lifecycle.Observer {
+            if (it.success) {
+                val info = it.info.to<UploadedPanDetailsInfo>()
+                bitMap = panImage
+
+//                info.code = PANErrorCodes.VERIFICATION_SUCCESSFULLY.code
+
+                when (info.code) {
+                    PANErrorCodes.VERIFICATION_SUCCESSFULLY.code -> {
+                        dialogView.tv_verification_under_progress.visibility = View.GONE
+                        dialogView.tv_verifying.visibility = View.GONE
+                        dialogView.tv_successfully_verified.visibility = View.VISIBLE
+                        dialogView.tv_verified.visibility = View.VISIBLE
+                        dialogView.tv_verified.playAnimation()
+
+                        Handler().postDelayed({
+                            alertDialog.dismiss()
+                            finish()
+                            launchActivity<PanVerificationStatusActivity>()
+                        }, 2000)
+                    }
+                    PANErrorCodes.NOT_MATCHED.code -> {
+                        alertDialog.dismiss()
+
+                        launchActivity<PanImageNotClearActivity> {
+                            putExtra("ENTERED_USER_PAN_NAME", et_user_pan_name.text.toString())
+                            putExtra("ENTERED_USER_PAN_NUMBER", et_user_pan_number.text.toString())
+                            putExtra("ENTERED_USER_DOB", et_user_dob.text.toString())
+
+                            putExtra("DETECTED_USER_PAN_NAME", info.Name)
+                            putExtra("DETECTED_USER_PAN_NUMBER", info.Number)
+                            putExtra("DETECTED_USER_DOB", info.DOB)
+
+                            putExtra("resultReceiver", object : ResultReceiver(null) {
+                                override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+                                    if (resultCode == 100) {
+                                        finish()
+                                    }
+                                }
+                            })
+                        }
+                    }
+                    PANErrorCodes.IMG_NOT_CLEAR.code -> {
+                        alertDialog.dismiss()
+
+                        launchActivity<PanImageNotClearActivity> {
+                            putExtra("ENTERED_USER_PAN_NAME", et_user_pan_name.text.toString())
+                            putExtra("ENTERED_USER_PAN_NUMBER", et_user_pan_number.text.toString())
+                            putExtra("ENTERED_USER_DOB", et_user_dob.text.toString())
+                            putExtra("resultReceiver", object : ResultReceiver(null) {
+                                override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+                                    if (resultCode == 100) {
+                                        finish()
+                                    }
+                                }
+                            })
+                        }
+                    }
+                    else -> {
+                        alertDialog.dismiss()
+                        showSnack(it.description)
+                    }
+                }
+            } else {
+                alertDialog.dismiss()
+                showSnack(it.description)
+            }
+        })
+    }
+}

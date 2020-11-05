@@ -9,7 +9,7 @@
 
         <variable
             name="data"
-            type="com.gtgt.rummy.ui.offers.model.TotalScratchCards" />-->
+            type="com.gtgt.pokerjacks.ui.offers.model.TotalScratchCards" />-->
 
         <import type="android.view.View" />
     </data>

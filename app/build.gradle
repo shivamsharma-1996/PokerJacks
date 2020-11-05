@@ -45,13 +45,15 @@ android {
             resValue 'string', 'app_name', 'Dev PockerJacks'
 
             buildConfigField "String", "HOME_URL_PLATFORM", "\"http://35.154.18.89:8000/\""
+            buildConfigField "String", "HOME_URL_BONUS", "\"http://35.154.18.89:8002\""
         }
 
         production {
             versionName "1.0"
             resValue 'string', 'app_name', 'PockerJacks'
 
-            buildConfigField "String", "HOME_URL_PLATFORM", "\"https://api.rummyjacks.com/\""
+            buildConfigField "String", "HOME_URL_PLATFORM", "\"http://35.154.18.89:8000/\""
+            buildConfigField "String", "HOME_URL_BONUS", "\"http://35.154.18.89:8002\""
         }
     }
 

@@ -19,6 +19,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".ui.profile.verify_pan.PanImageNotClearActivity"></activity>
+        <activity android:name=".ui.profile.verify_pan.PanVerificationStatusActivity" />
         <activity android:name=".ui.profile.verify_address.AddressVerificationStatusActivity"></activity>
         <activity
             android:name=".ui.profile.profile.ChangeMPINActivity"
@@ -45,9 +47,9 @@
         <activity
             android:name=".ui.profile.update_name.UpdateNameActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="behind"
             android:theme="@style/Theme.Transparent"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="behind" />
         <activity
             android:name=".ui.splash_screen.SplashActivity"
             android:screenOrientation="portrait">

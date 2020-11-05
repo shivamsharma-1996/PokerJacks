@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/size_20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_10dp"
+        android:layout_marginEnd="@dimen/size_10dp"
+        android:background="@drawable/dark_bg_8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:text="PAN Verification"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_16sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_30dp"
+            android:layout_marginEnd="@dimen/size_30dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:src="@drawable/left_popup_img" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/right_popup_img" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/size_30dp"
+            android:layout_marginEnd="@dimen/size_30dp"
+            android:background="#5BF1F1F1" />
+
+
+        <TextView
+            android:id="@+id/tv_verification_under_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="44dp"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="Sit back and relax, system\n verification is goin on, it might take few moments"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_16sp" />
+
+        <TextView
+            android:id="@+id/tv_successfully_verified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="44dp"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="Yay! \nYour PAN has been successfully Verified!"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_16sp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/tv_manual_verification_submitted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="44dp"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="Your PAN has been successfully submitted for manual verification, it will usually take upto 24 hours for us to verify it. Please sit back and \nrelax!"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_16sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_verifying"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="66dp"
+            android:layout_marginEnd="44dp"
+            android:layout_marginBottom="80dp"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="Verifying…"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_16sp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/tv_verified"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="66dp"
+            android:layout_marginBottom="80dp"
+            android:visibility="gone"
+            app:lottie_fileName="tick_animation.json" />
+
+    </LinearLayout>
+
+</RelativeLayout>

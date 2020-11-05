@@ -1076,3 +1076,7 @@ fun View.isKeyboardOpenOrClose(callback: (Boolean) -> Unit) {
         }
     }
 }
+
+var bitMap: Bitmap? = null
+
+var emptyBitMap: Bitmap? = null
