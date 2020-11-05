@@ -4,9 +4,9 @@
 
     <data>
 
-        <!--<variable
+        <variable
             name="data"
-            type="com.gtgt.rummy.ui.offers.model.BonusCodes" />-->
+            type="com.gtgt.pokerjacks.ui.offers.model.BonusCodes" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

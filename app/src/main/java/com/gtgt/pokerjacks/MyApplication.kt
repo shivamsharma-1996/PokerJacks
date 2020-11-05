@@ -7,7 +7,9 @@ import android.content.SharedPreferences
 import android.os.StrictMode
 import androidx.lifecycle.LifecycleObserver
 import com.androidisland.vita.startVita
+import com.gtgt.pokerjacks.retrofit.ApiInterfaceBonus
 import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
+import com.gtgt.pokerjacks.retrofit.WebServicesBonus
 import com.gtgt.pokerjacks.retrofit.WebServicesPlatform
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -18,6 +20,7 @@ class MyApplication : Application(), LifecycleObserver, KodeinAware {
     override val kodein: Kodein = Kodein.lazy {
 
         bind() from singleton { WebServicesPlatform.retrofit.create(ApiInterfacePlatform::class.java) }
+        bind() from singleton { WebServicesBonus.retrofitBonusService.create(ApiInterfaceBonus::class.java) }
 
         bind() from singleton {
             this@MyApplication.applicationContext!!.getSharedPreferences(

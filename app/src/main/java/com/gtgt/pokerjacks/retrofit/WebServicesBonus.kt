@@ -1,7 +1,12 @@
 package com.gtgt.pokerjacks.retrofit
 
+import com.github.salomonbrys.kotson.get
+import com.github.salomonbrys.kotson.string
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
 import com.gtgt.pokerjacks.BuildConfig
+import com.gtgt.pokerjacks.extensions.getModel
+import com.gtgt.pokerjacks.extensions.log
 import com.gtgt.pokerjacks.extensions.retrieveString
 import com.gtgt.pokerjacks.retrofit.SocketFactory.sslSocketFactory
 import com.gtgt.pokerjacks.retrofit.SocketFactory.trustManager
@@ -12,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object WebServicesBonus {
-    const val baseUrlBonusService = BuildConfig.HOME_URL_PLATFORM
+    const val baseUrlBonusService = BuildConfig.HOME_URL_BONUS
 
     private val okhttpClient = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)
@@ -23,7 +28,7 @@ object WebServicesBonus {
             val original = chain.request()
 
             val request = original.newBuilder()
-                /*.addHeader(
+                .addHeader(
                     "Authorization",
                     getModel<JsonElement>("loginInfo")?.let {
                         if (BuildConfig.DEBUG) {
@@ -45,10 +50,12 @@ object WebServicesBonus {
                         else "Token " + it["token"].string
                     }
                         ?: ""
-                )*/
+                )
                 .addHeader("DeviceId", retrieveString("UNIQUE_ID"))
                 .method(original.method, original.body)
                 .build()
+
+            log("AddingAuth", "webServices")
 
             chain.proceed(request)
         }

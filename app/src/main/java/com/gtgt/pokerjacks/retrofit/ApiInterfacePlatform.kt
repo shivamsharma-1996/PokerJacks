@@ -15,6 +15,8 @@ import com.gtgt.pokerjacks.ui.profile.manage_account.model.GetVerification
 import com.gtgt.pokerjacks.ui.profile.profile.model.GetDepositeLimit
 import com.gtgt.pokerjacks.ui.profile.profile.model.UpdateDepositeLimit
 import com.gtgt.pokerjacks.ui.profile.profile.model.UserProfileDetails
+import com.gtgt.pokerjacks.ui.profile.verify_pan.model.PanDetails
+import com.gtgt.pokerjacks.ui.profile.vrify_email.model.UserPincodeDetails
 import com.gtgt.pokerjacks.ui.side_nav.refer_earn.model.GetReferralCode
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -165,5 +167,22 @@ interface ApiInterfacePlatform {
 
     @POST("userService/verifyEmail/")
     fun verifyEmail(@Body data: JsonElement): Call<UserProfileDetails>
+
+    @GET("userService/getUserPanInfo/")
+    fun getUserPanDetails(): Call<PanDetails>
+
+    @POST("userService/updateLocation/")
+    fun updatePincode(@Body jsonElement: JsonElement): Call<UserPincodeDetails>
+
+
+    @Multipart
+    @POST("userService/pandetails/")
+    fun uploadPanDetails(
+        @Part save_details: MultipartBody.Part,
+        @Part pan_pic_path: MultipartBody.Part,
+        @Part user_pan_name: MultipartBody.Part,
+        @Part pan_num: MultipartBody.Part,
+        @Part dob_date: MultipartBody.Part
+    ): Call<AnyModel>
 
 }

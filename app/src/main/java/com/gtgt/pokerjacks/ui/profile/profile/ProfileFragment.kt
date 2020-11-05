@@ -17,6 +17,7 @@ import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
 import com.gtgt.pokerjacks.ui.profile.suspend_account.ResponsibleGamingActivity
 import com.gtgt.pokerjacks.ui.profile.update_name.UpdateNameActivity
 import com.gtgt.pokerjacks.ui.profile.verify_address.VerifyAddressActivity
+import com.gtgt.pokerjacks.ui.profile.verify_pan.PanVerificationStatusActivity
 import com.gtgt.pokerjacks.ui.profile.verify_pan.VerifyPanActivity
 import com.gtgt.pokerjacks.ui.profile.vrify_email.VerifyEmailActivity
 import com.gtgt.pokerjacks.utils.Constants
@@ -164,11 +165,11 @@ class ProfileFragment : ImagePickFragment() {
                         btn_pan_verification.alpha = 1F
                         btn_start_verification.text = "Verify PAN"
                         btn_pan_verification.onOneClick {
-                            launchActivity<VerifyPanActivity>()
+                            launchActivity<PanVerificationStatusActivity>()
                         }
 
                         btn_start_verification.onOneClick {
-                            launchActivity<VerifyPanActivity>()
+                            launchActivity<PanVerificationStatusActivity>()
                         }
                     }
                     Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
@@ -177,11 +178,11 @@ class ProfileFragment : ImagePickFragment() {
                         btn_start_verification.text = "Verify PAN"
                         btn_pan_verification.alpha = 1F
                         btn_pan_verification.onOneClick {
-                            launchActivity<VerifyPanActivity>()
+                            launchActivity<PanVerificationStatusActivity>()
                         }
 
                         btn_start_verification.onOneClick {
-                            launchActivity<VerifyPanActivity>()
+                            launchActivity<PanVerificationStatusActivity>()
                         }
                     }
                     else -> {
@@ -189,7 +190,7 @@ class ProfileFragment : ImagePickFragment() {
                         iv_pan_verification_status.setImageResource(R.drawable.ic_approved)
                         btn_pan_verification.alpha = 1F
                         btn_pan_verification.onOneClick {
-                            launchActivity<VerifyPanActivity> { }
+                            launchActivity<PanVerificationStatusActivity> { }
                         }
 
                         when (it.isAddressVerified) {
