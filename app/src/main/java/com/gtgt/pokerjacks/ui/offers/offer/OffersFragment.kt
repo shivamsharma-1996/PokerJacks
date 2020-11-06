@@ -1,35 +1,28 @@
 package com.gtgt.pokerjacks.ui.offers.offer
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.launchActivity
 import com.gtgt.pokerjacks.extensions.onOneClick
-import com.gtgt.pokerjacks.extensions.toDecimalFormat
 import com.gtgt.pokerjacks.extensions.viewModel
 import com.gtgt.pokerjacks.ui.MainActivity
 import com.gtgt.pokerjacks.ui.offers.adapter.BonusOffersAdapter
 import com.gtgt.pokerjacks.ui.offers.adapter.ReferralsAdapter
-import com.gtgt.pokerjacks.ui.offers.adapter.ScratchCardsAdapter
 import com.gtgt.pokerjacks.ui.offers.bonus.AllBonusActivity
 import com.gtgt.pokerjacks.ui.offers.bonus.CouponsActivty
 import com.gtgt.pokerjacks.ui.offers.model.ReferralDataInfo
 import com.gtgt.pokerjacks.ui.offers.model.TotalScratchCards
 import com.gtgt.pokerjacks.ui.offers.referral.AllReferralsActivity
 import com.gtgt.pokerjacks.ui.offers.scratch_card.AllScratchCardActivity
-import com.gtgt.pokerjacks.ui.offers.scratch_card.ScratchCardActivity
 import com.gtgt.pokerjacks.ui.offers.viewModel.OffersViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bonus_info_popup.view.*
@@ -68,6 +61,7 @@ class OffersFragment : BaseFragment() {
 
         initUI()
     }
+
     private fun initUI() {
 
         rv_BonusCards.let {
@@ -96,9 +90,9 @@ class OffersFragment : BaseFragment() {
 
         tv_viewAllReferrals.onOneClick {
             launchActivity<AllReferralsActivity> {
-                /*referralDataInfo?.let {
+                referralDataInfo?.let {
                     putExtra("REFERRAL_DATA", it as Serializable)
-                }*/
+                }
             }
         }
 
