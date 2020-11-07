@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_16dp"
-            android:drawableStart="@drawable/ic_in_process_blue"
+            android:drawableStart="@drawable/ic_in_process_20dp"
             android:drawablePadding="@dimen/size_8dp"
             android:fontFamily="@font/proximanova_regular"
             android:text="Oops! Image is not clear for recognition"

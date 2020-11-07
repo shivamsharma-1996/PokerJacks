@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.gtgt.pokerjacks.MyApplication
 import com.gtgt.pokerjacks.retrofit.ApiInterfaceBonus
 import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
+import com.gtgt.pokerjacks.retrofit.ApiInterfacePlayWallet
+import com.gtgt.pokerjacks.retrofit.ApiInterfaceWallet
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -16,4 +18,6 @@ abstract class BaseViewModel : ViewModel(), KodeinAware {
     var context: Context? = null
     protected val apiServicesPlatform: ApiInterfacePlatform by instance()
     protected val apiInterfaceBonus: ApiInterfaceBonus by instance()
+    protected val apiInterfaceWallet: ApiInterfaceWallet by instance()
+    protected val apiServicesPlayWallet: ApiInterfacePlayWallet by instance()
 }

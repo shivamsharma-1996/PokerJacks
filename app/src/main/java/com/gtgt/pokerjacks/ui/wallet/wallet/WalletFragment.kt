@@ -1,15 +1,20 @@
 package com.gtgt.pokerjacks.ui.wallet.wallet
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.launchActivity
 import com.gtgt.pokerjacks.extensions.onOneClick
+import com.gtgt.pokerjacks.extensions.toDecimalFormat
+import com.gtgt.pokerjacks.extensions.viewModel
 import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.offers.bonus.CouponsActivty
 import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.BonusDistributionActivity
 import com.gtgt.pokerjacks.ui.wallet.recent_transaction.RecentTransactionsActivity
 import com.gtgt.pokerjacks.ui.wallet.withdraw.WithdrawActivity
@@ -21,8 +26,9 @@ class WalletFragment : BaseFragment() {
 
     private var isExpanded = false
 
-    //    private val viewModel: WalletViewModel by store()
-//    private val paymentViewModel: PaymentViewModel by viewModel()
+    private val viewModel: WalletViewModel by viewModel()
+
+    //        private val paymentViewModel: PaymentViewModel by viewModel()
 //    private val offersViewModel: OffersViewModel by viewModel()
     private val REQUESTCODE_PROMO = 101
     private val REQUESTCODE_PAYMENT = 2
@@ -43,10 +49,41 @@ class WalletFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_wallet, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initUI()
+
+        viewModel.getWalletDetailsByToken()
+        viewModel.walletDetailsResponse.observe(viewLifecycleOwner, Observer {
+            if (it.success) {
+                tv_totalBalance.text =
+                    "${getString(R.string.ruppe)}${(it.info.deposits + it.info.winnings + it.info.bonus).toDecimalFormat()}"
+                tv_unUtilizedCash.text =
+                    "${getString(R.string.ruppe)}${it.info.deposits.toDecimalFormat()}"
+                tv_winnings.text =
+                    "${getString(R.string.ruppe)}${it.info.winnings.toDecimalFormat()}"
+                userWinningsAmt = it.info.winnings.toDecimalFormat()
+                winningAmt = it.info.winnings
+                tv_usableBonus.text =
+                    "${getString(R.string.ruppe)}${it.info.bonus.toDecimalFormat()}"
+            }
+        })
+//
+//        paymentViewModel.createPaymentResponse.observe(viewLifecycleOwner, Observer {
+//            if (it.success) {
+//                launchActivity<PaytmPayment>(requestCode = REQUESTCODE_PAYMENT) {
+//                    putExtra("TOKEN_DATA", it.info as Serializable)
+//                }
+//            }
+//        })
+//
+//        paymentViewModel.paymentStatus.observe(viewLifecycleOwner, Observer {
+//            it.info?.status?.let { it1 -> showToast(it1) }
+//            viewModel.getWalletDetailsByToken()
+//        })
+
     }
 
     private fun initUI() {

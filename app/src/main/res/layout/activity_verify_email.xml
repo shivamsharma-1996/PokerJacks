@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_16dp"
-            android:drawableStart="@drawable/ic_approved_blue"
+            android:drawableStart="@drawable/ic_approved_20dp"
             android:drawablePadding="@dimen/size_12dp"
             android:text="Your Email had been successfully verified"
             android:textColor="@android:color/white"

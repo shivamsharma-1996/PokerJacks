@@ -17,7 +17,7 @@
     <string name="refer_notes">1. You earn upto ₹5000 for Every Friend you refer.\n\n2. Whenever your friend adds Cash on RummyJacks, a percentage of such amount gets added to your \'Issued Bonus\' Account. Maximum Bonus amount is restricted to ₹4500\n\n3. If your friend successfully gets his KYC verified, you\'ll get an additional bonus of ₹500.\n\n4. You may refer a maximum of 20 Friends &amp; earn upto ₹1,00,000</string>
     <string name="tc">By joining this contest, you accept RummyJacks’s T&amp;C(view T&amp;C) and confirm that you are not a resident of Assam, Odisha, Sikkim, Telangana or Nagaland</string>
 
-
+    <string name="ruppe">₹</string>
     <string name="lbl_set_profile_photo">Set profile image</string>
     <string name="lbl_take_camera_picture">Take a picture</string>
     <string name="lbl_choose_from_gallery">Choose from gallery</string>

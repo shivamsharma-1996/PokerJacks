@@ -165,7 +165,7 @@ class ProfileFragment : ImagePickFragment() {
                         btn_pan_verification.alpha = 1F
                         btn_start_verification.text = "Verify PAN"
                         btn_pan_verification.onOneClick {
-                            launchActivity<PanVerificationStatusActivity>()
+                            launchActivity<VerifyAddressActivity>()
                         }
 
                         btn_start_verification.onOneClick {

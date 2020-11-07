@@ -7,10 +7,7 @@ import android.content.SharedPreferences
 import android.os.StrictMode
 import androidx.lifecycle.LifecycleObserver
 import com.androidisland.vita.startVita
-import com.gtgt.pokerjacks.retrofit.ApiInterfaceBonus
-import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
-import com.gtgt.pokerjacks.retrofit.WebServicesBonus
-import com.gtgt.pokerjacks.retrofit.WebServicesPlatform
+import com.gtgt.pokerjacks.retrofit.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.bind
@@ -21,6 +18,8 @@ class MyApplication : Application(), LifecycleObserver, KodeinAware {
 
         bind() from singleton { WebServicesPlatform.retrofit.create(ApiInterfacePlatform::class.java) }
         bind() from singleton { WebServicesBonus.retrofitBonusService.create(ApiInterfaceBonus::class.java) }
+        bind() from singleton { WebServicesBonus.retrofitBonusService.create(ApiInterfaceWallet::class.java) }
+        bind() from singleton { WebServicesBonus.retrofitBonusService.create(ApiInterfacePlayWallet::class.java) }
 
         bind() from singleton {
             this@MyApplication.applicationContext!!.getSharedPreferences(

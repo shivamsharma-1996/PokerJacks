@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.gtgt.pokerjacks.MyApplication
 import com.gtgt.pokerjacks.retrofit.ApiInterfaceBonus
 import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
+import com.gtgt.pokerjacks.retrofit.ApiInterfaceWallet
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
