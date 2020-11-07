@@ -38,8 +38,8 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_12sp"
+                android:text="@{data.userName}"
                 tools:text="Chakri_Abhi" />
-            <!--android:text="@{data.userName}"-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -48,8 +48,8 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_12sp"
+                android:text="@{data.maskMobile}"
                 tools:text="*******854" />
-            <!--android:text="@{data.maskMobile}"-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,8 +60,8 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_12sp"
+                android:text="@{data.amountFormated}"
                 tools:text="₹1500" />
-            <!--android:text="@{data.amountFormated}"-->
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

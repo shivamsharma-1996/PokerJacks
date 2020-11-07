@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.gtgt.pokerjacks.ui.offers.model.BonusCodes" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="174dp"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/fl_bonusOfferCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/size_6dp"
+                android:background="@drawable/blue_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/size_8dp"
+                        android:layout_marginTop="@dimen/size_4dp"
+                        android:layout_marginBottom="@dimen/size_8dp"
+                        android:fontFamily="@font/sf_regular"
+                        android:includeFontPadding="false"
+                        android:text="@{data.bonus_name}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp"
+                        tools:text="Seasonal Card" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/size_8dp"
+                        android:layout_marginTop="@dimen/size_8dp"
+                        android:fontFamily="@font/sf_regular"
+                        android:includeFontPadding="false"
+                        android:text="@{data.bonus_description1}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_18sp"
+                        tools:text="Add 10,000 or more and get\nCashback of 6,000" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/size_8dp"
+                    android:layout_marginEnd="@dimen/size_8dp"
+                    android:layout_marginBottom="@dimen/size_8dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="start"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/size_4dp"
+                            android:fontFamily="@font/sf_regular"
+                            android:includeFontPadding="false"
+                            android:text="Cashback"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sf_semibold"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.2"
+                            android:text="@{data.fomatted_max_cashback}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_20sp"
+                            tools:text="₹6,000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/size_4dp"
+                            android:fontFamily="@font/sf_regular"
+                            android:includeFontPadding="false"
+                            android:text="Code"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proxima_nova_semibold"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.2"
+                            android:text="@{data.bonus_code}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_20sp"
+                            tools:text="YR2020" />
+                    </LinearLayout>
+                </FrameLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="110dp"
+                android:layout_height="@dimen/size_50dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/size_4dp"
+                android:background="@drawable/ic_bonus_badge">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/sf_regular"
+                        android:includeFontPadding="false"
+                        android:text="@{data.cashback_percent+`%`}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_18sp"
+                        tools:text="60%" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/sf_regular"
+                        android:includeFontPadding="false"
+                        android:text="Cashback"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_12sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_bonus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:layout_marginEnd="@dimen/size_16dp"
+            android:drawablePadding="@dimen/size_4dp"
+            android:fontFamily="@font/sf_regular"
+            android:includeFontPadding="false"
+            android:text="View More"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp"
+            app:drawableEndCompat="@drawable/ic_more_white" />
+
+        <TextView
+            android:id="@+id/tv_bonusDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:fontFamily="@font/sf_regular"
+            android:includeFontPadding="false"
+            android:textColor="#f1f1f1"
+            android:textSize="@dimen/text_16sp"
+            android:visibility="gone"
+            tools:text="1. Offer valid till 30th June, 2020 12:30
+        2. Offer valid twice per user
+        3. Offer is valid on all payment modes
+        4. Offer valid on a minimum deposit of Rs.100/-
+        5. Other T&amp;C’s may apply" />
+    </LinearLayout>
+</layout>
