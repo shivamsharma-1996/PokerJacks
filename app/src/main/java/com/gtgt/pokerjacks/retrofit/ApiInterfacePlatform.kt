@@ -15,6 +15,9 @@ import com.gtgt.pokerjacks.ui.profile.manage_account.model.GetVerification
 import com.gtgt.pokerjacks.ui.profile.profile.model.GetDepositeLimit
 import com.gtgt.pokerjacks.ui.profile.profile.model.UpdateDepositeLimit
 import com.gtgt.pokerjacks.ui.profile.profile.model.UserProfileDetails
+import com.gtgt.pokerjacks.ui.profile.verify_address.UploadedDocumentDetails
+import com.gtgt.pokerjacks.ui.profile.verify_address.UserDocumentDetails
+import com.gtgt.pokerjacks.ui.profile.verify_address.UserLocationDetails
 import com.gtgt.pokerjacks.ui.profile.verify_pan.model.PanDetails
 import com.gtgt.pokerjacks.ui.profile.vrify_email.model.UserPincodeDetails
 import com.gtgt.pokerjacks.ui.side_nav.refer_earn.model.GetReferralCode
@@ -167,6 +170,53 @@ interface ApiInterfacePlatform {
 
     @POST("userService/verifyEmail/")
     fun verifyEmail(@Body data: JsonElement): Call<UserProfileDetails>
+
+    @POST("userService/updateLocation/")
+    fun updateLocation(@Body jsonElement: JsonElement): Call<UserLocationDetails>
+
+    @Multipart
+    @POST("userService/uploadDocuments/")
+    fun uploadMultipleDocuments(
+        @Part pinCode: MultipartBody.Part,
+        @Part userId: MultipartBody.Part,
+        @Part file1: MultipartBody.Part,
+        @Part file2: MultipartBody.Part?,
+        @Part doctype: MultipartBody.Part
+    ): Call<UploadedDocumentDetails>
+
+    @Multipart
+    @POST("userService/uploadDocuments/")
+    fun uploadSingleDocument(
+        @Part pinCode: MultipartBody.Part,
+        @Part userId: MultipartBody.Part,
+        @Part file1: MultipartBody.Part,
+        @Part doctype: MultipartBody.Part
+    ): Call<UploadedDocumentDetails>
+
+    @Multipart
+    @POST("userService/uploadDocuments/")
+    fun uploadMultipleDocumentsWithDocId(
+        @Part doc_id: MultipartBody.Part,
+        @Part pinCode: MultipartBody.Part,
+        @Part userId: MultipartBody.Part,
+        @Part file1: MultipartBody.Part,
+        @Part file2: MultipartBody.Part?,
+        @Part doctype: MultipartBody.Part
+    ): Call<UploadedDocumentDetails>
+
+    @Multipart
+    @POST("userService/uploadDocuments/")
+    fun uploadSingleDocumentWithDocId(
+        @Part doc_id: MultipartBody.Part,
+        @Part pinCode: MultipartBody.Part,
+        @Part userId: MultipartBody.Part,
+        @Part file1: MultipartBody.Part,
+        @Part doctype: MultipartBody.Part
+    ): Call<UploadedDocumentDetails>
+
+    @POST("userService/checkAddressDetails/")
+    fun getUserDocumentDetails(): Call<UserDocumentDetails>
+
 
     @GET("userService/getUserPanInfo/")
     fun getUserPanDetails(): Call<PanDetails>
