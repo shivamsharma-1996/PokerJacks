@@ -4,23 +4,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.gtgt.pokerjacks.R
-import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.onOneClick
 import com.gtgt.pokerjacks.extensions.toDecimalFormat
 import com.gtgt.pokerjacks.ui.offers.adapter.AllReferralsAdapter
 import com.gtgt.pokerjacks.ui.offers.model.ReferralDataInfo
 import kotlinx.android.synthetic.main.activity_all_referrals.*
 
-class AllReferralsActivity : BaseActivity() {
+class AllReferralsActivity : AppCompatActivity() {
 
     private val allReferralsAdapter by lazy { AllReferralsAdapter(this) }
     private val referralDataInfo by lazy { intent.getSerializableExtra("REFERRAL_DATA") as List<ReferralDataInfo>? }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_referrals)
-
-        supportActionBar?.hide()
 
         rv_allReferrals.adapter = allReferralsAdapter
 

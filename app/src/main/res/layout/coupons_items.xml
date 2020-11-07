@@ -3,9 +3,9 @@
 
     <data>
 
-        <!--<variable
+        <variable
             name="data"
-            type="com.gtgt.pokerjacks.ui.offers.model.BonusCodes" />-->
+            type="com.gtgt.pokerjacks.ui.offers.model.BonusCodes" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,8 +38,8 @@
                     android:includeFontPadding="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_16sp"
+                    android:text="@{data.bonus_name}"
                     tools:text="Seasonal Card" />
-                <!--android:text="@{data.bonus_name}"-->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -50,8 +50,8 @@
                     android:includeFontPadding="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_16sp"
+                    android:text="@{data.bonus_description1}"
                     tools:text="Add 10,000 or more and get\nCashback of 6,000" />
-                <!--android:text="@{`Add `+data.min_deposit_amount+` or more and get\nCashback of `+data.max_cashback}"-->
             </LinearLayout>
 
             <RelativeLayout
@@ -82,12 +82,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/sf_regular"
+                        android:fontFamily="@font/proxima_nova_semibold"
                         android:includeFontPadding="false"
+                        android:letterSpacing="0.2"
+                        android:text="@{data.fomatted_max_cashback}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_16sp"
                         tools:text="6,000" />
-                    <!--android:text="@{String.valueOf(data.max_cashback)}"-->
                 </LinearLayout>
 
                 <LinearLayout
@@ -102,12 +103,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/sf_regular"
+                        android:fontFamily="@font/proxima_nova_semibold"
                         android:includeFontPadding="false"
+                        android:letterSpacing="0.2"
+                        android:text="@{data.bonus_code}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_12sp"
                         tools:text="YR2020" />
-                    <!--android:text="@{data.bonus_code}"-->
 
                     <Button
                         android:id="@+id/btn_applyCoupon"
@@ -149,8 +151,8 @@
                     android:includeFontPadding="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_16sp"
+                    android:text="@{data.cashback_percent+`%`}"
                     tools:text="60%" />
-                <!--android:text="@{data.cashback_percent+`%`}"-->
 
                 <TextView
                     android:layout_width="wrap_content"
