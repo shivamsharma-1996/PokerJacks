@@ -18,7 +18,7 @@ class WalletViewModel : BaseViewModel() {
     val playWalletDetailsResponse: LiveData<Double> = _playWalletDetailsResponse
 
     fun getWalletDetailsByToken(callback: ((Double) -> Unit)? = null) {
-        apiInterfaceWallet.getWalletDetailsByToken().execute(activity, true) {
+        apiServicesWallet.getWalletDetailsByToken().execute(activity, true) {
             _walletDetailsResponse.value = it
             if (it.success) {
                 callback?.invoke(it.info.total)

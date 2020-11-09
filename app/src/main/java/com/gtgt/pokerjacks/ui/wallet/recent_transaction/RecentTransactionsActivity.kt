@@ -1,5 +1,7 @@
 package com.gtgt.pokerjacks.ui.wallet.recent_transaction
 
+import android.graphics.Color
+import android.graphics.Color.green
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,21 +9,23 @@ import android.widget.CheckBox
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
-import com.gtgt.pokerjacks.extensions.onOneClick
+import com.gtgt.pokerjacks.extensions.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import kotlinx.android.synthetic.main.transaction_filter_layout.view.*
 
 class RecentTransactionsActivity : BaseActivity() {
-    /*private val transactionsAdapter by lazy {
+    private val transactionsAdapter by lazy {
         RecentTransactionsAdapter(this,
             onItemClicked = { recentTransactionInfo ->
-                launchActivity<RecentTransactionDetailsActivity> {
-                    putExtra("recentTransactionInfo", recentTransactionInfo as Serializable)
-                }
+//                launchActivity<RecentTransactionDetailsActivity> {
+//                    putExtra("recentTransactionInfo", recentTransactionInfo as Serializable)
+//                }
+                showToast(recentTransactionInfo.amount)
             })
     }
 
-    private val viewModel: RecentTransactionsViewModel by viewModel()*/
+    private val viewModel: RecentTransactionsViewModel by viewModel()
+
 
     private var cacheFilterList = mutableSetOf<String>()
     private var filters = mutableListOf<String>()
@@ -46,6 +50,8 @@ class RecentTransactionsActivity : BaseActivity() {
         setContentView(R.layout.activity_recent_transactions)
 
         initUI()
+
+        getFilterList()
     }
 
     private fun initUI() {
@@ -53,8 +59,8 @@ class RecentTransactionsActivity : BaseActivity() {
             onBackPressed()
         }
 
-        tv_commonTitle.text="Recent Transactions"
-        tv_filter.visibility=View.VISIBLE
+        tv_commonTitle.text = "Recent Transactions"
+        tv_filter.visibility = View.VISIBLE
 
         tv_filter.onOneClick {
             val selectedFilters = cacheFilterList.map { it }.toMutableSet()
@@ -72,7 +78,7 @@ class RecentTransactionsActivity : BaseActivity() {
 
             val checkboxes = mutableListOf<CheckBox>()
 
-            /*filters.forEach { name ->
+            filters.forEach { name ->
                 val cb = CheckBox(this)
                 dialogView.ll_filters.addView(cb)
 
@@ -110,7 +116,7 @@ class RecentTransactionsActivity : BaseActivity() {
                 viewModel.getWalletTransactionDetails(cacheFilterList.toList())
 
                 dialog.dismiss()
-            }*/
+            }
 
             dialog.show()
         }

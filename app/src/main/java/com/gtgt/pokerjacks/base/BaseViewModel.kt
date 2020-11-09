@@ -18,6 +18,6 @@ abstract class BaseViewModel : ViewModel(), KodeinAware {
     var context: Context? = null
     protected val apiServicesPlatform: ApiInterfacePlatform by instance()
     protected val apiInterfaceBonus: ApiInterfaceBonus by instance()
-    protected val apiInterfaceWallet: ApiInterfaceWallet by instance()
+    protected val apiServicesWallet: ApiInterfaceWallet by instance()
     protected val apiServicesPlayWallet: ApiInterfacePlayWallet by instance()
 }
