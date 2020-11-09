@@ -28,7 +28,7 @@ class WalletFragment : BaseFragment() {
 
     private val viewModel: WalletViewModel by viewModel()
 
-    //        private val paymentViewModel: PaymentViewModel by viewModel()
+//            private val paymentViewModel: PaymentViewModel by viewModel()
 //    private val offersViewModel: OffersViewModel by viewModel()
     private val REQUESTCODE_PROMO = 101
     private val REQUESTCODE_PAYMENT = 2
