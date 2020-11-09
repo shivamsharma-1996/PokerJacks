@@ -46,6 +46,7 @@ android {
 
             buildConfigField "String", "HOME_URL_PLATFORM", "\"http://35.154.18.89:8000/\""
             buildConfigField "String", "HOME_URL_BONUS", "\"http://35.154.18.89:8002\""
+            buildConfigField "String", "HOME_URL_WALLET", "\"http://35.154.18.89:8001/\""
         }
 
         production {
