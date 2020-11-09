@@ -1,5 +1,6 @@
 package com.gtgt.pokerjacks.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -32,6 +33,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private val sideNavFragment by lazy { SideNavFragment() }
     private var selectedScreen = 2
     private var number_of_clicks = 0
+    var appliedPromoIntent: Intent? = null
+    var popupBonusCode: String = ""
     val fadeout: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_out) }
     val fadeIn: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_in) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +86,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 if (!nav3.isSelected) {
                     nav3.startAnimation(fadeout)
                     nav3.startAnimation(fadeIn)
+
+                    if (appliedPromoIntent != null) {
+                        appliedPromoIntent = null
+                        walletFragment.clearAppliedPromoCode()
+                    }
                     onWalletClicked()
                 }
             }

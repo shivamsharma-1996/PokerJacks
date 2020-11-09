@@ -226,8 +226,8 @@ class OffersFragment : BaseFragment() {
     }
 
     private fun applyPromoCode(it: Intent) {
-//        (context as MainActivity).appliedPromoIntent = it
-//        (context as MainActivity).onWalletClicked()
+        (context as MainActivity).appliedPromoIntent = it
+        (context as MainActivity).onWalletClicked()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
