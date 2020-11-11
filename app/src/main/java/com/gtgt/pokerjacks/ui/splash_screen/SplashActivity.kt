@@ -84,16 +84,16 @@ class SplashActivity : BaseActivity() {
             }
         })
 
-        Handler().postDelayed({
+        /*Handler().postDelayed({
             navigateToNextScreen()
-        }, 1000)
+        }, 1000)*/
     }
 
     fun navigateToNextScreen() {
         Handler().postDelayed({
             if (retrieveBoolean("IS_USER_LOGIN")) {
                 launchActivity<EnterMpinOrTouchIdActivity> { }
-                launchActivity<HomeActivity> { }
+//                launchActivity<HomeActivity> { }
             } else {
                 launchActivity<RegistrationActivity> { }
             }

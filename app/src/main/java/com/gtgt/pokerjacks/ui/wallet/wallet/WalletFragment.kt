@@ -25,6 +25,7 @@ import com.gtgt.pokerjacks.ui.wallet.withdraw.view.WithdrawActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import kotlinx.android.synthetic.main.toolbar_layout_nav.*
+import java.io.Serializable
 import kotlin.math.roundToInt
 
 class WalletFragment : BaseFragment() {
