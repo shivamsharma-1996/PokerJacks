@@ -19,6 +19,7 @@ class MyApplication : Application(), LifecycleObserver, KodeinAware {
         bind() from singleton { WebServicesPlatform.retrofit.create(ApiInterfacePlatform::class.java) }
         bind() from singleton { WebServicesBonus.retrofitBonusService.create(ApiInterfaceBonus::class.java) }
         bind() from singleton { WebServicesWallet.retrofitWalletService.create(ApiInterfaceWallet::class.java) }
+        bind() from singleton { WebServicesUpdate.retrofit.create(ApiInterfaceUpdate::class.java) }
         //        bind() from singleton { WebServicesBonus.retrofitBonusService.create(ApiInterfacePlayWallet::class.java) }
 
         bind() from singleton {

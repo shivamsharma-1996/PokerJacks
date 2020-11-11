@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.*
-import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.HomeActivity
 import com.gtgt.pokerjacks.ui.lobby.HomeViewModel
 import com.gtgt.pokerjacks.ui.login.view.RegistrationActivity
 import com.gtgt.pokerjacks.ui.offers.bonus.AllBonusActivity
@@ -73,7 +73,7 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
 
         openProfile.onOneClick {
             activity?.onBackPressed()
-            (activity as MainActivity).onProfileClicked()
+            (activity as HomeActivity).onProfileClicked()
         }
 
         /*profileViewModel.userProfileInfo.observe(viewLifecycleOwner, Observer {

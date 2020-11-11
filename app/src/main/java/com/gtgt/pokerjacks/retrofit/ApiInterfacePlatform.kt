@@ -21,6 +21,7 @@ import com.gtgt.pokerjacks.ui.profile.verify_address.UserLocationDetails
 import com.gtgt.pokerjacks.ui.profile.verify_pan.model.PanDetails
 import com.gtgt.pokerjacks.ui.profile.vrify_email.model.UserPincodeDetails
 import com.gtgt.pokerjacks.ui.side_nav.refer_earn.model.GetReferralCode
+import com.gtgt.pokerjacks.ui.splash_screen.CheckUpdateResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -234,5 +235,6 @@ interface ApiInterfacePlatform {
         @Part pan_num: MultipartBody.Part,
         @Part dob_date: MultipartBody.Part
     ): Call<AnyModel>
+
 
 }

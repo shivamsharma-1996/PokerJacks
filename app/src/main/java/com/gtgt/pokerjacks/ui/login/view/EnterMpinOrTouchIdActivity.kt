@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.*
-import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.HomeActivity
 import com.gtgt.pokerjacks.ui.login.viewModel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_enter_mpin_or_touchid.*
 import kotlinx.android.synthetic.main.activity_enter_mpin_or_touchid.content
@@ -64,7 +64,7 @@ class EnterMpinOrTouchIdActivity : BaseActivity(), PopupMenu.OnMenuItemClickList
             if (it.success) {
                 putModel("loginInfo", it.info)
                 if (isManual) putPermanentString("MPIN", enter_mpin.text.toString())
-                launchActivity<MainActivity> { }
+                launchActivity<HomeActivity> { }
                 finishAffinity()
             } else {
                 it.description?.let { it1 -> showSnack(it1) }
