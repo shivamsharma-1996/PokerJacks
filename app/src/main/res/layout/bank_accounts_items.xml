@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.gtgt.pokerjacks.ui.profile.manage_account.model.GetBankDetailsInfo" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/size_12dp"
+        android:background="@drawable/gray_border"
+        android:padding="@dimen/size_12dp">
+
+        <RadioButton
+            android:id="@+id/rb_accounts"
+            android:layout_width="@dimen/size_20dp"
+            android:layout_height="@dimen/size_20dp"
+            android:button="@drawable/radio_button_selector" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_12dp"
+            android:layout_marginTop="@dimen/size_2dp"
+            android:layout_toStartOf="@id/iv_account"
+            android:layout_toEndOf="@id/rb_accounts"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:fontFamily="@font/proximanova_regular"
+                android:includeFontPadding="false"
+                android:text="@{data.bank_name}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp"
+                tools:text="ICICI Bank" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proximanova_regular"
+                android:includeFontPadding="false"
+                android:text="@{data.formattedAccNumber}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp"
+                tools:text="******3550" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_account"
+            android:layout_width="@dimen/size_28dp"
+            android:layout_height="@dimen/size_28dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/size_16dp"
+            android:src="@drawable/bank_icon" />
+    </RelativeLayout>
+</layout>

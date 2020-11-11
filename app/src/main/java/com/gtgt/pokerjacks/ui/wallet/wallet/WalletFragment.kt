@@ -17,9 +17,11 @@ import com.gtgt.pokerjacks.ui.offers.bonus.AllBonusActivity
 import com.gtgt.pokerjacks.ui.offers.bonus.CouponsActivty
 import com.gtgt.pokerjacks.ui.offers.scratch_card.AllScratchCardActivity
 import com.gtgt.pokerjacks.ui.offers.viewModel.OffersViewModel
+import com.gtgt.pokerjacks.ui.payment.view.PaytmPayment
+import com.gtgt.pokerjacks.ui.payment.viewModel.PaymentViewModel
 import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.BonusDistributionActivity
 import com.gtgt.pokerjacks.ui.wallet.recent_transaction.RecentTransactionsActivity
-import com.gtgt.pokerjacks.ui.wallet.withdraw.WithdrawActivity
+import com.gtgt.pokerjacks.ui.wallet.withdraw.view.WithdrawActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import kotlinx.android.synthetic.main.toolbar_layout_nav.*
@@ -30,7 +32,7 @@ class WalletFragment : BaseFragment() {
 
     private val viewModel: WalletViewModel by viewModel()
     private var isExpanded = false
-//    private val paymentViewModel: PaymentViewModel by store()
+    private val paymentViewModel: PaymentViewModel by store()
     private val offersViewModel: OffersViewModel by viewModel()
     private val REQUESTCODE_PROMO = 101
     private val REQUESTCODE_PAYMENT = 2
@@ -84,7 +86,7 @@ class WalletFragment : BaseFragment() {
             }
         })
 
-        /*paymentViewModel.createPaymentResponse.observe(viewLifecycleOwner, Observer {
+        paymentViewModel.createPaymentResponse.observe(viewLifecycleOwner, Observer {
             if (it.success) {
                 launchActivity<PaytmPayment>(requestCode = REQUESTCODE_PAYMENT) {
                     putExtra("TOKEN_DATA", it.info as Serializable)
@@ -95,7 +97,7 @@ class WalletFragment : BaseFragment() {
         paymentViewModel.paymentStatus.observe(viewLifecycleOwner, Observer {
             it.info?.status?.let { it1 -> showToast(it1) }
             viewModel.getWalletDetailsByToken()
-        })*/
+        })
 
         et_addMoney.afterTextChanged {
             if (bonus_config_id.isNotEmpty()) {
@@ -170,7 +172,9 @@ class WalletFragment : BaseFragment() {
                         getPaymentToken()
                 }
             }*/
-            context?.showComingSoonDialog {  }
+//            context?.showComingSoonDialog {  }
+            if (et_addMoney.text.toString().isNotEmpty())
+                getPaymentToken()
         }
 
         btn_amount1.onOneClick {
@@ -214,7 +218,7 @@ class WalletFragment : BaseFragment() {
     }
 
     private fun getPaymentToken() {
-        /*if (bonus_config_id == "") {
+        if (bonus_config_id == "") {
             paymentViewModel.createPayment(
                 amount = et_addMoney.text.toString(),
                 promocode = null
@@ -224,7 +228,7 @@ class WalletFragment : BaseFragment() {
                 amount = et_addMoney.text.toString(),
                 promocode = bonus_config_id
             )
-        }*/
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
