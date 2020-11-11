@@ -21,6 +21,8 @@ class MyApplication : Application(), LifecycleObserver, KodeinAware {
         bind() from singleton { WebServicesWallet.retrofitWalletService.create(ApiInterfaceWallet::class.java) }
         bind() from singleton { WebServicesLocation.retrofit.create(ApiInterfaceLocation::class.java) }
         bind() from singleton { WebServicesPayment.retrofit.create(ApiInterfacePayment::class.java) }
+        bind() from singleton { WebServicesUpdate.retrofit.create(ApiInterfaceUpdate::class.java) }
+        //        bind() from singleton { WebServicesBonus.retrofitBonusService.create(ApiInterfacePlayWallet::class.java) }
 
         bind() from singleton {
             this@MyApplication.applicationContext!!.getSharedPreferences(

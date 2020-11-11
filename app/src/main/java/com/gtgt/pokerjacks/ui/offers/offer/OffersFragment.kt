@@ -19,7 +19,7 @@ import com.gtgt.pokerjacks.extensions.launchActivity
 import com.gtgt.pokerjacks.extensions.onOneClick
 import com.gtgt.pokerjacks.extensions.toDecimalFormat
 import com.gtgt.pokerjacks.extensions.viewModel
-import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.HomeActivity
 import com.gtgt.pokerjacks.ui.offers.adapter.BonusOffersAdapter
 import com.gtgt.pokerjacks.ui.offers.adapter.ReferralsAdapter
 import com.gtgt.pokerjacks.ui.offers.adapter.ScratchCardsAdapter
@@ -150,7 +150,7 @@ class OffersFragment : BaseFragment() {
         }
 
         iv_hb.onOneClick {
-            (activity as MainActivity).drawer_layout.openDrawer(GravityCompat.START)
+            (activity as HomeActivity).drawer_layout.openDrawer(GravityCompat.START)
         }
 
         tv_viewAllSC.onOneClick {
@@ -226,8 +226,8 @@ class OffersFragment : BaseFragment() {
     }
 
     private fun applyPromoCode(it: Intent) {
-        (context as MainActivity).appliedPromoIntent = it
-        (context as MainActivity).onWalletClicked()
+        (context as HomeActivity).appliedPromoIntent = it
+        (context as HomeActivity).onWalletClicked()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

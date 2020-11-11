@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.*
-import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.HomeActivity
 import com.gtgt.pokerjacks.ui.offers.bonus.AllBonusActivity
 import com.gtgt.pokerjacks.ui.offers.bonus.CouponsActivty
 import com.gtgt.pokerjacks.ui.offers.scratch_card.AllScratchCardActivity
@@ -25,7 +25,6 @@ import com.gtgt.pokerjacks.ui.wallet.withdraw.view.WithdrawActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import kotlinx.android.synthetic.main.toolbar_layout_nav.*
-import java.io.Serializable
 import kotlin.math.roundToInt
 
 class WalletFragment : BaseFragment() {
@@ -154,7 +153,7 @@ class WalletFragment : BaseFragment() {
         }
 
         iv_hb.onOneClick {
-            (activity as MainActivity).drawer_layout.openDrawer(GravityCompat.START)
+            (activity as HomeActivity).drawer_layout.openDrawer(GravityCompat.START)
         }
 
         btn_addMoney.onOneClick {
@@ -207,7 +206,7 @@ class WalletFragment : BaseFragment() {
     }
 
     fun clearAppliedPromoCode() {
-        (context as MainActivity).appliedPromoIntent = null
+        (context as HomeActivity).appliedPromoIntent = null
 
         ll_offerApplied.visibility = View.INVISIBLE
         tv_applyPromoCode.visibility = View.VISIBLE
@@ -317,8 +316,8 @@ class WalletFragment : BaseFragment() {
     }
 
     fun setCodeFromOfferScreen() {
-        if ((context as MainActivity).appliedPromoIntent != null) {
-            (context as MainActivity).appliedPromoIntent?.let {
+        if ((context as HomeActivity).appliedPromoIntent != null) {
+            (context as HomeActivity).appliedPromoIntent?.let {
                 clearAppliedPromoCode()
                 callApplyPromo(it)
             }
@@ -326,9 +325,9 @@ class WalletFragment : BaseFragment() {
     }
 
     private fun setCodeFromHome() {
-        if ((context as MainActivity).popupBonusCode.isNotEmpty()) {
-            Log.i("popupBonusId", (context as MainActivity).popupBonusCode)
-            offersViewModel.applyPromoCode((context as MainActivity).popupBonusCode)
+        if ((context as HomeActivity).popupBonusCode.isNotEmpty()) {
+            Log.i("popupBonusId", (context as HomeActivity).popupBonusCode)
+            offersViewModel.applyPromoCode((context as HomeActivity).popupBonusCode)
             offersViewModel.applyPromoResponse.observe(viewLifecycleOwner, Observer {
                 if (it.success) {
                     val intent = Intent()
@@ -343,7 +342,7 @@ class WalletFragment : BaseFragment() {
                 } else {
                     showSnack(it.errorDesc)
                 }
-                (context as MainActivity).popupBonusCode = ""
+                (context as HomeActivity).popupBonusCode = ""
             })
         }
     }

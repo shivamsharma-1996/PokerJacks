@@ -95,7 +95,7 @@
             android:name=".ui.profile.verify_address.VerifyAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.offers.bonus.AllBonusActivity"

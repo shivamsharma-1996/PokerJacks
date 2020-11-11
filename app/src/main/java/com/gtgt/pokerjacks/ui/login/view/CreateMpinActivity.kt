@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.*
-import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.HomeActivity
 import com.gtgt.pokerjacks.ui.login.viewModel.MPinViewModel
 import kotlinx.android.synthetic.main.activity_create_mpin.*
 
@@ -35,7 +35,7 @@ class CreateMpinActivity : BaseActivity() {
                 if (canAuthenticateWithBiometrics(this)) {
                     launchActivity<SetFingerPrintActivity> { }
                 } else {
-                    launchActivity<MainActivity> { }
+                    launchActivity<HomeActivity> { }
                     finishAffinity()
                 }
             } else {

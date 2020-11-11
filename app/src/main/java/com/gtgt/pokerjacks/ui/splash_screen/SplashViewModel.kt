@@ -17,16 +17,16 @@ class SplashViewModel : BaseViewModel() {
         return webPageUrls
     }
 
-//    fun checkUpdate(): LiveData<CheckUpdateResponse> {
-//        val response: MutableLiveData<CheckUpdateResponse> = MutableLiveData()
-//        apiServicesPlatform.checkUpdateAvailable(
-//            jsonObject(
-//                "productId" to "RUMMY",
-//                "productVersion" to BuildConfig.VERSION_NAME
-//            )
-//        ).execute {
-//            response.value = it
-//        }
-//        return response
-//    }
+    fun checkUpdate(): LiveData<CheckUpdateResponse> {
+        val response: MutableLiveData<CheckUpdateResponse> = MutableLiveData()
+        apiServicesUpdate.checkUpdateAvailable(
+            jsonObject(
+                "productId" to "POKER",
+                "productVersion" to BuildConfig.VERSION_NAME
+            )
+        ).execute {
+            response.value = it
+        }
+        return response
+    }
 }

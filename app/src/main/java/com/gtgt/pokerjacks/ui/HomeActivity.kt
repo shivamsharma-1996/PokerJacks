@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_nav_layout.*
 
 
-class MainActivity : BaseActivity(), View.OnClickListener {
+class HomeActivity : BaseActivity(), View.OnClickListener {
 
     private val kycFragment by lazy { TourneysFragment() }
     private val offersFragment by lazy { OffersFragment() }

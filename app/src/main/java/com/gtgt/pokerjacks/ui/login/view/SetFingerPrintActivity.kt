@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.*
-import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.HomeActivity
 import kotlinx.android.synthetic.main.activity_set_fingerprint.*
 
 class SetFingerPrintActivity : BaseActivity() {
@@ -38,7 +38,7 @@ class SetFingerPrintActivity : BaseActivity() {
     }
 
     private fun callLoginApi() {
-        launchActivity<MainActivity> { }
+        launchActivity<HomeActivity> { }
         finishAffinity()
     }
 }

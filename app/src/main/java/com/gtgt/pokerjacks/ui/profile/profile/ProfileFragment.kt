@@ -11,7 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.extensions.*
-import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.HomeActivity
 import com.gtgt.pokerjacks.ui.profile.manage_account.ManageBankAccountActivity
 import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
 import com.gtgt.pokerjacks.ui.profile.suspend_account.ResponsibleGamingActivity
@@ -281,7 +281,7 @@ class ProfileFragment : ImagePickFragment() {
         }
 
         iv_hb.onOneClick {
-            (activity as MainActivity).drawer_layout.openDrawer(GravityCompat.START)
+            (activity as HomeActivity).drawer_layout.openDrawer(GravityCompat.START)
         }
 
         iv_profile.onOneClick {

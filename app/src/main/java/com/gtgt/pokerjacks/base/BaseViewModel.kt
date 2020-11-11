@@ -19,4 +19,5 @@ abstract class BaseViewModel : ViewModel(), KodeinAware {
     protected val apiServicesPlayWallet: ApiInterfacePlayWallet by instance()
     protected val apiServicesLocation: ApiInterfaceLocation by instance()
     protected val apiServicesPayment: ApiInterfacePayment by instance()
+    protected val apiServicesUpdate: ApiInterfaceUpdate by instance()
 }

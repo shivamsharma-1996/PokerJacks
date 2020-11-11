@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.GravityCompat
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.extensions.onOneClick
-import com.gtgt.pokerjacks.ui.MainActivity
+import com.gtgt.pokerjacks.ui.HomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout_nav.*
 
@@ -28,7 +28,7 @@ class TourneysFragment : Fragment() {
         tv_CommonTitleHome.text="Tourneys"
 
         iv_hb.onOneClick {
-            (activity as MainActivity).drawer_layout.openDrawer(GravityCompat.START)
+            (activity as HomeActivity).drawer_layout.openDrawer(GravityCompat.START)
         }
     }
 }
