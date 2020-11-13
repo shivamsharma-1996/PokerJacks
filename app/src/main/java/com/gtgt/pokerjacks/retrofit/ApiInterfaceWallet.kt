@@ -1,6 +1,8 @@
 package com.gtgt.pokerjacks.retrofit
 
 import com.google.gson.JsonElement
+import com.gtgt.pokerjacks.ui.wallet.model.GetBonusDisbursements
+import com.gtgt.pokerjacks.ui.wallet.model.GetBonusHistory
 import com.gtgt.pokerjacks.ui.wallet.recent_transaction.PointsInPlayTransactionsResponse
 import com.gtgt.pokerjacks.ui.wallet.wallet.RecentTransactionResponse
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletDetailsResponse
@@ -19,16 +21,16 @@ interface ApiInterfaceWallet {
         @Body jsonElement: JsonElement
     ): Call<RecentTransactionResponse>
 
-//    @POST("walletService/getBonusHistory/")
-//    fun getBonusHistory(
-//        @Body jsonElement: JsonElement
-//    ): Call<GetBonusHistory>
-//
-//    @POST("walletService/getBonusDisbursements/")
-//    fun getBonusDisbursements(
-//        @Body jsonElement: JsonElement
-//    ): Call<GetBonusDisbursements>
-//
+    @POST("walletService/getBonusHistory/")
+    fun getBonusHistory(
+        @Body jsonElement: JsonElement
+    ): Call<GetBonusHistory>
+
+    @POST("walletService/getBonusDisbursements/")
+    fun getBonusDisbursements(
+        @Body jsonElement: JsonElement
+    ): Call<GetBonusDisbursements>
+
     @POST("walletService/getPointsInPlayTransactions/")
     fun getPointsInPlayTransactions(
         @Body jsonElement: JsonElement

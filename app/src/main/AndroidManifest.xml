@@ -30,6 +30,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".ui.webView.WebViewActivity"></activity>
         <activity android:name=".ui.payment.view.PaytmPayment" />
         <activity
             android:name=".ui.profile.verify_pan.PanImageNotClearActivity"
@@ -113,10 +114,10 @@
             android:name=".ui.offers.scratch_card.AllScratchCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.wallet.bonus_distribution.RecentDistributionsActivity"
+            android:name=".ui.wallet.bonus_distribution.view.RecentDistributionsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.wallet.bonus_distribution.BonusDistributionActivity"
+            android:name=".ui.wallet.bonus_distribution.view.BonusDistributionActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.wallet.recent_transaction.RecentTransactionsActivity"

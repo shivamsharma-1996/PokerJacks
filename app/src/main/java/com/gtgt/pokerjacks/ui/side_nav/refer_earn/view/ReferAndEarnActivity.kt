@@ -18,6 +18,7 @@ import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
 import com.gtgt.pokerjacks.ui.side_nav.refer_earn.viewModel.ReferAndEarnViewModel
+import com.gtgt.pokerjacks.ui.webView.WebViewActivity
 import kotlinx.android.synthetic.main.activity_refer_and_earn.*
 import kotlinx.android.synthetic.main.apply_referal_popup.view.*
 import kotlinx.android.synthetic.main.toolbar_layout.*

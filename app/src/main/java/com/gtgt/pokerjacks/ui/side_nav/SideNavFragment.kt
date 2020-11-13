@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import com.gtgt.pokerjacks.MyApplication
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.*
@@ -17,7 +18,9 @@ import com.gtgt.pokerjacks.ui.lobby.HomeViewModel
 import com.gtgt.pokerjacks.ui.login.view.RegistrationActivity
 import com.gtgt.pokerjacks.ui.offers.bonus.AllBonusActivity
 import com.gtgt.pokerjacks.ui.offers.scratch_card.AllScratchCardActivity
+import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
 import com.gtgt.pokerjacks.ui.side_nav.refer_earn.view.ReferAndEarnActivity
+import com.gtgt.pokerjacks.ui.webView.WebViewActivity
 import kotlinx.android.synthetic.main.fragment_side_nav.*
 import kotlinx.android.synthetic.main.logout_confirmation_dialog.view.*
 
@@ -25,7 +28,7 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
 
     private val REQUESTCODE_PROMO = 101
 
-    //    private val profileViewModel: ProfileViewModel by sharedViewModel()
+        private val profileViewModel: ProfileViewModel by store()
     private val homeViewModel: HomeViewModel by store()
 
     override fun onCreateView(
@@ -76,7 +79,7 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
             (activity as HomeActivity).onProfileClicked()
         }
 
-        /*profileViewModel.userProfileInfo.observe(viewLifecycleOwner, Observer {
+        profileViewModel.userProfileInfo.observe(viewLifecycleOwner, Observer {
             try {
                 name.text = it.username
                 putBoolean("isUserBlocked",  it.user_status == "BLOCKED")
@@ -84,7 +87,7 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
             } catch (ex: Exception) {
 
             }
-        })*/
+        })
     }
 
     private fun onClickLogout() {
@@ -143,17 +146,17 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
             }
 
             R.id.ll_pp -> {
-                /*launchActivity<WebViewActivity> {
+                launchActivity<WebViewActivity> {
                     putExtra("ACTIVITY_TITLE", "Privacy Policy")
                     putExtra(
                         "ACTIVITY_URL",
                         MyApplication.sharedPreferencesDontClear.getString("privacy_policy", "")
                     )
-                }*/
+                }
             }
 
             R.id.ll_TC -> {
-                /*launchActivity<WebViewActivity> {
+                launchActivity<WebViewActivity> {
                     putExtra("ACTIVITY_TITLE", "Terms and Conditions")
                     putExtra(
                         "ACTIVITY_URL",
@@ -162,17 +165,17 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
                             ""
                         )
                     )
-                }*/
+                }
             }
 
             R.id.ll_howToPlay -> {
-                /*launchActivity<WebViewActivity> {
+                launchActivity<WebViewActivity> {
                     putExtra("ACTIVITY_TITLE", "How to Play")
                     putExtra(
                         "ACTIVITY_URL",
                         MyApplication.sharedPreferencesDontClear.getString("game_guide", "")
                     )
-                }*/
+                }
             }
 
             R.id.ll_scratchCards -> {
@@ -197,7 +200,7 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun applyPromoCode(it: Intent) {
-//        (context as MainActivity).appliedPromoIntent = it
-//        (context as MainActivity).onWalletClicked()
+        (context as HomeActivity).appliedPromoIntent = it
+        (context as HomeActivity).onWalletClicked()
     }
 }

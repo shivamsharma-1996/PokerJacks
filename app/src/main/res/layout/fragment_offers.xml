@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,14 +7,11 @@
     android:orientation="vertical"
     android:transitionName="@string/transaction_name">
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/toolbar_layout_nav" />
+    <include layout="@layout/toolbar_layout_nav" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,8 +109,8 @@
                     android:id="@+id/rv_scratchCards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/scratch_card_items"
-                    android:layout_marginTop="@dimen/size_14dp" />
+                    android:layout_marginTop="@dimen/size_14dp"
+                    tools:listitem="@layout/scratch_card_items" />
 
                 <TextView
                     android:id="@+id/tv_no_scratch_cards"
@@ -168,8 +164,8 @@
                     android:id="@+id/rv_BonusCards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/bonus_offer_items"
-                    android:layout_marginTop="@dimen/size_14dp" />
+                    android:layout_marginTop="@dimen/size_14dp"
+                    tools:listitem="@layout/bonus_offer_items" />
 
                 <TextView
                     android:id="@+id/tv_no_bonus_offers"
@@ -223,8 +219,8 @@
                     android:id="@+id/rv_referrals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/referral_items"
-                    android:layout_marginTop="@dimen/size_14dp" />
+                    android:layout_marginTop="@dimen/size_14dp"
+                    tools:listitem="@layout/referral_items" />
 
                 <TextView
                     android:id="@+id/tv_no_referrals"
@@ -244,4 +240,4 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</RelativeLayout>
+</LinearLayout>

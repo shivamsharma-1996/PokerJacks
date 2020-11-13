@@ -109,9 +109,9 @@ class ProfileFragment : ImagePickFragment() {
                 it.isPanVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
             panVerifiedStatus=it.isPanVerified
 
-            if(!it.isUserNameUpdated){
+            /*if(!it.isUserNameUpdated){
                 launchActivity<UpdateNameActivity> {  }
-            }
+            }*/
 
 
             if (!it.isEmailVerified) {

@@ -6,7 +6,9 @@ import com.github.salomonbrys.kotson.jsonObject
 import com.gtgt.pokerjacks.MyApplication
 import com.gtgt.pokerjacks.base.BaseModel
 import com.gtgt.pokerjacks.base.BaseViewModel
+import com.gtgt.pokerjacks.extensions.execute
 import com.gtgt.pokerjacks.extensions.executeNoError
+import com.gtgt.pokerjacks.ui.location.CheckBannedStateRespone
 
 class HomeViewModel : BaseViewModel() {
 
@@ -26,5 +28,21 @@ class HomeViewModel : BaseViewModel() {
                 callback?.invoke(it)
             }
         return logout
+    }
+
+    fun checkBannedState(
+        latitude: Double = 0.0,
+        longitude: Double = 0.0
+    ): LiveData<CheckBannedStateRespone> {
+        val respone: MutableLiveData<CheckBannedStateRespone> = MutableLiveData()
+        apiServicesLocation.CheckBannedStates(
+            jsonObject(
+                "latitude" to latitude,
+                "longitude" to longitude
+            )
+        ).execute(activity, true) {
+            respone.value = it
+        }
+        return respone
     }
 }

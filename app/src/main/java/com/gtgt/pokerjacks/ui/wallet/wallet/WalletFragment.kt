@@ -19,9 +19,10 @@ import com.gtgt.pokerjacks.ui.offers.scratch_card.AllScratchCardActivity
 import com.gtgt.pokerjacks.ui.offers.viewModel.OffersViewModel
 import com.gtgt.pokerjacks.ui.payment.view.PaytmPayment
 import com.gtgt.pokerjacks.ui.payment.viewModel.PaymentViewModel
-import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.BonusDistributionActivity
+import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.view.BonusDistributionActivity
 import com.gtgt.pokerjacks.ui.wallet.recent_transaction.RecentTransactionsActivity
 import com.gtgt.pokerjacks.ui.wallet.withdraw.view.WithdrawActivity
+import com.gtgt.pokerjacks.utils.Constants
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import kotlinx.android.synthetic.main.toolbar_layout_nav.*
@@ -60,7 +61,7 @@ class WalletFragment : BaseFragment() {
         initUI()
         setCodeFromOfferScreen()
         setCodeFromHome()
-        /*(context as MainActivity).showPopup(isHome = false) { info ->
+        /*(context as HomeActivity).showPopup(isHome = false) { info ->
             when (info.popUpTargetName) {
                 Constants.PopupEvents.BONUS.name -> {
                     Log.i("popup_wallet", info.toString())

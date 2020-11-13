@@ -8,7 +8,7 @@ import retrofit2.http.POST
 
 interface ApiInterfaceLocation {
 
-    @POST("geoLocationService/checkBannedStates/")
+    @POST("geoLocationService/checkBannedState/")
     fun CheckBannedStates(
         @Body data: JsonElement
     ): Call<CheckBannedStateRespone>

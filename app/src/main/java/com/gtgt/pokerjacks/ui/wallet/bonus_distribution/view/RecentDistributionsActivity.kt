@@ -1,16 +1,23 @@
-package com.gtgt.pokerjacks.ui.wallet.bonus_distribution
+package com.gtgt.pokerjacks.ui.wallet.bonus_distribution.view
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.onOneClick
+import com.gtgt.pokerjacks.extensions.viewModel
+import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.adapter.RecentDistributionAdapter
+import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.viewModel.BonusDistributionViewModel
+import com.gtgt.pokerjacks.utils.LinearLayoutManagerWrapper
+import kotlinx.android.synthetic.main.activity_recent_distributions.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class RecentDistributionsActivity : BaseActivity() {
-    //    private val viewModel: BonusDistributionViewModel by viewModel()
-//    var stopApiCall = false
+        private val viewModel: BonusDistributionViewModel by viewModel()
+    var stopApiCall = false
+    private val recentDistributionAdapter = RecentDistributionAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recent_distributions)
@@ -20,7 +27,7 @@ class RecentDistributionsActivity : BaseActivity() {
         }
         tv_commonTitle.text = "Recent Disbursements"
 
-        /*if (rv_recentDistributions.layoutManager == null) {
+        if (rv_recentDistributions.layoutManager == null) {
             rv_recentDistributions.layoutManager = LinearLayoutManagerWrapper(this)
             rv_recentDistributions.adapter = recentDistributionAdapter
         }
@@ -45,6 +52,6 @@ class RecentDistributionsActivity : BaseActivity() {
 
         viewModel.stopApiCall.observe(this, Observer {
             stopApiCall = it
-        })*/
+        })
     }
 }

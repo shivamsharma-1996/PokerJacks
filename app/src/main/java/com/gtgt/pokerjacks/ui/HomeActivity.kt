@@ -1,24 +1,38 @@
 package com.gtgt.pokerjacks.ui
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
+import com.google.firebase.messaging.FirebaseMessaging
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.*
+import com.gtgt.pokerjacks.ui.lobby.HomeViewModel
 import com.gtgt.pokerjacks.ui.lobby.LobbyFragment
 import com.gtgt.pokerjacks.ui.offers.offer.OffersFragment
 import com.gtgt.pokerjacks.ui.profile.profile.ProfileFragment
+import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
+import com.gtgt.pokerjacks.ui.profile.update_name.UpdateNameActivity
 import com.gtgt.pokerjacks.ui.side_nav.SideNavFragment
 import com.gtgt.pokerjacks.ui.tourneys.TourneysFragment
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletFragment
+import com.gtgt.pokerjacks.utils.Constants
+import com.gtgt.pokerjacks.utils.GpsTracker
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_nav_layout.*
 
@@ -37,6 +51,9 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     var popupBonusCode: String = ""
     val fadeout: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_out) }
     val fadeIn: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_in) }
+    private val profileViewModel: ProfileViewModel by store()
+    private val homeViewModel: HomeViewModel by viewModel()
+    private val REQUEST_CODE_LOCATION_PERMISSION = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,8 +61,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         putBoolean("IS_USER_LOGIN", true)
         putPermanentString("OLD_MOBILE", retrieveString("MOBILE"))
         initUI()
-
-
     }
 
     private fun initUI() {
@@ -57,6 +72,33 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 
         onLobbyClicked(isDefault = true)
         replaceFragment(sideNavFragment, R.id.side_nav, true)
+
+        profileViewModel.getUserProfileDetailsInfo(false)
+        profileViewModel.userProfileInfo.observe(this, Observer {
+            if (!it.isUserNameUpdated) {
+//                subscribeToTopic(Constants.TopicName.NEWUSER.name)
+                launchActivity<UpdateNameActivity> { }
+            }
+            /*showPopup(isHome = true) { info ->
+                when (info.popUpTargetName) {
+                    Constants.PopupEvents.BONUS.name -> {
+                        Log.i("popup_wallet", info.toString())
+                        popupBonusCode=info.BonusCode
+                        onWalletClicked()
+                    }
+                    Constants.PopupEvents.WEBPAGE.name -> {
+                        Log.i("popup_web_page", info.toString())
+                        popupBonusCode=""
+                        launchActivity<WebViewActivity> {
+                            putExtra("ACTIVITY_TITLE", info.web_page_title)
+                            putExtra("ACTIVITY_URL", info.web_page_url)
+                        }
+                    }
+                }
+            }*/
+        })
+
+//        checkPermission()
     }
 
     override fun onClick(v: View?) {
@@ -186,5 +228,108 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 onLobbyClicked(isDefault = false)
             }
         }
+    }
+
+    fun checkPermission() {
+        try {
+            if (ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_CODE_LOCATION_PERMISSION
+                )
+            } else {
+                getLocation()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun getLocation() {
+        val gpsTracker = GpsTracker(this)
+        if (gpsTracker.canGetLocation()) {
+            val latitude: Double = gpsTracker.latitude
+            val longitude: Double = gpsTracker.longitude
+
+            putString("LATITUDE", latitude.toString())
+            putString("LONGITUDE", longitude.toString())
+            checkBannedState(latitude, longitude)
+
+            putBoolean("DENIED_ONLY", false)
+            putBoolean("DENIED_PERMANENTLY", false)
+        } else {
+            gpsTracker.showSettingsAlert()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val permission = permissions[0]
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getLocation()
+        } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            putBoolean("DENIED_ONLY", true)
+            val showRationale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                shouldShowRequestPermissionRationale(permission)
+            } else {
+                TODO("VERSION.SDK_INT < M")
+            }
+            if (!showRationale) {
+                // show setting screen
+                putBoolean("DENIED_PERMANENTLY", true)
+//                gotoSettings()
+            } else {
+//                checkPermission()
+            }
+        }
+    }
+
+    private fun gotoSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, REQUEST_CODE_LOCATION_PERMISSION)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
+            checkPermission()
+        }
+    }
+
+    private fun checkBannedState(latitude: Double, longitude: Double) {
+        homeViewModel.checkBannedState(
+            latitude = latitude,
+            longitude = longitude
+        ).observe(this, Observer {
+            if (it.success) {
+                putBoolean("BANNED_STATE", it.info)
+                if (it.info) {
+                    showBannedStatesDialog()
+                }
+            }
+        })
+    }
+
+    private fun subscribeToTopic(topic: String) {
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+            .addOnCompleteListener { task ->
+                /*var msg = getString(R.string.msg_subscribed) + topic
+                if (!task.isSuccessful) {
+                    msg = getString(R.string.msg_subscribe_failed) + topic
+                }*/
+                Log.d("topicStatusMsg", task.toString())
+            }
+
     }
 }
