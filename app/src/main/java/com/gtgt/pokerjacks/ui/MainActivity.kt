@@ -13,7 +13,7 @@ import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.replaceFragment
 import com.gtgt.pokerjacks.extensions.replaceFragmentIfNoFragment
 import com.gtgt.pokerjacks.extensions.showToast
-import com.gtgt.pokerjacks.ui.lobby.LobbyFragment
+import com.gtgt.pokerjacks.ui.lobby.view.LobbyFragment
 import com.gtgt.pokerjacks.ui.offers.offer.OffersFragment
 import com.gtgt.pokerjacks.ui.profile.profile.ProfileFragment
 import com.gtgt.pokerjacks.ui.tourneys.TourneysFragment
