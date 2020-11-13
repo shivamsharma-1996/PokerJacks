@@ -10,6 +10,7 @@ import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.extensions.onOneClick
 import com.gtgt.pokerjacks.ui.lobby.adapter.LobbyAdapter
 import com.gtgt.pokerjacks.ui.lobby.model.Event
+import com.gtgt.pokerjacks.utils.LinearLayoutManagerWrapper
 import kotlinx.android.synthetic.main.fragment_lobby.*
 
 
@@ -35,6 +36,9 @@ class LobbyFragment : Fragment() {
         players9.onOneClick { playersFilterChanged(players9, 9) }
         players6.onOneClick { playersFilterChanged(players6, 6) }
         players2.onOneClick { playersFilterChanged(players2, 2) }
+        if (eventsRV.layoutManager == null) {
+            eventsRV.layoutManager = LinearLayoutManagerWrapper(context)
+        }
         eventsRV.adapter = lobbyAdapter
         lobbyAdapter.submitList(
             listOf(

@@ -188,7 +188,6 @@
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:paddingBottom="100dp"
-        app:layoutManager=".utils.LinearLayoutManagerWrapper" />
+        android:paddingBottom="100dp" />
 
 </LinearLayout>

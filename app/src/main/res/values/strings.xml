@@ -3,6 +3,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="resend_otp"><u>Resend OTP</u></string>
+    <string name="set_profile_photo_title">Set profile image</string>
+    <string name="take_picture_title">Take a picture</string>
+    <string name="choose_frm_gallery_title">Choose from gallery</string>
     <string name="server_error">Looks like we\'re having\nsome server issues\n\nPlease check back soon</string>
     <string name="internet_error">Check your mobile data or\nWIFI connection</string>
     <string name="no_internet_connection">No Internet Connection</string>

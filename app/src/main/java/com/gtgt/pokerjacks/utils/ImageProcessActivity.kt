@@ -52,12 +52,12 @@ class ImageProcessActivity : BaseActivity() {
         fun showImagePickerOptions(context: Context, listener: PickerOptionListener) {
             // setup the alert builder
             val builder = AlertDialog.Builder(context)
-            builder.setTitle(context.getString(R.string.lbl_set_profile_photo))
+            builder.setTitle(context.getString(R.string.set_profile_photo_title))
 
             // add a list
             val animals = arrayOf<String>(
-                context.getString(R.string.lbl_take_camera_picture),
-                context.getString(R.string.lbl_choose_from_gallery)
+                context.getString(R.string.take_picture_title),
+                context.getString(R.string.choose_frm_gallery_title)
             )
             builder.setItems(animals) { _, which ->
                 when (which) {
