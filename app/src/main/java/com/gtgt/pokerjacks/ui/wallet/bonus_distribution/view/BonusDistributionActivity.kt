@@ -1,17 +1,25 @@
-package com.gtgt.pokerjacks.ui.wallet.bonus_distribution
+package com.gtgt.pokerjacks.ui.wallet.bonus_distribution.view
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.launchActivity
 import com.gtgt.pokerjacks.extensions.onOneClick
+import com.gtgt.pokerjacks.extensions.toDecimalFormat
+import com.gtgt.pokerjacks.extensions.viewModel
+import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.adapter.BonusHistoryAdapter
+import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.viewModel.BonusDistributionViewModel
+import com.gtgt.pokerjacks.utils.LinearLayoutManagerWrapper
 import kotlinx.android.synthetic.main.activity_bonus_distribution.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class BonusDistributionActivity : BaseActivity() {
-    //    private val viewModel: BonusDistributionViewModel by viewModel()
-//    var stopApiCall = false
-//    private val bonusHistoryAdapter = BonusHistoryAdapter(this)
+        private val viewModel: BonusDistributionViewModel by viewModel()
+    var stopApiCall = false
+    private val bonusHistoryAdapter = BonusHistoryAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bonus_distribution)
@@ -25,7 +33,7 @@ class BonusDistributionActivity : BaseActivity() {
             launchActivity<RecentDistributionsActivity> { }
         }
 
-        /*if (rv_bonusHistory.layoutManager == null) {
+        if (rv_bonusHistory.layoutManager == null) {
             rv_bonusHistory.layoutManager = LinearLayoutManagerWrapper(this)
             rv_bonusHistory.adapter = bonusHistoryAdapter
         }
@@ -56,6 +64,6 @@ class BonusDistributionActivity : BaseActivity() {
 
         viewModel.stopApiCall.observe(this, Observer {
             stopApiCall = it
-        })*/
+        })
     }
 }

@@ -29,5 +29,21 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="SwitchStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/light_blue</item>
+        <item name="colorSwitchThumbNormal">#707070</item>
+        <item name="android:colorForeground">#a5a5a5</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="Theme.AppCompat">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--        <item name="android:windowIsFloating">true</item>-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowMinWidthMajor">98%</item>
+        <item name="android:windowMinWidthMinor">98%</item>
+    </style>
 
 </resources>

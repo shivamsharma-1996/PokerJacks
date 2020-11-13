@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/size_20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_10dp"
+        android:layout_marginEnd="@dimen/size_10dp"
+        android:background="@drawable/dark_bg_8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:text="Account Verification"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_16sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_30dp"
+            android:layout_marginEnd="@dimen/size_30dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:src="@drawable/left_popup_img" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_gravity="end"
+                android:src="@drawable/right_popup_img" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/size_30dp"
+                android:layout_marginEnd="@dimen/size_30dp"
+                android:background="#5BF1F1F1" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/ll_bankValid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_verification_under_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginEnd="44dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="Sit back and relax, system\nverification is going on, it might\ntake few seconds"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_16sp" />
+
+                <TextView
+                    android:id="@+id/tv_verifyingAcc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginTop="66dp"
+                    android:layout_marginEnd="44dp"
+                    android:layout_marginBottom="80dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="Verifying…."
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_16sp" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/tv_verified"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="66dp"
+                    android:layout_marginBottom="80dp"
+                    android:visibility="gone"
+                    app:lottie_fileName="tick_animation.json" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bankInvalid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_invalidBank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginEnd="44dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="Sit back and relax, system\nverification is going on, it might\ntake few seconds"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="38dp"
+                    android:src="@drawable/ic_close_dialog" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_closeInvalidAcc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/size_20dp"
+                    android:background="@drawable/blue_gradient_button"
+                    android:text="Ok"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

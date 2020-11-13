@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.gtgt.pokerjacks.ui.profile.manage_account.ManageBankAccountActivity" />
+            type="com.gtgt.pokerjacks.ui.profile.manage_account.model.GetBankDetailsInfo" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,23 +48,19 @@
                         android:layout_marginBottom="@dimen/size_8dp"
                         android:fontFamily="@font/proximanova_regular"
                         android:includeFontPadding="false"
-                        android:text="ICICI Bank"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_16sp" />
-                    <!--android:text="@{data.bank_name}"
+                        android:text="@{data.bank_name}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_16sp"
-                        android:visibility="@{data.bank_name.equals(``) ? View.GONE : View.VISIBLE}"-->
+                        android:visibility="@{data.bank_name.equals(``) ? View.GONE : View.VISIBLE}" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/proximanova_regular"
                         android:includeFontPadding="false"
-                        android:text="******3550"
+                        android:text="@{data.formattedAccNumber}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_16sp" />
-                    <!--android:text="@{data.formattedAccNumber}"-->
                 </LinearLayout>
 
                 <ImageView
@@ -74,8 +70,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/size_16dp"
                     android:layout_marginEnd="@dimen/size_16dp"
-                    android:src="@drawable/ic_delete" />
-                <!--android:visibility="@{data.status.equals(`VERIFIED`) ? View.VISIBLE : View.INVISIBLE}"-->
+                    android:src="@drawable/ic_delete"
+                    android:visibility="@{data.status.equals(`VERIFIED`) ? View.VISIBLE : View.INVISIBLE}" />
             </RelativeLayout>
 
             <!--PENDING-->
@@ -83,8 +79,8 @@
                 android:id="@+id/rl_verifyInProcessing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_12dp">
-                <!--android:visibility="@{data.status.equals(`SUCCESS`) ? View.VISIBLE : View.GONE}"-->
+                android:layout_marginTop="@dimen/size_12dp"
+                android:visibility="@{data.status.equals(`SUCCESS`) ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:id="@+id/ll_descProcessing"
@@ -154,8 +150,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_12dp"
-                android:orientation="horizontal">
-                <!--android:visibility="@{data.status.equals(`INITIATED`) || data.status.equals(`PENDING`) ? View.VISIBLE : View.GONE}"-->
+                android:orientation="horizontal"
+                android:visibility="@{data.status.equals(`INITIATED`) || data.status.equals(`PENDING`) ? View.VISIBLE : View.GONE}">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -177,8 +173,8 @@
                 android:id="@+id/rl_invalidBankAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_12dp">
-                <!--android:visibility="@{data.status.equals(`REJECTED`) || data.status.equals(`FAILED`) ? View.VISIBLE : View.GONE}"-->
+                android:layout_marginTop="@dimen/size_12dp"
+                android:visibility="@{data.status.equals(`REJECTED`) || data.status.equals(`FAILED`) ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:id="@+id/ll_invalidDesc"

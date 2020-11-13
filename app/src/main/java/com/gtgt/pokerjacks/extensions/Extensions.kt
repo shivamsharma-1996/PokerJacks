@@ -8,16 +8,21 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Rect
 import android.hardware.biometrics.BiometricManager
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.*
 import android.provider.Settings
+import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
+import android.util.Log
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.core.content.ContextCompat
@@ -35,11 +40,18 @@ import com.github.salomonbrys.kotson.fromJson
 import com.github.salomonbrys.kotson.get
 import com.github.salomonbrys.kotson.obj
 import com.github.salomonbrys.kotson.string
+import com.google.android.gms.ads.identifier.AdvertisingIdClient
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
+import com.gtgt.pokerjacks.BuildConfig
+import com.gtgt.pokerjacks.MyApplication
+import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.utils.OnOneClickListener
 import com.gtgt.pokerjacks.utils.ProgressBarHandler
 import com.gtgt.pokerjacks.utils.ViewModelWithArgumentsFactory
@@ -48,10 +60,12 @@ import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.base.BaseViewModel
 import eightbitlab.com.blurview.BlurView
 import eightbitlab.com.blurview.RenderScriptBlur
+import kotlinx.android.synthetic.main.snack_view.view.*
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -78,11 +92,11 @@ fun Fragment.showToast(message: String) {
 
 fun Activity.showSnack(message: String) {
     runOnMain {
-        /*if (isRunning()) {
+        if (isRunning()) {
             var isClosed = false
             var isGame = false
 
-            val rootView = findViewById<View>(R.id.content).rootView as ViewGroup
+            val rootView = findViewById<View>(android.R.id.content).rootView as ViewGroup
             val snackView = layoutInflater.inflate(R.layout.snack_view, null)
             rootView.findViewWithTag<View>("snack")?.let {
                 it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.top_exit))
@@ -121,7 +135,7 @@ fun Activity.showSnack(message: String) {
                     snackView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.top_exit))
                 rootView.removeView(snackView)
             }, (if (isGame) 3000L else 5000L))
-        }*/
+        }
     }
 }
 
@@ -977,3 +991,92 @@ fun EditText.onDone(callback: () -> Unit) {
     }
 }
 
+fun log(tag: String, message: String = "__") {
+    if (BuildConfig.DEBUG) {
+        Log.i(tag, message)
+    }
+}
+
+fun log(tag: Any, message: Any?) {
+    if (BuildConfig.DEBUG) {
+        Log.i(tag.toString(), message?.toJson() ?: "___")
+    }
+}
+
+inline fun <reified T> getModel(key: String): T? where T : Any {
+    val sp = MyApplication.sharedPreferences
+    return sp.getString(key, null)?.let { gson.fromJson(it) }
+}
+
+fun getFcmToken(callback: (String) -> Unit) {
+    FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+        val deviceId = it.token
+        callback(deviceId)
+        putString("FCM_ID", deviceId)
+    }
+}
+
+fun getAdId(callback: (String?) -> Unit) {
+    AsyncTask.execute {
+        try {
+            val adInfo = AdvertisingIdClient.getAdvertisingIdInfo(MyApplication.appContext!!)
+            runOnMain {
+                callback(adInfo?.id!!)
+                putString("AAID", adInfo.id!!)
+            }
+        } catch (exception: IOException) {
+            // Error handling if needed
+        } catch (exception: GooglePlayServicesRepairableException) {
+        } catch (exception: GooglePlayServicesNotAvailableException) {
+        }
+    }
+}
+
+fun Context.getServiceProviderName(): String {
+    // Get System TELEPHONY service reference
+    var tManager: TelephonyManager = this
+        .getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+// Get carrier name (Network Operator Name)
+    return tManager.networkOperatorName
+}
+
+fun Activity.clearUserSavedData() {
+    MyApplication.sharedPreferences.edit().clear().commit()
+//    DatabaseHelper.clearDB()
+}
+
+fun vibrate(context: Context, onVibrate: () -> Unit) {
+    val vibe = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        vibe.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
+    } else {
+        //deprecated in API 26
+        vibe.vibrate(150)
+    }
+    onVibrate()
+}
+
+fun View.isKeyboardOpenOrClose(callback: (Boolean) -> Unit) {
+    viewTreeObserver.addOnGlobalLayoutListener {
+        val r = Rect()
+        getWindowVisibleDisplayFrame(r)
+        val screenHeight = rootView.height
+
+        // r.bottom is the position above soft keypad or device button.
+        // if keypad is shown, the r.bottom is smaller than that before.
+        val keypadHeight = screenHeight - r.bottom
+
+        if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+            // keyboard is opened
+            callback(true)
+        } else {
+            // keyboard is closed
+            callback(false)
+        }
+    }
+}
+
+var bitMap: Bitmap? = null
+
+var emptyBitMap: Bitmap? = null

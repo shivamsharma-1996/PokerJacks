@@ -4,9 +4,9 @@
 
     <data>
 
-        <!--<variable
+        <variable
             name="data"
-            type="com.gtgt.rummy.ui.offers.model.ReferralDataInfo" />-->
+            type="com.gtgt.pokerjacks.ui.offers.model.ReferralDataInfo" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,8 +38,8 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_12sp"
+                android:text="@{data.userName}"
                 tools:text="Chakri_Abhi" />
-            <!--android:text="@{data.userName}"-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -48,8 +48,8 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_12sp"
+                android:text="@{data.maskMobile}"
                 tools:text="*******854" />
-            <!--android:text="@{data.maskMobile}"-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,8 +60,8 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_12sp"
+                android:text="@{data.amountFormated}"
                 tools:text="₹1500" />
-            <!--android:text="@{data.amountFormated}"-->
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

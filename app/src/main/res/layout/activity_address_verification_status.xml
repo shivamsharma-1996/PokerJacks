@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar_layout" />
+
+    <LinearLayout
+        android:id="@+id/ll_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_toolbar"
+        android:layout_marginStart="@dimen/size_16dp"
+        android:layout_marginEnd="@dimen/size_16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_current_pincode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your current PINCODE"
+            android:textColor="#909aad"
+            android:fontFamily="@font/sf_semibold"
+            android:textSize="@dimen/text_16sp" />
+
+        <EditText
+            android:id="@+id/et_user_pincode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:background="@drawable/dark_bg_8dp"
+            android:enabled="false"
+            android:hint="PINCODE"
+            android:padding="@dimen/size_16dp"
+            android:textColor="#A5A5A5"
+            android:textColorHint="#A5A5A5" />
+
+        <TextView
+            android:id="@+id/tv_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_16dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="Madhapur, Telangana"
+            android:textColor="#1caf5b"
+            android:textSize="@dimen/text_14sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/tv_proof_submitted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_24dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Proof submitted : "
+                android:fontFamily="@font/sf_semibold"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_14sp" />
+
+            <TextView
+                android:id="@+id/tv_document_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_14sp"
+                tools:text="Aadhar Card" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_dual_document"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/ll_front_doc"
+                android:layout_width="0dp"
+                android:layout_height="106dp"
+                android:layout_marginTop="@dimen/size_28dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_upload_pan_img"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_document_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginBottom="@dimen/size_10dp"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_back_doc"
+                android:layout_width="0dp"
+                android:layout_height="106dp"
+                android:layout_marginLeft="@dimen/size_10dp"
+                android:layout_marginTop="@dimen/size_28dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_upload_pan_img"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_document_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginBottom="@dimen/size_10dp"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_single_document"
+            android:layout_width="match_parent"
+            android:layout_height="138dp"
+            android:layout_marginStart="@dimen/size_50dp"
+            android:layout_marginTop="@dimen/size_28dp"
+            android:layout_marginEnd="@dimen/size_50dp"
+            android:background="@drawable/bg_upload_pan_img"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/iv_upload_bank_statement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:paddingLeft="86dp"
+                android:paddingRight="86dp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_address_verification_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_address"
+        android:layout_marginStart="@dimen/size_16dp"
+        android:layout_marginTop="@dimen/size_24dp"
+        android:layout_marginEnd="@dimen/size_16dp"
+        android:drawableStart="@drawable/ic_in_process_20dp"
+        android:drawablePadding="@dimen/size_12dp"
+        android:textColor="#d1e2f4"
+        android:textSize="@dimen/text_14sp"
+        android:visibility="visible"
+        tools:text="Your documents had been successfully submitted, sit back &amp; relax while we verify it!!" />
+
+    <Button
+        android:id="@+id/btn_submit_address"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_52dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginTop="@dimen/size_50dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:layout_marginBottom="@dimen/size_20dp"
+        android:background="@drawable/blue_gradient_button"
+        android:fontFamily="@font/proximanova_regular"
+        android:text="Submit"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

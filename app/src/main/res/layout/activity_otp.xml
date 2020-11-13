@@ -1,0 +1,140 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/rummy_bg" />
+
+    <com.gtgt.rummy.components.Logo
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/otp_blur_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp" />-->
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/otp_blur_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@drawable/login_bg"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_24dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    tools:text="OTP sent to\n7981519822" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="OTP"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <com.gigamole.library.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:sl_shadow_angle="180"
+                    app:sl_shadow_color="#ffce35"
+                    app:sl_shadow_distance="1dp"
+                    app:sl_shadow_radius="5dp"
+                    app:sl_shadowed="true">
+
+                    <com.chaos.view.PinView
+                        android:id="@+id/otp_view"
+                        style="@style/PinWidget.PinView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:cursorVisible="true"
+                        android:fontFamily="@font/sf_regular"
+                        android:inputType="number"
+                        android:itemBackground="@drawable/otp_box_bg"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        app:cursorColor="@color/white"
+                        app:cursorWidth="2dp"
+                        app:hideLineWhenFilled="true"
+                        app:itemCount="4"
+                        app:itemHeight="@dimen/size_56dp"
+                        app:itemRadius="5dp"
+                        app:itemSpacing="@dimen/size_12dp"
+                        app:itemWidth="@dimen/size_48dp"
+                        app:lineColor="@color/white"
+                        app:viewType="none" />
+                </com.gigamole.library.ShadowLayout>
+
+                <TextView
+                    android:id="@+id/tv_resend_otp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/size_16dp"
+                    android:layout_marginBottom="@dimen/size_24dp"
+                    android:gravity="center"
+                    android:text="Resend OTP"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_12sp" />
+
+                <com.gigamole.library.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:sl_shadow_angle="180"
+                    app:sl_shadow_color="#ffce35"
+                    app:sl_shadow_distance="3dp"
+                    app:sl_shadow_radius="5dp"
+                    app:sl_shadowed="true">
+
+                    <Button
+                        android:id="@+id/btn_verify_otp"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="@dimen/size_16dp"
+                        android:layout_marginEnd="@dimen/size_16dp"
+                        android:layout_marginBottom="32dp"
+                        android:background="@drawable/blue_gradient_button"
+                        android:text="Verify"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </com.gigamole.library.ShadowLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </eightbitlab.com.blurview.BlurView>
+</RelativeLayout>

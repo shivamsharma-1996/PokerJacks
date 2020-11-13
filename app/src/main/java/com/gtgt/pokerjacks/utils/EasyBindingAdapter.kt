@@ -42,7 +42,6 @@ abstract class EasyBindingAdapter<T, U : ViewDataBinding>(
         registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                 super.onItemRangeMoved(fromPosition, toPosition, itemCount)
-
                 callback()
             }
 

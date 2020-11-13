@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
+
+    <!--<com.gtgt.rummy.components.Logo
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/set_fingerPrint_blur_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp" />-->
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/set_fingerPrint_blur_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@drawable/login_bg"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <!--<TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_24dp"
+                        android:gravity="center"
+                        android:text="Enable Finger Print?"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />-->
+
+                    <TextView
+                        android:id="@+id/tv_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_12dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:text="Enable your Finger Print / Face ID\nfor faster login"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_24dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <!--<ImageView
+                            android:layout_width="@dimen/dimen_60dp"
+                            android:layout_height="68dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/size_8dp"
+                            android:src="@drawable/fingerprint_img" />-->
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proximanova_regular"
+                            android:text="Finger print"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/size_32dp"
+                        android:layout_marginEnd="@dimen/size_32dp"
+                        android:fontFamily="@font/proximanova_regular"
+                        android:text="Or"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <!--<ImageView
+                            android:layout_width="@dimen/dimen_60dp"
+                            android:layout_height="68dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/size_8dp"
+                            android:src="@drawable/face_id" />-->
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proximanova_regular"
+                            android:text="Face ID"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_enable_fingerPrint"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="@dimen/size_16dp"
+                    android:layout_marginTop="@dimen/size_32dp"
+                    android:layout_marginEnd="@dimen/size_16dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@drawable/blue_gradient_button"
+                    android:text="Enable Finger Print / Face ID"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_16sp" />
+
+                <TextView
+                    android:id="@+id/tv_skip_now"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_20dp"
+                    android:layout_marginEnd="@dimen/size_24dp"
+                    android:layout_marginBottom="@dimen/size_32dp"
+                    android:gravity="end"
+                    android:text="Skip for now"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_12sp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </eightbitlab.com.blurview.BlurView>
+</RelativeLayout>
