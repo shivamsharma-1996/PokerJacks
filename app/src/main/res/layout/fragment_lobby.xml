@@ -62,9 +62,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="5dp"
-                android:text="₹760.45"
                 android:textColor="@color/white"
-                android:textSize="18dp" />
+                android:textSize="18dp"
+                tools:text="₹760.45" />
 
             <TextView
                 android:id="@+id/tv_addMoney"
@@ -76,8 +76,8 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="@dimen/size_10dp"
                 android:paddingBottom="10dp"
-                android:text="Add Money"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                tools:text="Add Money" />
         </LinearLayout>
 
     </RelativeLayout>

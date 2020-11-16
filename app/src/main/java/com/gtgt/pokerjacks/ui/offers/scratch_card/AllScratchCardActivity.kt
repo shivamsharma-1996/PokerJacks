@@ -40,7 +40,7 @@ class AllScratchCardActivity : BaseActivity() {
             if (!it.isNullOrEmpty()) {
                 allScratchCardsAdapter.submitList(it.map { it })
             } else {
-                if (viewModel.offset == 1) {
+                if (viewModel.offset <= 2) {
                     rv_allScratchCards.visibility = View.GONE
                     iv_no_scratch_card_img.visibility = View.VISIBLE
                     tv_no_scratch_cards.visibility = View.VISIBLE

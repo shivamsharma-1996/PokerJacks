@@ -56,11 +56,11 @@ class UpdateNameActivity : BaseActivity() {
         profileViewModel.checkName.observe(this, Observer {
             iv_nameStatus.visibility = View.VISIBLE
             if (it.success) {
-                iv_nameStatus.setImageResource(R.drawable.ic_approved)
+                iv_nameStatus.setImageResource(R.drawable.ic_approved_20dp)
                 tv_errorMessage.visibility = View.GONE
                 isUserNameVerified = true
             } else {
-                iv_nameStatus.setImageResource(R.drawable.ic_rejected)
+                iv_nameStatus.setImageResource(R.drawable.ic_rejected_20dp)
                 tv_errorMessage.visibility = View.VISIBLE
                 tv_errorMessage.text = it.description
                 isReferralVerified = false
@@ -90,11 +90,11 @@ class UpdateNameActivity : BaseActivity() {
         profileViewModel.checkReferral.observe(this, Observer {
             iv_referralStatus.visibility = View.VISIBLE
             if (it.success) {
-                iv_referralStatus.setImageResource(R.drawable.ic_approved)
+                iv_referralStatus.setImageResource(R.drawable.ic_approved_20dp)
                 tv_errorMsgReferral.visibility = View.GONE
                 isReferralVerified = true
             } else {
-                iv_referralStatus.setImageResource(R.drawable.ic_rejected)
+                iv_referralStatus.setImageResource(R.drawable.ic_rejected_20dp)
                 tv_errorMsgReferral.visibility = View.VISIBLE
                 tv_errorMsgReferral.text = it.description
                 isReferralVerified = false

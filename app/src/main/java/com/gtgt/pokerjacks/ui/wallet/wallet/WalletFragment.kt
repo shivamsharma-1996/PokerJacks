@@ -31,7 +31,7 @@ import kotlin.math.roundToInt
 
 class WalletFragment : BaseFragment() {
 
-    private val viewModel: WalletViewModel by viewModel()
+    private val viewModel: WalletViewModel by store()
     private var isExpanded = false
     private val paymentViewModel: PaymentViewModel by store()
     private val offersViewModel: OffersViewModel by viewModel()

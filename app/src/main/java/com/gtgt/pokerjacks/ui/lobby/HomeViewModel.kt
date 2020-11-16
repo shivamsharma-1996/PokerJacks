@@ -8,9 +8,17 @@ import com.gtgt.pokerjacks.base.BaseModel
 import com.gtgt.pokerjacks.base.BaseViewModel
 import com.gtgt.pokerjacks.extensions.execute
 import com.gtgt.pokerjacks.extensions.executeNoError
+import com.gtgt.pokerjacks.extensions.retrieveBoolean
 import com.gtgt.pokerjacks.ui.location.CheckBannedStateRespone
 
 class HomeViewModel : BaseViewModel() {
+
+    private val _isCash: MutableLiveData<Boolean> = MutableLiveData(retrieveBoolean("isCash", true))
+    val isCash: LiveData<Boolean> = _isCash
+
+    fun changePlayMode(isCash: Boolean) {
+        _isCash.value = isCash
+    }
 
     private val _logout: MutableLiveData<BaseModel?> = MutableLiveData()
     val logout: LiveData<BaseModel?> = _logout

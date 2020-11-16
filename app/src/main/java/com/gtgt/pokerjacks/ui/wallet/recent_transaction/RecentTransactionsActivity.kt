@@ -1,15 +1,18 @@
 package com.gtgt.pokerjacks.ui.wallet.recent_transaction
 
 import android.graphics.Color
-import android.graphics.Color.green
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.CheckBox
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.*
+import kotlinx.android.synthetic.main.activity_recent_transactions.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import kotlinx.android.synthetic.main.transaction_filter_layout.view.*
 
@@ -50,8 +53,40 @@ class RecentTransactionsActivity : BaseActivity() {
         setContentView(R.layout.activity_recent_transactions)
 
         initUI()
-
         getFilterList()
+
+        viewModel.getWalletTransactionDetails(cacheFilterList.toList())
+        viewModel.transactionDetails.observe(this, Observer {
+            if (it.isNullOrEmpty()) {
+                if (viewModel.offset <= 2) {
+                    ll_no_recent_transactions.visibility = View.VISIBLE
+                    rv_recentTransactions.visibility = View.GONE
+                }
+            } else {
+                rv_recentTransactions.visibility = View.VISIBLE
+                ll_no_recent_transactions.visibility = View.GONE
+                transactionsAdapter.submitList(it.map { it })
+            }
+        })
+
+        rv_recentTransactions.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if ((rv_recentTransactions.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == transactionsAdapter.currentList.size - 1) {
+//                    recentTransactionsViewModel.pageNumber++
+                    if (!stopApiCall) {
+                        viewModel.getWalletTransactionDetails(
+                            cacheFilterList.toList(),
+                            false
+                        )
+                    }
+                }
+            }
+        })
+
+        viewModel.stopApiCall.observe(this, Observer {
+            stopApiCall = it
+        })
     }
 
     private fun initUI() {

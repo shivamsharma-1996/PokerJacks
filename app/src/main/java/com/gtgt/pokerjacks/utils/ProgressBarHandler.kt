@@ -4,15 +4,18 @@ import android.app.Activity
 import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import com.gtgt.pokerjacks.R
+import com.gtgt.pokerjacks.extensions.runOnUiThreadIfRunning
 
 class ProgressBarHandler(private val activity: Activity) {
     var handler: Handler? = null
     val hideRunnable = Runnable { hide() }
 
     init {
-        /*activity.runOnUiThreadIfRunning {
+        activity.runOnUiThreadIfRunning {
             handler = Handler()
-        }*/
+        }
     }
 
     private lateinit var view: View
@@ -20,7 +23,7 @@ class ProgressBarHandler(private val activity: Activity) {
 
 
     fun show() {
-        /*activity.runOnUiThreadIfRunning {
+        activity.runOnUiThreadIfRunning {
             try {
                 handler?.let { it.postDelayed(hideRunnable, 10000) }
                 activity.window?.setFlags(
@@ -34,11 +37,11 @@ class ProgressBarHandler(private val activity: Activity) {
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
             }
-        }*/
+        }
     }
 
     fun hide() {
-        /*activity.runOnUiThreadIfRunning {
+        activity.runOnUiThreadIfRunning {
             try {
 //                handler?.removeCallbacks(hideRunnable)
                 handler?.let { it.removeCallbacks(hideRunnable) }
@@ -48,6 +51,6 @@ class ProgressBarHandler(private val activity: Activity) {
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
             }
-        }*/
+        }
     }
 }
