@@ -29,8 +29,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
-        <activity android:name=".ui.webView.WebViewActivity"></activity>
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:resizeableActivity="false"
+        tools:targetApi="q">
+        <activity android:name=".ui.webView.WebViewActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".ui.payment.view.PaytmPayment" />
         <activity
             android:name=".ui.profile.verify_pan.PanImageNotClearActivity"

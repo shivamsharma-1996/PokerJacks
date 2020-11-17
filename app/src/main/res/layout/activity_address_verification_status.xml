@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar_layout" />
 
@@ -10,7 +11,6 @@
         android:id="@+id/ll_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_toolbar"
         android:layout_marginStart="@dimen/size_16dp"
         android:layout_marginEnd="@dimen/size_16dp"
         android:orientation="vertical">
@@ -19,9 +19,9 @@
             android:id="@+id/tv_current_pincode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_semibold"
             android:text="Your current PINCODE"
             android:textColor="#909aad"
-            android:fontFamily="@font/sf_semibold"
             android:textSize="@dimen/text_16sp" />
 
         <EditText
@@ -59,8 +59,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Proof submitted : "
                 android:fontFamily="@font/sf_semibold"
+                android:text="Proof submitted : "
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_14sp" />
 
@@ -187,4 +187,4 @@
         android:text="Submit"
         android:textColor="@color/white" />
 
-</RelativeLayout>
+</LinearLayout>

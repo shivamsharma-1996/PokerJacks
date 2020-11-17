@@ -1,203 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/header"
         layout="@layout/toolbar_layout" />
 
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/header">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/header"
-            android:layout_marginStart="@dimen/size_16dp"
-            android:layout_marginEnd="@dimen/size_16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_current_pincode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Your current PINCODE"
-                android:textColor="#A5A5A5"
-                android:textSize="@dimen/text_16sp" />
-
-            <EditText
-                android:id="@+id/et_user_pincode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_8dp"
-                android:background="@drawable/dark_bg_8dp"
-                android:hint="PINCODE"
-                android:inputType="number"
-                android:maxLength="6"
-                android:maxLines="1"
-                android:padding="@dimen/size_16dp"
-                android:singleLine="true"
-                android:textColor="#A5A5A5"
-                android:textColorHint="#A5A5A5" />
-
-            <TextView
-                android:id="@+id/tv_place_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size_16dp"
-                android:layout_marginTop="@dimen/size_8dp"
-                android:fontFamily="@font/proximanova_regular"
-                android:text="Madhapur, Telangana"
-                android:textColor="#1BC243"
-                android:textSize="@dimen/text_14sp"
-                android:visibility="gone" />
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/tv_proof_submitted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_24dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/header"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_16dp"
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_current_pincode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Proof submitted : "
+                    android:text="Your current PINCODE"
+                    android:textColor="#A5A5A5"
+                    android:textSize="@dimen/text_16sp" />
+
+                <EditText
+                    android:id="@+id/et_user_pincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_8dp"
+                    android:background="@drawable/dark_bg_8dp"
+                    android:hint="PINCODE"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:maxLines="1"
+                    android:padding="@dimen/size_16dp"
+                    android:singleLine="true"
+                    android:textColor="#A5A5A5"
+                    android:textColorHint="#A5A5A5" />
+
+                <TextView
+                    android:id="@+id/tv_place_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_16dp"
+                    android:layout_marginTop="@dimen/size_8dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="Madhapur, Telangana"
+                    android:textColor="#1BC243"
+                    android:textSize="@dimen/text_14sp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/tv_proof_submitted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_24dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Proof submitted : "
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_document_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_14sp"
+                        tools:text="Aadhar Card" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_address_verification_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_14dp"
+                    android:drawableStart="@drawable/ic_in_process_blue"
+                    android:drawablePadding="@dimen/size_12dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_14sp"
+                    android:visibility="gone"
+                    tools:text="Your documents had been successfully submitted, sit back &amp; relax while we verify it!!" />
+
+
+                <TextView
+                    android:id="@+id/tv_restrict_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_20dp"
+                    android:text="We are required to verify your identity and make sure that you are not a resident of Assam, Odisha, Sikkim, Telangana or Nagaland"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_14sp" />
 
                 <TextView
-                    android:id="@+id/tv_document_type"
+                    android:id="@+id/tv_document_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="@dimen/size_24dp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:text="Acceptable identification documents:"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_14sp"
-                    tools:text="Aadhar Card" />
+                    android:textSize="@dimen/text_14sp" />
+
+                <RadioGroup
+                    android:id="@+id/document_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                    <RadioButton
+                        android:id="@+id/btn_select_aadhar_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_16dp"
+                        android:button="@drawable/radio_button_selector"
+                        android:paddingStart="@dimen/size_16dp"
+                        android:text="Aadhaar Card — front and back"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp" />
+
+                    <RadioButton
+                        android:id="@+id/btn_select_driver_license"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_16dp"
+                        android:button="@drawable/radio_button_selector"
+                        android:paddingStart="@dimen/size_16dp"
+                        android:text="Driver’s License — front and back"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp" />
+
+                    <RadioButton
+                        android:id="@+id/btn_select_bank_statement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_16dp"
+                        android:button="@drawable/radio_button_selector"
+                        android:paddingStart="@dimen/size_16dp"
+                        android:text="Bank statement (not older than 3 months)"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp" />
+
+                    <RadioButton
+                        android:id="@+id/btn_select_passport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_16dp"
+                        android:button="@drawable/radio_button_selector"
+                        android:paddingStart="@dimen/size_16dp"
+                        android:text="Passport"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp" />
+
+
+                </RadioGroup>
+
+
+                <FrameLayout
+                    android:id="@+id/document_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </FrameLayout>
 
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_address_verification_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_14dp"
-                android:drawableStart="@drawable/ic_in_process_blue"
-                android:drawablePadding="@dimen/size_12dp"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_14sp"
-                android:visibility="gone"
-                tools:text="Your documents had been successfully submitted, sit back &amp; relax while we verify it!!" />
+        </androidx.core.widget.NestedScrollView>
 
+        <Button
+            android:id="@+id/btn_submit_address"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/size_20dp"
+            android:layout_marginTop="@dimen/size_50dp"
+            android:layout_marginEnd="@dimen/size_20dp"
+            android:layout_marginBottom="@dimen/size_20dp"
+            android:background="@drawable/blue_gradient_button"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_restrict_msg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_20dp"
-                android:text="We are required to verify your identity and make sure that you are not a resident of Assam, Odisha, Sikkim, Telangana or Nagaland"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_14sp" />
-
-            <TextView
-                android:id="@+id/tv_document_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_24dp"
-                android:fontFamily="@font/proxima_nova_semibold"
-                android:text="Acceptable identification documents:"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_14sp" />
-
-            <RadioGroup
-                android:id="@+id/document_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-
-                <RadioButton
-                    android:id="@+id/btn_select_aadhar_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_16dp"
-                    android:button="@drawable/radio_button_selector"
-                    android:paddingStart="@dimen/size_16dp"
-                    android:text="Aadhaar Card — front and back"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_14sp" />
-
-                <RadioButton
-                    android:id="@+id/btn_select_driver_license"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_16dp"
-                    android:button="@drawable/radio_button_selector"
-                    android:paddingStart="@dimen/size_16dp"
-                    android:text="Driver’s License — front and back"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_14sp" />
-
-                <RadioButton
-                    android:id="@+id/btn_select_bank_statement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_16dp"
-                    android:button="@drawable/radio_button_selector"
-                    android:paddingStart="@dimen/size_16dp"
-                    android:text="Bank statement (not older than 3 months)"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_14sp" />
-
-                <RadioButton
-                    android:id="@+id/btn_select_passport"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_16dp"
-                    android:button="@drawable/radio_button_selector"
-                    android:paddingStart="@dimen/size_16dp"
-                    android:text="Passport"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_14sp" />
-
-
-            </RadioGroup>
-
-
-            <FrameLayout
-                android:id="@+id/document_placeholder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </FrameLayout>
-
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-
-
-    <Button
-        android:id="@+id/btn_submit_address"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/size_20dp"
-        android:layout_marginTop="@dimen/size_50dp"
-        android:layout_marginEnd="@dimen/size_20dp"
-        android:layout_marginBottom="@dimen/size_20dp"
-        android:background="@drawable/blue_gradient_button"
-        android:fontFamily="@font/proximanova_regular"
-        android:text="Submit"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_16sp" />
-
-</RelativeLayout>
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.gtgt.pokerjacks.ui.lobby.view
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -22,6 +23,7 @@ import com.gtgt.pokerjacks.ui.lobby.model.Event
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletViewModel
 import com.gtgt.pokerjacks.utils.LinearLayoutManagerWrapper
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.chips_added.view.*
 import kotlinx.android.synthetic.main.fragment_lobby.*
 
 
@@ -134,29 +136,36 @@ class LobbyFragment : BaseFragment() {
                 if (viewModel.isCash.value!!) {
                     (activity as HomeActivity).onWalletClicked()
                 } else {
-                    /*walletViewModel.addChips {
-
+                    walletViewModel.addChips {
                         walletViewModel._playWalletDetailsResponse.value =
                             it.info["totalChips"].double
-
-                        val builder = AlertDialog.Builder(context)
-                        val dialogView =
-                            LayoutInflater.from(context).inflate(R.layout.chips_added, null)
-                        dialogView.message.text =
-                            "${it.info["totalChips"].double.toDecimalFormat()} have been added to your account!"
-
-                        builder.setView(dialogView)
-                        builder.setCancelable(false)
-                        val dialog = builder.create()
-                        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-                        dialogView.ok.onOneClick { dialog.dismiss() }
-                        dialogView.close.onOneClick { dialog.dismiss() }
-                        dialog.show()
-                    }*/
+                        showChipAddedPopup(it.info["totalChips"].double)
+                    }
                 }
             }
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showChipAddedPopup(chips: Double) {
+        val builder = AlertDialog.Builder(context)
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.chips_added, null)
+        dialogView.message.text =
+            "${chips.toDecimalFormat()} have been added to your account!"
+
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialogView.ok.onOneClick {
+            dialog.dismiss()
+        }
+        dialogView.close.onOneClick {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     var isFirst = true

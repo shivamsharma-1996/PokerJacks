@@ -55,9 +55,7 @@ class VerifyEmailOTPActivity : BaseActivity() {
 
         btn_resend_otp_email.onOneClick {
             apiServicesPlatform.updateUserEmailAddress(jsonObject("email" to userEmail)).execute {
-                if (!it.success) {
-                    showSnack(it.description)
-                }
+                showSnack(it.description)
             }
         }
     }
