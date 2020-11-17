@@ -40,11 +40,11 @@ class VerifyEmailOTPActivity : BaseActivity() {
                     if (it.success) {
                         launchActivity<VerifyEmailActivity> {
                             putExtra("EMAIL_VERIFIED", true)
-                            putExtra("USER_EMAIL", it.info.email)
+                            putExtra("USER_EMAIL", userEmail)
                         }
                         finish()
                     } else {
-                        showSnack(it.errorDesc)
+                        showSnack(it.description)
                     }
 
                 }
@@ -56,7 +56,7 @@ class VerifyEmailOTPActivity : BaseActivity() {
         btn_resend_otp_email.onOneClick {
             apiServicesPlatform.updateUserEmailAddress(jsonObject("email" to userEmail)).execute {
                 if (!it.success) {
-                    showSnack(it.errorDesc)
+                    showSnack(it.description)
                 }
             }
         }

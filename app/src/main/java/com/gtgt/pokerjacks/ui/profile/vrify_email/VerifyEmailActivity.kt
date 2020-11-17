@@ -46,7 +46,7 @@ class VerifyEmailActivity : BaseActivity() {
                             }
                             finish()
                         } else {
-                            showSnack(it.errorDesc)
+                            showSnack(it.description)
                         }
                     }
             } else {

@@ -134,7 +134,7 @@ class ProfileFragment : ImagePickFragment() {
 
             } else {
                 iv_email_verification_status.visibility = View.VISIBLE
-                iv_email_verification_status.setImageResource(R.drawable.ic_approved)
+                iv_email_verification_status.setImageResource(R.drawable.ic_approved_blue)
                 btn_email_verification.onOneClick {
                     launchActivity<VerifyEmailActivity> {
                         putExtra("EMAIL_VERIFIED", true)
@@ -161,7 +161,7 @@ class ProfileFragment : ImagePickFragment() {
                     }
                     Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code -> {
                         iv_pan_verification_status.visibility = View.VISIBLE
-                        iv_pan_verification_status.setImageResource(R.drawable.pending_icon)
+                        iv_pan_verification_status.setImageResource(R.drawable.ic_in_process_blue)
                         btn_pan_verification.alpha = 1F
                         btn_start_verification.text = "Verify PAN"
                         btn_pan_verification.onOneClick {
@@ -174,7 +174,7 @@ class ProfileFragment : ImagePickFragment() {
                     }
                     Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
                         iv_pan_verification_status.visibility = View.VISIBLE
-                        iv_pan_verification_status.setImageResource(R.drawable.rejected_icon)
+                        iv_pan_verification_status.setImageResource(R.drawable.ic_rejected_blue)
                         btn_start_verification.text = "Verify PAN"
                         btn_pan_verification.alpha = 1F
                         btn_pan_verification.onOneClick {
@@ -187,7 +187,7 @@ class ProfileFragment : ImagePickFragment() {
                     }
                     else -> {
                         iv_pan_verification_status.visibility = View.VISIBLE
-                        iv_pan_verification_status.setImageResource(R.drawable.ic_approved)
+                        iv_pan_verification_status.setImageResource(R.drawable.ic_approved_blue)
                         btn_pan_verification.alpha = 1F
                         btn_pan_verification.onOneClick {
                             launchActivity<PanVerificationStatusActivity> { }
@@ -207,7 +207,7 @@ class ProfileFragment : ImagePickFragment() {
                             }
                             Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code -> {
                                 iv_address_verification_status.visibility = View.VISIBLE
-                                iv_address_verification_status.setImageResource(R.drawable.pending_icon)
+                                iv_address_verification_status.setImageResource(R.drawable.ic_in_process_blue)
                                 btn_start_verification.text = "Verify Address"
                                 btn_address_verification.alpha = 1F
                                 btn_start_verification.onOneClick {
@@ -220,7 +220,7 @@ class ProfileFragment : ImagePickFragment() {
                             }
                             Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
                                 iv_address_verification_status.visibility = View.VISIBLE
-                                iv_address_verification_status.setImageResource(R.drawable.rejected_icon)
+                                iv_address_verification_status.setImageResource(R.drawable.ic_rejected_blue)
                                 btn_start_verification.text = "Verify Address"
                                 btn_address_verification.alpha = 1F
                                 btn_start_verification.onOneClick {
@@ -233,7 +233,7 @@ class ProfileFragment : ImagePickFragment() {
                             }
                             else -> {
                                 iv_address_verification_status.visibility = View.VISIBLE
-                                iv_address_verification_status.setImageResource(R.drawable.ic_approved)
+                                iv_address_verification_status.setImageResource(R.drawable.ic_approved_blue)
                                 btn_address_verification.alpha = 1F
                                 btn_start_verification.text = "Approved"
                                 btn_address_verification.onOneClick {

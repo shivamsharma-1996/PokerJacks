@@ -2,10 +2,12 @@ package com.gtgt.pokerjacks.extensions
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import com.gtgt.pokerjacks.R
+import com.gtgt.pokerjacks.ui.login.view.RegistrationActivity
 import kotlinx.android.synthetic.main.error_dialog.view.*
 
 fun Activity.showErrorDialog(
@@ -32,7 +34,7 @@ fun Activity.showErrorDialog(
         errorDialogView.btn_okErrorDialog.onOneClick {
             alertDialog.dismiss()
 
-            /*if (shouldLogout) {
+            if (shouldLogout) {
                 val intent = Intent(
                     this,
                     RegistrationActivity::class.java
@@ -46,7 +48,7 @@ fun Activity.showErrorDialog(
                 startActivity(intent)
                 clearUserSavedData()
                 finishAffinity()
-            }*/
+            }
         }
 
         errorDialogView.btn_closeED.onOneClick {

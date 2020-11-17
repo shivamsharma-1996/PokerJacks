@@ -19,9 +19,10 @@ import com.gtgt.pokerjacks.ui.profile.verify_address.UploadedDocumentDetails
 import com.gtgt.pokerjacks.ui.profile.verify_address.UserDocumentDetails
 import com.gtgt.pokerjacks.ui.profile.verify_address.UserLocationDetails
 import com.gtgt.pokerjacks.ui.profile.verify_pan.model.PanDetails
-import com.gtgt.pokerjacks.ui.profile.vrify_email.model.UserPincodeDetails
+import com.gtgt.pokerjacks.ui.profile.verify_address.model.UserPincodeDetails
+import com.gtgt.pokerjacks.ui.profile.vrify_email.model.UpdateEmailResponse
+import com.gtgt.pokerjacks.ui.profile.vrify_email.model.VerifyEmailResponse
 import com.gtgt.pokerjacks.ui.side_nav.refer_earn.model.GetReferralCode
-import com.gtgt.pokerjacks.ui.splash_screen.CheckUpdateResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -167,10 +168,10 @@ interface ApiInterfacePlatform {
     fun blockMe(@Body data: JsonElement): Call<BaseModel>
 
     @POST("userService/updateEmail/")
-    fun updateUserEmailAddress(@Body data: JsonElement): Call<UserProfileDetails>
+    fun updateUserEmailAddress(@Body data: JsonElement): Call<UpdateEmailResponse>
 
     @POST("userService/verifyEmail/")
-    fun verifyEmail(@Body data: JsonElement): Call<UserProfileDetails>
+    fun verifyEmail(@Body data: JsonElement): Call<VerifyEmailResponse>
 
     @POST("userService/updateLocation/")
     fun updateLocation(@Body jsonElement: JsonElement): Call<UserLocationDetails>

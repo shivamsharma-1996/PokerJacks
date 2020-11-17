@@ -1,4 +1,4 @@
-package com.gtgt.pokerjacks.ui.profile.vrify_email.model
+package com.gtgt.pokerjacks.ui.profile.verify_address.model
 
 import com.gtgt.pokerjacks.base.BaseModel
 
