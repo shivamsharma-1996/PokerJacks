@@ -43,8 +43,8 @@
             android:layout_marginStart="@dimen/size_16dp"
             android:layout_marginTop="@dimen/size_8dp"
             android:fontFamily="@font/proximanova_regular"
-            android:text="Madhapur, Telangana"
-            android:textColor="#1caf5b"
+            tools:text="Madhapur, Telangana"
+            android:textColor="@color/text_blue"
             android:textSize="@dimen/text_14sp"
             android:visibility="gone" />
 

@@ -9,6 +9,7 @@ import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
+import com.gtgt.pokerjacks.ui.profile.verify_pan.PanVerificationStatusActivity
 import com.gtgt.pokerjacks.ui.profile.verify_pan.VerifyPanActivity
 import com.gtgt.pokerjacks.ui.profile.vrify_email.VerifyEmailActivity
 import com.gtgt.pokerjacks.utils.Constants
@@ -76,13 +77,13 @@ class ChangeLimitsActivity : BaseActivity() {
                         launchActivity<VerifyPanActivity>()
                     }
                     Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code -> {
-                        launchActivity<VerifyPanActivity>()
+                        launchActivity<PanVerificationStatusActivity>()
                     }
                     Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
-                        launchActivity<VerifyPanActivity>()
+                        launchActivity<PanVerificationStatusActivity>()
                     }
                     else -> {
-                        launchActivity<VerifyPanActivity> { }
+                        launchActivity<PanVerificationStatusActivity> { }
                     }
                 }
             } else {

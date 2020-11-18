@@ -16,6 +16,7 @@ import com.gtgt.pokerjacks.ui.profile.manage_account.ManageBankAccountActivity
 import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
 import com.gtgt.pokerjacks.ui.profile.suspend_account.ResponsibleGamingActivity
 import com.gtgt.pokerjacks.ui.profile.update_name.UpdateNameActivity
+import com.gtgt.pokerjacks.ui.profile.verify_address.AddressVerificationStatusActivity
 import com.gtgt.pokerjacks.ui.profile.verify_address.VerifyAddressActivity
 import com.gtgt.pokerjacks.ui.profile.verify_pan.PanVerificationStatusActivity
 import com.gtgt.pokerjacks.ui.profile.verify_pan.VerifyPanActivity
@@ -211,11 +212,11 @@ class ProfileFragment : ImagePickFragment() {
                                 btn_start_verification.text = "Verify Address"
                                 btn_address_verification.alpha = 1F
                                 btn_start_verification.onOneClick {
-                                    launchActivity<VerifyAddressActivity>()
+                                    launchActivity<AddressVerificationStatusActivity>()
                                 }
 
                                 btn_address_verification.onOneClick {
-                                    launchActivity<VerifyAddressActivity> { }
+                                    launchActivity<AddressVerificationStatusActivity> { }
                                 }
                             }
                             Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
@@ -224,11 +225,11 @@ class ProfileFragment : ImagePickFragment() {
                                 btn_start_verification.text = "Verify Address"
                                 btn_address_verification.alpha = 1F
                                 btn_start_verification.onOneClick {
-                                    launchActivity<VerifyAddressActivity>()
+                                    launchActivity<AddressVerificationStatusActivity>()
                                 }
 
                                 btn_address_verification.onOneClick {
-                                    launchActivity<VerifyAddressActivity> { }
+                                    launchActivity<AddressVerificationStatusActivity> { }
                                 }
                             }
                             else -> {
@@ -237,7 +238,7 @@ class ProfileFragment : ImagePickFragment() {
                                 btn_address_verification.alpha = 1F
                                 btn_start_verification.text = "Approved"
                                 btn_address_verification.onOneClick {
-                                    launchActivity<VerifyAddressActivity> { }
+                                    launchActivity<AddressVerificationStatusActivity> { }
                                 }
                             }
                         }

@@ -27,10 +27,6 @@ class AddAccountActivity : BaseActivity() {
     private var ifscCheck = false
     private var bankName: String? = null
     private var branchName: String? = null
-    private var isAccountAdded = false
-    private var isEmailVerified = false
-    private var isPanVerified = false
-    private var isAddressVerified = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_account)
@@ -94,69 +90,43 @@ class AddAccountActivity : BaseActivity() {
             }
         })
 
-        profileViewModel.getUserProfileDetailsInfo()
-        profileViewModel.userProfileInfo.observe(this, androidx.lifecycle.Observer {
-            isEmailVerified = it.isEmailVerified
-            isPanVerified =
-                it.isPanVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
-            isAddressVerified =
-                it.isAddressVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
-            viewModel.getBankDetails()
-        })
-
-        viewModel.getBankDetails.observe(this, androidx.lifecycle.Observer {
-            if (it.success) {
-                if (it.info != null) {
-                    isAccountAdded = true
-                }
-            }
-        })
-
         btn_addBank.onOneClick {
-            if (!isEmailVerified) {
-                showSnack("Please verify your e-mail on settings page to proceed for adding of Bank Account")
-            } else if (!isPanVerified) {
-                showSnack("Please submit your PAN on settings page to proceed for adding of Bank Account")
-            } else if (!isAddressVerified) {
-                showSnack("Please submit your Address proof on settings page to proceed for adding of Bank Account")
-            } else {
-                if (cb_addBank.isChecked) {
-                    when (ACCOUNT_TYPE) {
-                        0 -> {
-                            val userNameBank = et_userNameBank.text.toString()
-                            val accNumber = et_accNumber.text.toString()
-                            val ifsc = et_ifsc.text.toString()
+            if (cb_addBank.isChecked) {
+                when (ACCOUNT_TYPE) {
+                    0 -> {
+                        val userNameBank = et_userNameBank.text.toString()
+                        val accNumber = et_accNumber.text.toString()
+                        val ifsc = et_ifsc.text.toString()
 
-                            if (userNameBank.isNotEmpty() && accNumber.isNotEmpty() && ifsc.isValidIFSCCode()) {
-                                if (!ifscCheck) {
-                                    bankName = et_bankName.text.toString()
-                                    branchName = et_branchName.text.toString()
-                                }
-                                showAddAccVerificationDialog(
-                                    userName = userNameBank,
-                                    accNumber = accNumber,
-                                    ifsc = ifsc,
-                                    bankName = bankName,
-                                    branchName = branchName
-                                )
-                            } else {
-                                showToast("All fields are mandatory")
+                        if (userNameBank.isNotEmpty() && accNumber.isNotEmpty() && ifsc.isValidIFSCCode()) {
+                            if (!ifscCheck) {
+                                bankName = et_bankName.text.toString()
+                                branchName = et_branchName.text.toString()
                             }
-                        }
-                        1 -> {
-                            if (et_upi.text.toString().isValidUPI()) {
-                                showAddAccVerificationDialog(upi = et_upi.text.toString())
-                            }
-                        }
-                        2 -> {
-                            if (et_paytmNumber.text.toString().isNotEmpty()) {
-                                showAddAccVerificationDialog(paytmNumber = et_paytmNumber.text.toString())
-                            }
+                            showAddAccVerificationDialog(
+                                userName = userNameBank,
+                                accNumber = accNumber,
+                                ifsc = ifsc,
+                                bankName = bankName,
+                                branchName = branchName
+                            )
+                        } else {
+                            showToast("All fields are mandatory")
                         }
                     }
-                } else {
-                    showToast("Please select T&C")
+                    1 -> {
+                        if (et_upi.text.toString().isValidUPI()) {
+                            showAddAccVerificationDialog(upi = et_upi.text.toString())
+                        }
+                    }
+                    2 -> {
+                        if (et_paytmNumber.text.toString().isNotEmpty()) {
+                            showAddAccVerificationDialog(paytmNumber = et_paytmNumber.text.toString())
+                        }
+                    }
                 }
+            } else {
+                showToast("Please select T&C")
             }
         }
 

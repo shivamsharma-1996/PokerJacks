@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.os.ResultReceiver
@@ -27,7 +26,6 @@ import kotlinx.android.synthetic.main.pan_verification_result_dialog.view.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.to
 
 class PanVerificationStatusActivity : ImagePickerActivity() {
     private var isEdited = false
@@ -69,8 +67,8 @@ class PanVerificationStatusActivity : ImagePickerActivity() {
                 et_user_pan_name.setText(it.info!!.pan_name)
                 et_user_pan_number.setText(it.info.pan_num)
                 et_user_dob.text = it.info.dob
-                tv_upload_pan_img.visibility=View.GONE
-                iv_upload_pan_img.visibility=View.VISIBLE
+                tv_upload_pan_img.visibility = View.GONE
+                iv_upload_pan_img.visibility = View.VISIBLE
 //                iv_upload_pan_img.loadURL(it.info.pan_pic_path)
 
                 Glide.with(this)
@@ -91,8 +89,8 @@ class PanVerificationStatusActivity : ImagePickerActivity() {
                     })
 
 //                it.info.pan_status = Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code
-                when {
-                    it.info.pan_status == Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code -> {
+                when (it.info.pan_status) {
+                    Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code, Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code -> {
                         ll_pan_details.alpha = 0.6F
                         tv_pan_verification_status.text = it.info.comments
 
@@ -104,7 +102,7 @@ class PanVerificationStatusActivity : ImagePickerActivity() {
                         et_user_dob.isEnabled = false
                         iv_upload_pan_img.isEnabled = false
                     }
-                    it.info.pan_status == Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
+                    Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
 
                         et_user_dob.onOneClick {
                             val time = SimpleDateFormat(

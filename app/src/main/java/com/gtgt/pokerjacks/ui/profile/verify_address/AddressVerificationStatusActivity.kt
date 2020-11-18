@@ -66,7 +66,7 @@ class AddressVerificationStatusActivity : BaseActivity() {
                 getPincodeAddress()
 
                 when (it.info.status) {
-                    Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code -> {
+                    Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code, Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code -> {
                         ll_address.alpha = 0.5F
                         btn_submit_address.setBackgroundColor(Color.parseColor("#656565"))
                         btn_submit_address.text = "Submitted"

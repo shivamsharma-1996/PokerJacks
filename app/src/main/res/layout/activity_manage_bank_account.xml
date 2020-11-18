@@ -1,70 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/toolbar_layout" />
+    <include layout="@layout/toolbar_layout" />
 
-    <TextView
-        android:id="@+id/tv_AccountsNotFound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="@dimen/size_30dp"
-        android:layout_marginEnd="@dimen/size_30dp"
-        android:gravity="center"
-        android:text="You do not have any bank\naccounts please start adding"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_16sp"
-        android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/ll_BankAccounts"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/btn_AddBankAcc"
-        android:layout_below="@id/header"
-        android:layout_marginStart="@dimen/size_16dp"
-        android:layout_marginEnd="@dimen/size_16dp"
-        android:layout_marginBottom="@dimen/size_16dp"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/size_16dp"
-            android:fontFamily="@font/proximanova_regular"
-            android:text="Existing Accounts"
-            android:textColor="@color/white_blue"
-            android:textSize="@dimen/text_16sp" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/btn_AddBankAcc">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_existingBankAccounts"
+            <TextView
+                android:id="@+id/tv_AccountsNotFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="You do not have any bank\naccounts please start adding"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/ll_BankAccounts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_16dp"
+                android:layout_marginBottom="@dimen/size_16dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/size_16dp"
+                    android:fontFamily="@font/proximanova_regular"
+                    android:text="Existing Accounts"
+                    android:textColor="@color/white_blue"
+                    android:textSize="@dimen/text_16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_existingBankAccounts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/existing_bank_accounts_items" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/btn_AddBankAcc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/existing_bank_accounts_items" />
-    </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/size_20dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_20dp"
+            android:layout_marginBottom="@dimen/size_20dp"
+            android:background="@drawable/blue_gradient_button"
+            android:fontFamily="@font/proximanova_regular"
+            android:text="Add Account"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp" />
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/btn_AddBankAcc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/size_20dp"
-        android:layout_marginTop="@dimen/size_8dp"
-        android:layout_marginEnd="@dimen/size_20dp"
-        android:layout_marginBottom="@dimen/size_20dp"
-        android:background="@drawable/blue_gradient_button"
-        android:fontFamily="@font/proximanova_regular"
-        android:text="Add Account"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_16sp" />
-
-</RelativeLayout>
+</LinearLayout>

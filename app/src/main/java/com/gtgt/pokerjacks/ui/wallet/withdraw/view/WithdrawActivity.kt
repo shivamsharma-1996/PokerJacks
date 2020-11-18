@@ -16,7 +16,9 @@ import com.gtgt.pokerjacks.ui.profile.manage_account.ManageBankAccountActivity
 import com.gtgt.pokerjacks.ui.profile.manage_account.model.GetBankDetailsInfo
 import com.gtgt.pokerjacks.ui.profile.manage_account.viewModel.ManageAccountViewModel
 import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
+import com.gtgt.pokerjacks.ui.profile.verify_address.AddressVerificationStatusActivity
 import com.gtgt.pokerjacks.ui.profile.verify_address.VerifyAddressActivity
+import com.gtgt.pokerjacks.ui.profile.verify_pan.PanVerificationStatusActivity
 import com.gtgt.pokerjacks.ui.profile.verify_pan.VerifyPanActivity
 import com.gtgt.pokerjacks.ui.profile.vrify_email.VerifyEmailActivity
 import com.gtgt.pokerjacks.ui.wallet.withdraw.adapter.BankAccountsAdapter
@@ -37,6 +39,8 @@ class WithdrawActivity : BaseActivity() {
     private var isEmailVerified = false
     private var isPanVerified = false
     private var isAddressVerified = false
+    private var panVerifiedStatus = ""
+    private var addressVerifiedStatus = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_withdraw)
@@ -64,6 +68,8 @@ class WithdrawActivity : BaseActivity() {
                 it.isPanVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
             isAddressVerified =
                 it.isAddressVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
+            panVerifiedStatus=it.isPanVerified
+            addressVerifiedStatus=it.isAddressVerified
             viewModel.getBankDetails()
         })
 
@@ -102,9 +108,35 @@ class WithdrawActivity : BaseActivity() {
             if (!isEmailVerified) {
                 launchActivity<VerifyEmailActivity> { }
             } else if (!isPanVerified) {
-                launchActivity<VerifyPanActivity> { }
+                when (panVerifiedStatus) {
+                    Constants.DocumentErrorCodes.USER_DETAILS_NORECORD.code -> {
+                        launchActivity<VerifyPanActivity>()
+                    }
+                    Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code -> {
+                        launchActivity<PanVerificationStatusActivity>()
+                    }
+                    Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
+                        launchActivity<PanVerificationStatusActivity>()
+                    }
+                    else -> {
+                        launchActivity<VerifyPanActivity> { }
+                    }
+                }
             } else if (!isAddressVerified) {
-                launchActivity<VerifyAddressActivity> { }
+                when (addressVerifiedStatus) {
+                    Constants.DocumentErrorCodes.USER_DETAILS_NORECORD.code -> {
+                        launchActivity<VerifyAddressActivity>()
+                    }
+                    Constants.DocumentErrorCodes.USER_DETAILS_PENDING.code -> {
+                        launchActivity<AddressVerificationStatusActivity>()
+                    }
+                    Constants.DocumentErrorCodes.USER_DETAILS_REJECTED.code -> {
+                        launchActivity<AddressVerificationStatusActivity>()
+                    }
+                    else -> {
+                        launchActivity<VerifyAddressActivity> { }
+                    }
+                }
             } else if (!isAccountAdded) {
                 launchActivity<ManageBankAccountActivity> { }
             } else {

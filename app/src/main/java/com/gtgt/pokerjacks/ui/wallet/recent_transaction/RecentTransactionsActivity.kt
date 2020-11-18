@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseActivity
 import com.gtgt.pokerjacks.extensions.*
+import com.gtgt.pokerjacks.utils.LinearLayoutManagerWrapper
 import kotlinx.android.synthetic.main.activity_recent_transactions.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import kotlinx.android.synthetic.main.transaction_filter_layout.view.*
@@ -23,7 +24,6 @@ class RecentTransactionsActivity : BaseActivity() {
 //                launchActivity<RecentTransactionDetailsActivity> {
 //                    putExtra("recentTransactionInfo", recentTransactionInfo as Serializable)
 //                }
-                showToast(recentTransactionInfo.amount)
             })
     }
 
@@ -54,6 +54,9 @@ class RecentTransactionsActivity : BaseActivity() {
 
         initUI()
         getFilterList()
+
+        rv_recentTransactions.layoutManager = LinearLayoutManagerWrapper(this)
+        rv_recentTransactions.adapter = transactionsAdapter
 
         viewModel.getWalletTransactionDetails(cacheFilterList.toList())
         viewModel.transactionDetails.observe(this, Observer {
@@ -123,7 +126,7 @@ class RecentTransactionsActivity : BaseActivity() {
                     tag = name
 
                     setTextColor(Color.WHITE)
-                    buttonTintList = resources.getColorStateList(R.color.green)
+                    buttonTintList = resources.getColorStateList(R.color.dark_blue)
 
                     margins(0, 0, 0, dip(8))
                     padding(0, dip(16), 0, 0)

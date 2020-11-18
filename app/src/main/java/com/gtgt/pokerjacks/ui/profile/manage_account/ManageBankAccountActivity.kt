@@ -16,6 +16,9 @@ import com.gtgt.pokerjacks.ui.profile.manage_account.AddAccountActivity
 import com.gtgt.pokerjacks.ui.profile.manage_account.adapter.ExistingBankAccountsAdapter
 import com.gtgt.pokerjacks.ui.profile.manage_account.model.GetBankDetailsInfo
 import com.gtgt.pokerjacks.ui.profile.manage_account.viewModel.ManageAccountViewModel
+import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
+import com.gtgt.pokerjacks.utils.Constants
+import kotlinx.android.synthetic.main.activity_add_account.*
 import kotlinx.android.synthetic.main.activity_manage_bank_account.*
 import kotlinx.android.synthetic.main.add_bank_acc_popup.view.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
@@ -24,7 +27,11 @@ import java.io.Serializable
 class ManageBankAccountActivity : BaseActivity() {
 
     private val viewModel: ManageAccountViewModel by viewModel()
+    private val profileViewModel: ProfileViewModel by viewModel()
     private val ADD_ACC_REQUEST_CODE = 1
+    private var isEmailVerified = false
+    private var isPanVerified = false
+    private var isAddressVerified = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_bank_account)
@@ -61,22 +68,40 @@ class ManageBankAccountActivity : BaseActivity() {
         })
 
         btn_AddBankAcc.onOneClick {
-            showAccTypeDialog(
-                onAccTypeSelected = {
-                    when (it) {
-                        0 -> launchActivity<AddAccountActivity>(ADD_ACC_REQUEST_CODE) {
-                            putExtra("ACCOUNT_TYPE", 0)
-                        }
-                        1 -> launchActivity<AddAccountActivity>(ADD_ACC_REQUEST_CODE) {
-                            putExtra("ACCOUNT_TYPE", 1)
-                        }
-                        2 -> launchActivity<AddAccountActivity>(ADD_ACC_REQUEST_CODE) {
-                            putExtra("ACCOUNT_TYPE", 2)
+            profileViewModel.getUserProfileDetailsInfo()
+        }
+
+        profileViewModel.userProfileInfo.observe(this, androidx.lifecycle.Observer {
+            isEmailVerified = it.isEmailVerified
+            isPanVerified =
+                it.isPanVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
+            isAddressVerified =
+                it.isAddressVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
+
+            if (!isEmailVerified) {
+                showSnack("Please verify your e-mail on settings page to proceed for adding of Bank Account")
+            } else if (!isPanVerified) {
+                showSnack("Please submit your PAN on settings page to proceed for adding of Bank Account")
+            } else if (!isAddressVerified) {
+                showSnack("Please submit your Address proof on settings page to proceed for adding of Bank Account")
+            } else {
+                showAccTypeDialog(
+                    onAccTypeSelected = {
+                        when (it) {
+                            0 -> launchActivity<AddAccountActivity>(ADD_ACC_REQUEST_CODE) {
+                                putExtra("ACCOUNT_TYPE", 0)
+                            }
+                            1 -> launchActivity<AddAccountActivity>(ADD_ACC_REQUEST_CODE) {
+                                putExtra("ACCOUNT_TYPE", 1)
+                            }
+                            2 -> launchActivity<AddAccountActivity>(ADD_ACC_REQUEST_CODE) {
+                                putExtra("ACCOUNT_TYPE", 2)
+                            }
                         }
                     }
-                }
-            )
-        }
+                )
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

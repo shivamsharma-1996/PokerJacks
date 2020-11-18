@@ -2,11 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/toolbar_layout" />
+    <include layout="@layout/toolbar_layout" />
 
     <!--bank account-->
     <androidx.core.widget.NestedScrollView
@@ -14,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/cb_addBank"
-        android:layout_below="@id/header"
+        android:layout_below="@id/ll_toolbar"
         android:visibility="gone">
 
         <LinearLayout
@@ -128,10 +127,10 @@
                     android:background="@drawable/dark_bg_8dp"
                     android:fontFamily="@font/proximanova_regular"
                     android:hint="Bank"
-                    android:padding="@dimen/size_16dp"
-                    android:textColor="@color/white"
-                    android:singleLine="true"
                     android:maxLines="1"
+                    android:padding="@dimen/size_16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
                     android:textColorHint="@color/white_blue"
                     android:textSize="@dimen/text_16sp" />
 
@@ -151,9 +150,9 @@
                     android:background="@drawable/dark_bg_8dp"
                     android:fontFamily="@font/proximanova_regular"
                     android:hint="Branch"
+                    android:maxLines="1"
                     android:padding="@dimen/size_16dp"
                     android:singleLine="true"
-                    android:maxLines="1"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white_blue"
                     android:textSize="@dimen/text_16sp" />
@@ -168,7 +167,7 @@
         android:id="@+id/ll_addUPI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header"
+        android:layout_below="@id/ll_toolbar"
         android:layout_marginStart="@dimen/size_16dp"
         android:layout_marginEnd="@dimen/size_16dp"
         android:layout_marginBottom="@dimen/size_16dp"
@@ -205,7 +204,7 @@
         android:id="@+id/ll_addPaytmAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header"
+        android:layout_below="@id/ll_toolbar"
         android:layout_marginStart="@dimen/size_16dp"
         android:layout_marginEnd="@dimen/size_16dp"
         android:layout_marginBottom="@dimen/size_16dp"
