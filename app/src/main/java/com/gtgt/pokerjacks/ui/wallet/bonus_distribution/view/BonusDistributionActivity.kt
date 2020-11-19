@@ -1,6 +1,7 @@
 package com.gtgt.pokerjacks.ui.wallet.bonus_distribution.view
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +15,11 @@ import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.adapter.BonusHistoryAdap
 import com.gtgt.pokerjacks.ui.wallet.bonus_distribution.viewModel.BonusDistributionViewModel
 import com.gtgt.pokerjacks.utils.LinearLayoutManagerWrapper
 import kotlinx.android.synthetic.main.activity_bonus_distribution.*
+import kotlinx.android.synthetic.main.activity_recent_distributions.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class BonusDistributionActivity : BaseActivity() {
-        private val viewModel: BonusDistributionViewModel by viewModel()
+    private val viewModel: BonusDistributionViewModel by viewModel()
     var stopApiCall = false
     private val bonusHistoryAdapter = BonusHistoryAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,8 @@ class BonusDistributionActivity : BaseActivity() {
         viewModel.getBonusHistory()
         viewModel.bonusHistoryList.observe(this, Observer {
             if (it.isNotEmpty()) {
+                ll_no_recent_history.visibility = View.GONE
+                rv_bonusHistory.visibility = View.VISIBLE
                 bonusHistoryAdapter.submitList(it.map { it })
 
                 tv_totalBonusRemaining.text =
@@ -48,6 +52,16 @@ class BonusDistributionActivity : BaseActivity() {
                 tv_received.text = "₹${viewModel.totalReceivedAmount.value?.toDecimalFormat()}"
                 tv_disbursed.text = "₹${viewModel.totalDisbursedAmount.value?.toDecimalFormat()}"
                 tv_expired.text = "₹${viewModel.totalExpiredBonus.value?.toDecimalFormat()}"
+            } else {
+                if (viewModel.offset <= 2) {
+                    ll_no_recent_history.visibility = View.VISIBLE
+                    rv_bonusHistory.visibility = View.GONE
+
+                    tv_totalBonusRemaining.text = "₹0"
+                    tv_received.text = "₹0"
+                    tv_disbursed.text = "₹0"
+                    tv_expired.text = "₹0"
+                }
             }
         })
 

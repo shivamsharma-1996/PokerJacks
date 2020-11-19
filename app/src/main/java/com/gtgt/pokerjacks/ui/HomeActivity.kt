@@ -31,7 +31,6 @@ import com.gtgt.pokerjacks.ui.profile.update_name.UpdateNameActivity
 import com.gtgt.pokerjacks.ui.side_nav.SideNavFragment
 import com.gtgt.pokerjacks.ui.tourneys.TourneysFragment
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletFragment
-import com.gtgt.pokerjacks.utils.Constants
 import com.gtgt.pokerjacks.utils.GpsTracker
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_nav_layout.*
@@ -152,6 +151,9 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun onWalletClicked() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        }
         replaceFragment(walletFragment, R.id.fl_homeContainer)
         setBottomBarSelected(3)
     }

@@ -15,7 +15,6 @@ import com.gtgt.pokerjacks.ui.HomeActivity
 import com.gtgt.pokerjacks.ui.profile.manage_account.ManageBankAccountActivity
 import com.gtgt.pokerjacks.ui.profile.profile.viewModel.ProfileViewModel
 import com.gtgt.pokerjacks.ui.profile.suspend_account.ResponsibleGamingActivity
-import com.gtgt.pokerjacks.ui.profile.update_name.UpdateNameActivity
 import com.gtgt.pokerjacks.ui.profile.verify_address.AddressVerificationStatusActivity
 import com.gtgt.pokerjacks.ui.profile.verify_address.VerifyAddressActivity
 import com.gtgt.pokerjacks.ui.profile.verify_pan.PanVerificationStatusActivity
@@ -62,10 +61,20 @@ class ProfileFragment : ImagePickFragment() {
         tv_settings.setOnClickListener {
             if (ll_settings.visibility == View.VISIBLE) {
                 ll_settings.visibility = View.GONE
-                tv_settings.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_more_gray, 0)
+                tv_settings.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    R.drawable.ic_more_gray,
+                    0
+                )
             } else {
                 ll_settings.visibility = View.VISIBLE
-                tv_settings.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_less_gray, 0)
+                tv_settings.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    R.drawable.ic_less_gray,
+                    0
+                )
             }
         }
 
@@ -108,11 +117,7 @@ class ProfileFragment : ImagePickFragment() {
             this.isEmailVerified = it.isEmailVerified
             this.isPanVerified =
                 it.isPanVerified == Constants.DocumentErrorCodes.USER_DETAILS_APPROVED.code
-            panVerifiedStatus=it.isPanVerified
-
-            /*if(!it.isUserNameUpdated){
-                launchActivity<UpdateNameActivity> {  }
-            }*/
+            panVerifiedStatus = it.isPanVerified
 
 
             if (!it.isEmailVerified) {
@@ -274,11 +279,11 @@ class ProfileFragment : ImagePickFragment() {
         })
 
         cv_responsibleGaming.onOneClick {
-            launchActivity<ResponsibleGamingActivity> {  }
+            launchActivity<ResponsibleGamingActivity> { }
         }
 
         cv_manageBankAcc.onOneClick {
-            launchActivity<ManageBankAccountActivity> {  }
+            launchActivity<ManageBankAccountActivity> { }
         }
 
         iv_hb.onOneClick {
@@ -306,5 +311,12 @@ class ProfileFragment : ImagePickFragment() {
         super.onResume()
         profileViewModel.getUserProfileDetailsInfo()
         profileViewModel.getDepositLimit()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            profileViewModel.getUserProfileDetailsInfo()
+        }
     }
 }

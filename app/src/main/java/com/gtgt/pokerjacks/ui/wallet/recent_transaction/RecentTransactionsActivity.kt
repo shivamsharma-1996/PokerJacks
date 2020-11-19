@@ -33,12 +33,11 @@ class RecentTransactionsActivity : BaseActivity() {
     private var cacheFilterList = mutableSetOf<String>()
     private var filters = mutableListOf<String>()
     private val filtersList = arrayOf(
-        "Cash Added",
-        "Withdrawal",
-        "Points Rummy",
-        "Pools Rummy",
-        "Deals Rummy",
-        "Bonus Disbursements"
+        "Cash added",
+        "Bonus Disbursement",
+        "Buy in",
+        "Buy out",
+        "Withdrawal"
     )
 
     fun getFilterList() {

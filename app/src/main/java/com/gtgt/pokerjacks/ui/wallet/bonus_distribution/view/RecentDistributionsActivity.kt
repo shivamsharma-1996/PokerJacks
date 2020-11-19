@@ -1,6 +1,7 @@
 package com.gtgt.pokerjacks.ui.wallet.bonus_distribution.view
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_recent_distributions.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class RecentDistributionsActivity : BaseActivity() {
-        private val viewModel: BonusDistributionViewModel by viewModel()
+    private val viewModel: BonusDistributionViewModel by viewModel()
     var stopApiCall = false
     private val recentDistributionAdapter = RecentDistributionAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,12 @@ class RecentDistributionsActivity : BaseActivity() {
         viewModel.getBonusDisbursements()
         viewModel.getBonusDisbursementsInfo.observe(this, Observer {
             if (it.isNotEmpty()) {
+                ll_no_recent_distribution.visibility = View.GONE
+                rv_recentDistributions.visibility = View.VISIBLE
                 recentDistributionAdapter.submitList(it.map { it })
+            } else {
+                ll_no_recent_distribution.visibility = View.VISIBLE
+                rv_recentDistributions.visibility = View.GONE
             }
         })
 

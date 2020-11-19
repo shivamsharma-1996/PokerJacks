@@ -57,7 +57,7 @@ class ManageAccountViewModel : BaseViewModel() {
 
     fun deleteBankDetails(detailId: String) {
         val jsonObject = JsonObject()
-        jsonObject.addProperty("detailId", detailId)
+        jsonObject.addProperty("bankId", detailId)
         apiServicesPlatform.deleteBankDetails(jsonObject).execute(activity, true) {
             _deleteBankAccount.value = it
         }

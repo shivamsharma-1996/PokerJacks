@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.github.salomonbrys.kotson.get
 import com.github.salomonbrys.kotson.jsonObject
 import com.github.salomonbrys.kotson.string
@@ -38,7 +37,6 @@ class VerifyAddressActivity : BaseActivity(), SendFragmentDataToActivity {
         }
 
         tv_commonTitle.text = "Address Verification"
-
 
         et_user_pincode.onOneClick {
             et_user_pincode.isCursorVisible = true
