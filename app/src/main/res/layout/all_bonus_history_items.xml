@@ -50,19 +50,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proximanova_regular"
-                            android:text="REFERRAL BONUS"
+                            android:text="@{data.bonusType}"
                             android:textColor="#A5A5A5"
                             android:textSize="@dimen/text_12sp" />
-                        <!--android:text="@{data.bonusType}"-->
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proximanova_regular"
-                            android:text="Chakri_Abhi"
+                            android:text="@{data.bonusCode}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_14sp" />
-                        <!--android:text="@{data.bonusCode}"-->
                     </LinearLayout>
 
                     <TextView
@@ -73,7 +71,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/proximanova_regular"
                         android:gravity="center_horizontal"
-                        android:textColor="@color/dark_blue"
+                        android:textColor="@color/text_blue"
                         android:textSize="@dimen/text_12sp"
                         tools:text="26 days left" />
 
@@ -96,10 +94,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proximanova_regular"
-                            android:text="10-04-2020"
+                            android:text="@{data.formattedDate}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_14sp" />
-                        <!--android:text="@{data.formattedDate}"-->
                     </LinearLayout>
 
                 </LinearLayout>
@@ -133,10 +130,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proximanova_regular"
-                            android:text="₹1000"
-                            android:textColor="#87C854"
+                            android:text="@{String.valueOf(data.formattedBonusValue)}"
+                            android:textColor="@color/text_blue"
                             android:textSize="@dimen/text_14sp" />
-                        <!--android:text="@{String.valueOf(data.formattedBonusValue)}"-->
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -158,10 +154,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proximanova_regular"
-                            android:text="₹0"
+                            android:text="@{String.valueOf(data.formattedUtilizedAmount)}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_14sp" />
-                        <!--android:text="@{String.valueOf(data.formattedUtilizedAmount)}"-->
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -183,10 +178,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/proximanova_regular"
-                            android:text="₹1000"
+                            android:text="@{String.valueOf(data.formattedPendingAmount)}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_14sp" />
-                        <!--android:text="@{String.valueOf(data.formattedPendingAmount)}"-->
 
                         <TextView
                             android:layout_width="wrap_content"

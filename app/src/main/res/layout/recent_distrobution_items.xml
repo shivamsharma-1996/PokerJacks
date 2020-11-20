@@ -73,9 +73,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:gravity="end"
-                        android:textColor="@color/dark_blue"
-                        android:text=" + 1000000" />
-                    <!--android:text="@{`+`+data.amount}"-->
+                        android:text="@{`+`+data.amount}"
+                        android:textColor="@color/dark_blue" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -87,10 +86,9 @@
                 android:layout_marginBottom="@dimen/size_16dp"
                 android:fontFamily="@font/proximanova_regular"
                 android:letterSpacing="0.1"
+                android:text="@{`Game Id: `+data.gameId}"
                 android:textColor="#A5A5A5"
-                android:textSize="@dimen/text_10sp"
-                android:text="Game Id: 569635283453" />
-            <!--android:text="@{`Game Id: `+data.gameId}"-->
+                android:textSize="@dimen/text_10sp" />
         </LinearLayout>
 
         <View

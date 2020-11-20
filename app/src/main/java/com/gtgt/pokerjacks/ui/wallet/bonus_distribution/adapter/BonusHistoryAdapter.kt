@@ -51,7 +51,7 @@ class BonusHistoryAdapter(context: Context) :
                 } else {
                     holder.binding.tvDaysLeft.text = "$numOfDaysRemain days left"
                 }
-                holder.binding.tvDaysLeft.setTextColor(Color.parseColor("#87C854"))
+                holder.binding.tvDaysLeft.setTextColor(Color.parseColor("#4188ed"))
             }
         }
     }
