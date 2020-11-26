@@ -17,6 +17,7 @@ import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.HomeActivity
+import com.gtgt.pokerjacks.ui.game.GameActivity
 import com.gtgt.pokerjacks.ui.lobby.HomeViewModel
 import com.gtgt.pokerjacks.ui.lobby.adapter.LobbyAdapter
 import com.gtgt.pokerjacks.ui.lobby.model.Event
@@ -29,7 +30,11 @@ import kotlinx.android.synthetic.main.fragment_lobby.*
 
 class LobbyFragment : BaseFragment() {
     private lateinit var selectedPlayersFilterTV: TextView
-    private val lobbyAdapter by lazy { LobbyAdapter() }
+    private val lobbyAdapter by lazy {
+        LobbyAdapter {
+            launchActivity<GameActivity> { }
+        }
+    }
     private val viewModel: HomeViewModel by sharedViewModel()
     private val walletViewModel: WalletViewModel by store()
 

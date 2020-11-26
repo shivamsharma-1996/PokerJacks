@@ -25,17 +25,17 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:resizeableActivity="false"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        android:largeHeap="true"
-        android:requestLegacyExternalStorage="true"
-        android:resizeableActivity="false"
         tools:targetApi="q">
-        <activity android:name=".ui.webView.WebViewActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".ui.webView.WebViewActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.payment.view.PaytmPayment" />
         <activity
             android:name=".ui.profile.verify_pan.PanImageNotClearActivity"
@@ -77,7 +77,7 @@
             android:theme="@style/Theme.Transparent"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.splash_screen.SplashActivity"
+            android:name=".ui.HomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -101,7 +101,7 @@
             android:name=".ui.profile.verify_address.VerifyAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.splash_screen.SplashActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.offers.bonus.AllBonusActivity"
@@ -149,6 +149,9 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".ui.game.GameActivity"
+            android:screenOrientation="sensorLandscape" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

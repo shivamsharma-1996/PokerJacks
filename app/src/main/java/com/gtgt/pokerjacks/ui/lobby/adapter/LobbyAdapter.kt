@@ -4,7 +4,11 @@ import android.widget.ImageView
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.databinding.EventItemBinding
 import com.gtgt.pokerjacks.extensions.dpToPx
+import com.gtgt.pokerjacks.extensions.onOneClick
 import com.gtgt.pokerjacks.extensions.widthHeightRaw
+import com.gtgt.pokerjacks.ui.game.view.slot.slots2Positions
+import com.gtgt.pokerjacks.ui.game.view.slot.slots6Positions
+import com.gtgt.pokerjacks.ui.game.view.slot.slots9Positions
 import com.gtgt.pokerjacks.ui.lobby.model.Event
 import com.gtgt.pokerjacks.utils.EasyBindingAdapter
 import com.gtgt.pokerjacks.utils.PlayerPositions
@@ -16,18 +20,8 @@ val playerSize = dpToPx(22).toFloat()
 val roundingSize = dpToPx(5).toFloat()
 
 var playerPositions = mutableMapOf<PlayerPositions, Pair<Float, Float>>()
-var player9Positions = listOf(
-    LEFT_TOP_CENTER, LEFT_TOP, RIGHT_TOP, RIGHT_TOP_CENTER,
-    RIGHT_BOTTOM_CENTER, RIGHT_BOTTOM, BOTTOM_CENTER, LEFT_BOTTOM, LEFT_BOTTOM_CENTER
-)
 
-var player6Positions = listOf(
-    LEFT_CENTER, LEFT_TOP, RIGHT_TOP, RIGHT_CENTER, RIGHT_BOTTOM, LEFT_BOTTOM
-)
-
-val player2Positions = listOf(TOP_CENTER, BOTTOM_CENTER)
-
-class LobbyAdapter : EasyBindingAdapter<Event, EventItemBinding>(
+class LobbyAdapter(val onClick: (Event) -> Unit) : EasyBindingAdapter<Event, EventItemBinding>(
     R.layout.event_item//,
     /*diffChecker { old, new ->
         old.== new .
@@ -38,6 +32,8 @@ class LobbyAdapter : EasyBindingAdapter<Event, EventItemBinding>(
     override fun onBindViewHolder(holder: Holder<EventItemBinding>, position: Int) {
         val data = getItemAt(position)
         holder.binding.data = data
+
+        holder.binding.root.onOneClick { onClick(data) }
 
         holder.binding.table.postDelayed({
             if (tableWidth == 0) {
@@ -67,9 +63,9 @@ class LobbyAdapter : EasyBindingAdapter<Event, EventItemBinding>(
 
             holder.binding.table.removeAllViews()
             when (data.totalPlayers) {
-                9 -> player9Positions
-                6 -> player6Positions
-                else -> player2Positions
+                9 -> slots9Positions
+                6 -> slots6Positions
+                else -> slots2Positions
             }.forEachIndexed { index, position ->
                 val player = ImageView(holder.binding.root.context)
                 holder.binding.table.addView(player)

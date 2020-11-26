@@ -977,6 +977,7 @@ fun canAuthenticateWithBiometrics(context: Context): Boolean {
 }
 
 inline fun <reified T : Any> JsonElement.to() = gson.fromJson<T>(this)
+inline fun <reified T : Any> String.to() = gson.fromJson<T>(this)
 
 fun EditText.onDone(callback: () -> Unit) {
     // These lines optional if you don't want to set in Xml
@@ -1080,3 +1081,7 @@ fun View.isKeyboardOpenOrClose(callback: (Boolean) -> Unit) {
 var bitMap: Bitmap? = null
 
 var emptyBitMap: Bitmap? = null
+
+fun timeOut(delay: Long, callback: () -> Unit) {
+    Handler().postDelayed({ callback() }, delay)
+}

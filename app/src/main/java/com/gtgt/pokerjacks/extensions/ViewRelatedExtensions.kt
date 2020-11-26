@@ -11,14 +11,17 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.player.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -114,6 +117,13 @@ fun View.padding(all: Int = 0, left: Int = 0, top: Int = 0, right: Int = 0, bott
     return this
 }
 
+fun View.layoutGravity(gravity: Int): View {
+    val l = layoutParams as FrameLayout.LayoutParams
+    l.gravity = gravity
+    layoutParams = l
+    return this
+}
+
 fun View.widthHeight(width: Int = 0, height: Int = 0): View {
     val params = layoutParams
     if (params != null) {
@@ -165,8 +175,8 @@ fun View.dip(dp: Int): Int {
     return (dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
 }
 
-fun View.dip(dp: Float): Int {
-    return (dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
+fun View.dip(dp: Float): Float {
+    return (dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
 }
 
 fun dpToPx(dp: Int): Int {

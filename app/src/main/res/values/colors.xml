@@ -13,4 +13,7 @@
     <color name="light_gray">#909aad</color>
     <color name="red">#850810</color>
     <color name="green">#1aa56b</color>
+    <color name="black_dull">#80000000</color>
+    <color name="orange">#ff6633</color>
+
 </resources>
