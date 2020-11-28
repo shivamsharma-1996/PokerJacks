@@ -121,7 +121,7 @@ class ProfileViewModel : BaseViewModel() {
     fun checkReferralCode(referralCode: String = "") {
         val jsonObject = JsonObject()
         jsonObject.addProperty("referralCode", referralCode)
-        apiServicesPlatform.checkReferralCode(jsonObject).execute(activity, true) {
+        apiInterfaceBonus.checkReferralCode(jsonObject).execute(activity, true) {
             _checkReferral.value = it
         }
     }

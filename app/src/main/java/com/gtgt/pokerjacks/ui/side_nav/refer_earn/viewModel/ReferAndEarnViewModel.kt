@@ -28,7 +28,7 @@ class ReferAndEarnViewModel : BaseViewModel() {
 
     fun applyReferralCode(code: String): LiveData<AnyModel> {
         val response = MutableLiveData<AnyModel>()
-        apiServicesPlatform.applyReferralCode(jsonObject("code" to code)).execute(activity) {
+        apiInterfaceBonus.applyReferralCode(jsonObject("code" to code)).execute(activity) {
             response.value = it
         }
         return response
