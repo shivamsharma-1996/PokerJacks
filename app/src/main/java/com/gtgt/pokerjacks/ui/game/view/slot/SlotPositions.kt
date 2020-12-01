@@ -2,8 +2,8 @@ package com.gtgt.pokerjacks.ui.game.view.slot
 
 import android.view.Gravity
 import com.gtgt.pokerjacks.extensions.dpToPx
-import com.gtgt.pokerjacks.utils.PlayerPositions
-import com.gtgt.pokerjacks.utils.PlayerPositions.*
+import com.gtgt.pokerjacks.utils.SlotPositions
+import com.gtgt.pokerjacks.utils.SlotPositions.*
 
 data class Position(
     val alignment: Int = -1,
@@ -23,38 +23,40 @@ data class SlotPosition(
     val deal: Int
 )
 
-var slotPositions = mutableMapOf<PlayerPositions, SlotPosition>()
+var slotPositions = mutableMapOf<SlotPositions, SlotPosition>()
 var slots9Positions = listOf(
-    LEFT_TOP_CENTER,
-    LEFT_TOP,
-    RIGHT_TOP,
-    RIGHT_TOP_CENTER,
-    RIGHT_BOTTOM_CENTER,
-    RIGHT_BOTTOM,
     BOTTOM_CENTER,
-    LEFT_BOTTOM,
-    LEFT_BOTTOM_CENTER
-)
-
-var slots6Positions = listOf(
-    LEFT_CENTER,
-    LEFT_TOP,
-    RIGHT_TOP,
-    RIGHT_CENTER,
     RIGHT_BOTTOM,
+    RIGHT_BOTTOM_CENTER,
+    RIGHT_TOP_CENTER,
+    RIGHT_TOP,
+    LEFT_TOP,
+    LEFT_TOP_CENTER,
+    LEFT_BOTTOM_CENTER,
     LEFT_BOTTOM
 )
 
-var slots6PositionsJoined = listOf(
-    LEFT_CENTER,
-    LEFT_TOP,
-    TOP_CENTER,
-    RIGHT_TOP,
+var slots6Positions = listOf(
+    RIGHT_BOTTOM,
     RIGHT_CENTER,
-    BOTTOM_CENTER
+    RIGHT_TOP,
+    LEFT_TOP,
+    LEFT_CENTER,
+    LEFT_BOTTOM
+)
+
+var slots6PositionsTable = listOf(
+    BOTTOM_CENTER,
+    RIGHT_CENTER,
+    RIGHT_TOP,
+    TOP_CENTER,
+    LEFT_TOP,
+    LEFT_CENTER
 )
 
 val slots2Positions = listOf(TOP_CENTER, BOTTOM_CENTER)
+
+val slotPositionMap = mutableMapOf<Int, SlotPositions>()
 
 fun makeSlotPositions(
     playerSize: Float,
@@ -72,9 +74,16 @@ fun makeSlotPositions(
     slotPositions[LEFT_TOP_CENTER] = SlotPosition(
         x = leftMargin.toFloat(),
         y = playerSize + topMargin / 2,
-        player = Position(ml = (playerSize / 4).toInt(), mt = playerMargin -  topMargin / 4, mb = playerMargin),
+        player = Position(
+            ml = (playerSize / 4).toInt(),
+            mt = playerMargin - topMargin / 4,
+            mb = playerMargin
+        ),
         inPlay = Position(),
-        raiseAmt = Position(mt = playerSize.toInt() + inPlayHeight / 2 - topMargin / 4, ml = playerSize.toInt()),
+        raiseAmt = Position(
+            mt = playerSize.toInt() + inPlayHeight / 2 - topMargin / 4,
+            ml = playerSize.toInt()
+        ),
         activeIndication = Gravity.START,
         deal = Gravity.END
     )
@@ -83,7 +92,10 @@ fun makeSlotPositions(
         y = topMargin / 2f,
         player = Position(ml = inPlayWidth),
         inPlay = Position(),
-        raiseAmt = Position(mt = (playerSize - roundingSize * 1.5).toInt(), ml = (playerSize + inPlayWidth / 1.5).toInt()),
+        raiseAmt = Position(
+            mt = (playerSize - roundingSize * 1.5).toInt(),
+            ml = (playerSize + inPlayWidth / 1.5).toInt()
+        ),
         activeIndication = Gravity.END,
         deal = Gravity.END or Gravity.BOTTOM
     )
@@ -117,7 +129,7 @@ fun makeSlotPositions(
             y = playerSize + topMargin / 2f,
             player = Position(
                 ml = (playerSize / 4 + inPlayWidth / 2).toInt(),
-                mt = playerMargin -  topMargin / 4,
+                mt = playerMargin - topMargin / 4,
                 mb = playerMargin
             ),
             inPlay = Position(ml = (inPlayWidth / 2 + roundingSize).toInt()),

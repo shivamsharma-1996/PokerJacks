@@ -17,6 +17,18 @@ class WalletViewModel : BaseViewModel() {
     val _playWalletDetailsResponse = MutableLiveData<Double>()
     val playWalletDetailsResponse: LiveData<Double> = _playWalletDetailsResponse
 
+    fun getRealAmount(callback: (Double) -> Unit) {
+        walletDetailsResponse.value?.let {
+            callback(it.info.total)
+        } ?: getWalletDetailsByToken(callback)
+    }
+
+    fun getPlayAmount(callback: (Double) -> Unit) {
+        playWalletDetailsResponse.value?.let {
+            callback(it)
+        } ?: getPlayWalletDetailsByToken(callback)
+    }
+
     fun getWalletDetailsByToken(callback: ((Double) -> Unit)? = null) {
         apiServicesWallet.getWalletDetailsByToken().execute(activity, true) {
             _walletDetailsResponse.value = it

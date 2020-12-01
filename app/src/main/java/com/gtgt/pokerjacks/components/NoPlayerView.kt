@@ -22,9 +22,8 @@ class NoPlayerView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
         if (visibility == VISIBLE) {
             startAnimation(bounce)
+        } else {
+            clearAnimation()
         }
-
     }
-
-
 }

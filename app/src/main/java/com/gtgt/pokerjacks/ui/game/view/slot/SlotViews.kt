@@ -9,14 +9,15 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.RelativeLayout
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.extensions.*
+import com.gtgt.pokerjacks.ui.game.models.PlayerTurn
 import com.gtgt.pokerjacks.ui.game.models.TableSlot
 import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
 import com.gtgt.pokerjacks.utils.CustomCountDownTimer
-import com.gtgt.pokerjacks.utils.PlayerPositions.BOTTOM_CENTER
+import com.gtgt.pokerjacks.utils.SlotPositions.BOTTOM_CENTER
 import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.android.synthetic.main.player.view.*
 
-class SlotViews(private val rootLayout: RelativeLayout) {
+class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int) -> Unit) {
     private val context = rootLayout.context
     private val userId = retrieveString("USER_ID")
     private var animateTimer: CustomCountDownTimer? = null
@@ -37,52 +38,84 @@ class SlotViews(private val rootLayout: RelativeLayout) {
         set(value) {
             field = value
 
-            (1..totalSlots).forEach {
-                val v = LayoutInflater.from(context).inflate(R.layout.player, null)
-                v.visibility = GONE
-                rootLayout.addView(v)
-                v.widthHeight(52, 52)
-                slotViews[it] = v
-            }
+            if (slotViews.isEmpty()) {
+                (1..totalSlots).forEach {
+                    val v = LayoutInflater.from(context).inflate(R.layout.player, null)
+                    v.visibility = GONE
+                    rootLayout.addView(v)
 
-            mySlotBottom = makeSlotPositions(
-                playerSize,
-                topMargin,
-                leftMargin,
-                tableWidth,
-                tableHeight,
-                roundingSize,
-                meSlotSize
-            )
+                    v.onOneClick {
+                        if (!isJoined) {
+                            val slotPosition = v.tag as Int
+                            if (slots[slotPosition]!!.status == TableSlotStatus.VACANT.name) {
+                                onSlotClicked(slotPosition)
+                            }
+                        }
+                    }
+
+                    v.x = tableWidth / 2
+                    v.y = tableHeight / 2
+
+                    v.widthHeight(52, 52)
+                    slotViews[it] = v
+                }
+
+                mySlotBottom = makeSlotPositions(
+                    playerSize,
+                    topMargin,
+                    leftMargin,
+                    tableWidth,
+                    tableHeight,
+                    roundingSize,
+                    meSlotSize
+                )
+            }
+        }
+
+    var playerTurn: PlayerTurn? = null
+        set(value) {
+            field = value!!
+            slotViews.forEach {
+                if (slots[it.key]!!.user_unique_id != "") {
+                    it.value.iv_userProfile.visibility = VISIBLE
+                }
+                it.value.animateView.stopAnim()
+            }
+            slotViews[value.current_bettor_position]!!.apply {
+                iv_userProfile.visibility = GONE
+                animateView.startAnim(value) {
+                    iv_userProfile.visibility = VISIBLE
+                }
+            }
         }
 
     var isJoined = false
 
     fun drawSlots(slots: List<TableSlot>) {
-        val selectedSlotPositions = when (totalSlots) {
-            9 -> slots9Positions
-            6 -> if (isJoined) slots6PositionsJoined else slots6Positions
-            else -> slots2Positions
-        }
-
         slots.forEach { slot ->
-            val position = selectedSlotPositions[slot.seat_no - 1]
+            val position = slotPositionMap[slot.seat_no]
             this.slots[slot.seat_no] = slot
             val slotView = slotViews[slot.seat_no]
 
             slotView?.apply {
+                tag = slot.seat_no
 
-                log("slotStatus", slot.status)
-                if(slot.status == TableSlotStatus.VACANT.name) {
-                    noPlayer.visibility = VISIBLE
+                raise_amt.visibility = GONE
+
+                if (slot.status == TableSlotStatus.VACANT.name) {
+                    noPlayer.visibility = if (isJoined) GONE else VISIBLE
                     iv_userProfile.visibility = GONE
+                    active_indication.visibility = GONE
+                    in_play_amt.visibility = GONE
                 } else {
                     noPlayer.visibility = GONE
                     iv_userProfile.visibility = VISIBLE
+                    active_indication.visibility = VISIBLE
+                    in_play_amt.visibility = VISIBLE
                 }
 
                 widthHeightRaw(WRAP_CONTENT, WRAP_CONTENT)
-                visibility = View.VISIBLE
+                visibility = VISIBLE
 
                 val slotPosition = if (isJoined && position == BOTTOM_CENTER) {
                     playerView.widthHeightRaw(meSlotSize, meSlotSize)
@@ -92,8 +125,15 @@ class SlotViews(private val rootLayout: RelativeLayout) {
                     slotPositions[position]!!
                 }
 
-                x = slotPosition.x
-                y = slotPosition.y
+                animate().apply {
+                    x(slotPosition.x)
+                    y(slotPosition.y)
+                    start()
+                }
+
+                /*x = slotPosition.x
+                y = slotPosition.y*/
+
                 playerView.marginsRaw(
                     slotPosition.player.ml, slotPosition.player.mt,
                     slotPosition.player.mr, slotPosition.player.mb
@@ -108,6 +148,9 @@ class SlotViews(private val rootLayout: RelativeLayout) {
                 )
 
                 dealer.layoutGravity(Gravity.START)
+
+                raise_amt.text = "${slot.seat_no}.00"
+                in_play_amt.text = "₹${(slot.user?.game_inplay_amount?: slot.inplay_amount).toDecimalFormat()}"
             }
         }
     }

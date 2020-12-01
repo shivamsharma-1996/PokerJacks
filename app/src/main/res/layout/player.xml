@@ -73,7 +73,8 @@
             android:gravity="center"
             android:text="D"
             android:textColor="@color/black"
-            android:textSize="8dp" />
+            android:textSize="8dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/active_indication"
@@ -83,7 +84,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:src="@drawable/active_indication"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:visibility="gone" />
 
 
     </FrameLayout>

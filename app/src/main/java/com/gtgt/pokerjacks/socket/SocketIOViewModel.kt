@@ -35,6 +35,8 @@ open class SocketIOViewModel() : BaseViewModel() {
                         try {
                             callback(it)
                         } catch (ex: Exception) {
+                            ex.printStackTrace()
+                            activity?.showSnack(ex.message ?: "Error in $eventName")
                         }
                     }, 250)
                 }
@@ -73,8 +75,8 @@ open class SocketIOViewModel() : BaseViewModel() {
                     if (activity?.isRunning() == true) {
                         runOnMain { progressBarHandler?.hide() }
                         if (it.isEmpty()) {
-                            runOnMain { callback?.invoke(null) }
-//                            callback?.invoke(null)
+//                            runOnMain { callback?.invoke(null) }
+                            callback?.invoke(null)
                             log(
                                 "SocketIo:response, $eventName", "empty"
                             )
@@ -90,19 +92,24 @@ open class SocketIOViewModel() : BaseViewModel() {
                             try {
                                 val r: T = gson.fromJson(it[0].toString())
                                 callback?.let {
-                                    runOnMain {
-                                        try {
-                                            it(r)
-                                        } catch (ex: Exception) {
-                                        }
+//                                    runOnMain {
+                                    try {
+                                        it(r)
+                                    } catch (ex: Exception) {
+                                        ex.printStackTrace()
+                                        activity?.showSnack(ex.message ?: "Error in $eventName")
                                     }
+//                                    }
                                 }
                             } catch (ex: Exception) {
                                 ex.printStackTrace()
+                                activity?.showSnack(ex.message ?: "Error in $eventName")
                             }
                         }
                     }
                 } catch (ex: Exception) {
+                    ex.printStackTrace()
+                    activity?.showSnack(ex.message ?: "Error in $eventName")
                 }
             })
         })

@@ -1,7 +1,5 @@
 package com.gtgt.pokerjacks.ui.game.models
 
-import com.gtgt.pokerjacks.extensions.to
-
 enum class TableSlotStatus(status: String) {
     ACTIVE("ACTIVE"),
     WAITING("WAITING"),
@@ -22,163 +20,29 @@ data class TableSlot(
     val status: String,
     val table_id: String,
     val user_name: String,
-    val user_unique_id: String
-)
+    val user_unique_id: String,
+    var user: GameUser?
+) {
+    override fun equals(other: Any?): Boolean {
+        return other is TableSlot && other.seat_no == seat_no
+    }
 
-val tableSlots = """
-    [
-            {
-                "_id": "slot-60748744-c239-42c8-993d-d547dc14f464",
-                "created_at": "2020-11-23T07:26:55.976380Z",
-                "game_id": "",
-                "table_id": "table-401b3bc6-a2f5-4c05-b3d3-5b92a3311a9a",
-                "status": "VACANT",
-                "seat_no": 1,
-                "updated_at": "2020-11-23T07:26:55.976429Z",
-                "user_unique_id": "",
-                "user_name": "",
-                "ref_txn_id": "",
-                "join_id": "",
-                "ip_address": null,
-                "in_watch_mode": false,
-                "game_user": false,
-                "inplay_amount": 0.0
-            },
-            {
-                "_id": "slot-3b65ea56-1f15-4b16-a875-42ad2a8200bd",
-                "created_at": "2020-11-23T07:26:55.980968Z",
-                "game_id": "",
-                "table_id": "table-401b3bc6-a2f5-4c05-b3d3-5b92a3311a9a",
-                "status": "ACTIVE",
-                "seat_no": 2,
-                "updated_at": "2020-11-23T07:26:55.981006Z",
-                "user_unique_id": "4237c5e7-07c2-40d0-842a-b5ebfffb135d",
-                "user_name": "",
-                "ref_txn_id": "",
-                "join_id": "",
-                "ip_address": null,
-                "in_watch_mode": false,
-                "game_user": false,
-                "inplay_amount": 0.0
-            },
-            {
-                "_id": "slot-d94c7dd7-a92e-4ede-adee-cbf3bccd0c9a",
-                "created_at": "2020-11-23T07:26:55.985115Z",
-                "game_id": "",
-                "table_id": "table-401b3bc6-a2f5-4c05-b3d3-5b92a3311a9a",
-                "status": "VACANT",
-                "seat_no": 3,
-                "updated_at": "2020-11-23T07:26:55.985149Z",
-                "user_unique_id": "",
-                "user_name": "",
-                "ref_txn_id": "",
-                "join_id": "",
-                "ip_address": null,
-                "in_watch_mode": false,
-                "game_user": false,
-                "inplay_amount": 0.0
-            },
-            {
-                "_id": "slot-17cd300c-b917-4a7e-881b-261fc53a2ca8",
-                "created_at": "2020-11-23T07:26:55.989207Z",
-                "game_id": "",
-                "table_id": "table-401b3bc6-a2f5-4c05-b3d3-5b92a3311a9a",
-                "status": "VACANT",
-                "seat_no": 4,
-                "updated_at": "2020-11-23T07:26:55.989239Z",
-                "user_unique_id": "",
-                "user_name": "",
-                "ref_txn_id": "",
-                "join_id": "",
-                "ip_address": null,
-                "in_watch_mode": false,
-                "game_user": false,
-                "inplay_amount": 0.0
-            },
-            {
-                "_id": "slot-181a332f-bc53-4d59-bd99-3bb2b1947ed7",
-                "created_at": "2020-11-23T07:26:55.993769Z",
-                "game_id": "",
-                "table_id": "table-401b3bc6-a2f5-4c05-b3d3-5b92a3311a9a",
-                "status": "VACANT",
-                "seat_no": 5,
-                "updated_at": "2020-11-23T07:26:55.993802Z",
-                "user_unique_id": "",
-                "user_name": "",
-                "ref_txn_id": "",
-                "join_id": "",
-                "ip_address": null,
-                "in_watch_mode": false,
-                "game_user": false,
-                "inplay_amount": 0.0
-            },
-            {
-                "_id": "slot-ba9cbe3e-e2e4-41f7-82c4-2950edba921b",
-                "created_at": "2020-11-23T07:26:56.000194Z",
-                "game_id": "",
-                "table_id": "table-401b3bc6-a2f5-4c05-b3d3-5b92a3311a9a",
-                "status": "VACANT",
-                "seat_no": 6,
-                "updated_at": "2020-11-23T07:26:56.000229Z",
-                "user_unique_id": "",
-                "user_name": "",
-                "ref_txn_id": "",
-                "join_id": "",
-                "ip_address": null,
-                "in_watch_mode": false,
-                "game_user": false,
-                "inplay_amount": 0.0
-            },
-            {
-                "_id": "slot-ba9cbe3e-e2e4-41f7-82c4-2950edba921c",
-                "created_at": "2020-11-23T07:26:56.000194Z",
-                "game_id": "",
-                "table_id": "table-401b3bc6-a2f5-4c05-b3d3-5b92a3311a9a",
-                "status": "VACANT",
-                "seat_no": 7,
-                "updated_at": "2020-11-23T07:26:56.000229Z",
-                "user_unique_id": "",
-                "user_name": "",
-                "ref_txn_id": "",
-                "join_id": "",
-                "ip_address": null,
-                "in_watch_mode": false,
-                "game_user": false,
-                "inplay_amount": 0.0
-            },
-            {
-                "_id": "slot-ba9cbe3e-e2e4-41f7-82c4-2950edba921d",
-                "created_at": "2020-11-23T07:26:56.000194Z",
-                "game_id": "",
-                "table_id": "table-401b3bc6-a2f5-4c05-b3d3-5b92a3311a9a",
-                "status": "VACANT",
-                "seat_no": 8,
-                "updated_at": "2020-11-23T07:26:56.000229Z",
-                "user_unique_id": "",
-                "user_name": "",
-                "ref_txn_id": "",
-                "join_id": "",
-                "ip_address": null,
-                "in_watch_mode": false,
-                "game_user": false,
-                "inplay_amount": 0.0
-            },
-            {
-                "_id": "slot-ba9cbe3e-e2e4-41f7-82c4-2950edba921e",
-                "created_at": "2020-11-23T07:26:56.000194Z",
-                "game_id": "",
-                "table_id": "table-401b3bc6-a2f5-4c05-b3d3-5b92a3311a9a",
-                "status": "VACANT",
-                "seat_no": 9,
-                "updated_at": "2020-11-23T07:26:56.000229Z",
-                "user_unique_id": "",
-                "user_name": "",
-                "ref_txn_id": "",
-                "join_id": "",
-                "ip_address": null,
-                "in_watch_mode": false,
-                "game_user": false,
-                "inplay_amount": 0.0
-            }
-        ]
-""".trimIndent().to<List<TableSlot>>()
+    fun next(slots: List<TableSlot>): TableSlot {
+        val myPosition = slots.indexOf(this)
+        return try {
+            slots[myPosition + 1]
+        } catch (ex: Exception) {
+            slots[0]
+        }
+    }
+
+    fun previous(slots: List<TableSlot>): TableSlot {
+        val myPosition = slots.indexOf(this)
+        return try {
+            slots[myPosition - 1]
+        } catch (ex: Exception) {
+            slots.last()
+        }
+    }
+
+}

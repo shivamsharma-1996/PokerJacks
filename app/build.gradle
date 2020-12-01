@@ -46,6 +46,7 @@ android {
             buildConfigField "String", "HOME_URL_LOCATION", "\"http://35.154.18.89:8007/\""
             buildConfigField "String", "HOME_URL_UPDATE", "\"http://35.154.18.89:8005/\""
             buildConfigField "String", "HOME_URL_PLAY_WALLET", "\"http://35.154.18.89:8008/\""
+            buildConfigField "String", "TABLE_MANAGER", "\"http://35.154.18.89:7000/tableManager/\""
             buildConfigField "String", "SOCKET_URL", "\"http://35.154.18.89:5000/\""
         }
 
@@ -60,6 +61,7 @@ android {
             buildConfigField "String", "HOME_URL_LOCATION", "\"http://35.154.18.89:8007/\""
             buildConfigField "String", "HOME_URL_UPDATE", "\"http://35.154.18.89:8005/\""
             buildConfigField "String", "HOME_URL_PLAY_WALLET", "\"http://35.154.18.89:8008/\""
+            buildConfigField "String", "TABLE_MANAGER", "\"http://35.154.18.89:7000/tableManager/\""
             buildConfigField "String", "SOCKET_URL", "\"http://35.154.18.89:5000/\""
         }
     }

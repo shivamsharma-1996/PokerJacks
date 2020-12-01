@@ -9,6 +9,7 @@ inline fun Socket.onNoResponse(
     crossinline callback: () -> Unit
 ) {
     on(event) {
+        log("SocketIo, $event", it)
         callback()
     }
 }

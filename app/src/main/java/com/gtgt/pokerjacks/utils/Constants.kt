@@ -1,6 +1,6 @@
 package com.gtgt.pokerjacks.utils
 
-enum class PlayerPositions {
+enum class SlotPositions {
     LEFT_TOP_CENTER, LEFT_TOP, TOP_CENTER, RIGHT_TOP, RIGHT_TOP_CENTER,
     LEFT_BOTTOM_CENTER, LEFT_BOTTOM, BOTTOM_CENTER, RIGHT_BOTTOM, RIGHT_BOTTOM_CENTER,
     LEFT_CENTER, RIGHT_CENTER

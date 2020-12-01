@@ -11,7 +11,6 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -21,7 +20,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.player.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -46,6 +44,17 @@ fun View.onRendered(callback: (View) -> Unit) {
         })
     }
 }
+
+/*fun View.onEveryRendered(callback: (View) -> Unit) {
+    val viewTreeObserver = viewTreeObserver
+    if (viewTreeObserver.isAlive) {
+        viewTreeObserver.addOnGlobalLayoutListener {
+            if (width > 0) {
+                callback(this@onEveryRendered)
+            }
+        }
+    }
+}*/
 
 fun EditText.limitLength(maxLength: Int) {
     filters = arrayOf(InputFilter.LengthFilter(maxLength))
@@ -323,4 +332,8 @@ fun TextView.SpannableString(
     )
 
     text = spannableString
+}
+
+infix fun TextView.drawableLeft(resId: Int) {
+    setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
 }

@@ -486,6 +486,7 @@ fun String.toDecimalFormat(): String {
     }
 }
 
+
 fun Double.toDecimalFormatNoCama(): String {
     val formatter = DecimalFormat("#######.##")
     formatter.isDecimalSeparatorAlwaysShown = false
@@ -1085,3 +1086,9 @@ var emptyBitMap: Bitmap? = null
 fun timeOut(delay: Long, callback: () -> Unit) {
     Handler().postDelayed({ callback() }, delay)
 }
+
+var <T> MutableLiveData<T>.data: T?
+    get() = value
+    set(v) {
+        postValue(v)
+    }

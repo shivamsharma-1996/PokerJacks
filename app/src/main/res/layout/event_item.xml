@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.gtgt.pokerjacks.ui.lobby.model.Event" />
+            type="com.gtgt.pokerjacks.ui.lobby.model.LobbyTables.Info" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -40,6 +40,15 @@
                     android:id="@+id/table"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:id="@+id/cards"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
+
             </FrameLayout>
 
             <LinearLayout
@@ -51,32 +60,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{data.filledPlayers +`/`+data.totalPlayers}"
+                    android:text="@{data.plan_details.max_players +`/`+data.activePlayers}"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Blinds: 0.5/1"
+                    android:text="@{`Blinds: ` + data.plan_details.small_blind + `/` + data.plan_details.big_blind}"
                     android:textColor="@color/white" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Avg Bet: ₹201"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/blue_gradient_button"
-                    android:paddingStart="@dimen/dimen_8dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="5dp"
-                    android:text="Join - ₹20"
-                    android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

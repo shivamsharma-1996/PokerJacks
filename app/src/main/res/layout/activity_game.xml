@@ -84,27 +84,31 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/totalPot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="40dp"
                     android:background="@drawable/table_info"
-                    android:paddingStart="15dp"
                     android:backgroundTint="#1EFFFFFF"
+                    android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:text="Total Pot: ₹12.20" />
+                    android:text="Total Pot: ₹12.20"
+                    android:visibility="invisible" />
 
                 <TextView
+                    android:id="@+id/pot_split"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:gravity="center_horizontal"
                     android:background="@drawable/table_info"
                     android:backgroundTint="#1EFFFFFF"
+                    android:gravity="center_horizontal"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:text="₹10.20   ₹2.00" />
+                    android:text="₹10.20   ₹2.00"
+                    android:visibility="invisible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -114,11 +118,13 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/community_cards_ll"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="0.6"
                         android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
 
                         <ImageView
                             android:id="@+id/c1"
@@ -131,43 +137,45 @@
                             android:id="@+id/c2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:adjustViewBounds="true"
                             android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
                             android:src="@drawable/deck_card" />
 
                         <ImageView
                             android:id="@+id/c3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:adjustViewBounds="true"
                             android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
                             android:src="@drawable/deck_card" />
 
                         <ImageView
                             android:id="@+id/c4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:adjustViewBounds="true"
                             android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
                             android:src="@drawable/deck_card" />
 
                         <ImageView
                             android:id="@+id/c5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:adjustViewBounds="true"
                             android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
                             android:src="@drawable/deck_card" />
 
                     </LinearLayout>
 
                     <FrameLayout
+                        android:id="@+id/user_cards_fl"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:layout_weight="0.4"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
+                        android:layout_weight="0.4"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
 
                         <ImageView
                             android:id="@+id/mc1"
@@ -244,7 +252,142 @@
             android:layout_marginStart="35dp"
             android:layout_marginEnd="35dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_cb"
+                android:padding="3dp"
+                android:visibility="gone">
+
+                <CheckBox
+                    android:id="@+id/sitOutCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/cb"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="5dp"
+                    android:text="Sit Out"
+                    tools:ignore="RtlSymmetry" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/foldFL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/stroke_cb"
+                android:padding="3dp">
+
+                <CheckBox
+                    android:id="@+id/foldCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/cb"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="5dp"
+                    android:text="Fold"
+                    tools:ignore="RtlSymmetry" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/checkFL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/stroke_cb"
+                android:padding="3dp">
+
+                <CheckBox
+                    android:id="@+id/checkCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/cb"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="5dp"
+                    android:text="Check"
+                    tools:ignore="RtlSymmetry" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/checkOrCallAnyFL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/stroke_cb"
+                android:padding="3dp">
+
+                <CheckBox
+                    android:id="@+id/checkOrCallAnyCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/cb"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="5dp"
+                    android:text="CallAny/Check"
+                    tools:ignore="RtlSymmetry" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/foldBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/btn_red"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:text="Fold"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/checkBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_green"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:text="Check"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/callBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_green"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:text="Call\n10"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/raiseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_blue"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:text="Raise to\n20"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/allinBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_blue"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:text="All in"
+                android:textSize="13dp" />
 
         </LinearLayout>
 
@@ -297,26 +440,6 @@
                     android:visibility="gone" />
             </LinearLayout>
         </FrameLayout>
-
-        <ImageView
-            android:id="@+id/cutCardsView"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:adjustViewBounds="true"
-            android:alpha="0"
-            android:src="@drawable/deck_card" />
-
-        <TextView
-            android:id="@+id/wonCutTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cutCardsView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            tools:text="Saitej_Gidda won the Cut for seat, and will start the hand" />
 
         <TextView
             android:id="@+id/offlineMsg"

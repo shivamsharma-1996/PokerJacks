@@ -1,33 +1,81 @@
 package com.gtgt.pokerjacks.ui.game
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.support.v4.os.ResultReceiver
+import android.view.LayoutInflater
+import android.view.View.*
+import android.widget.SeekBar
+import androidx.lifecycle.Observer
+import com.github.salomonbrys.kotson.*
+import com.gtgt.pokerjacks.InsufficientBalanceActivity
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.FullScreenScreenOnActivity
 import com.gtgt.pokerjacks.extensions.*
+import com.gtgt.pokerjacks.socket.SocketIoInstance
 import com.gtgt.pokerjacks.socket.socketInstance
-import com.gtgt.pokerjacks.ui.game.models.tableSlots
 import com.gtgt.pokerjacks.ui.game.view.slot.SlotViews
+import com.gtgt.pokerjacks.ui.game.viewModel.ActionEvent
 import com.gtgt.pokerjacks.ui.game.viewModel.GameViewModel
+import com.gtgt.pokerjacks.ui.game.viewModel.PlayerActions
+import com.gtgt.pokerjacks.ui.lobby.model.LobbyTables
+import com.gtgt.pokerjacks.ui.wallet.wallet.WalletViewModel
 import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.byin_popup.view.*
+import kotlinx.android.synthetic.main.byin_popup.view.close
+import kotlinx.android.synthetic.main.byin_popup.view.insufficient
+import kotlinx.android.synthetic.main.byin_popup.view.join
+import kotlinx.android.synthetic.main.join_status_popup.view.*
+import java.lang.Math.abs
 
-class GameActivity : FullScreenScreenOnActivity() {
+class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnectionChangeListener {
+
+    override fun connectionAvailable() {
+        offlineMsg.visibility = GONE
+        vm.tableId = tableId
+    }
+
+    override fun reconnected() {
+        offlineMsg.visibility = GONE
+        vm.tableId = tableId
+    }
+
+    override fun connectionUnavailable() {
+        offlineMsg.visibility = VISIBLE
+    }
+
+    override fun networkSpeed(speed: Int) {
+    }
+
+
     private lateinit var slotViews: SlotViews
     private val vm: GameViewModel by viewModel()
+
+    private val tableId by lazy { intent.getStringExtra("table_id") }
+    private val plan by lazy { intent.getParcelableExtra<LobbyTables.PlanDetails>("plan")!! }
+    private val walletVM: WalletViewModel by store()
+
+    private var tableDetailsTimer: CountDownTimer? = null
+    private var gameTriggerTimer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         mActivityTopLevelView = drawer_layout
 
-        socketInstance.connect()
+        socketInstance.addSocketChangeListener(this)
 
         c5.onRendered {
-            slotViews = SlotViews(rootLayout)
+            slotViews = SlotViews(rootLayout) { seatNo ->
+                if (plan.mode == "REAL") {
+                    walletVM.getRealAmount { byIn(it, seatNo, true) }
+                } else {
+                    walletVM.getPlayAmount { byIn(it, seatNo, false) }
+                }
+            }
 
-            slotViews.totalSlots = tableSlots.size
-            slotViews.isJoined = vm.mySlot != null
-
-            slotViews.drawSlots(tableSlots)
+            slotViews.totalSlots = plan.max_players
 
             val cWidth = it.width / 1.5f
             mc1.widthHeightRaw(cWidth)
@@ -35,13 +83,395 @@ class GameActivity : FullScreenScreenOnActivity() {
             mc2.marginsRaw(left = (cWidth / 2).toInt())
         }
 
+        vm.tableSlotsLD.observe(this, Observer {
+            slotViews.isJoined = vm.mySlot != null
+            slotViews.drawSlots(it)
+        })
+
+        vm.gameTriggerLD.observe(this, Observer {
+            it?.let {
+                /*gamePreferencesFragment.dismissExitLobbyDialog()
+
+            gameIdTV.visibility = View.VISIBLE
+            gameIdTV.text = it.gameUID*/
+                messageFL.visibility = VISIBLE
+
+                if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer)) {
+                    leaderboardView.visibility = GONE
+
+                    bottomPannel.visibility = INVISIBLE
+                    community_cards_ll.visibility = INVISIBLE
+                    user_cards_fl.visibility = INVISIBLE
+                    totalPot.visibility = INVISIBLE
+                    pot_split.visibility = INVISIBLE
+
+//                exit.visibility = View.GONE
+//                playArea.visibility = GONE
 
 
-        timeOut(2000) {
-            /*animateView.visibility = VISIBLE
-            iv_userProfile.visibility = GONE
-            animateView.startAnim(1000 * 20)*/
+                    /*slotViews.showTime = 0L
+                slotViews.stopTimers()*/
+
+                    afterSubmit.visibility = GONE
+                    vm.resetGame()
+
+                    messageFL.visibility = VISIBLE
+                    waitingTv.visibility = GONE
+                    gameStartsTimer.visibility = VISIBLE
+//                gamePreferencesViewModel.exitVisibility.value = View.GONE
+
+                    closeShow.visibility = GONE
+                    blur.visibility = GONE
+
+                    try {
+                        tableDetailsTimer?.cancel()
+                        gameTriggerTimer?.cancel()
+                    } catch (ex: Exception) {
+                    }
+
+                    gameTriggerTimer = object :
+                        CountDownTimer(
+                            it.start_time - (System.currentTimeMillis() - timeDiffWithServer),
+                            1000
+                        ) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            gameStartsTimer.text =
+                                "Game starts in ${millisUntilFinished / 1000} seconds..."
+                        }
+
+                        override fun onFinish() {
+                            messageFL.visibility = GONE
+                        }
+                    }.start()
+                } else {
+                    try {
+                        messageFL.visibility = GONE
+//                    gamePreferencesViewModel.exitVisibility.value = View.VISIBLE
+                        playArea.visibility = VISIBLE
+
+                        tableDetailsTimer?.cancel()
+                        gameTriggerTimer?.cancel()
+                    } catch (ex: Exception) {
+                    }
+                }
+            }
+        })
+
+        vm.userContestDetailsLD.observe(this, Observer {
+            it?.let {
+                user_cards_fl.visibility = VISIBLE
+                mc1.setImageResource(Card.getResource(it.card_1))
+                mc2.setImageResource(Card.getResource(it.card_2))
+            }
+        })
+
+        vm.gameDetailsLD.observe(this, Observer {
+            it?.let {
+                bottomPannel.visibility = VISIBLE
+                community_cards_ll.visibility = VISIBLE
+
+                c1.setImageResource(Card.getResource(it.card_1))
+                c2.setImageResource(Card.getResource(it.card_2))
+                c3.setImageResource(Card.getResource(it.card_3))
+                c4.setImageResource(Card.getResource(it.card_4))
+                c5.setImageResource(Card.getResource(it.card_5))
+            }
+        })
+
+
+        vm.playerTurnLD.observe(this, Observer {
+            it?.let {
+                totalPot.visibility = VISIBLE
+                totalPot.text = "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
+
+                if (it.side_pots.size >= 2) {
+                    pot_split.visibility = VISIBLE
+                    pot_split.text = it.side_pots.joinToString(" ") { "₹" + it.pot_value }
+                }
+
+                if (it.player_turn == vm.userId) {
+                    foldFL.visibility = GONE
+                    checkFL.visibility = GONE
+                    checkOrCallAnyFL.visibility = GONE
+
+
+                    foldBtn.visibility =
+                        if (it.action_choices.contains(PlayerActions.FOLD.action)) VISIBLE else GONE
+
+                    callBtn.visibility =
+                        if (it.action_choices.contains(PlayerActions.CALL.action)) VISIBLE else GONE
+
+                    raiseBtn.visibility =
+                        if (it.action_choices.contains(PlayerActions.RAISE.action)) VISIBLE else GONE
+
+                    checkBtn.visibility =
+                        if (it.action_choices.contains(PlayerActions.CHECK.action)) VISIBLE else GONE
+
+                    allinBtn.visibility =
+                        if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE
+
+                    callBtn.text = "Call\n₹${it.player_min_amount_to_call.toDecimalFormat()}"
+                    callBtn.tag = it.player_min_amount_to_call
+                    raiseBtn.text =
+                        "Raise\n₹${(it.player_min_amount_to_call + it.current_min_raise).toDecimalFormat()}"
+                    raiseBtn.tag = (it.player_min_amount_to_call + it.current_min_raise)
+                } else {
+                    foldFL.visibility = VISIBLE
+                    checkFL.visibility = VISIBLE
+                    checkOrCallAnyFL.visibility = VISIBLE
+
+                    foldBtn.visibility = GONE
+                    callBtn.visibility = GONE
+                    raiseBtn.visibility = GONE
+                    checkBtn.visibility = GONE
+                    allinBtn.visibility = GONE
+                }
+
+                slotViews.playerTurn = it
+            }
+        })
+
+        foldBtn.onOneClick {
+            vm.actionEvent(ActionEvent.FOLD) {
+                runOnMain {
+                    if (it!!["success"].bool) {
+                        mc1.setImageResource(R.drawable.deck_card)
+                        mc2.setImageResource(R.drawable.deck_card)
+                    } else {
+                        showSnack(it["description"].string)
+                    }
+                }
+            }
         }
 
+        callBtn.onOneClick {
+            vm.actionEvent(ActionEvent.CALL_BET, total_amount = callBtn.tag as Double) {
+
+            }
+        }
+        checkBtn.onOneClick {
+            vm.actionEvent(ActionEvent.CHECK_BET, total_amount = callBtn.tag as Double) {
+
+            }
+        }
+
+        allinBtn.onOneClick {
+            vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
+
+            }
+        }
+
+        raiseBtn.onOneClick {
+            vm.actionEvent(
+                ActionEvent.RAISE_BET,
+                total_amount = raiseBtn.tag as Double,
+                raise_amount = raiseBtn.tag as Double - callBtn.tag as Double
+            ) {
+
+            }
+        }
+    }
+
+    private fun byIn(balance: Double, seatNo: Int, isCash: Boolean) {
+        var availableBalance = balance
+
+        val builder = AlertDialog.Builder(this)
+        val dialogView =
+            LayoutInflater.from(this)
+                .inflate(R.layout.byin_popup, null)
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+
+        val amtDrawable =
+            if (isCash) R.drawable.rupee else R.drawable.coin
+
+        dialogView.availableBal.text = availableBalance.toDecimalFormat()
+        dialogView.availableBal.drawableLeft(amtDrawable)
+
+
+        dialogView.minByin.text = plan.min_buyin.toInt().toDecimalFormat()
+        dialogView.minByin.drawableLeft(amtDrawable)
+
+        dialogView.maxByin.text = plan.max_buyin.toInt().toDecimalFormat()
+        dialogView.maxByin.drawableLeft(amtDrawable)
+
+        dialogView.seek.max = plan.max_buyin.toInt() - plan.min_buyin.toInt()
+
+        dialogView.byInAmt.text = plan.min_buyin.toInt().toString()
+        dialogView.byInAmt.drawableLeft(amtDrawable)
+
+        fun joinNow() {
+            val amt = dialogView.seek.progress + plan.min_buyin
+            apiInterfaceTableManager.joinTable(
+                jsonObject(
+                    "plan_id" to plan._id,
+                    "table_id" to tableId,
+                    "seat_no" to seatNo,
+                    "amount" to amt
+                )
+            ).execute(this) {
+                if (isActivityRunning()) {
+                    if (it.success) {
+                        dialog.dismiss()
+                        vm.connectTable()
+
+//                        joinTableActions()
+
+                    } else {
+                        showToast(it.description)
+                    }
+                }
+            }
+        }
+
+        fun validatedBalanceSufficient(amt: Double) {
+            if (availableBalance < amt) {
+                dialogView.insufficient.visibility = VISIBLE
+
+                if (isCash) {
+                    dialogView.join.text = "Add Money"
+
+                    dialogView.join.onOneClick {
+                        launchActivity<InsufficientBalanceActivity> {
+                            putExtra("balance", availableBalance)
+                            putExtra(
+                                "buyIn",
+                                dialogView.seek.progress + plan.min_buyin
+                            )
+                            putExtra(
+                                "insufficientBalance",
+                                abs(
+                                    availableBalance - dialogView.byInAmt.text.toString()
+                                        .toDouble()
+                                )
+                            )
+
+                            putExtra(
+                                "resultReceiver",
+                                object : ResultReceiver(null) {
+                                    override fun onReceiveResult(
+                                        resultCode: Int,
+                                        resultData: Bundle?
+                                    ) {
+                                        if (resultData != null && resultData.containsKey(
+                                                "addedAmt"
+                                            )
+                                        ) {
+                                            availableBalance += resultData.getDouble(
+                                                "addedAmt"
+                                            )
+
+                                            dialogView.availableBal.text =
+                                                availableBalance.toDecimalFormat()
+
+                                            if (availableBalance >= dialogView.seek.progress + plan.min_buyin) {
+                                                dialogView.insufficient.visibility =
+                                                    GONE
+                                                dialogView.join.text =
+                                                    "Join Table"
+
+                                                dialogView.join.onOneClick {
+                                                    joinNow()
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                        }
+                    }
+                } else {
+                    dialogView.join.text = "Add Coins"
+                    dialogView.join.drawableLeft(R.drawable.coin)
+                    dialogView.join.onOneClick {
+                        walletVM.addChips {
+                            dialogView.insufficient.visibility = GONE
+
+                            walletVM._playWalletDetailsResponse.value =
+                                it.info["totalChips"].double
+
+                            dialogView.availableBal.text =
+                                (availableBalance + 5000).toDecimalFormat()
+
+                            dialogView.join.drawableLeft(0)
+                            dialogView.join.text = "Join Table"
+
+                            dialogView.join.onOneClick {
+                                joinNow()
+                            }
+                        }
+                    }
+                }
+            } else {
+                dialogView.insufficient.visibility = GONE
+                dialogView.join.text = "Join Table"
+                dialogView.join.onOneClick {
+                    joinNow()
+                }
+            }
+        }
+
+        dialogView.seek.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                seekBar: SeekBar?,
+                progress: Int,
+                fromUser: Boolean
+            ) {
+                val buyIn = progress + plan.min_buyin
+                dialogView.byInAmt.text =
+                    "${buyIn.toInt()}"
+
+                validatedBalanceSufficient(buyIn)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+
+        validatedBalanceSufficient(availableBalance)
+
+        dialogView.decreaseIv.setOnClickListener {
+            dialogView.seek.progress = dialogView.seek.progress - 1
+        }
+        dialogView.increaseIv.setOnClickListener {
+            dialogView.seek.progress = dialogView.seek.progress + 1
+        }
+
+
+        dialogView.close.onOneClick { dialog.dismiss() }
+
+        dialog.show()
+    }
+
+    fun joinTableActions() {
+        val builder = AlertDialog.Builder(this)
+        val dialogView =
+            LayoutInflater.from(this)
+                .inflate(R.layout.join_status_popup, null)
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+
+        dialogView.join.onOneClick {
+            if (dialogView.join_from_next.isChecked) {
+
+            } else {
+
+            }
+        }
+        dialogView.close.onOneClick { dialog.dismiss() }
+
+        dialog.show()
+    }
+
+
+    override fun onBackPressed() {
+        vm.leaveTable()
+        socketInstance.removeSocketChangeListener(this)
+        super.onBackPressed()
     }
 }

@@ -12,6 +12,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.gtgt.pokerjacks.extensions.dip
 import com.gtgt.pokerjacks.extensions.log
+import com.gtgt.pokerjacks.extensions.timeDiffWithServer
+import com.gtgt.pokerjacks.ui.game.models.PlayerTurn
 import kotlin.math.round
 
 class AnimateArcView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -26,7 +28,10 @@ class AnimateArcView(context: Context, attrs: AttributeSet) : View(context, attr
 
     var isGraceTime = false
 
-    var drawColor = Color.parseColor("#ffdf01")
+    var normalColor = Color.parseColor("#ffdf01")
+    var graceColor = Color.parseColor("#bb2205")
+
+    var drawColor = normalColor
         set(value) {
             field = value
             setDrawColor()
@@ -39,7 +44,6 @@ class AnimateArcView(context: Context, attrs: AttributeSet) : View(context, attr
         log("width", size)
         tp.textSize = dip(size / 8)
         tp.isAntiAlias = true
-        tp.color = Color.parseColor("#ffdf01")
         tp.textAlign = Paint.Align.CENTER
 
         pb.color = Color.parseColor("#3e536f")
@@ -60,10 +64,30 @@ class AnimateArcView(context: Context, attrs: AttributeSet) : View(context, attr
             p.strokeWidth = size / 11
             p.style = Paint.Style.STROKE
             p.strokeCap = Paint.Cap.ROUND
+
+            tp.color = drawColor
         }
     }
 
-    fun startAnim(millisInFuture: Long, isGraceTime: Boolean = false) {
+    fun startAnim(playerTurn: PlayerTurn, onFinished: (() -> Unit)? = null) {
+        drawColor = normalColor
+        startAnim(playerTurn.player_action_timer - (System.currentTimeMillis() - timeDiffWithServer)) {
+            drawColor = graceColor
+            startAnim(
+                playerTurn.player_grace_timer - (System.currentTimeMillis() - timeDiffWithServer),
+                true
+            ) {
+                visibility = GONE
+                onFinished?.invoke()
+            }
+        }
+    }
+
+    fun startAnim(
+        millisInFuture: Long,
+        isGraceTime: Boolean = false,
+        onFinished: (() -> Unit)? = null
+    ) {
         remainingTimeInSec = millisInFuture / 1000
         this.isGraceTime = isGraceTime
 
@@ -75,10 +99,12 @@ class AnimateArcView(context: Context, attrs: AttributeSet) : View(context, attr
             override fun onFinish() {
                 sweepAngle = 0f
                 invalidate()
+                onFinished?.invoke()
             }
 
             override fun onTick(millisUntilFinished: Long) {
                 remainingTimeInSec = round(millisUntilFinished / 1000.0).toLong()
+//                log("remainingTimeInSec", remainingTimeInSec)
                 sweepAngle++
                 invalidate()
             }

@@ -9,6 +9,7 @@ import com.google.gson.JsonElement
 import com.gtgt.pokerjacks.BuildConfig
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.utils.NetworkStateReceiver
+import io.socket.client.Ack
 import io.socket.client.IO
 import io.socket.client.Socket
 import java.util.concurrent.Executors
@@ -50,7 +51,9 @@ class SocketIoInstance(private val url: String) :
                     "authenticateUser", jsonObject(
                         "token" to getModel<JsonElement>("loginInfo")?.get("token")?.string,
                         "data" to jsonObject("userId" to userId, "userUniqueId" to userId)
-                    )
+                    ), Ack {
+                        log("SocketIo:response, authenticateUser", it[0])
+                    }
                 )
                 notifyConnectionAvailable()
             }
@@ -63,11 +66,12 @@ class SocketIoInstance(private val url: String) :
             }
 
             socket.onNoResponse(Socket.EVENT_DISCONNECT) {
+
                 runOnMain {
 //                    connectionDelayHandler.removeCallbacksAndMessages(null)
 //                    connectionDelayHandler.postDelayed({
-                        if (!socket.connected())
-                            notifyConnectionUnAvailable()
+                    if (!socket.connected())
+                        notifyConnectionUnAvailable()
 //                    }, 0/*3000*/)
                     notifyNetworkSpeed(-1)
                 }
