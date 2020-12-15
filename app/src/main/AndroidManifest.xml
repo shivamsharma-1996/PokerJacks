@@ -77,7 +77,7 @@
             android:theme="@style/Theme.Transparent"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -89,6 +89,7 @@ data class GameModel(val info: Info) : BaseModel() {
 data class GameUser(
     val game_id: String,
     val game_inplay_amount: Double,
+    val amount_invested: Double,
     val position: String,
     val seat_no: Int,
     val status: String,
@@ -101,6 +102,7 @@ data class PlayerTurn(
     val action_choices: List<String>,
     val player_min_amount_to_call: Double,
     val current_min_raise: Double,
+    val game_max_bet_amount: Double,
     val game_inplay_amount: Double,
     val player_action_timer: Long,
     val player_grace_timer: Long,
@@ -114,4 +116,12 @@ data class PlayerTurn(
 data class SidePot(
     val players: List<String>,
     val pot_value: Double
+)
+
+data class DealCommunityCards(
+    val card_1: String,
+    val card_2: String,
+    val card_3: String,
+    val card_4: String,
+    val card_5: String
 )

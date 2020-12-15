@@ -36,7 +36,9 @@ enum class SeatStatus(val status: String) {
 enum class AutoGameAction(val action: String) {
     AUTO_FOLD("AUTO_FOLD"),
     AUTO_CALL("AUTO_CALL"),
-    AUTO_CHECK("AUTO_CHECK")
+    AUTO_CHECK("AUTO_CHECK"),
+    AUTO_CALL_ANY("AUTO_CALL_ANY"),
+    AUTO_CHECK_FOLD("AUTO_CHECK_FOLD"),
 }
 
 enum class PlayerActions(val action: String) {
@@ -55,6 +57,7 @@ class GameViewModel : SocketIOViewModel() {
     val gameDetailsLD = MutableLiveData<GameModel.GameDetails>()
     val userContestDetailsLD = MutableLiveData<GameModel.UserContestDetails>()
     val playerTurnLD = MutableLiveData<PlayerTurn>()
+    val dealCommunityCardsLD = MutableLiveData<DealCommunityCards>()
 
     var tableId: String = ""
         set(value) {
@@ -77,11 +80,18 @@ class GameViewModel : SocketIOViewModel() {
                 handleTableSlots(it.tableSlots, it.gameUsers)
             }
 
+            on<JsonElement>("dealCommunityCards") {
+                dealCommunityCardsLD.data = it["community_cards"].to()
+            }
+
             on<JsonElement>("gameEvent") {
                 val data = it["data"]
 
                 when (it["event"].string) {
-                    "endGame" -> activity?.showSnack("Game is ended")
+                    "endGame" -> {
+                        playerTurnLD.data = null
+                        activity?.showSnack("Game is ended")
+                    }
                 }
             }
 
@@ -103,6 +113,8 @@ class GameViewModel : SocketIOViewModel() {
                 else -> slots2Positions
             }
         }
+
+        me = gameUsers.find { it.user_unique_id == userId }
 
         if (mySlot == null) {
             mySlot = slots.firstOrNull { it.user_unique_id == userId }
@@ -154,13 +166,20 @@ class GameViewModel : SocketIOViewModel() {
         )
     }
 
-    fun autoGameAction(action: AutoGameAction, callback: ChannelCallbackType<JsonElement?>) {
+    fun autoGameAction(
+        action: AutoGameAction,
+        enable: Boolean,
+        callback: ChannelCallbackType<JsonElement?>
+    ) {
         emit(
             "autoGameAction",
             jsonObject(
                 "table_id" to tableId,
                 "game_id" to gameDetailsLD.data!!._id,
-                "update_status" to action.action
+                "action_details" to jsonObject(
+                    "action" to action.action,
+                    "enable" to enable
+                )
             ),
             callback = callback
         )
@@ -193,4 +212,5 @@ class GameViewModel : SocketIOViewModel() {
     }
 
     var mySlot: TableSlot? = null
+    var me: GameUser? = null
 }
