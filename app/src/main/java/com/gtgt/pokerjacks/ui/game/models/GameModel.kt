@@ -92,6 +92,7 @@ data class GameUser(
     val amount_invested: Double,
     val position: String,
     val seat_no: Int,
+    val current_round_invested: Double,
     val status: String,
     val table_id: String,
     val user_name: String,
@@ -125,3 +126,4 @@ data class DealCommunityCards(
     val card_4: String,
     val card_5: String
 )
+

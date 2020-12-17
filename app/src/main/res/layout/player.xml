@@ -4,6 +4,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/crown"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+        android:src="@drawable/crown" />
+
     <TextView
         android:id="@+id/in_play_amt"
         android:layout_width="wrap_content"
@@ -12,7 +20,7 @@
         android:minWidth="60dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:text="₹1,500"
+        android:text=""
         android:textAlignment="center"
         android:textSize="13dp" />
 
@@ -23,7 +31,7 @@
         android:drawablePadding="3dp"
         android:paddingTop="4dp"
         android:text="₹40.208"
-        android:textSize="11dp"
+        android:textSize="12dp"
         app:drawableStartCompat="@drawable/coin_small" />
 
     <FrameLayout
@@ -89,4 +97,25 @@
 
 
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/revealCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/deck_card" />
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-14dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/deck_card" />
+    </LinearLayout>
+
 </FrameLayout>

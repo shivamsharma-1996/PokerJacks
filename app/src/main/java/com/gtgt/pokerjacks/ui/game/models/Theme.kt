@@ -31,7 +31,7 @@ class Theme(
             cornerRadius = dpToPxFloat(6)
             setStroke(
                 dpToPx(1),
-                btn2
+                light
             )
         }
 
@@ -56,53 +56,34 @@ val themes = listOf(
         name = "blue",
         bg = R.drawable.blue_table_bg,
         table = R.drawable.blue_table,
-        gradientStart = Color.parseColor("#1D8DE1"),
-        gradientEnd = Color.parseColor("#003964"),
-        light = Color.parseColor("#1D8DE2"),
-        dark = Color.parseColor("#002C52"),
-        btn1 = Color.parseColor("#E1C300"),
-        btn2 = Color.parseColor("#716200")
-    ), Theme(
+        gradientStart = Color.parseColor("#fd055c"),
+        gradientEnd = Color.parseColor("#930034"),
+        light = Color.parseColor("#ed1561"),
+        dark = Color.parseColor("#930034"),
+        btn1 = Color.parseColor("#fd055c"),
+        btn2 = Color.parseColor("#930034")
+    ),
+    Theme(
         name = "red",
-        bg = R.drawable.red_table_bg,
+        bg = R.drawable.blue_table_bg,
         table = R.drawable.red_table,
-        gradientStart = Color.parseColor("#B40505"),
-        gradientEnd = Color.parseColor("#5A0303"),
-        light = Color.parseColor("#B40505"),
-        dark = Color.parseColor("#570101"),
-        btn1 = Color.parseColor("#E1C300"),
-        btn2 = Color.parseColor("#716200")
-    ), Theme(
-        name = "red_green",
-        bg = R.drawable.green_table_bg,
-        table = R.drawable.red_table_old,
-        gradientStart = Color.parseColor("#B40505"),
-        gradientEnd = Color.parseColor("#5A0303"),
-        light = Color.parseColor("#B40505"),
-        dark = Color.parseColor("#570101"),
-        btn1 = Color.parseColor("#E1C300"),
-        btn2 = Color.parseColor("#716200")
-    ), Theme(
-        name = "ace23",
-        bg = R.drawable.ace23_table_bg,
-        table = R.drawable.ace23_table,
-        gradientStart = Color.parseColor("#C71F25"),
-        gradientEnd = Color.parseColor("#741316"),
-        light = Color.parseColor("#C71F25"),
-        dark = Color.parseColor("#570101"),
-        btn1 = Color.parseColor("#E1C300"),
-        btn2 = Color.parseColor("#716200")
-    ), Theme(
-        name = "rc",
-        bg = R.drawable.rc_table_bg,
-        table = R.drawable.rc_table,
-        gradientStart = Color.parseColor("#009F34"),
-        gradientEnd = Color.parseColor("#095222"),
-        light = Color.parseColor("#009F34"),
-        dark = Color.parseColor("#033810"),
-        btn1 = Color.parseColor("#AA0B11"),
-        btn2 = Color.parseColor("#620407"),
-        secondaryTextColor = Color.parseColor("#620407")
+        gradientStart = Color.parseColor("#ccb205"),
+        gradientEnd = Color.parseColor("#5f5302"),
+        light = Color.parseColor("#b59f0d"),
+        dark = Color.parseColor("#5f5302"),
+        btn1 = Color.parseColor("#ccb205"),
+        btn2 = Color.parseColor("#5f5302")
+    ),
+    Theme(
+        name = "yellow",
+        bg = R.drawable.blue_table_bg,
+        table = R.drawable.yellow_table,
+        gradientStart = Color.parseColor("#c3c34b"),
+        gradientEnd = Color.parseColor("#626226"),
+        light = Color.parseColor("#c3c34b"),
+        dark = Color.parseColor("#626226"),
+        btn1 = Color.parseColor("#c3c34b"),
+        btn2 = Color.parseColor("#626226")
     )
 )
 

@@ -58,6 +58,7 @@ class GameViewModel : SocketIOViewModel() {
     val userContestDetailsLD = MutableLiveData<GameModel.UserContestDetails>()
     val playerTurnLD = MutableLiveData<PlayerTurn>()
     val dealCommunityCardsLD = MutableLiveData<DealCommunityCards>()
+    val leaderboardLD = MutableLiveData<Leaderboard>()
 
     var tableId: String = ""
         set(value) {
@@ -70,14 +71,24 @@ class GameViewModel : SocketIOViewModel() {
                 val gameDetails = it["data"]["gameDetails"].to<GameModel.GameDetails>()
 
                 emit<AnyModel>("getUserCards", jsonObject("table_id" to tableId)) {
-                    userContestDetailsLD.data = it!!.info["userContestDetails"].to()
+
+                    if (!it!!.info["userContestDetails"].isJsonNull) {
+                        userContestDetailsLD.data = it!!.info["userContestDetails"].to()
+                    }
                     gameDetailsLD.data = gameDetails
 
                     playerTurnLD.data = it.info["playerTurn"].to()
                 }
             }
+
             on<TablePlayers>("tablePlayers") {
                 handleTableSlots(it.tableSlots, it.gameUsers)
+            }
+
+            on<JsonElement>("leaderboard") {
+                val leaderboard = it["data"].to<Leaderboard>()
+                dealCommunityCardsLD.data = leaderboard.community_cards
+                leaderboardLD.data = leaderboard
             }
 
             on<JsonElement>("dealCommunityCards") {
@@ -136,8 +147,11 @@ class GameViewModel : SocketIOViewModel() {
         tableSlotsLD.data = slots
     }
 
+    var connectionData:GameModel? = null
     fun connectTable() {
         emit<GameModel>("connectTable", jsonObject("table_id" to tableId)) {
+            connectionData = it
+
             if (it == null) {
                 activity?.showSnack("Error in connecting to table")
             } else {

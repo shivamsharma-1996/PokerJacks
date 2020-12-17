@@ -45,6 +45,22 @@
                 android:layout_marginStart="10dp"
                 android:src="@drawable/previous" />
 
+            <TextView
+                android:id="@+id/reconnect"
+                style="@style/buton_tv"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/stroke_blue"
+                android:minWidth="70dp"
+                android:text="Go Offline" />
+
+            <TextView
+                android:id="@+id/shareReconnect"
+                style="@style/buton_tv"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/stroke_blue"
+                android:minWidth="70dp"
+                android:text="Share Reconnect" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -129,7 +145,7 @@
                     android:text="Total Pot: ₹12.20"
                     android:visibility="invisible" />
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/pot_split"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,10 +154,11 @@
                     android:background="@drawable/table_info"
                     android:backgroundTint="#1EFFFFFF"
                     android:gravity="center_horizontal"
+                    android:orientation="horizontal"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:text="₹10.20   ₹2.00"
-                    android:visibility="invisible" />
+                    android:visibility="invisible">
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -285,8 +302,8 @@
             android:layout_marginStart="35dp"
             android:layout_marginEnd="135dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="invisible"
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -332,7 +349,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/stroke_cb"
-                android:padding="3dp">
+                android:padding="3dp"
+                android:visibility="gone">
 
                 <CheckBox
                     android:id="@+id/fold_checkCB"
@@ -351,7 +369,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/stroke_cb"
-                android:padding="3dp">
+                android:padding="3dp"
+                android:visibility="gone">
 
                 <CheckBox
                     android:id="@+id/checkCB"
@@ -390,7 +409,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/stroke_cb"
-                android:padding="3dp">
+                android:padding="3dp"
+                android:visibility="gone">
 
                 <CheckBox
                     android:id="@+id/checkOrCallAnyCB"
@@ -434,6 +454,7 @@
                 android:layout_height="32dp"
                 android:background="@drawable/btn_red"
                 android:gravity="center"
+                android:visibility="gone"
                 android:minWidth="62dp"
                 android:text="Fold"
                 android:textSize="13dp" />
@@ -446,6 +467,7 @@
                 android:background="@drawable/btn_green"
                 android:gravity="center"
                 android:minWidth="62dp"
+                android:visibility="gone"
                 android:text="Check"
                 android:textSize="13dp" />
 
@@ -456,6 +478,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/btn_green"
                 android:gravity="center"
+                android:visibility="gone"
                 android:minWidth="62dp"
                 android:text="Call\n10"
                 android:textSize="13dp" />
@@ -467,6 +490,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/btn_blue"
                 android:gravity="center"
+                android:visibility="gone"
                 android:minWidth="62dp"
                 android:text="Raise to\n20"
                 android:textSize="13dp" />
@@ -478,6 +502,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/btn_blue"
                 android:gravity="center"
+                android:visibility="gone"
                 android:minWidth="62dp"
                 android:text="All in"
                 android:textSize="13dp" />
@@ -505,7 +530,9 @@
                 android:id="@+id/gameInfoIv"
                 android:layout_width="400dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/game_info_bg" />
+                android:src="@drawable/game_info_bg"
+                android:alpha="0.4"
+                android:tint="#000"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"

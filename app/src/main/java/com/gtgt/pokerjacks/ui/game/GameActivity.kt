@@ -1,18 +1,21 @@
 package com.gtgt.pokerjacks.ui.game
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.os.ResultReceiver
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.*
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import com.devs.vectorchildfinder.VectorChildFinder
 import com.github.salomonbrys.kotson.*
+import com.gtgt.pokerjacks.BuildConfig
 import com.gtgt.pokerjacks.InsufficientBalanceActivity
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.FullScreenScreenOnActivity
@@ -64,6 +67,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     private val themesViewModel: ThemesViewModel by viewModel()
     private val gamePreferencesFragment by lazy { GamePreferencesFragment() }
 
+    val topMargin = dpToPx(56).toFloat()
+
 
     private var tableDetailsTimer: CountDownTimer? = null
     private var gameTriggerTimer: CountDownTimer? = null
@@ -73,11 +78,48 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         setContentView(R.layout.activity_game)
         mActivityTopLevelView = drawer_layout
 
+
+        if (BuildConfig.DEBUG) {
+            reconnect.visibility = VISIBLE
+            shareReconnect.visibility = VISIBLE
+
+            reconnect.onOneClick {
+                if (socketInstance.socket.connected()) {
+                    socketInstance.socket.disconnect()
+                } else {
+                    reconnected()
+                }
+            }
+
+            shareReconnect.onOneClick {
+                if (vm.connectionData == null) {
+                    showSnack("Not Reconnected")
+                } else {
+                    val sendIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(
+                            Intent.EXTRA_TEXT,
+                            "Reconnect:\n" + vm.connectionData!!.toPrettyJson()
+                        )
+                        type = "text/plain"
+                    }
+
+                    val shareIntent = Intent.createChooser(sendIntent, null)
+                    startActivity(shareIntent)
+                }
+            }
+
+        } else {
+            reconnect.visibility = GONE
+            shareReconnect.visibility = GONE
+        }
+
+
         socketInstance.connect()
         socketInstance.addSocketChangeListener(this)
 
         themeSelectFragment.z = 11f
-//        raiseLL.z = 11f
+        topPanel.z = 11f
 
         c5.onRendered {
             slotViews = SlotViews(rootLayout) { seatNo ->
@@ -117,7 +159,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             if (theme != null) {
                 rootLayout.setBackgroundResource(theme.bg)
                 ivTable.loadImage(theme.table)
-                gameInfoIv.imageTintList = ColorStateList.valueOf(theme.dark)
+//                gameInfoIv.imageTintList = ColorStateList.valueOf(theme.dark)
 
                 foldFL.background = theme.textDrawable
                 fold_checkFL.background = theme.textDrawable
@@ -152,6 +194,20 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             gameIdTV.visibility = View.VISIBLE
             gameIdTV.text = it.gameUID*/
+
+                slotViews.usersBestHand = null
+                slotViews.crownTo(-1)
+                slotViews.resetPlayers()
+
+                c1.alpha = 1f
+                c2.alpha = 1f
+                c3.alpha = 1f
+                c4.alpha = 1f
+                c5.alpha = 1f
+
+                mc1.alpha = 1f
+                mc2.alpha = 1f
+
                 messageFL.visibility = VISIBLE
 
                 if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer)) {
@@ -247,16 +303,22 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         })
 
         vm.playerTurnLD.observe(this, Observer {
+            log("playerTurnLD", it)
+
             if (it == null) {
                 raiseLL.visibility = GONE
             } else {
                 totalPot.visibility = VISIBLE
                 totalPot.text = "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
 
-                if (it.side_pots.size >= 2) {
-                    pot_split.visibility = VISIBLE
-                    pot_split.text = it.side_pots.joinToString(" ") { "₹" + it.pot_value }
+                pot_split.removeAllViews()
+                it.side_pots.forEach {
+                    pot_split.addView(TextView(this).apply {
+                        text = "  ₹ ${it.pot_value}  "
+                    })
                 }
+
+                pot_split.visibility = if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
 
                 if (it.player_turn == vm.userId) {
                     foldFL.visibility = GONE
@@ -402,6 +464,123 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             }
         })
 
+        var isPotAnimationDone = true
+        vm.leaderboardLD.observe(this, Observer { leaderboard ->
+            bottomPannel.visibility = INVISIBLE
+
+            slotViews.resetPlayers()
+
+            pot_split.visibility = VISIBLE
+            val potSplitTop = dpToPx(50).toFloat() + totalPot.height
+            val playAreaPadding = playArea.paddingStart
+            val potSplitPadding = dpToPx(15).toFloat()
+
+            val pots = leaderboard.pot_winnings.filter { it.wonAmt > 0 }.sortedBy { it.pot_index }
+
+            fun animatePots(potIndex: Int) {
+                if (pots.size > potIndex) {
+                    isPotAnimationDone = false
+                    slotViews.crownTo(-1)
+
+                    c1.alpha = 1f
+                    c2.alpha = 1f
+                    c3.alpha = 1f
+                    c4.alpha = 1f
+                    c5.alpha = 1f
+
+                    mc1.alpha = 1f
+                    mc2.alpha = 1f
+
+                    val potWinning = pots[potIndex]
+
+                    val c1 = pot_split.getChildAt(0) ?: return
+
+                    val c = c1 as TextView
+
+                    val currentPotView = TextView(this)
+                    rootLayout.addView(currentPotView)
+
+                    currentPotView.apply {
+                        text = c.text
+                        setBackgroundColor(Color.parseColor("#AD000000"))
+                        x = pot_split.x + c.x + playAreaPadding + potSplitPadding
+                        y = topMargin + potSplitTop
+                        z = 100f
+                    }
+
+                    if (leaderboard.cards_reveal) {
+                        slotViews.usersBestHand = leaderboard.users_best_hand
+                        slotViews.resetPlayers()
+                    }
+
+                    vm.tableSlotsLD.value?.let { slots ->
+                        slots.find { it.user_unique_id == potWinning.user_unique_id }?.let {
+                            slotViews.slotViews[it.seat_no]?.let { slot ->
+                                c.visibility = INVISIBLE
+
+                                leaderboard.users_best_hand
+                                    .find { it.user_unique_id == potWinning.user_unique_id }
+                                    ?.let {
+                                        val cards = it.best_hand_details.cards
+
+                                        slotViews.crownTo(
+                                            it.seat_no,
+                                            if (leaderboard.cards_reveal)
+                                                listOf(
+                                                    if (cards.contains(it.card_1)) 1f else 0.4f,
+                                                    if (cards.contains(it.card_2)) 1f else 0.4f
+                                                )
+                                            else
+                                                listOf(1f, 1f)
+                                        )
+
+                                        if (leaderboard.cards_reveal) {
+
+                                            if (it.user_unique_id == vm.userId) {
+                                                mc1.alpha =
+                                                    if (cards.contains(it.card_1)) 1f else 0.4f
+                                                mc2.alpha =
+                                                    if (cards.contains(it.card_2)) 1f else 0.4f
+                                            }
+
+                                            c1.alpha =
+                                                if (cards.contains(leaderboard.community_cards.card_1)) 1f else 0.4f
+                                            c2.alpha =
+                                                if (cards.contains(leaderboard.community_cards.card_2)) 1f else 0.4f
+                                            c3.alpha =
+                                                if (cards.contains(leaderboard.community_cards.card_3)) 1f else 0.4f
+                                            c4.alpha =
+                                                if (cards.contains(leaderboard.community_cards.card_4)) 1f else 0.4f
+                                            c5.alpha =
+                                                if (cards.contains(leaderboard.community_cards.card_5)) 1f else 0.4f
+
+                                        }
+                                    }
+
+                                currentPotView.animate().apply {
+                                    x(slot.x)
+                                    y(slot.y)
+                                    duration = 250
+                                    withEndAction {
+                                        rootLayout.removeView(currentPotView)
+                                        animatePots(potIndex + 1)
+                                    }
+                                    start()
+                                }
+                            }
+                        }
+                    }
+                } else {
+//                    showToast("true")
+                    isPotAnimationDone = true
+                }
+            }
+
+            if (isPotAnimationDone) {
+                animatePots(0)
+            }
+        })
+
         foldBtn.onOneClick {
             vm.actionEvent(ActionEvent.FOLD) {
                 runOnMain {
@@ -504,6 +683,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
         dialogView.byInAmt.text = plan.min_buyin.toInt().toString()
         dialogView.byInAmt.drawableLeft(amtDrawable)
+
+        dialogView.join.background = selectedTheme?.btnDrawable
 
         fun joinNow() {
             val amt = dialogView.seek.progress + plan.min_buyin
