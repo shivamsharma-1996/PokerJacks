@@ -147,16 +147,18 @@ class GameViewModel : SocketIOViewModel() {
         tableSlotsLD.data = slots
     }
 
-    var connectionData:GameModel? = null
+    var connectionData: JsonElement? = null
     fun connectTable() {
-        emit<GameModel>("connectTable", jsonObject("table_id" to tableId)) {
+        emit<JsonElement>("connectTable", jsonObject("table_id" to tableId)) {
             connectionData = it
 
             if (it == null) {
                 activity?.showSnack("Error in connecting to table")
             } else {
-                if (it.success) {
-                    val gameInfo = it.info
+                val data = it.to<GameModel>()
+
+                if (data.success) {
+                    val gameInfo = data.info
                     gameTriggerLD.data = gameInfo.gameDetails
                     userContestDetailsLD.data = gameInfo.userContestDetails
 
@@ -164,9 +166,11 @@ class GameViewModel : SocketIOViewModel() {
                     socketIO.socketHandler.postDelayed({
                         playerTurnLD.data = gameInfo.playerTurn
                         gameDetailsLD.data = gameInfo.gameDetails
+                        if (gameInfo.leaderboard != null)
+                            leaderboardLD.data = gameInfo.leaderboard
                     }, 300)
                 } else {
-                    activity?.showSnack(it.description)
+                    activity?.showSnack(data.description)
                 }
             }
         }
@@ -182,7 +186,6 @@ class GameViewModel : SocketIOViewModel() {
 
     fun autoGameAction(
         action: AutoGameAction,
-        enable: Boolean,
         callback: ChannelCallbackType<JsonElement?>
     ) {
         emit(
@@ -192,7 +195,7 @@ class GameViewModel : SocketIOViewModel() {
                 "game_id" to gameDetailsLD.data!!._id,
                 "action_details" to jsonObject(
                     "action" to action.action,
-                    "enable" to enable
+                    "enable" to true
                 )
             ),
             callback = callback

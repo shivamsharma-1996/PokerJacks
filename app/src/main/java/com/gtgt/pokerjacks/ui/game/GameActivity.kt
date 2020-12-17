@@ -2,7 +2,6 @@ package com.gtgt.pokerjacks.ui.game
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -41,6 +40,7 @@ import java.lang.Math.abs
 class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnectionChangeListener {
 
     override fun connectionAvailable() {
+        reconnect.text = "Go Offline"
         offlineMsg.visibility = GONE
         vm.tableId = tableId
     }
@@ -51,6 +51,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     override fun connectionUnavailable() {
+        reconnect.text = "Go Online"
         offlineMsg.visibility = VISIBLE
     }
 
@@ -161,12 +162,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 ivTable.loadImage(theme.table)
 //                gameInfoIv.imageTintList = ColorStateList.valueOf(theme.dark)
 
-                foldFL.background = theme.textDrawable
-                fold_checkFL.background = theme.textDrawable
-                checkFL.background = theme.textDrawable
-                callFL.background = theme.textDrawable
-                checkOrCallAnyFL.background = theme.textDrawable
-                callAnyFL.background = theme.textDrawable
+                foldCB.background = theme.textDrawable
+                fold_checkCB.background = theme.textDrawable
+                checkCB.background = theme.textDrawable
+                callCB.background = theme.textDrawable
+                checkOrCallAnyCB.background = theme.textDrawable
+                callAnyCB.background = theme.textDrawable
 
                 menuVector.changePathStrokeColor("stroke", theme.btn2)
                 menu.invalidate()
@@ -303,7 +304,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         })
 
         vm.playerTurnLD.observe(this, Observer {
-            log("playerTurnLD", it)
+//            log("playerTurnLD", it)
 
             if (it == null) {
                 raiseLL.visibility = GONE
@@ -321,12 +322,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 pot_split.visibility = if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
 
                 if (it.player_turn == vm.userId) {
-                    foldFL.visibility = GONE
-                    checkFL.visibility = GONE
-                    checkOrCallAnyFL.visibility = GONE
-                    fold_checkFL.visibility = GONE
-                    callFL.visibility = GONE
-                    callAnyFL.visibility = GONE
+                    foldCB.visibility = GONE
+                    checkCB.visibility = GONE
+                    checkOrCallAnyCB.visibility = GONE
+                    fold_checkCB.visibility = GONE
+                    callCB.visibility = GONE
+                    callAnyCB.visibility = GONE
+
+                    auto_options_rg.clearCheck()
 
                     foldBtn.visibility =
                         if (it.action_choices.contains(PlayerActions.FOLD.action)) VISIBLE else GONE
@@ -351,22 +354,27 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     callBtn.text = "Call\n₹${it.player_min_amount_to_call.toDecimalFormat()}"
                     callBtn.tag = it.player_min_amount_to_call
-                    raiseBtn.text =
-                        "Raise\n₹${(it.player_min_amount_to_call + it.current_min_raise).toDecimalFormat()}"
-                    raiseBtn.tag = (it.player_min_amount_to_call + it.current_min_raise)
+
 
                     val maxPossibleRaise =
                         if (it.game_inplay_amount < it.total_pot_value) {
 //                            pot_raise.visibility = GONE
 //                            max_raise.visibility = VISIBLE
-                            it.total_pot_value
+                            it.game_inplay_amount
                         } else {
 //                            pot_raise.visibility = GONE
 //                            max_raise.visibility = VISIBLE
-                            it.game_inplay_amount
+                            it.total_pot_value
                         }
                     max_raise_value.text = maxPossibleRaise.toString()
-                    val minPossibleRaise = it.player_min_amount_to_call + it.current_min_raise
+                    val minPossibleRaise =
+                        (it.player_min_amount_to_call + it.current_min_raise).let { a ->
+                            return@let if (a < it.game_inplay_amount) a else it.game_inplay_amount
+                        }
+
+                    raiseBtn.text =
+                        "Raise\n₹${(minPossibleRaise).toDecimalFormat()}"
+                    raiseBtn.tag = minPossibleRaise
 
                     seek_raise.max = ((maxPossibleRaise - minPossibleRaise) * 100).toInt()
 
@@ -381,6 +389,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     raise_1_2.onOneClick {
                         seek_raise.progress = ((it.total_pot_value - minPossibleRaise) * 50).toInt()
                     }
+
+                    seek_raise.progress = 0
 
                     min_raise.onOneClick {
                         seek_raise.progress = 0
@@ -424,31 +434,31 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     if (vm.me != null) {
                         when {
                             vm.me!!.status == PlayerActions.ALL_IN.action || vm.me!!.status == PlayerActions.FOLD.action -> {
-                                fold_checkFL.visibility = GONE
-                                checkFL.visibility = GONE
-                                checkOrCallAnyFL.visibility = GONE
+                                fold_checkCB.visibility = GONE
+                                checkCB.visibility = GONE
+                                checkOrCallAnyCB.visibility = GONE
 
-                                foldFL.visibility = GONE
-                                callFL.visibility = GONE
-                                callAnyFL.visibility = GONE
+                                foldCB.visibility = GONE
+                                callCB.visibility = GONE
+                                callAnyCB.visibility = GONE
                             }
                             vm.me!!.amount_invested == it.game_max_bet_amount -> {
-                                fold_checkFL.visibility = VISIBLE
-                                checkFL.visibility = VISIBLE
-                                checkOrCallAnyFL.visibility = VISIBLE
+                                fold_checkCB.visibility = VISIBLE
+                                checkCB.visibility = VISIBLE
+                                checkOrCallAnyCB.visibility = VISIBLE
 
-                                foldFL.visibility = GONE
-                                callFL.visibility = GONE
-                                callAnyFL.visibility = GONE
+                                foldCB.visibility = GONE
+                                callCB.visibility = GONE
+                                callAnyCB.visibility = GONE
                             }
                             else -> {
-                                fold_checkFL.visibility = GONE
-                                checkFL.visibility = GONE
-                                checkOrCallAnyFL.visibility = GONE
+                                fold_checkCB.visibility = GONE
+                                checkCB.visibility = GONE
+                                checkOrCallAnyCB.visibility = GONE
 
-                                foldFL.visibility = VISIBLE
-                                callFL.visibility = VISIBLE
-                                callAnyFL.visibility = VISIBLE
+                                foldCB.visibility = VISIBLE
+                                callCB.visibility = VISIBLE
+                                callAnyCB.visibility = VISIBLE
                             }
                         }
                     }
@@ -466,6 +476,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
         var isPotAnimationDone = true
         vm.leaderboardLD.observe(this, Observer { leaderboard ->
+            if (leaderboard == null)
+                return@Observer
+
             bottomPannel.visibility = INVISIBLE
 
             slotViews.resetPlayers()
@@ -581,10 +594,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             }
         })
 
+
         foldBtn.onOneClick {
+            disableEnableActions(false)
             vm.actionEvent(ActionEvent.FOLD) {
                 runOnMain {
+                    disableEnableActions(true)
+
                     if (it!!["success"].bool) {
+                        slotViews.resetPlayers()
                         mc1.setImageResource(R.drawable.deck_card)
                         mc2.setImageResource(R.drawable.deck_card)
                     } else {
@@ -595,29 +613,44 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
 
         callBtn.onOneClick {
+            disableEnableActions(false)
             vm.actionEvent(ActionEvent.CALL_BET, total_amount = callBtn.tag as Double) {
-
+                runOnMain {
+                    disableEnableActions(true)
+                }
             }
         }
         checkBtn.onOneClick {
+            disableEnableActions(false)
             vm.actionEvent(ActionEvent.CHECK_BET, total_amount = callBtn.tag as Double) {
+                runOnMain {
+                    disableEnableActions(true)
+                }
 
             }
         }
 
         allinBtn.onOneClick {
+            disableEnableActions(false)
             vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
+                    disableEnableActions(true)
 
+                if (it!!["success"].bool) {
+                    slotViews.resetPlayers()
+                }
             }
         }
 
         raiseBtn.onOneClick {
+            disableEnableActions(false)
             vm.actionEvent(
                 ActionEvent.RAISE_BET,
                 total_amount = raiseBtn.tag as Double,
                 raise_amount = raiseBtn.tag as Double - callBtn.tag as Double
             ) {
-
+                runOnMain {
+                    disableEnableActions(true)
+                }
             }
         }
 
@@ -626,24 +659,32 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         sitOutCB.onOneClick { }
 
         foldCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_FOLD, foldCB.isChecked) {}
+            vm.autoGameAction(AutoGameAction.AUTO_FOLD) {}
         }
         checkCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CHECK, checkCB.isChecked) {}
+            vm.autoGameAction(AutoGameAction.AUTO_CHECK) {}
         }
         checkOrCallAnyCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CALL, checkOrCallAnyCB.isChecked) {}
+            vm.autoGameAction(AutoGameAction.AUTO_CALL) {}
         }
 
         fold_checkCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CHECK, fold_checkCB.isChecked) {}
+            vm.autoGameAction(AutoGameAction.AUTO_CHECK) {}
         }
         callCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CALL, callCB.isChecked) {}
+            vm.autoGameAction(AutoGameAction.AUTO_CALL) {}
         }
         callAnyCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CALL_ANY, callAnyCB.isChecked) {}
+            vm.autoGameAction(AutoGameAction.AUTO_CALL_ANY) {}
         }
+    }
+
+    fun disableEnableActions(isEnabled: Boolean) {
+        foldBtn.isEnabled = isEnabled
+        checkBtn.isEnabled = isEnabled
+        callBtn.isEnabled = isEnabled
+        raiseBtn.isEnabled = isEnabled
+        allinBtn.isEnabled = isEnabled
     }
 
     private fun openRightDrawer() {

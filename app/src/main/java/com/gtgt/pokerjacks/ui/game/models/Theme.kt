@@ -84,6 +84,17 @@ val themes = listOf(
         dark = Color.parseColor("#626226"),
         btn1 = Color.parseColor("#c3c34b"),
         btn2 = Color.parseColor("#626226")
+    ),
+    Theme(
+        name = "green",
+        bg = R.drawable.blue_table_bg,
+        table = R.drawable.green_table,
+        gradientStart = Color.parseColor("#fd055c"),
+        gradientEnd = Color.parseColor("#930034"),
+        light = Color.parseColor("#ed1561"),
+        dark = Color.parseColor("#930034"),
+        btn1 = Color.parseColor("#fd055c"),
+        btn2 = Color.parseColor("#930034")
     )
 )
 

@@ -14,6 +14,7 @@ data class GameModel(val info: Info) : BaseModel() {
         val tableSlots: List<TableSlot>,
         val userContestDetails: UserContestDetails,
         val gameUsers: List<GameUser>,
+        val leaderboard: Leaderboard?,
         val playerTurn: PlayerTurn?
     )
 

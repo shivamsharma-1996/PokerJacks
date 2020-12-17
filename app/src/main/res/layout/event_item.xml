@@ -60,7 +60,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{data.plan_details.max_players +`/`+data.activePlayers}"
+                    android:text="@{data.activePlayers + `/` + data.plan_details.max_players}"
                     android:textColor="@color/white" />
 
                 <TextView
