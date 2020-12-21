@@ -1,5 +1,6 @@
 package com.gtgt.pokerjacks.ui.game.models
 
+import com.google.gson.JsonElement
 import com.gtgt.pokerjacks.base.BaseModel
 
 data class TablePlayers(
@@ -15,6 +16,7 @@ data class GameModel(val info: Info) : BaseModel() {
         val userContestDetails: UserContestDetails,
         val gameUsers: List<GameUser>,
         val leaderboard: Leaderboard?,
+        val canCreateNewGame: Boolean,
         val playerTurn: PlayerTurn?
     )
 

@@ -1,5 +1,7 @@
 package com.gtgt.pokerjacks.ui.game.models
 
+import com.google.gson.JsonElement
+
 enum class TableSlotStatus(status: String) {
     ACTIVE("ACTIVE"),
     WAITING("WAITING"),
@@ -21,7 +23,8 @@ data class TableSlot(
     val table_id: String,
     val user_name: String,
     val user_unique_id: String,
-    var user: GameUser?
+    var user: GameUser?,
+    val sitout_details: JsonElement
 ) {
     override fun equals(other: Any?): Boolean {
         return other is TableSlot && other.seat_no == seat_no

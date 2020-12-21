@@ -27,6 +27,7 @@ import com.gtgt.pokerjacks.ui.game.view.slot.SlotViews
 import com.gtgt.pokerjacks.ui.game.viewModel.*
 import com.gtgt.pokerjacks.ui.lobby.model.LobbyTables
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletViewModel
+import com.gtgt.pokerjacks.utils.CustomCountDownTimer
 import com.gtgt.pokerjacks.utils.loadImage
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.byin_popup.view.*
@@ -72,7 +73,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
 
     private var tableDetailsTimer: CountDownTimer? = null
-    private var gameTriggerTimer: CountDownTimer? = null
+    private var gameTriggerTimer: CustomCountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -168,6 +169,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 callCB.background = theme.textDrawable
                 checkOrCallAnyCB.background = theme.textDrawable
                 callAnyCB.background = theme.textDrawable
+                iAMBack.background = theme.btnDrawable
 
                 menuVector.changePathStrokeColor("stroke", theme.btn2)
                 menu.invalidate()
@@ -186,6 +188,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
         vm.tableSlotsLD.observe(this, Observer {
             slotViews.isJoined = vm.mySlot != null
+
+            if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.ACTIVE.status) {
+                joinBBcb.visibility = GONE
+            }
+
             slotViews.drawSlots(it)
         })
 
@@ -247,7 +254,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     }
 
                     gameTriggerTimer = object :
-                        CountDownTimer(
+                        CustomCountDownTimer(
                             it.start_time - (System.currentTimeMillis() - timeDiffWithServer),
                             1000
                         ) {
@@ -256,10 +263,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 "Game starts in ${millisUntilFinished / 1000} seconds..."
                         }
 
+                        override fun onStop() {
+                            messageFL.visibility = GONE
+                        }
+
                         override fun onFinish() {
                             messageFL.visibility = GONE
                         }
-                    }.start()
+                    }
+                    gameTriggerTimer!!.start()
                 } else {
                     try {
                         messageFL.visibility = GONE
@@ -284,6 +296,13 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
         vm.gameDetailsLD.observe(this, Observer {
             it?.let {
+                gameTriggerTimer?.stop()
+                val slots = vm.tableSlotsLD.value
+                if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
+//                    sitOutCB.visibility = VISIBLE
+                } else {
+                    sitOutCB.visibility = GONE
+                }
                 bottomPannel.visibility = VISIBLE
                 community_cards_ll.visibility = VISIBLE
 
@@ -304,11 +323,25 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         })
 
         vm.playerTurnLD.observe(this, Observer {
+            joinBBcb.visibility = GONE
+
 //            log("playerTurnLD", it)
 
             if (it == null) {
                 raiseLL.visibility = GONE
             } else {
+
+                if (vm.mySlot == null) {
+//                iAMBack.visibility = GONE
+                    sitOutCB.visibility = GONE
+                } else {
+                    val slots = vm.tableSlotsLD.value
+                    if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
+                        sitOutCB.visibility = VISIBLE
+                    }
+                }
+
+
                 totalPot.visibility = VISIBLE
                 totalPot.text = "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
 
@@ -322,6 +355,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 pot_split.visibility = if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
 
                 if (it.player_turn == vm.userId) {
+
+                    vibrate(this) {}
+
                     foldCB.visibility = GONE
                     checkCB.visibility = GONE
                     checkOrCallAnyCB.visibility = GONE
@@ -414,6 +450,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             progress: Int,
                             fromUser: Boolean
                         ) {
+                            log("minPossibleRaiseddd", minPossibleRaise)
                             raiseBtn.text =
                                 "Raise\n₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
                             raiseBtn.tag = (progress / 100.0 + minPossibleRaise)
@@ -594,7 +631,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             }
         })
 
-
         foldBtn.onOneClick {
             disableEnableActions(false)
             vm.actionEvent(ActionEvent.FOLD) {
@@ -615,25 +651,20 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         callBtn.onOneClick {
             disableEnableActions(false)
             vm.actionEvent(ActionEvent.CALL_BET, total_amount = callBtn.tag as Double) {
-                runOnMain {
-                    disableEnableActions(true)
-                }
+                disableEnableActions(true)
             }
         }
         checkBtn.onOneClick {
             disableEnableActions(false)
             vm.actionEvent(ActionEvent.CHECK_BET, total_amount = callBtn.tag as Double) {
-                runOnMain {
-                    disableEnableActions(true)
-                }
-
+                disableEnableActions(true)
             }
         }
 
         allinBtn.onOneClick {
             disableEnableActions(false)
             vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
-                    disableEnableActions(true)
+                disableEnableActions(true)
 
                 if (it!!["success"].bool) {
                     slotViews.resetPlayers()
@@ -648,15 +679,64 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 total_amount = raiseBtn.tag as Double,
                 raise_amount = raiseBtn.tag as Double - callBtn.tag as Double
             ) {
+                disableEnableActions(true)
+            }
+        }
+
+        sitOutCB.onOneClick {
+            vm.updateSeatStatus(if (sitOutCB.isChecked) SeatStatus.SIT_OUT else SeatStatus.ACTIVE) {
                 runOnMain {
-                    disableEnableActions(true)
+                    if (it!!["success"].bool) {
+                        /*iAMBack.visibility = VISIBLE
+                        bottomPannel.visibility = GONE*/
+                    } else {
+                        sitOutCB.isChecked = !sitOutCB.isChecked
+                        showSnack(it["description"].string)
+                    }
                 }
             }
         }
 
-        //autoGameAction
+        iAMBack.onOneClick {
+            val slots = vm.tableSlotsLD.value
 
-        sitOutCB.onOneClick { }
+            if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } == 2) {
+                vm.updateSeatStatus(SeatStatus.ACTIVE) {
+                    runOnMain {
+                        if (it!!["success"].bool) {
+                            sitOutCB.isChecked = false
+                            iAMBack.visibility = GONE
+                        } else {
+                            showSnack(it["description"].string)
+                        }
+                    }
+                }
+            } else {
+                joinTableActions {
+                    iAMBack.visibility = GONE
+                    bottomPannel.visibility = VISIBLE
+                }
+            }
+        }
+
+        vm.iamBackLD.observe(this, Observer {
+            if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.SIT_OUT.status) {
+                iAMBack.visibility = if (it) VISIBLE else GONE
+            }
+        })
+
+        joinBBcb.setOnClickListener {
+            vm.updateSeatStatus(
+                if (joinBBcb.isChecked) SeatStatus.WAIT_FOR_BB
+                else SeatStatus.WAIT_FOR_NEXT
+            ) {
+                if (it!!["success"].bool) {
+
+                } else {
+                    showSnack(it["description"].string)
+                }
+            }
+        }
 
         foldCB.onOneClick {
             vm.autoGameAction(AutoGameAction.AUTO_FOLD) {}
@@ -679,12 +759,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
     }
 
-    fun disableEnableActions(isEnabled: Boolean) {
-        foldBtn.isEnabled = isEnabled
-        checkBtn.isEnabled = isEnabled
-        callBtn.isEnabled = isEnabled
-        raiseBtn.isEnabled = isEnabled
-        allinBtn.isEnabled = isEnabled
+    private fun disableEnableActions(isEnabled: Boolean) {
+        runOnMain {
+            foldBtn.isEnabled = isEnabled
+            checkBtn.isEnabled = isEnabled
+            callBtn.isEnabled = isEnabled
+            raiseBtn.isEnabled = isEnabled
+            allinBtn.isEnabled = isEnabled
+        }
     }
 
     private fun openRightDrawer() {
@@ -694,7 +776,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             drawer_layout.openDrawer(GravityCompat.END)
         }
     }
-
 
     private fun byIn(balance: Double, seatNo: Int, isCash: Boolean) {
         var availableBalance = balance
@@ -741,6 +822,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     if (it.success) {
                         dialog.dismiss()
                         vm.connectTable()
+
+                        val slots = vm.tableSlotsLD.value
+                        if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
+                            joinTableActions { }
+                        }
 
 //                        joinTableActions()
 
@@ -867,13 +953,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             dialogView.seek.progress = dialogView.seek.progress + 1
         }
 
-
         dialogView.close.onOneClick { dialog.dismiss() }
 
         dialog.show()
     }
 
-    fun joinTableActions() {
+    private fun joinTableActions(callback: () -> Unit) {
         val builder = AlertDialog.Builder(this)
         val dialogView =
             LayoutInflater.from(this)
@@ -883,10 +968,22 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         val dialog = builder.create()
 
         dialogView.join.onOneClick {
-            if (dialogView.join_from_next.isChecked) {
+            vm.updateSeatStatus(
+                if (dialogView.join_from_next.isChecked) SeatStatus.WAIT_FOR_NEXT
+                else SeatStatus.WAIT_FOR_BB
+            ) {
+                if (it!!["success"].bool) {
+                    runOnMain {
+                        joinBBcb.visibility = VISIBLE
 
-            } else {
+                        joinBBcb.isChecked = !dialogView.join_from_next.isChecked
 
+                        dialog.dismiss()
+                        callback()
+                    }
+                } else {
+                    showSnack(it["description"].string)
+                }
             }
         }
         dialogView.close.onOneClick { dialog.dismiss() }

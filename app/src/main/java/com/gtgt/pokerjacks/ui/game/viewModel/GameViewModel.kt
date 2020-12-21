@@ -30,7 +30,8 @@ enum class ActionEvent(val event: String) {
 enum class SeatStatus(val status: String) {
     WAIT_FOR_NEXT("WAIT_FOR_NEXT"),
     WAIT_FOR_BB("WAIT_FOR_BB"),
-    SIT_OUT("SIT_OUT")
+    SIT_OUT("SIT_OUT"),
+    ACTIVE("ACTIVE")
 }
 
 enum class AutoGameAction(val action: String) {
@@ -59,6 +60,7 @@ class GameViewModel : SocketIOViewModel() {
     val playerTurnLD = MutableLiveData<PlayerTurn>()
     val dealCommunityCardsLD = MutableLiveData<DealCommunityCards>()
     val leaderboardLD = MutableLiveData<Leaderboard>()
+    val iamBackLD = MutableLiveData<Boolean>()
 
     var tableId: String = ""
         set(value) {
@@ -68,12 +70,23 @@ class GameViewModel : SocketIOViewModel() {
                 gameTriggerLD.data = it["data"]["gameDetails"].to()
             }
             on<JsonElement>("gameStart") {
+
+                val gameInfo = it["data"].to<GameModel.Info>()
+
+                val mySlot = gameInfo.tableSlots.find { it.user_unique_id == userId }
+
+                if (mySlot != null && mySlot.status == SeatStatus.SIT_OUT.status
+                    && mySlot.sitout_details["game_id"].string != gameInfo.gameDetails._id
+                ) {
+                    iamBackLD.data = true
+                }
+
                 val gameDetails = it["data"]["gameDetails"].to<GameModel.GameDetails>()
 
                 emit<AnyModel>("getUserCards", jsonObject("table_id" to tableId)) {
 
                     if (!it!!.info["userContestDetails"].isJsonNull) {
-                        userContestDetailsLD.data = it!!.info["userContestDetails"].to()
+                        userContestDetailsLD.data = it.info["userContestDetails"].to()
                     }
                     gameDetailsLD.data = gameDetails
 
@@ -100,6 +113,17 @@ class GameViewModel : SocketIOViewModel() {
 
                 when (it["event"].string) {
                     "endGame" -> {
+                        val gameInfo = data.to<GameModel.Info>()
+
+
+                        handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
+
+                        if (gameInfo.canCreateNewGame) {
+
+                        } else {
+                            iamBackLD.data = true
+                        }
+
                         playerTurnLD.data = null
                         activity?.showSnack("Game is ended")
                     }
@@ -139,6 +163,7 @@ class GameViewModel : SocketIOViewModel() {
                 currentSlot = currentSlot.next(slots)
             }
         } else {
+            mySlot = slots.firstOrNull { it.user_unique_id == userId }
             slots.forEach { slot ->
                 slot.user = gameUsers.firstOrNull { it.user_unique_id == slot.user_unique_id }
             }
