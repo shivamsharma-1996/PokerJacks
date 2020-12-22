@@ -37,18 +37,19 @@ class GameRadioMenu(context: Context, attrs: AttributeSet) : FrameLayout(context
             if (isOn) selectedColor else unSelectedColor
         )
 
-        view!!.setOnClickListener {
-            if (isOn) {
-                view!!.selectIndiicator.backgroundTintList = ColorStateList.valueOf(unSelectedColor)
-                isOn = false
-            } else {
-                view!!.selectIndiicator.backgroundTintList = ColorStateList.valueOf(selectedColor)
-                isOn = true
-            }
-        }
-
         addView(view)
         a.recycle()
+    }
+
+    fun toggle() : Boolean {
+        if (isOn) {
+            view!!.selectIndiicator.backgroundTintList = ColorStateList.valueOf(unSelectedColor)
+            isOn = false
+        } else {
+            view!!.selectIndiicator.backgroundTintList = ColorStateList.valueOf(selectedColor)
+            isOn = true
+        }
+        return isOn
     }
 
     fun setTitle(title: String) {

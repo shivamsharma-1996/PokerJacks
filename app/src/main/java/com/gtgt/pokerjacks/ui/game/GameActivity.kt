@@ -61,6 +61,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
     private lateinit var slotViews: SlotViews
     private val vm: GameViewModel by viewModel()
+    private val preferencesvm: GamePreferencesViewModel by viewModel()
 
     private val tableId by lazy { intent.getStringExtra("table_id") }
     private val plan by lazy { intent.getParcelableExtra<LobbyTables.PlanDetails>("plan")!! }
@@ -189,8 +190,24 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         vm.tableSlotsLD.observe(this, Observer {
             slotViews.isJoined = vm.mySlot != null
 
-            if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.ACTIVE.status) {
-                joinBBcb.visibility = GONE
+            if (vm.mySlot != null) {
+
+                when (vm.mySlot!!.status) {
+                    SeatStatus.SIT_OUT.status -> {
+                        iAMBack.visibility = VISIBLE
+                    }
+                    SeatStatus.ACTIVE.status -> {
+                        joinBBcb.visibility = GONE
+                    }
+                    SeatStatus.WAIT_FOR_BB.status -> {
+                        joinBBcb.visibility = VISIBLE
+                        joinBBcb.isChecked = true
+                    }
+                    SeatStatus.WAIT_FOR_NEXT.status -> {
+                        joinBBcb.visibility = VISIBLE
+                        joinBBcb.isChecked = false
+                    }
+                }
             }
 
             slotViews.drawSlots(it)
@@ -289,13 +306,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         vm.userContestDetailsLD.observe(this, Observer {
             it?.let {
                 user_cards_fl.visibility = VISIBLE
-                mc1.setImageResource(Card.getResource(it.card_1))
-                mc2.setImageResource(Card.getResource(it.card_2))
+                mc1.coloredCard(it.card_1)
+                mc2.coloredCard(it.card_2)
             }
         })
 
         vm.gameDetailsLD.observe(this, Observer {
             it?.let {
+                slotViews.dealerPosition = it.dealer_position
+
                 gameTriggerTimer?.stop()
                 val slots = vm.tableSlotsLD.value
                 if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
@@ -306,20 +325,20 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 bottomPannel.visibility = VISIBLE
                 community_cards_ll.visibility = VISIBLE
 
-                c1.setImageResource(Card.getResource(it.card_1))
-                c2.setImageResource(Card.getResource(it.card_2))
-                c3.setImageResource(Card.getResource(it.card_3))
-                c4.setImageResource(Card.getResource(it.card_4))
-                c5.setImageResource(Card.getResource(it.card_5))
+                c1.coloredCard(it.card_1)
+                c2.coloredCard(it.card_2)
+                c3.coloredCard(it.card_3)
+                c4.coloredCard(it.card_4)
+                c5.coloredCard(it.card_5)
             }
         })
 
         vm.dealCommunityCardsLD.observe(this, Observer {
-            c1.setImageResource(Card.getResource(it.card_1))
-            c2.setImageResource(Card.getResource(it.card_2))
-            c3.setImageResource(Card.getResource(it.card_3))
-            c4.setImageResource(Card.getResource(it.card_4))
-            c5.setImageResource(Card.getResource(it.card_5))
+            c1.coloredCard(it.card_1)
+            c2.coloredCard(it.card_2)
+            c3.coloredCard(it.card_3)
+            c4.coloredCard(it.card_4)
+            c5.coloredCard(it.card_5)
         })
 
         vm.playerTurnLD.observe(this, Observer {
@@ -348,7 +367,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 pot_split.removeAllViews()
                 it.side_pots.forEach {
                     pot_split.addView(TextView(this).apply {
-                        text = "  ₹ ${it.pot_value}  "
+                        text = "  ₹ ${it.pot_value.toDecimalFormat()}  "
                     })
                 }
 
@@ -356,7 +375,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                 if (it.player_turn == vm.userId) {
 
-                    vibrate(this) {}
+                    if (preferencesvm.vibrate)
+                        vibrate(this) {}
 
                     foldCB.visibility = GONE
                     checkCB.visibility = GONE
@@ -408,10 +428,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             return@let if (a < it.game_inplay_amount) a else it.game_inplay_amount
                         }
 
-                    raiseBtn.text =
-                        "Raise\n₹${(minPossibleRaise).toDecimalFormat()}"
-                    raiseBtn.tag = minPossibleRaise
-
                     seek_raise.max = ((maxPossibleRaise - minPossibleRaise) * 100).toInt()
 
                     pot_raise.onOneClick {
@@ -426,7 +442,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         seek_raise.progress = ((it.total_pot_value - minPossibleRaise) * 50).toInt()
                     }
 
-                    seek_raise.progress = 0
 
                     min_raise.onOneClick {
                         seek_raise.progress = 0
@@ -450,7 +465,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             progress: Int,
                             fromUser: Boolean
                         ) {
-                            log("minPossibleRaiseddd", minPossibleRaise)
+                            log("minPossibleRaiseprogress", progress)
                             raiseBtn.text =
                                 "Raise\n₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
                             raiseBtn.tag = (progress / 100.0 + minPossibleRaise)
@@ -464,6 +479,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                         }
                     })
+                    seek_raise.progress = 0
+
+                    raiseBtn.text =
+                        "Raise\n₹${(minPossibleRaise).toDecimalFormat()}"
+                    raiseBtn.tag = minPossibleRaise
 
                 } else {
                     raiseLL.visibility = GONE
@@ -992,18 +1012,25 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     fun exitTOLobby() {
-        vm.leaveTable()
-        socketInstance.removeSocketChangeListener(this)
-        finish()
+        gameAlert(
+            "Exit to Lobby",
+            "Are you sure you want to return to lobby?"
+        ) { isPositive, dialog ->
+            if (isPositive) {
+                dialog.dismiss()
+                vm.leaveTable()
+                socketInstance.removeSocketChangeListener(this)
+                super.onBackPressed()
+            } else {
+                dialog.dismiss()
+            }
+        }
+
     }
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.END)) {
             drawer_layout.closeDrawer(GravityCompat.END)
-        } else {
-            vm.leaveTable()
-            socketInstance.removeSocketChangeListener(this)
-            super.onBackPressed()
         }
     }
 }

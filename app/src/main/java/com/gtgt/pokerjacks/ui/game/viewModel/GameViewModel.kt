@@ -6,10 +6,7 @@ import com.github.salomonbrys.kotson.jsonObject
 import com.github.salomonbrys.kotson.string
 import com.google.gson.JsonElement
 import com.gtgt.pokerjacks.base.AnyModel
-import com.gtgt.pokerjacks.extensions.data
-import com.gtgt.pokerjacks.extensions.retrieveString
-import com.gtgt.pokerjacks.extensions.showSnack
-import com.gtgt.pokerjacks.extensions.to
+import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.socket.ChannelCallbackType
 import com.gtgt.pokerjacks.socket.SocketIOViewModel
 import com.gtgt.pokerjacks.ui.game.models.*
@@ -67,6 +64,7 @@ class GameViewModel : SocketIOViewModel() {
             field = value
 
             on<JsonElement>("gameTrigger") {
+                coloredImages.clear()
                 gameTriggerLD.data = it["data"]["gameDetails"].to()
             }
             on<JsonElement>("gameStart") {
@@ -180,6 +178,8 @@ class GameViewModel : SocketIOViewModel() {
             if (it == null) {
                 activity?.showSnack("Error in connecting to table")
             } else {
+                coloredImages.clear()
+
                 val data = it.to<GameModel>()
 
                 if (data.success) {

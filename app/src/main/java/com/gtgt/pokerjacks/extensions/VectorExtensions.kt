@@ -28,9 +28,9 @@ fun VectorChildFinder.animatePathColors(
 }
 
 fun VectorChildFinder.changePathColor(path: String, color: Int) {
-    findPathByName(path).fillColor = color
+    findPathByName(path)?.fillColor = color
 }
 
 fun VectorChildFinder.changePathStrokeColor(path: String, color: Int) {
-    findPathByName(path).strokeColor = color
+    findPathByName(path)?.strokeColor = color
 }

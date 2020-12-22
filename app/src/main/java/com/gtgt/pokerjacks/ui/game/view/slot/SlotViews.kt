@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.extensions.*
-import com.gtgt.pokerjacks.ui.game.Card
 import com.gtgt.pokerjacks.ui.game.models.PlayerTurn
 import com.gtgt.pokerjacks.ui.game.models.TableSlot
 import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
@@ -20,6 +19,12 @@ import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.android.synthetic.main.player.view.*
 
 class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int) -> Unit) {
+    var dealerPosition: Int = 0
+        set(value) {
+            field = value
+            resetPlayers()
+        }
+
     private val context = rootLayout.context
     private val userId = retrieveString("USER_ID")
 //    private var animateTimer: CustomCountDownTimer? = null
@@ -119,6 +124,12 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
             slotView?.apply {
                 tag = slot.seat_no
 
+                if (slot.seat_no == dealerPosition) {
+                    dealer.visibility = VISIBLE
+                } else {
+                    dealer.visibility = GONE
+                }
+
                 if (userId == slot.user_unique_id) {
                     revealCards.visibility = GONE
                 } else {
@@ -127,19 +138,12 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         revealCards.visibility = GONE
                     } else {
                         revealCards.visibility = VISIBLE
-                        (revealCards.getChildAt(0) as ImageView).setImageResource(
-                            Card.getResource(
-                                bestHand.card_1
-                            )
-                        )
+                        (revealCards.getChildAt(0) as ImageView).coloredCard(bestHand.card_1)
 
-                        (revealCards.getChildAt(1) as ImageView).setImageResource(
-                            Card.getResource(
-                                bestHand.card_2
-                            )
-                        )
+                        (revealCards.getChildAt(1) as ImageView).coloredCard(bestHand.card_2)
                     }
                 }
+
 
                 if (slot.status == TableSlotStatus.VACANT.name) {
                     noPlayer.visibility = if (isJoined) GONE else VISIBLE
@@ -211,7 +215,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 crown.visibility = VISIBLE
                 revealCards.visibility = VISIBLE*/
 
-                raise_amt.text = "${String.format("%.2f", (slot.user?.current_round_invested ?: 0.00))}"
+                raise_amt.text =
+                    "${String.format("%.2f", (slot.user?.current_round_invested ?: 0.00))}"
 
                 in_play_amt.text =
                     "₹${(slot.user?.game_inplay_amount ?: slot.inplay_amount).toDecimalFormat()}"

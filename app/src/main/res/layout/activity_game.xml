@@ -166,14 +166,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="7dp"
-                    android:layout_marginBottom="18dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/community_cards_ll"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="0.52"
+                        android:layout_weight="0.5"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
                         android:visibility="invisible">
@@ -225,7 +225,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
-                        android:layout_weight="0.48"
+                        android:layout_weight="0.5"
                         android:orientation="horizontal"
                         android:visibility="invisible">
 
@@ -462,7 +462,6 @@
                 android:background="@drawable/btn_blue"
                 android:gravity="center"
                 android:minWidth="62dp"
-                android:text="Raise to\n20"
                 android:textAllCaps="false"
                 android:textSize="13dp"
                 android:visibility="gone" />

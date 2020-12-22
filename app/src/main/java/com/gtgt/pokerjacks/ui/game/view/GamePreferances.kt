@@ -9,10 +9,9 @@ import androidx.lifecycle.Observer
 import com.devs.vectorchildfinder.VectorChildFinder
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
-import com.gtgt.pokerjacks.extensions.changePathStrokeColor
-import com.gtgt.pokerjacks.extensions.onOneClick
-import com.gtgt.pokerjacks.extensions.sharedViewModel
+import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.game.GameActivity
+import com.gtgt.pokerjacks.ui.game.viewModel.GamePreferencesViewModel
 import com.gtgt.pokerjacks.ui.game.viewModel.ThemesViewModel
 import kotlinx.android.synthetic.main.fragment_game_prefs.*
 
@@ -37,7 +36,8 @@ class GamePreferencesFragment : BaseFragment() {
             }
         }
 
-    private val themesViewModel: ThemesViewModel by sharedViewModel()
+    private val themesVm: ThemesViewModel by sharedViewModel()
+    private val vm: GamePreferencesViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,18 +50,30 @@ class GamePreferencesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        color_deck.setOnClickListener {
+            isColorDeckEnabled = color_deck.toggle()
+        }
+
         theme_menu.onOneClick {
             activity?.onBackPressed()
-            themesViewModel.openThemeSwitcher()
+            themesVm.openThemeSwitcher()
         }
 
         exit_lobby.onOneClick {
             (activity as GameActivity)?.exitTOLobby()
         }
 
+        soundPref.setOnClickListener {
+            vm.vibrate = soundPref.toggle()
+        }
+
+        vibratePref.setOnClickListener {
+            vm.vibrate = vibratePref.toggle()
+        }
+
         val settingsVector = VectorChildFinder(context, R.drawable.settings, settings)
         val menuVector = VectorChildFinder(context, R.drawable.menu, menu)
-        themesViewModel.onThemeSelected.observe(viewLifecycleOwner, Observer { theme ->
+        themesVm.onThemeSelected.observe(viewLifecycleOwner, Observer { theme ->
             if (theme != null) {
                 exit_lobby.iconBg = theme.iconSolidDrawable
                 soundPref.iconBg = theme.iconSolidDrawable
