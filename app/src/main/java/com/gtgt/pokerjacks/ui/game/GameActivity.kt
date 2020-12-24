@@ -339,6 +339,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             c3.coloredCard(it.card_3)
             c4.coloredCard(it.card_4)
             c5.coloredCard(it.card_5)
+
+            vm.getHandStrength()
         })
 
         vm.playerTurnLD.observe(this, Observer {
@@ -841,6 +843,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 if (isActivityRunning()) {
                     if (it.success) {
                         dialog.dismiss()
+                        vm.userDetailsLD.data = it.info.user_details
                         vm.connectTable()
 
                         val slots = vm.tableSlotsLD.value
@@ -979,36 +982,48 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     private fun joinTableActions(callback: () -> Unit) {
-        val builder = AlertDialog.Builder(this)
-        val dialogView =
-            LayoutInflater.from(this)
-                .inflate(R.layout.join_status_popup, null)
-        builder.setView(dialogView)
-        builder.setCancelable(false)
-        val dialog = builder.create()
+        if (vm.userDetailsLD.value?.auto_next_game == false) {
+            val builder = AlertDialog.Builder(this)
+            val dialogView =
+                LayoutInflater.from(this)
+                    .inflate(R.layout.join_status_popup, null)
+            builder.setView(dialogView)
+            builder.setCancelable(false)
+            val dialog = builder.create()
 
-        dialogView.join.onOneClick {
-            vm.updateSeatStatus(
-                if (dialogView.join_from_next.isChecked) SeatStatus.WAIT_FOR_NEXT
-                else SeatStatus.WAIT_FOR_BB
-            ) {
-                if (it!!["success"].bool) {
-                    runOnMain {
-                        joinBBcb.visibility = VISIBLE
+            dialogView.rg.setOnCheckedChangeListener { group, checkedId ->
+                dialogView.makeDefault.visibility =
+                    if (checkedId == R.id.join_from_next) VISIBLE else GONE
+            }
 
-                        joinBBcb.isChecked = !dialogView.join_from_next.isChecked
+            dialogView.join.onOneClick {
+                vm.updateSeatStatus(
+                    if (dialogView.join_from_next.isChecked) SeatStatus.WAIT_FOR_NEXT
+                    else SeatStatus.WAIT_FOR_BB
+                ) {
+                    if (it!!["success"].bool) {
+                        runOnMain {
+                            joinBBcb.visibility = VISIBLE
 
-                        dialog.dismiss()
-                        callback()
+                            joinBBcb.isChecked = !dialogView.join_from_next.isChecked
+
+                            if (dialogView.join_from_next.isChecked && dialogView.makeDefault.isChecked) {
+                                vm.updateUserGameSettings(jsonObject("auto_next_game" to true))
+                            }
+
+                            dialog.dismiss()
+
+                            callback()
+                        }
+                    } else {
+                        showSnack(it["description"].string)
                     }
-                } else {
-                    showSnack(it["description"].string)
                 }
             }
-        }
-        dialogView.close.onOneClick { dialog.dismiss() }
+            dialogView.close.onOneClick { dialog.dismiss() }
 
-        dialog.show()
+            dialog.show()
+        }
     }
 
     fun exitTOLobby() {

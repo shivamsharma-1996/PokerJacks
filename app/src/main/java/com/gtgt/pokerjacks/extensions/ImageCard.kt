@@ -16,10 +16,10 @@ var isColorDeckEnabled = false
     }
 
 val suiteColorMap = mapOf(
-    "spade" to Color.parseColor("#583d72"),
-    "heart" to Color.parseColor("#ff4646"),
-    "club" to Color.parseColor("#6155a6"),
-    "diamond" to Color.parseColor("#fc8621")
+    "spade" to Color.parseColor("#000000"),
+    "heart" to Color.parseColor("#EC0000"),
+    "club" to Color.parseColor("#005AD9"),
+    "diamond" to Color.parseColor("#098D0E")
 )
 
 val coloredImages = mutableMapOf<ImageView, String>()

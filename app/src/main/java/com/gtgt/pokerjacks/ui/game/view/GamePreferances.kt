@@ -7,11 +7,16 @@ import android.view.View.*
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.devs.vectorchildfinder.VectorChildFinder
+import com.github.salomonbrys.kotson.jsonObject
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
-import com.gtgt.pokerjacks.extensions.*
+import com.gtgt.pokerjacks.extensions.changePathStrokeColor
+import com.gtgt.pokerjacks.extensions.isColorDeckEnabled
+import com.gtgt.pokerjacks.extensions.onOneClick
+import com.gtgt.pokerjacks.extensions.sharedViewModel
 import com.gtgt.pokerjacks.ui.game.GameActivity
 import com.gtgt.pokerjacks.ui.game.viewModel.GamePreferencesViewModel
+import com.gtgt.pokerjacks.ui.game.viewModel.GameViewModel
 import com.gtgt.pokerjacks.ui.game.viewModel.ThemesViewModel
 import kotlinx.android.synthetic.main.fragment_game_prefs.*
 
@@ -38,6 +43,7 @@ class GamePreferencesFragment : BaseFragment() {
 
     private val themesVm: ThemesViewModel by sharedViewModel()
     private val vm: GamePreferencesViewModel by sharedViewModel()
+    private val gameVm: GameViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +55,34 @@ class GamePreferencesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        gameVm.userDetailsLD.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                if (auto_muck.isOn != it.auto_muck) {
+                    auto_muck.toggle()
+                }
+
+                if (auto_Post_BB.isOn != it.auto_next_game) {
+                    auto_Post_BB.toggle()
+                }
+
+                if (hand_Strength.isOn != it.hand_strength) {
+                    hand_Strength.toggle()
+                }
+            }
+        })
+
+        auto_muck.onOneClick {
+            gameVm.updateUserGameSettings(jsonObject("auto_muck" to !auto_muck.isOn))
+        }
+
+        auto_Post_BB.onOneClick {
+            gameVm.updateUserGameSettings(jsonObject("auto_next_game" to !auto_Post_BB.isOn))
+        }
+
+        hand_Strength.onOneClick {
+            gameVm.updateUserGameSettings(jsonObject("hand_strength" to !hand_Strength.isOn))
+        }
 
         color_deck.setOnClickListener {
             isColorDeckEnabled = color_deck.toggle()

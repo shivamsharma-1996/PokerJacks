@@ -1,10 +1,9 @@
 package com.gtgt.pokerjacks.ui.game.viewModel
 
 import androidx.lifecycle.MutableLiveData
-import com.github.salomonbrys.kotson.get
-import com.github.salomonbrys.kotson.jsonObject
-import com.github.salomonbrys.kotson.string
+import com.github.salomonbrys.kotson.*
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.gtgt.pokerjacks.base.AnyModel
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.socket.ChannelCallbackType
@@ -49,6 +48,8 @@ enum class PlayerActions(val action: String) {
 
 class GameViewModel : SocketIOViewModel() {
     val userId = retrieveString("USER_ID")
+
+    val userDetailsLD = MutableLiveData<JoinModel.UserDetails>()
 
     val tableSlotsLD = MutableLiveData<List<TableSlot>>()
     val gameTriggerLD = MutableLiveData<GameModel.GameDetails>()
@@ -138,6 +139,39 @@ class GameViewModel : SocketIOViewModel() {
 
     var selectedSlotPositions: List<SlotPositions>? = null
 
+    fun updateUserGameSettings(setting: JsonObject) {
+        emit<AnyModel>(
+            "updateUserGameSettings", jsonObject(
+                "settings_details" to setting
+            )
+        ) {
+            if (it?.success == true) {
+                setting.forEach { key, value ->
+                    when (key) {
+                        "auto_muck" -> {
+                            userDetailsLD.value?.let {
+                                it.auto_muck = value.bool
+                            }
+                        }
+                        "auto_next_game" -> {
+                            userDetailsLD.value?.let {
+                                it.auto_next_game = value.bool
+                            }
+                        }
+                        "hand_strength" -> {
+                            userDetailsLD.value?.let {
+                                it.hand_strength = value.bool
+                            }
+                        }
+                    }
+                }
+                userDetailsLD.notify()
+            } else {
+                activity?.showSnack(it?.description ?: "Error in changing setting")
+            }
+        }
+    }
+
     private fun handleTableSlots(slots: List<TableSlot>, gameUsers: List<GameUser>) {
         if (selectedSlotPositions.isNullOrEmpty()) {
             selectedSlotPositions = when (slots.size) {
@@ -199,6 +233,15 @@ class GameViewModel : SocketIOViewModel() {
                 }
             }
         }
+    }
+
+    fun getHandStrength() {
+        emit<JsonElement>(
+            "getHandStrength", jsonObject(
+                "table_id" to tableId,
+                "game_id" to gameDetailsLD.data!!._id
+            )
+        )
     }
 
     fun updateSeatStatus(status: SeatStatus, callback: ChannelCallbackType<JsonElement?>) {

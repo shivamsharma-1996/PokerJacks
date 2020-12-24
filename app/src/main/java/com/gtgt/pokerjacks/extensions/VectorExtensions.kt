@@ -3,7 +3,6 @@ package com.gtgt.pokerjacks.extensions
 import android.animation.ValueAnimator
 import com.devs.vectorchildfinder.VectorChildFinder
 
-
 fun VectorChildFinder.animatePathColors(
     fromColor: Int,
     toColor: Int,
