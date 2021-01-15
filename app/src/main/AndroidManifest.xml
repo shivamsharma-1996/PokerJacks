@@ -77,14 +77,8 @@
             android:theme="@style/Theme.Transparent"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.MainActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".ui.HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".InsufficientBalanceActivity"
             android:screenOrientation="portrait" />
@@ -102,7 +96,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.splash_screen.SplashActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.offers.bonus.AllBonusActivity"
             android:screenOrientation="behind" />
