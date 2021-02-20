@@ -36,12 +36,12 @@ class Theme(
         }
 
     val popupDrawable
-        get() = gradientBg(gradientStart, gradientEnd, 10).apply {
+        get() = gradientBg(gradientStart, gradientEnd, 10)/*.apply {
             setStroke(
                 dpToPx(1),
                 Color.parseColor("#FFFFFF")
             )
-        }
+        }*/
     val popupBtn
         get() = gradientBg(dark, dark, 10).apply {
             setStroke(

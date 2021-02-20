@@ -57,6 +57,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     override fun networkSpeed(speed: Int) {
+        signalIv.setImageResource(
+            when (speed) {
+                in 0..150 -> R.drawable.signal_4
+                in 151..250 -> R.drawable.signal_3
+                in 251..350 -> R.drawable.signal_2
+                in 351..500 -> R.drawable.signal_1
+                else -> R.drawable.signal_0
+            }
+        )
     }
 
     private lateinit var slotViews: SlotViews
@@ -80,7 +89,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         mActivityTopLevelView = drawer_layout
-
 
         if (BuildConfig.DEBUG) {
             reconnect.visibility = VISIBLE
@@ -117,12 +125,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             shareReconnect.visibility = GONE
         }
 
+        refresh.onOneClick { reconnected() }
 
         socketInstance.connect()
         socketInstance.addSocketChangeListener(this)
 
         themeSelectFragment.z = 11f
         topPanel.z = 11f
+        raiseLL.z = 100f
 
         c5.onRendered {
             slotViews = SlotViews(rootLayout) { seatNo ->
@@ -313,6 +323,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
         vm.gameDetailsLD.observe(this, Observer {
             it?.let {
+                disableEnableActions(true)
+
                 slotViews.dealerPosition = it.dealer_position
 
                 gameTriggerTimer?.stop()
@@ -533,6 +545,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             }
         })
 
+        vm.enableActions.observe(this, Observer {
+            disableEnableActions(it)
+        })
+
         var isPotAnimationDone = true
         vm.leaderboardLD.observe(this, Observer { leaderboard ->
             if (leaderboard == null)
@@ -743,7 +759,13 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
         vm.iamBackLD.observe(this, Observer {
             if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.SIT_OUT.status) {
-                iAMBack.visibility = if (it) VISIBLE else GONE
+                if(it) {
+                    iAMBack.visibility = VISIBLE
+                    bottomPannel.visibility = GONE
+                } else {
+                    iAMBack.visibility = GONE
+                    bottomPannel.visibility = VISIBLE
+                }
             }
         })
 
@@ -982,7 +1004,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     private fun joinTableActions(callback: () -> Unit) {
-        if (vm.userDetailsLD.value?.auto_next_game == false) {
+        if (vm.userDetailsLD.value?.auto_next_game == null || vm.userDetailsLD.value?.auto_next_game == false) {
             val builder = AlertDialog.Builder(this)
             val dialogView =
                 LayoutInflater.from(this)

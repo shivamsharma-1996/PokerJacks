@@ -8,6 +8,7 @@ enum class TableSlotStatus(status: String) {
     LEFT("LEFT"),
     INACTIVE("INACTIVE"),
     VACANT("VACANT"),
+    FOLD("FOLD"),
 }
 
 data class TableSlot(

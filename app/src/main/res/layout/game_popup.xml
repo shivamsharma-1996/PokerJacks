@@ -2,14 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/dark_60">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/content"
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_margin="15dp"
+        android:background="@drawable/popup"
         android:orientation="vertical"
         android:padding="15dp">
 
@@ -20,7 +21,7 @@
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/sf_semibold"
             android:textColor="@color/white"
-            android:textSize="22dp"
+            android:textSize="16dp"
             tools:text="Title" />
 
         <RelativeLayout
@@ -55,36 +56,39 @@
             android:fontFamily="@font/sf_regular"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="22dp"
+            android:textSize="16dp"
             tools:text="Message" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/nagitive_button"
                 style="@style/buton_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
                 android:background="@drawable/button_cancel"
-                android:minWidth="150dp"
-                android:textColor="#0a182c"
-                android:padding="15dp"
-                android:text="Cancel" />
+                android:padding="10dp"
+                android:text="Cancel"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/positive_button"
                 style="@style/buton_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
                 android:background="@drawable/button_red"
-                android:minWidth="150dp"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:text="Yes"
                 android:textColor="@color/white" />
 
@@ -96,8 +100,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
-        android:padding="5dp"
         android:background="@drawable/close_dialog_white"
+        android:padding="5dp"
         android:visibility="gone" />
 
 </RelativeLayout>

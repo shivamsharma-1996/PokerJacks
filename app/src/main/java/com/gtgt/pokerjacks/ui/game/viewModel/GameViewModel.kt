@@ -59,6 +59,7 @@ class GameViewModel : SocketIOViewModel() {
     val dealCommunityCardsLD = MutableLiveData<DealCommunityCards>()
     val leaderboardLD = MutableLiveData<Leaderboard>()
     val iamBackLD = MutableLiveData<Boolean>()
+    val enableActions = MutableLiveData<Boolean>()
 
     var tableId: String = ""
         set(value) {
@@ -113,7 +114,6 @@ class GameViewModel : SocketIOViewModel() {
                 when (it["event"].string) {
                     "endGame" -> {
                         val gameInfo = data.to<GameModel.Info>()
-
 
                         handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
 
@@ -276,6 +276,7 @@ class GameViewModel : SocketIOViewModel() {
         raise_amount: Double? = null,
         callback: ChannelCallbackType<JsonElement?>
     ) {
+        socketIO.socketHandler.postDelayed({ enableActions.data = true }, 5000)
         emit(
             event.event,
             jsonObject("table_id" to tableId, "game_id" to gameDetailsLD.data!!._id).apply {

@@ -9,8 +9,8 @@
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:visibility="gone"
-        android:src="@drawable/crown" />
+        android:src="@drawable/crown"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/in_play_amt"
@@ -95,6 +95,14 @@
             android:textColor="@color/black"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/nameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="#D2000000"
+            android:textColor="@color/white"
+            android:textSize="10dp" />
 
     </FrameLayout>
 

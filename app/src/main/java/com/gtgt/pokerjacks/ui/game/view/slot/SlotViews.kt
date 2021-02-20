@@ -90,10 +90,13 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 }
                 it.value.animateView.stopAnim()
             }
-            slotViews[value.current_bettor_position]!!.apply {
-                iv_userProfile.visibility = GONE
-                animateView.startAnim(value) {
-                    iv_userProfile.visibility = VISIBLE
+
+            timeOut(100) {
+                slotViews[value.current_bettor_position]!!.apply {
+                    iv_userProfile.visibility = GONE
+                    animateView.startAnim(value) {
+                        iv_userProfile.visibility = VISIBLE
+                    }
                 }
             }
         }
@@ -144,7 +147,6 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     }
                 }
 
-
                 if (slot.status == TableSlotStatus.VACANT.name) {
                     noPlayer.visibility = if (isJoined) GONE else VISIBLE
                     iv_userProfile.visibility = GONE
@@ -154,8 +156,12 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 } else {
                     noPlayer.visibility = GONE
                     iv_userProfile.visibility = VISIBLE
-                    active_indication.visibility = VISIBLE
-                    in_play_amt.visibility = VISIBLE
+
+                    if (slot.user != null && slot.user!!.status != TableSlotStatus.FOLD.name) {
+                        active_indication.visibility = VISIBLE
+                    } else {
+                        active_indication.visibility = GONE
+                    }
 
                     if (slot.user != null && slot.user!!.current_round_invested > 0.0) {
                         raise_amt.visibility = VISIBLE
@@ -184,6 +190,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 /*x = slotPosition.x
                 y = slotPosition.y*/
 
+                nameTV.text = slot.user_name
                 playerView.marginsRaw(
                     slotPosition.player.ml, slotPosition.player.mt,
                     slotPosition.player.mr, slotPosition.player.mb
@@ -208,12 +215,6 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 )
 
                 dealer.layoutGravity(Gravity.START)
-
-                /*active_indication.visibility = VISIBLE
-                in_play_amt.visibility = VISIBLE
-                raise_amt.visibility = VISIBLE
-                crown.visibility = VISIBLE
-                revealCards.visibility = VISIBLE*/
 
                 raise_amt.text =
                     "${String.format("%.2f", (slot.user?.current_round_invested ?: 0.00))}"
