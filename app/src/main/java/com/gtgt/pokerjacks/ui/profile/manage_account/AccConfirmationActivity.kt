@@ -15,6 +15,6 @@ class AccConfirmationActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        tv_commonTitle.text = "Bank Accounts"
+        tv_toolbar_title.text = "Bank Accounts"
     }
 }

@@ -22,7 +22,7 @@ class WebViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
 
-        tv_commonTitle.text = intent.getStringExtra("ACTIVITY_TITLE")
+        tv_toolbar_title.text = intent.getStringExtra("ACTIVITY_TITLE")
         iv_back.onOneClick {
             finish()
         }

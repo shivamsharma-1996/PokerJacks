@@ -66,17 +66,36 @@
                     android:text="Avg Bet: ₹201"
                     android:textColor="@color/white" />
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/blue_gradient_button"
-                    android:paddingStart="@dimen/dimen_8dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="5dp"
-                    android:text="Join - ₹20"
-                    android:textColor="@color/white" />
+                    android:layout_marginTop="@dimen/size_30dp"
+                    >
+
+
+                    <Button
+                        android:layout_width="@dimen/size_80dp"
+                        android:layout_height="@dimen/size_32dp"
+                        android:background="@drawable/blue_gradient_button"
+                        android:text="Join - ₹20"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"/>
+
+                </RelativeLayout>
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="@dimen/size_32dp"-->
+<!--                    android:layout_marginTop="30dp"-->
+<!--                    android:background="@drawable/blue_gradient_button"-->
+<!--                    android:paddingStart="@dimen/dimen_8dp"-->
+<!--                    android:paddingTop="5dp"-->
+<!--                    android:paddingEnd="8dp"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:paddingBottom="5dp"-->
+<!--                    android:text="Join - ₹20"-->
+<!--                    android:textSize="@dimen/text_14sp"-->
+<!--                    android:textColor="@color/white" />-->
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

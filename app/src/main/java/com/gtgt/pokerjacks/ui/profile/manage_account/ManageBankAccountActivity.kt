@@ -39,7 +39,7 @@ class ManageBankAccountActivity : BaseActivity() {
         iv_back.onOneClick {
             onBackPressed()
         }
-        tv_commonTitle.text = "Manage Bank Accounts"
+        tv_toolbar_title.text = "Manage Bank Accounts"
 
         viewModel.getBankDetails()
         viewModel.getBankDetails.observe(this, Observer {

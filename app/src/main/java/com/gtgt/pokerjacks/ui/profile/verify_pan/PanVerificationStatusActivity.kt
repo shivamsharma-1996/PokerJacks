@@ -48,7 +48,7 @@ class PanVerificationStatusActivity : ImagePickerActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verify_pan)
 
-        tv_commonTitle.text = "PAN Verification"
+        tv_toolbar_title.text = "PAN Verification"
 
         iv_back.onOneClick {
             finish()

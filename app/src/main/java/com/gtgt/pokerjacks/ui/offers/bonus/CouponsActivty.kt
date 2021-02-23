@@ -34,7 +34,7 @@ class CouponsActivty : BaseActivity() {
         iv_back.onOneClick {
             onBackPressed()
         }
-        tv_commonTitle.text = "Available Coupons"
+        tv_toolbar_title.text = "Available Coupons"
         rv_coupons.adapter = couponsAdapter
 
         viewModel.getUserOffers()

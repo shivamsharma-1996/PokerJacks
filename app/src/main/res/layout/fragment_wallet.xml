@@ -24,7 +24,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="@dimen/size_16dp"
-                app:cardBackgroundColor="@color/dark_30"
+                app:cardBackgroundColor="@color/revised_dark"
                 app:cardCornerRadius="8dp">
 
                 <RelativeLayout
@@ -54,7 +54,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Balance"
-                            android:textColor="#A5A5A5"
+                            android:textColor="#909aad"
                             android:textSize="16sp" />
 
                         <FrameLayout
@@ -65,7 +65,7 @@
                                 android:id="@+id/tv_totalBalance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#F1F1F1"
+                                android:textColor="#d1e2f4"
                                 android:textSize="26sp"
                                 tools:text="₹15,500.34" />
 
@@ -81,7 +81,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="( Unutilized Cash + Winnings + Bonus )"
-                            android:textColor="#A5A5A5"
+                            android:textColor="#909aad"
                             android:textSize="@dimen/text_12sp" />
                     </LinearLayout>
 
@@ -242,7 +242,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="₹"
-                        android:textColor="@color/white"
+                        android:textColor="#909aad"
                         android:textSize="28sp" />
 
                     <EditText
@@ -256,7 +256,7 @@
                         android:hint="Amount"
                         android:inputType="number"
                         android:textColor="@color/white"
-                        android:textColorHint="#656565"
+                        android:textColorHint="#909aad"
                         android:textSize="28sp" />
 
                     <TextView
@@ -294,7 +294,7 @@
                             android:drawableEnd="@drawable/ic_close_offer"
                             android:drawablePadding="@dimen/size_4dp"
                             android:text="Applied"
-                            android:textColor="#A5A5A5"
+                            android:textColor="#909aad"
                             android:textSize="@dimen/text_14sp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -336,7 +336,7 @@
                             android:background="@drawable/gray_button"
                             android:text="₹1000"
                             android:textAllCaps="false"
-                            android:textColor="@color/white"
+                            android:textColor="@color/bright_white"
                             android:textSize="@dimen/text_14sp" />
 
                         <Button
@@ -348,7 +348,7 @@
                             android:background="@drawable/gray_button"
                             android:text="₹2000"
                             android:textAllCaps="false"
-                            android:textColor="@color/white"
+                            android:textColor="@color/bright_white"
                             android:textSize="@dimen/text_14sp" />
 
                         <Button
@@ -360,7 +360,7 @@
                             android:background="@drawable/gray_button"
                             android:text="₹5000"
                             android:textAllCaps="false"
-                            android:textColor="@color/white"
+                            android:textColor="@color/bright_white"
                             android:textSize="@dimen/text_14sp" />
                     </LinearLayout>
 
@@ -384,7 +384,7 @@
                 android:layout_marginStart="@dimen/size_16dp"
                 android:layout_marginTop="@dimen/size_16dp"
                 android:layout_marginEnd="@dimen/size_16dp"
-                app:cardBackgroundColor="@color/dark_30"
+                app:cardBackgroundColor="@color/revised_dark"
                 app:cardCornerRadius="@dimen/size_8dp">
 
                 <LinearLayout
@@ -404,7 +404,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/size_16dp"
                         android:text="Withdraw"
-                        android:textColor="@color/white"
+                        android:textColor="@color/bright_white"
                         android:textSize="@dimen/text_16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -416,7 +416,7 @@
                 android:layout_marginStart="@dimen/size_16dp"
                 android:layout_marginTop="@dimen/size_16dp"
                 android:layout_marginEnd="@dimen/size_16dp"
-                app:cardBackgroundColor="@color/dark_30"
+                app:cardBackgroundColor="@color/revised_dark"
                 app:cardCornerRadius="@dimen/size_8dp">
 
                 <LinearLayout
@@ -436,7 +436,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/size_16dp"
                         android:text="Recent Transactions"
-                        android:textColor="@color/white"
+                        android:textColor="@color/bright_white"
                         android:textSize="@dimen/text_16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -448,7 +448,7 @@
                 android:layout_marginStart="@dimen/size_16dp"
                 android:layout_marginTop="@dimen/size_16dp"
                 android:layout_marginEnd="@dimen/size_16dp"
-                app:cardBackgroundColor="@color/dark_30"
+                app:cardBackgroundColor="@color/revised_dark"
                 app:cardCornerRadius="@dimen/size_8dp">
 
                 <LinearLayout
@@ -468,7 +468,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/size_16dp"
                         android:text="Bonus Disbursements"
-                        android:textColor="@color/white"
+                        android:textColor="@color/bright_white"
                         android:textSize="@dimen/text_16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -487,7 +487,7 @@
                     android:layout_marginTop="@dimen/size_16dp"
                     android:layout_marginEnd="@dimen/size_12dp"
                     android:layout_weight="1"
-                    app:cardBackgroundColor="@color/dark_30"
+                    app:cardBackgroundColor="@color/revised_dark"
                     app:cardCornerRadius="@dimen/size_8dp">
 
                     <LinearLayout
@@ -507,7 +507,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/dimen_8dp"
                             android:text="Scratch Cards"
-                            android:textColor="@color/white"
+                            android:textColor="@color/bright_white"
                             android:textSize="@dimen/text_16sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -520,7 +520,7 @@
                     android:layout_marginTop="@dimen/size_16dp"
                     android:layout_marginEnd="@dimen/size_16dp"
                     android:layout_weight="1"
-                    app:cardBackgroundColor="@color/dark_30"
+                    app:cardBackgroundColor="@color/revised_dark"
                     app:cardCornerRadius="@dimen/size_8dp">
 
                     <LinearLayout
@@ -540,7 +540,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/dimen_8dp"
                             android:text="Offers"
-                            android:textColor="@color/white"
+                            android:textColor="@color/bright_white"
                             android:textSize="@dimen/text_16sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

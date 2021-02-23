@@ -17,16 +17,6 @@
             android:layout_height="match_parent"
             android:layout_above="@id/btn_AddBankAcc">
 
-            <TextView
-                android:id="@+id/tv_AccountsNotFound"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="You do not have any bank\naccounts please start adding"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_16sp"
-                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/ll_BankAccounts"
@@ -55,6 +45,18 @@
                     tools:listitem="@layout/existing_bank_accounts_items" />
             </LinearLayout>
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_AccountsNotFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="You do not have any bank\n accounts please start adding"
+            android:textAlignment="center"
+            android:textColor="@color/bright_white"
+            android:textSize="@dimen/text_16sp"
+            android:visibility="gone" />
+
 
         <Button
             android:id="@+id/btn_AddBankAcc"

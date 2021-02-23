@@ -26,7 +26,7 @@ class RecentDistributionsActivity : BaseActivity() {
         iv_back.onOneClick {
             onBackPressed()
         }
-        tv_commonTitle.text = "Recent Disbursements"
+        tv_toolbar_title.text = "Recent Disbursements"
 
         if (rv_recentDistributions.layoutManager == null) {
             rv_recentDistributions.layoutManager = LinearLayoutManagerWrapper(this)

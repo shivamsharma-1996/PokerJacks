@@ -35,7 +35,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="90dp"
-                        app:cardBackgroundColor="@color/dark_30"
+                        app:cardBackgroundColor="@color/revised_dark"
                         app:cardCornerRadius="@dimen/size_8dp"
                         app:cardElevation="@dimen/size_4dp">
 
@@ -76,7 +76,7 @@
                                     android:id="@+id/tv_username"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_14sp"
                                     tools:text="Chakri_Abhi" />
 
@@ -84,7 +84,7 @@
                                     android:id="@+id/tv_user_phone_number"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_14sp"
                                     tools:text="+91 8985379754" />
 
@@ -92,7 +92,7 @@
                                     android:id="@+id/tv_user_email"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_14sp"
                                     tools:text="Chakradhar.p@gtgt.in" />
 
@@ -105,7 +105,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-24dp"
-                        app:cardBackgroundColor="@color/dark_30"
+                        app:cardBackgroundColor="@color/revised_dark"
                         app:cardCornerRadius="@dimen/size_8dp">
 
                         <LinearLayout
@@ -123,7 +123,7 @@
                                 android:layout_height="wrap_content"
                                 android:drawableRight="@drawable/ic_more_white"
                                 android:text="Settings"
-                                android:textColor="@color/white"
+                                android:textColor="@color/bright_white"
                                 android:textSize="@dimen/text_14sp" />
 
                             <LinearLayout
@@ -140,7 +140,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/proximanova_regular"
                                     android:text="Enable finger print/ Face recognition"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_14sp"
                                     android:theme="@style/SwitchStyle" />
 
@@ -149,7 +149,7 @@
                                     android:layout_height="0.5dp"
                                     android:layout_marginTop="@dimen/size_12dp"
                                     android:layout_marginBottom="@dimen/size_12dp"
-                                    android:background="@color/white_blue" />
+                                    android:background="@color/bright_white" />
 
                                 <TextView
                                     android:id="@+id/tv_changeMPIN"
@@ -157,7 +157,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/proximanova_regular"
                                     android:text="Change MPIN"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_14sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -170,7 +170,7 @@
                     android:layout_marginTop="@dimen/size_18dp"
                     android:layout_marginBottom="@dimen/size_12dp"
                     android:text="Cash Limits"
-                    android:textColor="@color/white"
+                    android:textColor="@color/bright_white"
                     android:textSize="@dimen/text_14sp" />
 
                 <LinearLayout
@@ -181,7 +181,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="90dp"
-                        app:cardBackgroundColor="@color/dark_30"
+                        app:cardBackgroundColor="@color/revised_dark"
                         app:cardCornerRadius="@dimen/size_8dp"
                         app:cardElevation="@dimen/size_4dp">
 
@@ -199,7 +199,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:textColor="@color/white"
+                                android:textColor="@color/bright_white"
                                 android:textSize="@dimen/text_14sp"
                                 tools:text="₹3.2K Used" />
 
@@ -220,7 +220,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="₹0"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_14sp" />
 
                                 <TextView
@@ -228,7 +228,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_14sp"
                                     tools:text="₹10K" />
                             </FrameLayout>
@@ -239,7 +239,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="76dp"
                         android:layout_marginTop="-24dp"
-                        app:cardBackgroundColor="@color/dark_30"
+                        app:cardBackgroundColor="@color/revised_dark"
                         app:cardCornerRadius="@dimen/size_8dp">
 
                         <FrameLayout
@@ -255,7 +255,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:textColor="#A5A5A5"
+                                android:textColor="@color/bright_white"
                                 android:textSize="@dimen/text_14sp"
                                 tools:text="Renews on 11th Jan" />
 
@@ -282,7 +282,7 @@
                     android:layout_marginTop="@dimen/size_18dp"
                     android:layout_marginBottom="@dimen/size_12dp"
                     android:text="My KYC"
-                    android:textColor="@color/white"
+                    android:textColor="@color/bright_white"
                     android:textSize="@dimen/text_14sp" />
 
                 <LinearLayout
@@ -293,7 +293,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="90dp"
-                        app:cardBackgroundColor="@color/dark_30"
+                        app:cardBackgroundColor="@color/revised_dark"
                         app:cardCornerRadius="@dimen/size_8dp"
                         app:cardElevation="@dimen/size_4dp">
 
@@ -317,7 +317,7 @@
                                     android:drawableTop="@drawable/ic_email"
                                     android:gravity="center"
                                     android:text="Email"
-                                    android:textColor="#A5A5A5"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <ImageView
@@ -348,7 +348,7 @@
                                     android:drawableTop="@drawable/ic_pan"
                                     android:gravity="center"
                                     android:text="PAN"
-                                    android:textColor="#A5A5A5"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <ImageView
@@ -380,7 +380,7 @@
                                     android:drawableTop="@drawable/ic_address"
                                     android:gravity="center"
                                     android:text="Address"
-                                    android:textColor="#A5A5A5"
+                                    android:textColor="@color/bright_white"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <ImageView
@@ -400,7 +400,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="76dp"
                         android:layout_marginTop="-24dp"
-                        app:cardBackgroundColor="@color/dark_30"
+                        app:cardBackgroundColor="@color/revised_dark"
                         app:cardCornerRadius="@dimen/size_8dp">
 
                         <FrameLayout
@@ -416,7 +416,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="Verify your details for\nSmooth gameplay"
-                                android:textColor="#A5A5A5"
+                                android:textColor="@color/bright_white"
                                 android:textSize="@dimen/text_14sp" />
 
                             <androidx.appcompat.widget.AppCompatButton
@@ -442,7 +442,7 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="@dimen/size_16dp"
                     android:layout_marginBottom="@dimen/size_16dp"
-                    app:cardBackgroundColor="@color/dark_30"
+                    app:cardBackgroundColor="@color/revised_dark"
                     app:cardCornerRadius="@dimen/size_6dp">
 
                     <LinearLayout
@@ -462,7 +462,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/size_16dp"
                             android:text="Manage Bank Accounts"
-                            android:textColor="@color/white"
+                            android:textColor="@color/bright_white"
                             android:textSize="@dimen/text_16sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -472,7 +472,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginBottom="@dimen/size_32dp"
-                    app:cardBackgroundColor="@color/dark_30"
+                    app:cardBackgroundColor="@color/revised_dark"
                     app:cardCornerRadius="@dimen/size_6dp">
 
                     <LinearLayout
@@ -493,7 +493,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/size_16dp"
                             android:text="Responsible Gaming"
-                            android:textColor="@color/white"
+                            android:textColor="@color/bright_white"
                             android:textSize="@dimen/text_16sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

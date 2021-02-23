@@ -34,7 +34,7 @@ class PanImageNotClearActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pan_image_not_clear)
 
-        tv_commonTitle.text = "PAN Verification"
+        tv_toolbar_title.text = "PAN Verification"
 
 
         reUploadedImg = bitMap

@@ -21,7 +21,7 @@ class VerifyEmailActivity : BaseActivity() {
             onBackPressed()
         }
 
-        tv_commonTitle.text = "Email Verification"
+        tv_toolbar_title.text = "Email Verification"
 
         if (intent != null) {
             if (intent.getBooleanExtra("EMAIL_VERIFIED", false)) {
