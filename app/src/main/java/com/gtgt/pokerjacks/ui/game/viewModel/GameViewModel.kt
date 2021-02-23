@@ -34,8 +34,8 @@ enum class AutoGameAction(val action: String) {
     AUTO_FOLD("AUTO_FOLD"),
     AUTO_CALL("AUTO_CALL"),
     AUTO_CHECK("AUTO_CHECK"),
-    AUTO_CALL_ANY("AUTO_CALL_ANY"),
     AUTO_CHECK_FOLD("AUTO_CHECK_FOLD"),
+    AUTO_CALL_ANY("AUTO_CALL_ANY"),
 }
 
 enum class PlayerActions(val action: String) {
@@ -119,7 +119,9 @@ class GameViewModel : SocketIOViewModel() {
                 }
 
 
-                leaderboardLD.data = leaderboard
+                socketIO.socketHandler.postDelayed({
+                    leaderboardLD.data = leaderboard
+                }, 1000)
             }
 
             on<JsonElement>("dealCommunityCards") {

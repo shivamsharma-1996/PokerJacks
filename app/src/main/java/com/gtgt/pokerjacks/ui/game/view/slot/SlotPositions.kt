@@ -29,14 +29,14 @@ data class SlotPosition(
 var slotPositions = mutableMapOf<SlotPositions, SlotPosition>()
 var slots9Positions = listOf(
     BOTTOM_CENTER,
-    RIGHT_BOTTOM,
-    RIGHT_BOTTOM_CENTER,
-    RIGHT_TOP_CENTER,
-    RIGHT_TOP,
-    LEFT_TOP,
-    LEFT_TOP_CENTER,
+    LEFT_BOTTOM,
     LEFT_BOTTOM_CENTER,
-    LEFT_BOTTOM
+    LEFT_TOP_CENTER,
+    LEFT_TOP,
+    RIGHT_TOP,
+    RIGHT_TOP_CENTER,
+    RIGHT_BOTTOM_CENTER,
+    RIGHT_BOTTOM
 )
 
 var slots6Positions = listOf(
@@ -50,11 +50,11 @@ var slots6Positions = listOf(
 
 var slots6PositionsTable = listOf(
     BOTTOM_CENTER,
-    RIGHT_CENTER,
-    RIGHT_TOP,
-    TOP_CENTER,
+    LEFT_CENTER,
     LEFT_TOP,
-    LEFT_CENTER
+    TOP_CENTER,
+    RIGHT_TOP,
+    RIGHT_CENTER
 )
 
 val slots2Positions = listOf(TOP_CENTER, BOTTOM_CENTER)

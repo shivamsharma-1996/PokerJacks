@@ -106,14 +106,15 @@ data class PlayerTurn(
     val action_choices: List<String>,
     val player_min_amount_to_call: Double,
     val current_min_raise: Double,
+    val current_max_raise: Double,
     val game_max_bet_amount: Double,
     val game_inplay_amount: Double,
     val player_action_timer: Long,
     val player_grace_timer: Long,
     val player_turn: String,
     val current_bettor_position: Int,
-    val side_pots: List<SidePot>,
-    val total_pot_value: Double
+    val allin_amount: Int
+//    val total_pot_value: Double
 )
 
 
@@ -127,6 +128,8 @@ data class DealCommunityCards(
     val card_2: String,
     val card_3: String,
     val card_4: String,
-    val card_5: String
+    val card_5: String,
+    val side_pots: List<SidePot>,
+    val total_pot_value: Double
 )
 

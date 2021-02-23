@@ -163,6 +163,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         active_indication.visibility = GONE
                     }
 
+
                     if (slot.user != null && slot.user!!.current_round_invested > 0.0) {
                         raise_amt.visibility = VISIBLE
                     } else {
@@ -219,8 +220,15 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 raise_amt.text =
                     String.format("%.2f", (slot.user?.current_round_invested ?: 0.00))
 
-                in_play_amt.text =
-                    "₹${(slot.user?.game_inplay_amount ?: slot.inplay_amount).toDecimalFormat()}"
+
+                val inPlay = (slot.user?.game_inplay_amount ?: slot.inplay_amount)
+                if(inPlay == 0.0) {
+                    in_play_amt.visibility = GONE
+                } else {
+                    in_play_amt.visibility = VISIBLE
+                    in_play_amt.text =
+                        "₹${inPlay.toDecimalFormat()}"
+                }
             }
         }
     }

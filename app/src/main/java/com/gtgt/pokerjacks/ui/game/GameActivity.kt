@@ -227,8 +227,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         vm.gameTriggerLD.observe(this, Observer {
 
             it?.let {
-                gameIDTV.setText(it._id)
-                gameIDTV.invalidate()
+                gameIDTV.text = it.game_uid
+//                gameIDTV.invalidate()
 
                 /*gamePreferencesFragment.dismissExitLobbyDialog()
 
@@ -351,15 +351,25 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         })
 
         vm.dealCommunityCardsLD.observe(this, Observer {
-            c1.coloredCard(it.card_1)
-            c2.coloredCard(it.card_2)
-            c3.coloredCard(it.card_3)
-            c4.coloredCard(it.card_4)
-            c5.coloredCard(it.card_5)
 
+            try {
+                totalPot.visibility = VISIBLE
+                totalPot.text = "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
+
+                pot_split.removeAllViews()
+                it.side_pots.forEach {
+                    pot_split.addView(TextView(this).apply {
+                        text = "  ₹ ${it.pot_value.toDecimalFormat()}  "
+                    })
+                }
+
+                pot_split.visibility = if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
+            } catch (ex: Exception) {
+
+            }
             val slots = vm.tableSlotsLD.value
 
-            val potSplitPadding = dpToPx(15).toFloat()
+//            val potSplitPadding = dpToPx(15).toFloat()
             val potSplitTop = dpToPx(40).toFloat()
 
             if (slots != null) {
@@ -379,10 +389,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             )
 
                             animate().apply {
-                                x(totalPot.x + playArea.paddingStart + potSplitPadding*2)
+                                x(totalPot.x + playArea.paddingStart + totalPot.width / 2)
                                 y(topMargin + potSplitTop)
 
-                                duration = 500
+                                duration = 1000
                                 withEndAction {
                                     rootLayout.removeView(coinsTv)
                                 }
@@ -392,7 +402,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     }
                 }
             }
-            vm.getHandStrength()
+
+            timeOut(1000) {
+                c1.coloredCard(it.card_1)
+                c2.coloredCard(it.card_2)
+                c3.coloredCard(it.card_3)
+                c4.coloredCard(it.card_4)
+                c5.coloredCard(it.card_5)
+                vm.getHandStrength()
+            }
         })
 
         vm.playerTurnLD.observe(this, Observer {
@@ -413,19 +431,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         sitOutCB.visibility = VISIBLE
                     }
                 }
-
-
-                totalPot.visibility = VISIBLE
-                totalPot.text = "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
-
-                pot_split.removeAllViews()
-                it.side_pots.forEach {
-                    pot_split.addView(TextView(this).apply {
-                        text = "  ₹ ${it.pot_value.toDecimalFormat()}  "
-                    })
-                }
-
-                pot_split.visibility = if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
 
                 if (it.player_turn == vm.userId) {
 
@@ -465,35 +470,22 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     callBtn.text = "Call\n₹${it.player_min_amount_to_call.toDecimalFormat()}"
                     callBtn.tag = it.player_min_amount_to_call
 
-
-                    val maxPossibleRaise =
-                        if (it.game_inplay_amount < it.total_pot_value) {
-//                            pot_raise.visibility = GONE
-//                            max_raise.visibility = VISIBLE
-                            it.game_inplay_amount
-                        } else {
-//                            pot_raise.visibility = GONE
-//                            max_raise.visibility = VISIBLE
-                            it.total_pot_value
-                        }
+                    val maxPossibleRaise = it.current_max_raise
                     max_raise_value.text = maxPossibleRaise.toString()
-                    val minPossibleRaise =
-                        (it.player_min_amount_to_call + it.current_min_raise).let { a ->
-                            return@let if (a < it.game_inplay_amount) a else it.game_inplay_amount
-                        }
+                    val minPossibleRaise = it.current_min_raise
 
                     seek_raise.max = ((maxPossibleRaise - minPossibleRaise) * 100).toInt()
 
                     pot_raise.onOneClick {
                         seek_raise.progress =
-                            ((it.total_pot_value - minPossibleRaise) * 100).toInt()
+                            ((minPossibleRaise) * 100).toInt()
                     }
                     raise_3_4.onOneClick {
                         seek_raise.progress =
-                            ((it.total_pot_value - minPossibleRaise) * 300 / 4).toInt()
+                            ((minPossibleRaise) * 300 / 4).toInt()
                     }
                     raise_1_2.onOneClick {
-                        seek_raise.progress = ((it.total_pot_value - minPossibleRaise) * 50).toInt()
+                        seek_raise.progress = ((minPossibleRaise) * 50).toInt()
                     }
 
 
@@ -536,9 +528,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     seek_raise.progress = 0
 
                     raiseBtn.text =
-                        "Raise\n₹${(minPossibleRaise).toDecimalFormat()}"
-                    raiseBtn.tag = minPossibleRaise
+                        "Raise\n₹${(it.current_min_raise).toDecimalFormat()}"
 
+                    allinBtn.text =
+                        "All in\n₹${(it.allin_amount).toDecimalFormat()}"
+                    raiseBtn.tag = minPossibleRaise
                 } else {
                     raiseLL.visibility = GONE
 
@@ -833,7 +827,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
 
         fold_checkCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CHECK) {}
+            vm.autoGameAction(AutoGameAction.AUTO_CHECK_FOLD) {}
         }
         callCB.onOneClick {
             vm.autoGameAction(AutoGameAction.AUTO_CALL) {}

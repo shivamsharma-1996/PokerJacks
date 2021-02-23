@@ -600,15 +600,14 @@
                 android:layout_height="50dp"
                 android:padding="10dp"
                 android:src="@drawable/signal_0" />
-
-
         </LinearLayout>
 
         <com.gtgt.pokerjacks.components.VerticalTextView
             android:id="@+id/gameIDTV"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="100dp"
             android:layout_centerVertical="true"
+            android:gravity="center"
             android:textAlignment="center"/>
 
     </RelativeLayout>
