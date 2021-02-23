@@ -126,6 +126,9 @@ class GameViewModel : SocketIOViewModel() {
 
             on<JsonElement>("dealCommunityCards") {
                 val community_cards: DealCommunityCards = it["community_cards"].to()
+                community_cards.total_pot_value = it["total_pot_value"].double
+                community_cards.side_pots = it["side_pots"].to()
+
                 try {
                     val previousCommunityCards = dealCommunityCardsLD.data
                     if (previousCommunityCards != null

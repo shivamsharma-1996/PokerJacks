@@ -351,22 +351,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         })
 
         vm.dealCommunityCardsLD.observe(this, Observer {
-
-            try {
-                totalPot.visibility = VISIBLE
-                totalPot.text = "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
-
-                pot_split.removeAllViews()
-                it.side_pots.forEach {
-                    pot_split.addView(TextView(this).apply {
-                        text = "  ₹ ${it.pot_value.toDecimalFormat()}  "
-                    })
-                }
-
-                pot_split.visibility = if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
-            } catch (ex: Exception) {
-
-            }
             val slots = vm.tableSlotsLD.value
 
 //            val potSplitPadding = dpToPx(15).toFloat()
@@ -394,6 +378,25 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                                 duration = 1000
                                 withEndAction {
+
+                                    try {
+                                        if(it.total_pot_value > 0.0) {
+                                            totalPot.visibility = VISIBLE
+                                            totalPot.text = "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
+
+                                            pot_split.removeAllViews()
+                                            it.side_pots.forEach {
+                                                pot_split.addView(TextView(this@GameActivity).apply {
+                                                    text = "  ₹ ${it.pot_value.toDecimalFormat()}  "
+                                                })
+                                            }
+
+                                            pot_split.visibility = if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
+                                        }
+                                    } catch (ex: Exception) {
+
+                                    }
+
                                     rootLayout.removeView(coinsTv)
                                 }
                                 start()
@@ -446,29 +449,37 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     auto_options_rg.clearCheck()
 
-                    foldBtn.visibility =
-                        if (it.action_choices.contains(PlayerActions.FOLD.action)) VISIBLE else GONE
+                    if(vm.mySlot!!.user!!.status.startsWith("AUTO_")) {
+                        foldBtn.visibility = GONE
+                            callBtn.visibility = GONE
+                            raiseBtn.visibility = GONE
+                            checkBtn.visibility = GONE
+                            allinBtn.visibility = GONE
+                    } else {
+                        foldBtn.visibility =
+                            if (it.action_choices.contains(PlayerActions.FOLD.action)) VISIBLE else GONE
 
-                    callBtn.visibility =
-                        if (it.action_choices.contains(PlayerActions.CALL.action)) VISIBLE else GONE
+                        callBtn.visibility =
+                            if (it.action_choices.contains(PlayerActions.CALL.action)) VISIBLE else GONE
 
-                    raiseBtn.visibility =
-                        if (it.action_choices.contains(PlayerActions.RAISE.action)) {
-                            raiseLL.visibility = VISIBLE
-                            VISIBLE
-                        } else {
-                            raiseLL.visibility = GONE
-                            GONE
-                        }
+                        raiseBtn.visibility =
+                            if (it.action_choices.contains(PlayerActions.RAISE.action)) {
+                                raiseLL.visibility = VISIBLE
+                                VISIBLE
+                            } else {
+                                raiseLL.visibility = GONE
+                                GONE
+                            }
 
-                    checkBtn.visibility =
-                        if (it.action_choices.contains(PlayerActions.CHECK.action)) VISIBLE else GONE
+                        checkBtn.visibility =
+                            if (it.action_choices.contains(PlayerActions.CHECK.action)) VISIBLE else GONE
 
-                    allinBtn.visibility =
-                        if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE
-
+                        allinBtn.visibility =
+                            if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE
+                    }
                     callBtn.text = "Call\n₹${it.player_min_amount_to_call.toDecimalFormat()}"
                     callBtn.tag = it.player_min_amount_to_call
+
 
                     val maxPossibleRaise = it.current_max_raise
                     max_raise_value.text = maxPossibleRaise.toString()
@@ -680,9 +691,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                     }
 
                                 currentPotView.animate().apply {
-                                    x(slot.x)
-                                    y(slot.y)
-                                    duration = 250
+                                    x(slot.x + slot.width/2)
+                                    y(slot.y + slot.height/2)
+                                    duration = 1000
                                     withEndAction {
                                         rootLayout.removeView(currentPotView)
                                         animatePots(potIndex + 1)

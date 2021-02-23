@@ -129,7 +129,7 @@ data class DealCommunityCards(
     val card_3: String,
     val card_4: String,
     val card_5: String,
-    val side_pots: List<SidePot>,
-    val total_pot_value: Double
+    var side_pots: List<SidePot>,
+    var total_pot_value: Double
 )
 

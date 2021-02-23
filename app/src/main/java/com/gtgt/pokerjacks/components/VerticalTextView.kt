@@ -42,7 +42,7 @@ class VerticalTextView(context: Context, attrs: AttributeSet) : AppCompatTextVie
         if (layout == null)
             return
         c.withSave {
-            if (topDown) {
+            if (!topDown) {
                 val fm = paint.fontMetrics
                 translate(textSize - (fm.bottom + fm.descent), 0f)
                 rotate(90f)
