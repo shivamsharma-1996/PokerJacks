@@ -524,7 +524,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         ) {
                             log("minPossibleRaiseprogress", progress)
                             raiseBtn.text =
-                                "Raise\n₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
+                                "Raise to\n₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
                             raiseBtn.tag = (progress / 100.0 + minPossibleRaise)
                         }
 
@@ -539,7 +539,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     seek_raise.progress = 0
 
                     raiseBtn.text =
-                        "Raise\n₹${(it.current_min_raise).toDecimalFormat()}"
+                        "Raise to\n₹${(it.current_min_raise).toDecimalFormat()}"
 
                     allinBtn.text =
                         "All in\n₹${(it.allin_amount).toDecimalFormat()}"
