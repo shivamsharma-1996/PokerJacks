@@ -9,7 +9,7 @@ data class LobbyTables(val info: List<Info>) : BaseModel() {
         val activePlayers: Int,
         val avgBet: Double,
         val community_cards: List<String>,
-        val empty_seats: List<Int>,
+        var empty_seats: List<Int>,
         val plan_details: PlanDetails,
         val status: String,
         val table_id: String

@@ -224,11 +224,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         })
 
         vm.gameTriggerLD.observe(this, Observer {
+
             it?.let {
+                gameIDTV.setText(it._id)
+                gameIDTV.invalidate()
+
                 /*gamePreferencesFragment.dismissExitLobbyDialog()
 
-            gameIdTV.visibility = View.VISIBLE
-            gameIdTV.text = it.gameUID*/
+                          gameIdTV.visibility = View.VISIBLE
+                          gameIdTV.text = it.gameUID*/
 
                 slotViews.usersBestHand = null
                 slotViews.crownTo(-1)

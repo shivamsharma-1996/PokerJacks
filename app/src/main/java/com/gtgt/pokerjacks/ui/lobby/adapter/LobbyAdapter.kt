@@ -11,6 +11,7 @@ import com.gtgt.pokerjacks.ui.game.Card
 import com.gtgt.pokerjacks.ui.game.createCard
 import com.gtgt.pokerjacks.ui.game.view.slot.slots2Positions
 import com.gtgt.pokerjacks.ui.game.view.slot.slots6Positions
+import com.gtgt.pokerjacks.ui.game.view.slot.slots6PositionsTable
 import com.gtgt.pokerjacks.ui.game.view.slot.slots9Positions
 import com.gtgt.pokerjacks.ui.lobby.model.LobbyTables
 import com.gtgt.pokerjacks.utils.EasyBindingAdapter
@@ -73,13 +74,14 @@ class LobbyAdapter(val onClick: (LobbyTables.Info) -> Unit) :
             holder.binding.table.removeAllViews()
             when (data.plan_details.max_players) {
                 9 -> slots9Positions
-                6 -> slots6Positions
+                6 -> slots6PositionsTable
                 else -> slots2Positions
             }.forEachIndexed { index, position ->
                 val player = ImageView(holder.binding.root.context)
                 holder.binding.table.addView(player)
                 player.apply {
-                    setImageResource(if (data.activePlayers <= index) R.drawable.no_player else R.drawable.player)
+//                    setImageResource(if (data.activePlayers <= index) R.drawable.no_player else R.drawable.player)
+                    setImageResource(if (data.empty_seats.contains(index + 1)) R.drawable.no_player else R.drawable.player)
                     widthHeightRaw(playerSize, playerSize)
                     x = playerPositions[position]!!.first
                     y = playerPositions[position]!!.second

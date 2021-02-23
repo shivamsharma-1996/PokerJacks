@@ -1,40 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root"
+<androidx.cardview.widget.CardView android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:visibility="gone"
-    app:cardBackgroundColor="#002C52">
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#00000000"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/black_gradient_vertical"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/themesLL"
+        <HorizontalScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:scrollbars="none">
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/themesLL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp">
 
-        <TextView
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <ImageView
             android:id="@+id/close"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:drawableEnd="@drawable/close"
-            android:drawablePadding="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="7dp"
             android:gravity="center_vertical"
-            android:paddingEnd="10dp"
-            android:textColor="@color/white"
-            android:textSize="20dp" />
-
+            android:src="@drawable/close_gold"
+            android:textColor="@color/white" />
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

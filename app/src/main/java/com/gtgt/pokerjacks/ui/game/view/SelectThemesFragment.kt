@@ -60,7 +60,7 @@ class SelectThemesFragment : BaseFragment() {
             val themeItem = LayoutInflater.from(context).inflate(R.layout.theme_item, null)
             themesLL.addView(themeItem)
             themeItem.apply {
-                main.backgroundTintList = ColorStateList.valueOf(theme.light)
+//                main.backgroundTintList = ColorStateList.valueOf(theme.light)
 
                 bg.loadImage(theme.bg)
                 table.loadImage(theme.table)
@@ -81,6 +81,7 @@ class SelectThemesFragment : BaseFragment() {
                 }
             }
         }
+
         selectedTheme.selected.visibility = VISIBLE
         themesViewModel.theme = themes[selectedThemeIndex]
 
