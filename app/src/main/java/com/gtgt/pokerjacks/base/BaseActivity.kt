@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.gtgt.pokerjacks.MyApplication
 import com.gtgt.pokerjacks.retrofit.ApiInterfaceBonus
 import com.gtgt.pokerjacks.retrofit.ApiInterfacePlatform
+import com.gtgt.pokerjacks.retrofit.ApiInterfaceTableManager
 import com.gtgt.pokerjacks.retrofit.ApiInterfaceWallet
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -17,6 +18,7 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware {
 
     val apiServicesPlatform: ApiInterfacePlatform by instance()
     val apiInterfaceBonus: ApiInterfaceBonus by instance()
+    val apiInterfaceTableManager: ApiInterfaceTableManager by instance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

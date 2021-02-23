@@ -23,6 +23,7 @@ class MyApplication : Application(), LifecycleObserver, KodeinAware {
         bind() from singleton { WebServicesPayment.retrofit.create(ApiInterfacePayment::class.java) }
         bind() from singleton { WebServicesUpdate.retrofit.create(ApiInterfaceUpdate::class.java) }
         bind() from singleton { WebServicesPlayWallet.retrofit.create(ApiInterfacePlayWallet::class.java) }
+        bind() from singleton { WebServicesTableManager.retrofit.create(ApiInterfaceTableManager::class.java) }
 
         bind() from singleton {
             this@MyApplication.applicationContext!!.getSharedPreferences(

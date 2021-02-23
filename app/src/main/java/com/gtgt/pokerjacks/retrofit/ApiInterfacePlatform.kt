@@ -145,11 +145,6 @@ interface ApiInterfacePlatform {
         @Body jsonElement: JsonElement
     ): Call<BaseModel>
 
-    @POST("userService/checkReferralCode/")
-    fun checkReferralCode(
-        @Body jsonElement: JsonElement
-    ): Call<BaseModel>
-
     @POST("userService/updateUserName/")
     fun updateUserName(
         @Body jsonElement: JsonElement
@@ -160,9 +155,6 @@ interface ApiInterfacePlatform {
 
     @GET("userService/checkReferralEligible/")
     fun checkReferralEligible(): Call<AnyModel>
-
-    @POST("userService/applyReferralCode/")
-    fun applyReferralCode(@Body data: JsonElement): Call<AnyModel>
 
     @POST("userService/blockMe/")
     fun blockMe(@Body data: JsonElement): Call<BaseModel>

@@ -1,0 +1,40 @@
+package com.gtgt.pokerjacks.ui.game.models
+
+data class Leaderboard(
+    val cards_reveal: Boolean,
+    val pot_distributions: List<PotDistribution>,
+    val pot_winnings: List<PotWinning>,
+    val users_best_hand: List<UsersBestHand>,
+    val users_winnings: List<UsersWinning>,
+    val community_cards: DealCommunityCards
+)
+
+data class PotDistribution(
+    val players: List<String>,
+    val pot_value: Int
+)
+
+data class PotWinning(
+    val pot_index: Int,
+    val rank: Int,
+    val user_unique_id: String,
+    val wonAmt: Int
+)
+
+data class UsersBestHand(
+    val best_hand_details: BestHandDetails,
+    val card_1: String,
+    val card_2: String,
+    val seat_no: Int,
+    val user_unique_id: String
+)
+
+data class UsersWinning(
+    val user_unique_id: String,
+    val wonAmt: Int
+)
+
+data class BestHandDetails(
+    val cards: List<String>,
+    val rankOrder: String
+)

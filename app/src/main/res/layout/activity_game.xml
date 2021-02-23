@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/blue_table_bg">
+
+        <ImageView
+            android:id="@+id/ivTable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="60dp"
+            android:paddingTop="38dp"
+            android:paddingEnd="60dp"
+            android:paddingBottom="45dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/blue_table" />
+
+        <LinearLayout
+            android:id="@+id/topPanel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp">
+
+            <ImageView
+                android:id="@+id/stats"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/stats" />
+
+            <ImageView
+                android:id="@+id/previous"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/previous" />
+
+            <TextView
+                android:id="@+id/reconnect"
+                style="@style/buton_tv"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/stroke_blue"
+                android:minWidth="70dp"
+                android:text="Go Offline"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/shareReconnect"
+                style="@style/buton_tv"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/stroke_blue"
+                android:minWidth="70dp"
+                android:text="Share Reconnect"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/settings" />
+
+            <ImageView
+                android:id="@+id/menu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/menu" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/blur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_dull"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/closeShow"
+            style="@style/title"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="end"
+            android:drawableRight="@drawable/close_gold"
+            android:drawablePadding="10dp"
+            android:padding="11.5dp"
+            android:text="Cancel"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomPannel"
+            android:layout_below="@+id/topPanel"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/afterSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/transparent_black_curve"
+                android:paddingStart="20dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/playArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/play_area_padding"
+                android:layout_marginEnd="@dimen/play_area_padding"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/totalPot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/pot_text_bg"
+                    android:backgroundTint="#1EFFFFFF"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="Total Pot: ₹12.20"
+                    android:visibility="invisible" />
+
+                <LinearLayout
+                    android:id="@+id/pot_split"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/pot_text_bg"
+                    android:backgroundTint="#1EFFFFFF"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:visibility="invisible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/community_cards_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <ImageView
+                            android:id="@+id/c1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
+
+                        <ImageView
+                            android:id="@+id/c2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
+
+                        <ImageView
+                            android:id="@+id/c3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
+
+                        <ImageView
+                            android:id="@+id/c4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
+
+                        <ImageView
+                            android:id="@+id/c5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/user_cards_fl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="0.5"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <ImageView
+                            android:id="@+id/mc1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
+
+                        <ImageView
+                            android:id="@+id/mc2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="30dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/leaderboardView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/play_area_padding"
+                android:layout_marginEnd="@dimen/play_area_padding"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
+                    android:text="Scorecard"
+                    android:textColor="@color/white" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/leaderboardRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/leaderboardMsg"
+                    android:layout_below="@id/title"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginEnd="80dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <TextView
+                    android:id="@+id/leaderboardMsg"
+                    style="@style/headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
+                    android:text="Waiting for other players to submit"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_20dp" />
+
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/bottomPannel"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="135dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <CheckBox
+                android:id="@+id/sitOutCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_cb"
+                android:button="@drawable/cb"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:text="Sit Out"
+                android:visibility="gone"
+                tools:ignore="RtlSymmetry" />
+
+            <CheckBox
+                android:id="@+id/joinBBcb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/stroke_cb"
+                android:button="@drawable/cb"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:text="Post BB"
+                android:visibility="gone"
+                tools:ignore="RtlSymmetry" />
+
+            <RadioGroup
+                android:id="@+id/auto_options_rg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/foldCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/stroke_cb"
+                    android:button="@drawable/cb"
+                    android:paddingEnd="5dp"
+                    android:text="Fold"
+                    android:visibility="gone"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/fold_checkCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/stroke_cb"
+                    android:button="@drawable/cb"
+                    android:paddingEnd="5dp"
+                    android:text="Fold/Check"
+
+                    android:visibility="gone"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/checkCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/stroke_cb"
+                    android:button="@drawable/cb"
+                    android:paddingEnd="5dp"
+                    android:text="Check"
+                    android:visibility="gone"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/callCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/stroke_cb"
+                    android:button="@drawable/cb"
+                    android:paddingEnd="5dp"
+                    android:text="Call"
+                    android:visibility="gone"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/checkOrCallAnyCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/stroke_cb"
+                    android:button="@drawable/cb"
+                    android:paddingEnd="5dp"
+                    android:text="CallAny/Check"
+                    android:visibility="gone"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/callAnyCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/stroke_cb"
+                    android:button="@drawable/cb"
+                    android:paddingEnd="5dp"
+                    android:text="CallAny"
+                    android:visibility="gone"
+                    tools:ignore="RtlSymmetry" />
+            </RadioGroup>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/foldBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/btn_red"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:text="Fold"
+                android:textAllCaps="false"
+                android:textSize="13dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/checkBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_green"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:text="Check"
+                android:textAllCaps="false"
+                android:textSize="13dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/callBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_green"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:text="Call\n10"
+                android:textAllCaps="false"
+                android:textSize="13dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/raiseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_blue"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:textAllCaps="false"
+                android:textSize="13dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/allinBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_blue"
+                android:gravity="center"
+                android:minWidth="62dp"
+                android:text="All in"
+                android:textAllCaps="false"
+                android:textSize="13dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/cardsDistributionArea"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/me"
+            layout="@layout/player"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/messageFL"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/gameInfoIv"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:alpha="0.4"
+                android:src="@drawable/game_info_bg"
+                android:tint="#000" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/waitingTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Waiting for other players to join,"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/gameStartsTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Game starts in"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/offlineMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:padding="5dp"
+            android:text="You are offline"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/playerTurnIndication"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:background="#00C914"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/themeSelectFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/raiseLL"
+            layout="@layout/raise_amt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/iAMBack"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:padding="0dp"
+            android:layout_marginBottom="7dp"
+            android:layout_centerHorizontal="true"
+            android:text="I am Back"
+            android:textSize="13dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="40dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/refresh"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:src="@drawable/reset" />
+
+            <ImageView
+                android:id="@+id/signalIv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:src="@drawable/signal_0" />
+        </LinearLayout>
+
+        <com.gtgt.pokerjacks.components.VerticalTextView
+            android:id="@+id/gameIDTV"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textAlignment="center"/>
+
+    </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/leftDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/Base.Theme.AppCompat.Light">
+
+        <FrameLayout
+            android:id="@+id/openDeckFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.navigation.NavigationView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/rightDrawer"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@drawable/black_gradient"
+        android:elevation="0dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/Base.Theme.AppCompat.Light">
+
+        <FrameLayout
+            android:id="@+id/settingsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.navigation.NavigationView>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

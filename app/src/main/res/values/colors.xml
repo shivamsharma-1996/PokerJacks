@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#313a4b</color>
     <color name="colorPrimaryDark">#242d3d</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#ed1561</color>
     <color name="dark">#232b3b</color>
     <color name="dark_30">#313a4b</color>
     <color name="dark_60">#242d3d</color>
@@ -16,4 +16,7 @@
     <color name="revised_dark">#2f384a</color>
     <color name="bright_white">#edf6ff</color>
     <color name="wallet_quick_money_btn_color">#58657c</color>
+    <color name="black_dull">#80000000</color>
+    <color name="orange">#ff6633</color>
+
 </resources>

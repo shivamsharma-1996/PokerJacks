@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.gtgt.pokerjacks.ui.lobby.model.Event" />
+            type="com.gtgt.pokerjacks.ui.lobby.model.LobbyTables.Info" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -40,6 +40,15 @@
                     android:id="@+id/table"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:id="@+id/cards"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
+
             </FrameLayout>
 
             <LinearLayout
@@ -51,12 +60,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{data.filledPlayers +`/`+data.totalPlayers}"
+                    android:text="@{data.activePlayers + `/` + data.plan_details.max_players}"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{`Blinds: ` + data.plan_details.small_blind + `/` + data.plan_details.big_blind}"
+                    android:textColor="@color/white" />
+
                     android:text="Blinds: 0.5/1"
                     android:textColor="@color/white" />
 

@@ -1,6 +1,8 @@
 package com.gtgt.pokerjacks.retrofit
 
 import com.google.gson.JsonElement
+import com.gtgt.pokerjacks.base.AnyModel
+import com.gtgt.pokerjacks.base.BaseModel
 import com.gtgt.pokerjacks.ui.offers.model.*
 import retrofit2.Call
 import retrofit2.http.Body
@@ -29,4 +31,12 @@ interface ApiInterfaceBonus {
     fun openScratchCard(
         @Body data: JsonElement
     ): Call<OpenScratchCardResponse>
+
+    @POST("bonusService/checkReferralCode/")
+    fun checkReferralCode(
+        @Body jsonElement: JsonElement
+    ): Call<BaseModel>
+
+    @POST("bonusService/applyReferralCode/")
+    fun applyReferralCode(@Body data: JsonElement): Call<AnyModel>
 }

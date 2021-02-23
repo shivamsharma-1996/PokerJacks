@@ -8,4 +8,26 @@
         <attr name="checkedItem" format="integer" />
         <attr name="idd" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="GameRadioMenu">
+        <attr name="isOn" format="boolean" />
+        <attr name="text" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="GameMenu">
+        <attr name="normalIcon" format="reference" />
+        <attr name="disabledIcon" format="reference" />
+        <attr name="mode" format="integer" />
+        <attr name="name" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="verticaltextview">
+        <attr name="direction">
+            <enum name="uptodown" value="0" />
+            <enum name="downtoup" value="1" />
+            <enum name="lefttoright" value="2" />
+            <enum name="righttoleft" value="3" />
+        </attr>
+    </declare-styleable>
+
 </resources>

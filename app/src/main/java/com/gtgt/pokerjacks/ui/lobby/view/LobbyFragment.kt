@@ -17,9 +17,10 @@ import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.HomeActivity
+import com.gtgt.pokerjacks.ui.game.GameActivity
 import com.gtgt.pokerjacks.ui.lobby.HomeViewModel
 import com.gtgt.pokerjacks.ui.lobby.adapter.LobbyAdapter
-import com.gtgt.pokerjacks.ui.lobby.model.Event
+import com.gtgt.pokerjacks.ui.lobby.viewmodel.LobbyViewModel
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletViewModel
 import com.gtgt.pokerjacks.utils.LinearLayoutManagerWrapper
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,7 +30,16 @@ import kotlinx.android.synthetic.main.fragment_lobby.*
 
 class LobbyFragment : BaseFragment() {
     private lateinit var selectedPlayersFilterTV: TextView
-    private val lobbyAdapter by lazy { LobbyAdapter() }
+    private val lobbyAdapter by lazy {
+        LobbyAdapter {
+            launchActivity<GameActivity> {
+                putExtra("table_id", it.table_id)
+                putExtra("plan", it.plan_details)
+            }
+        }
+    }
+
+    private val lobbyVM: LobbyViewModel by viewModel()
     private val viewModel: HomeViewModel by sharedViewModel()
     private val walletViewModel: WalletViewModel by store()
 
@@ -53,24 +63,24 @@ class LobbyFragment : BaseFragment() {
         players9.onOneClick { playersFilterChanged(players9, 9) }
         players6.onOneClick { playersFilterChanged(players6, 6) }
         players2.onOneClick { playersFilterChanged(players2, 2) }
+
         if (eventsRV.layoutManager == null) {
             eventsRV.layoutManager = LinearLayoutManagerWrapper(context)
         }
         eventsRV.adapter = lobbyAdapter
-        lobbyAdapter.submitList(
-            listOf(
-                Event(1, 2),
-                Event(2, 6),
-                Event(3, 6),
-                Event(4, 6),
-                Event(5, 6),
-                Event(6, 6),
-                Event(6, 9),
-                Event(7, 9),
-                Event(8, 9),
-                Event(9, 9)
-            )
-        )
+
+
+        lobbyVM.lobbyTables.observe(viewLifecycleOwner, Observer {
+            if (it.success) {
+                log("selectedPlayersFilter", lobbyVM.playersAllTables)
+                when (selectedPlayersFilter) {
+                    -1 -> lobbyAdapter.submitList(lobbyVM.playersAllTables)
+                    2 -> lobbyAdapter.submitList(lobbyVM.players2Tables)
+                    6 -> lobbyAdapter.submitList(lobbyVM.players6Tables)
+                    9 -> lobbyAdapter.submitList(lobbyVM.players9Tables)
+                }
+            }
+        })
     }
 
     private fun initUI() {
@@ -169,6 +179,7 @@ class LobbyFragment : BaseFragment() {
     }
 
     var isFirst = true
+
     override fun onResume() {
         super.onResume()
         if (!isFirst) {
@@ -179,13 +190,19 @@ class LobbyFragment : BaseFragment() {
             }
         }
         isFirst = false
+
+        lobbyVM.getActiveTables()
     }
 
     private fun playersFilterChanged(view: TextView, players: Int) {
+        selectedPlayersFilter = players
         if (selectedPlayersFilterTV != view) {
             selectedPlayersFilterTV.setBackgroundResource(R.drawable.unselected_button)
             view.setBackgroundResource(R.drawable.blue_gradient_button)
             selectedPlayersFilterTV = view
+
+            lobbyVM.lobbyTables.notify()
+
         }
     }
 }

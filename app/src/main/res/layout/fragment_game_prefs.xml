@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/options"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size_56dp"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:paddingEnd="15dp">
+
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/settings"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/menu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/menu" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/radioMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/options"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <com.gtgt.pokerjacks.components.GameRadioMenu
+                android:id="@+id/color_deck"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text="Color Deck" />
+
+            <com.gtgt.pokerjacks.components.GameRadioMenu
+                android:id="@+id/auto_muck"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text="Auto muck" />
+
+            <com.gtgt.pokerjacks.components.GameRadioMenu
+                android:id="@+id/auto_Post_BB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text="Auto Post BB" />
+
+            <com.gtgt.pokerjacks.components.GameRadioMenu
+                android:id="@+id/auto_rotate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text="Auto Rotate" />
+
+            <com.gtgt.pokerjacks.components.GameRadioMenu
+                android:id="@+id/hand_Strength"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text="Hand Strength" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/prefrencesMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/options"
+            android:orientation="vertical">
+
+            <com.gtgt.pokerjacks.components.GameMenu
+                android:id="@+id/exit_lobby"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:normalIcon="@drawable/game_menu_exit"
+                app:name="Exit" />
+
+            <com.gtgt.pokerjacks.components.GameMenu
+                android:id="@+id/refill_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:normalIcon="@drawable/refil"
+                app:name="Re-Fill" />
+
+
+            <com.gtgt.pokerjacks.components.GameMenu
+                android:id="@+id/theme_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:normalIcon="@drawable/game_menu_theme"
+                app:name="Theme" />
+
+            <com.gtgt.pokerjacks.components.GameMenu
+                android:id="@+id/soundPref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:disabledIcon="@drawable/game_menu_sound_off"
+                app:normalIcon="@drawable/game_menu_sound_on"
+                app:name="Sounds" />
+
+            <com.gtgt.pokerjacks.components.GameMenu
+                android:id="@+id/vibratePref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:disabledIcon="@drawable/game_menu_vibrate_off"
+                app:normalIcon="@drawable/game_menu_vibrate_on"
+                app:name="Vibration" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>

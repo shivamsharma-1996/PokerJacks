@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -43,6 +44,17 @@ fun View.onRendered(callback: (View) -> Unit) {
         })
     }
 }
+
+/*fun View.onEveryRendered(callback: (View) -> Unit) {
+    val viewTreeObserver = viewTreeObserver
+    if (viewTreeObserver.isAlive) {
+        viewTreeObserver.addOnGlobalLayoutListener {
+            if (width > 0) {
+                callback(this@onEveryRendered)
+            }
+        }
+    }
+}*/
 
 fun EditText.limitLength(maxLength: Int) {
     filters = arrayOf(InputFilter.LengthFilter(maxLength))
@@ -114,6 +126,13 @@ fun View.padding(all: Int = 0, left: Int = 0, top: Int = 0, right: Int = 0, bott
     return this
 }
 
+fun View.layoutGravity(gravity: Int): View {
+    val l = layoutParams as FrameLayout.LayoutParams
+    l.gravity = gravity
+    layoutParams = l
+    return this
+}
+
 fun View.widthHeight(width: Int = 0, height: Int = 0): View {
     val params = layoutParams
     if (params != null) {
@@ -165,8 +184,8 @@ fun View.dip(dp: Int): Int {
     return (dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
 }
 
-fun View.dip(dp: Float): Int {
-    return (dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
+fun View.dip(dp: Float): Float {
+    return (dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
 }
 
 fun dpToPx(dp: Int): Int {
@@ -313,4 +332,8 @@ fun TextView.SpannableString(
     )
 
     text = spannableString
+}
+
+infix fun TextView.drawableLeft(resId: Int) {
+    setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
 }

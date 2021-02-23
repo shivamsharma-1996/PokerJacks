@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_black"
+    android:gravity="right"
+    android:orientation="horizontal"
+    android:paddingTop="20dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/max_raise_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:text="40"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/raise_bg"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/increase_seek_raise"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_plus_raise" />
+
+            <com.gtgt.pokerjacks.components.VerticalSeekBar
+                android:id="@+id/seek_raise"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:progressDrawable="@drawable/progress_raise"
+                android:thumb="@drawable/seekbar_thumb"
+                android:max="100"
+                android:progress="0" />
+
+            <ImageView
+                android:id="@+id/decrease_seek_raise"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_minus_raise" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/max_raise"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            android:background="@drawable/raise_btn"
+            android:gravity="center"
+            android:text="Max" />
+
+        <TextView
+            android:id="@+id/pot_raise"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            android:background="@drawable/raise_btn"
+            android:gravity="center"
+            android:text="Pot" />
+
+        <TextView
+            android:id="@+id/raise_3_4"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            android:background="@drawable/raise_btn"
+            android:gravity="center"
+            android:text="3/4" />
+
+        <TextView
+            android:id="@+id/raise_1_2"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            android:background="@drawable/raise_btn"
+            android:gravity="center"
+            android:text="1/2" />
+
+        <TextView
+            android:id="@+id/min_raise"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1"
+            android:background="@drawable/raise_btn"
+            android:gravity="center"
+            android:text="Min" />
+
+    </LinearLayout>
+
+</LinearLayout>

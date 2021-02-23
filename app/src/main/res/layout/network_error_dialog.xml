@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/size_24dp">
+    android:paddingStart="15dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="15dp">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -14,7 +16,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
         android:background="@android:color/transparent">
 
         <androidx.cardview.widget.CardView
@@ -33,7 +37,7 @@
                     android:id="@+id/tv_play_confirmation_dialog"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_48dp"
-                    android:layout_marginBottom="@dimen/size_28dp"
+                    android:layout_marginBottom="18dp"
                     android:fontFamily="@font/proximanova_regular"
                     android:gravity="center"
                     android:text="@string/no_internet_connection"
@@ -49,7 +53,7 @@
                     android:id="@+id/tv__match_details_confirmation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
+                    android:layout_marginTop="18dp"
                     android:fontFamily="@font/sf_regular"
                     android:gravity="center"
                     android:padding="@dimen/size_8dp"

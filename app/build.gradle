@@ -39,26 +39,30 @@ android {
             versionName "1.0"
             resValue 'string', 'app_name', 'Dev PockerJacks'
 
-            buildConfigField "String", "HOME_URL_PLATFORM", "\"http://35.154.18.89:8000/\""
-            buildConfigField "String", "HOME_URL_BONUS", "\"http://35.154.18.89:8002\""
-            buildConfigField "String", "HOME_URL_WALLET", "\"http://35.154.18.89:8001/\""
-            buildConfigField "String", "HOME_URL_PAYMENT", "\"http://35.154.18.89:8004/\""
-            buildConfigField "String", "HOME_URL_LOCATION", "\"http://35.154.18.89:8007/\""
-            buildConfigField "String", "HOME_URL_UPDATE", "\"http://35.154.18.89:8005/\""
-            buildConfigField "String", "HOME_URL_PLAY_WALLET", "\"http://35.154.18.89:8008/\""
+            buildConfigField "String", "HOME_URL_PLATFORM", "\"http://13.235.252.103:8000/\""
+            buildConfigField "String", "HOME_URL_BONUS", "\"http://13.235.252.103:8002\""
+            buildConfigField "String", "HOME_URL_WALLET", "\"http://13.235.252.103:8001/\""
+            buildConfigField "String", "HOME_URL_PAYMENT", "\"http://13.235.252.103:8004/\""
+            buildConfigField "String", "HOME_URL_LOCATION", "\"http://13.235.252.103:8007/\""
+            buildConfigField "String", "HOME_URL_UPDATE", "\"http://13.235.252.103:8005/\""
+            buildConfigField "String", "HOME_URL_PLAY_WALLET", "\"http://13.235.252.103:8008/\""
+            buildConfigField "String", "TABLE_MANAGER", "\"http://13.235.252.103:7000/tableManager/\""
+            buildConfigField "String", "SOCKET_URL", "\"http://13.235.252.103:5000/\""
         }
 
         production {
             versionName "1.0"
             resValue 'string', 'app_name', 'PockerJacks'
 
-            buildConfigField "String", "HOME_URL_PLATFORM", "\"http://35.154.18.89:8000/\""
-            buildConfigField "String", "HOME_URL_BONUS", "\"http://35.154.18.89:8002\""
-            buildConfigField "String", "HOME_URL_WALLET", "\"http://35.154.18.89:8001/\""
-            buildConfigField "String", "HOME_URL_PAYMENT", "\"http://35.154.18.89:8004/\""
-            buildConfigField "String", "HOME_URL_LOCATION", "\"http://35.154.18.89:8007/\""
-            buildConfigField "String", "HOME_URL_UPDATE", "\"http://35.154.18.89:8005/\""
-            buildConfigField "String", "HOME_URL_PLAY_WALLET", "\"http://35.154.18.89:8008/\""
+            buildConfigField "String", "HOME_URL_PLATFORM", "\"http://13.235.252.103:8000/\""
+            buildConfigField "String", "HOME_URL_BONUS", "\"http://13.235.252.103:8002\""
+            buildConfigField "String", "HOME_URL_WALLET", "\"http://13.235.252.103:8001/\""
+            buildConfigField "String", "HOME_URL_PAYMENT", "\"http://13.235.252.103:8004/\""
+            buildConfigField "String", "HOME_URL_LOCATION", "\"http://13.235.252.103:8007/\""
+            buildConfigField "String", "HOME_URL_UPDATE", "\"http://13.235.252.103:8005/\""
+            buildConfigField "String", "HOME_URL_PLAY_WALLET", "\"http://13.235.252.103:8008/\""
+            buildConfigField "String", "TABLE_MANAGER", "\"http://13.235.252.103:7000/tableManager/\""
+            buildConfigField "String", "SOCKET_URL", "\"http://13.235.252.103:5000/\""
         }
     }
 
