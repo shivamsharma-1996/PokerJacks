@@ -100,12 +100,46 @@ class GameViewModel : SocketIOViewModel() {
 
             on<JsonElement>("leaderboard") {
                 val leaderboard = it["data"].to<Leaderboard>()
-                dealCommunityCardsLD.data = leaderboard.community_cards
+
+                try {
+                    val previousCommunityCards = dealCommunityCardsLD.data
+                    if (previousCommunityCards != null
+                        && previousCommunityCards.card_1 == leaderboard.community_cards.card_1
+                        && previousCommunityCards.card_2 == leaderboard.community_cards.card_2
+                        && previousCommunityCards.card_3 == leaderboard.community_cards.card_3
+                        && previousCommunityCards.card_4 == leaderboard.community_cards.card_4
+                        && previousCommunityCards.card_5 == leaderboard.community_cards.card_5
+                    ) {
+
+                    } else {
+                        dealCommunityCardsLD.data = leaderboard.community_cards
+                    }
+                } catch (ex: Exception) {
+                    dealCommunityCardsLD.data = leaderboard.community_cards
+                }
+
+
                 leaderboardLD.data = leaderboard
             }
 
             on<JsonElement>("dealCommunityCards") {
-                dealCommunityCardsLD.data = it["community_cards"].to()
+                val community_cards: DealCommunityCards = it["community_cards"].to()
+                try {
+                    val previousCommunityCards = dealCommunityCardsLD.data
+                    if (previousCommunityCards != null
+                        && previousCommunityCards.card_1 == community_cards.card_1
+                        && previousCommunityCards.card_2 == community_cards.card_2
+                        && previousCommunityCards.card_3 == community_cards.card_3
+                        && previousCommunityCards.card_4 == community_cards.card_4
+                        && previousCommunityCards.card_5 == community_cards.card_5
+                    ) {
+
+                    } else {
+                        dealCommunityCardsLD.data = community_cards
+                    }
+                } catch (ex: Exception) {
+                    dealCommunityCardsLD.data = community_cards
+                }
             }
 
             on<JsonElement>("gameEvent") {

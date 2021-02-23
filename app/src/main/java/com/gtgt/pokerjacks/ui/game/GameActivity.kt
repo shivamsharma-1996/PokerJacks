@@ -21,6 +21,7 @@ import com.gtgt.pokerjacks.base.FullScreenScreenOnActivity
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.socket.SocketIoInstance
 import com.gtgt.pokerjacks.socket.socketInstance
+import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
 import com.gtgt.pokerjacks.ui.game.view.GamePreferencesFragment
 import com.gtgt.pokerjacks.ui.game.view.SelectThemesFragment
 import com.gtgt.pokerjacks.ui.game.view.slot.SlotViews
@@ -356,6 +357,41 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             c4.coloredCard(it.card_4)
             c5.coloredCard(it.card_5)
 
+            val slots = vm.tableSlotsLD.value
+
+            val potSplitPadding = dpToPx(15).toFloat()
+            val potSplitTop = dpToPx(40).toFloat()
+
+            if (slots != null) {
+                slots.forEach { slot ->
+                    if (slot.user != null && slot.status == TableSlotStatus.ACTIVE.name) {
+                        val position = slotViews.getPositionBySeatNumber(slot.seat_no)
+                        val coinsTv = TextView(this)
+                        rootLayout.addView(coinsTv)
+                        coinsTv.apply {
+                            drawableLeft(R.drawable.coin_small)
+                            compoundDrawablePadding = dpToPx(3)
+                            x = position.x + position.raiseAmt.ml
+                            y = position.y + position.raiseAmt.mt
+                            text = String.format(
+                                "%.2f",
+                                (slot.user!!.current_round_invested ?: 0.00)
+                            )
+
+                            animate().apply {
+                                x(totalPot.x + playArea.paddingStart + potSplitPadding*2)
+                                y(topMargin + potSplitTop)
+
+                                duration = 500
+                                withEndAction {
+                                    rootLayout.removeView(coinsTv)
+                                }
+                                start()
+                            }
+                        }
+                    }
+                }
+            }
             vm.getHandStrength()
         })
 
@@ -763,7 +799,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
         vm.iamBackLD.observe(this, Observer {
             if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.SIT_OUT.status) {
-                if(it) {
+                if (it) {
                     iAMBack.visibility = VISIBLE
                     bottomPannel.visibility = GONE
                 } else {

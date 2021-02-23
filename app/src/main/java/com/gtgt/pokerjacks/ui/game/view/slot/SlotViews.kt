@@ -217,11 +217,20 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 dealer.layoutGravity(Gravity.START)
 
                 raise_amt.text =
-                    "${String.format("%.2f", (slot.user?.current_round_invested ?: 0.00))}"
+                    String.format("%.2f", (slot.user?.current_round_invested ?: 0.00))
 
                 in_play_amt.text =
                     "₹${(slot.user?.game_inplay_amount ?: slot.inplay_amount).toDecimalFormat()}"
             }
+        }
+    }
+
+    fun getPositionBySeatNumber(seatNo: Int): SlotPosition {
+        val position = slotPositionMap[seatNo]
+        return if (isJoined && position == BOTTOM_CENTER) {
+            mySlotBottom
+        } else {
+            slotPositions[position]!!
         }
     }
 
