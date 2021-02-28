@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/dark_60</item>
+        <item name="android:windowBackground">#151b26</item>
     </style>
 
     <style name="NoActionBar" parent="Theme.AppCompat.NoActionBar">
@@ -40,7 +40,8 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
-        <!--        <item name="android:windowIsFloating">true</item>-->
+        <item name="titleEnabled">false</item>
+        <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowMinWidthMajor">98%</item>
         <item name="android:windowMinWidthMinor">98%</item>

@@ -29,7 +29,7 @@ class ResponsibleGamingActivity : BaseActivity() {
             onBackPressed()
         }
 
-        tv_commonTitle.text = "Responsible Gaming"
+        tv_toolbar_title.text = "Responsible Gaming"
 
         btn_suspendAccount.onOneClick {
             showSuspendDialog()

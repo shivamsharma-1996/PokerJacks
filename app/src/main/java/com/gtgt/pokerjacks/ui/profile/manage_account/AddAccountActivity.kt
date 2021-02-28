@@ -36,20 +36,20 @@ class AddAccountActivity : BaseActivity() {
         }
         when (ACCOUNT_TYPE) {
             0 -> {
-                tv_commonTitle.text = "Bank Account"
+                tv_toolbar_title.text = "Bank Account"
                 sv_addBankAccount.visibility = View.VISIBLE
             }
             1 -> {
-                tv_commonTitle.text = "UPI"
+                tv_toolbar_title.text = "UPI"
                 ll_addUPI.visibility = View.VISIBLE
             }
             2 -> {
-                tv_commonTitle.text = "Paytm"
+                tv_toolbar_title.text = "Paytm"
                 et_paytmNumber.setText(retrieveString("MOBILE"))
                 ll_addPaytmAccount.visibility = View.VISIBLE
             }
             else -> {
-                tv_commonTitle.text = "Bank Account"
+                tv_toolbar_title.text = "Bank Account"
                 sv_addBankAccount.visibility = View.VISIBLE
             }
         }

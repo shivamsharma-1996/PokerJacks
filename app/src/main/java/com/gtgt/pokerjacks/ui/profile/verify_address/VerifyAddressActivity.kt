@@ -36,7 +36,7 @@ class VerifyAddressActivity : BaseActivity(), SendFragmentDataToActivity {
             onBackPressed()
         }
 
-        tv_commonTitle.text = "Address Verification"
+        tv_toolbar_title.text = "Address Verification"
 
         et_user_pincode.onOneClick {
             et_user_pincode.isCursorVisible = true

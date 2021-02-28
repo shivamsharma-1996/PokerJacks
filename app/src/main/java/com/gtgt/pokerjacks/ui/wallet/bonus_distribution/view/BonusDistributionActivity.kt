@@ -29,7 +29,7 @@ class BonusDistributionActivity : BaseActivity() {
         iv_back.onOneClick {
             onBackPressed()
         }
-        tv_commonTitle.text = "Bonus Disbursements"
+        tv_toolbar_title.text = "Bonus Disbursements"
 
         tv_recentDistributions.onOneClick {
             launchActivity<RecentDistributionsActivity> { }

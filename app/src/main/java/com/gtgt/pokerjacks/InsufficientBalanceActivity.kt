@@ -9,7 +9,7 @@ class InsufficientBalanceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insufficient_balance)
 
-        tv_commonTitle.text = "Insufficient Balance"
+        tv_toolbar_title.text = "Insufficient Balance"
 
 
     }

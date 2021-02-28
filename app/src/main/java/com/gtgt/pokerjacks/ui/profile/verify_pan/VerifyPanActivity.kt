@@ -49,7 +49,7 @@ class VerifyPanActivity : ImagePickerActivity() {
             onBackPressed()
         }
 
-        tv_commonTitle.text="PAN Verification"
+        tv_toolbar_title.text="PAN Verification"
 
         et_user_dob.onOneClick {
             val time = SimpleDateFormat(

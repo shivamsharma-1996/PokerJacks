@@ -15,6 +15,7 @@ import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.utils.LinearLayoutManagerWrapper
 import kotlinx.android.synthetic.main.activity_recent_transactions.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
+import kotlinx.android.synthetic.main.toolbar_layout_filter.*
 import kotlinx.android.synthetic.main.transaction_filter_layout.view.*
 
 class RecentTransactionsActivity : BaseActivity() {
@@ -92,7 +93,7 @@ class RecentTransactionsActivity : BaseActivity() {
     }
 
     private fun initUI() {
-        iv_back.onOneClick {
+        iv_go_back.onOneClick {
             onBackPressed()
         }
 

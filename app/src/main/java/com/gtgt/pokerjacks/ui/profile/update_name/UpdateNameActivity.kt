@@ -76,6 +76,7 @@ class UpdateNameActivity : BaseActivity() {
                 userName.length < 6 -> showToast("Username should have at least min 6 characters")
                 else -> {
                     profileViewModel.updateUserName(userName, referralCode, isReferralVerified)
+                    putString("USERNAME",userName)
                 }
             }
         }

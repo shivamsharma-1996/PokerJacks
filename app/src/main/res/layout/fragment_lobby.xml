@@ -24,7 +24,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:scaleType="center"
             android:src="@drawable/ic_nav_menu" />
 
         <com.gtgt.pokerjacks.components.CheckSwitch

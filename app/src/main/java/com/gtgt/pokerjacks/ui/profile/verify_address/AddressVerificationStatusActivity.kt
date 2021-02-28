@@ -45,7 +45,7 @@ class AddressVerificationStatusActivity : BaseActivity() {
         iv_back.onOneClick {
             finish()
         }
-        tv_commonTitle.text = "Address Verification"
+        tv_toolbar_title.text = "Address Verification"
 
         supportActionBar?.hide()
         if (intent.hasExtra("PIN_CODE")) {

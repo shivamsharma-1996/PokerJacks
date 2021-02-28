@@ -28,7 +28,7 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
 
     private val REQUESTCODE_PROMO = 101
 
-        private val profileViewModel: ProfileViewModel by store()
+    private val profileViewModel: ProfileViewModel by store()
     private val homeViewModel: HomeViewModel by store()
 
     override fun onCreateView(
@@ -41,6 +41,11 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (retrieveString("USERNAME").isNotEmpty()) {
+            name.text = retrieveString("USERNAME")
+        }
+
 
         tv_logout.onOneClick {
             onClickLogout()
@@ -82,8 +87,8 @@ class SideNavFragment : BaseFragment(), View.OnClickListener {
         profileViewModel.userProfileInfo.observe(viewLifecycleOwner, Observer {
             try {
                 name.text = it.username
-                putBoolean("isUserBlocked",  it.user_status == "BLOCKED")
-                putString("unblock_time", it.unblock_time?: "")
+                putBoolean("isUserBlocked", it.user_status == "BLOCKED")
+                putString("unblock_time", it.unblock_time ?: "")
             } catch (ex: Exception) {
 
             }

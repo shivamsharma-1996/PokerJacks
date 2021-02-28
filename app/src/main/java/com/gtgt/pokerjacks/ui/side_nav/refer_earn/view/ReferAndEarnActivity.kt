@@ -35,7 +35,7 @@ class ReferAndEarnActivity : BaseActivity() {
         setContentView(R.layout.activity_refer_and_earn)
 
         supportActionBar?.hide()
-        tv_commonTitle.text = "Refer & Earn"
+        tv_toolbar_title.text = "Refer & Earn"
         iv_back.onOneClick {
             onBackPressed()
         }

@@ -49,7 +49,7 @@ class WithdrawActivity : BaseActivity() {
             onBackPressed()
         }
 
-        tv_commonTitle.text="Withdraw"
+        tv_toolbar_title.text="Withdraw"
 
         if (intent != null) {
             withdrawableAmt = intent.getDoubleExtra("WinningsAmt", 0.0)

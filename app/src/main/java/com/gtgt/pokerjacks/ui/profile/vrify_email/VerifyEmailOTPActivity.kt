@@ -19,7 +19,7 @@ class VerifyEmailOTPActivity : BaseActivity() {
             onBackPressed()
         }
 
-        tv_commonTitle.text = "Email Verification"
+        tv_toolbar_title.text = "Email Verification"
 
         if (intent != null) {
             userEmail = intent.getStringExtra("USER_EMAIL")!!
