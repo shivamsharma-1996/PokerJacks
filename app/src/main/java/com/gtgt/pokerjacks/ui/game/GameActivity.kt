@@ -150,470 +150,86 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             mc1.widthHeightRaw(cWidth)
             mc2.widthHeightRaw(cWidth)
             mc2.marginsRaw(left = (cWidth / 2).toInt())
-        }
 
-        replaceFragment(gamePreferencesFragment, R.id.settingsFragment)
-        replaceFragment(SelectThemesFragment(), R.id.themeSelectFragment)
+            replaceFragment(gamePreferencesFragment, R.id.settingsFragment)
+            replaceFragment(SelectThemesFragment(), R.id.themeSelectFragment)
 
-        settings.onOneClick {
-            gamePreferencesFragment.type = "settings"
-            openRightDrawer()
-        }
+            settings.onOneClick {
+                gamePreferencesFragment.type = "settings"
+                openRightDrawer()
+            }
 
-        menu.onOneClick {
-            gamePreferencesFragment.type = "menu"
-            openRightDrawer()
-        }
+            menu.onOneClick {
+                gamePreferencesFragment.type = "menu"
+                openRightDrawer()
+            }
 
-        val settingsVector = VectorChildFinder(this, R.drawable.settings, settings)
-        val menuVector = VectorChildFinder(this, R.drawable.menu, menu)
-        val statsVector = VectorChildFinder(this, R.drawable.stats, stats)
-        val previousVector = VectorChildFinder(this, R.drawable.previous, previous)
-        themesViewModel.onThemeSelected.observe(this, Observer { theme ->
-            if (theme != null) {
-                rootLayout.setBackgroundResource(theme.bg)
-                ivTable.loadImage(theme.table)
+            val settingsVector = VectorChildFinder(this, R.drawable.settings, settings)
+            val menuVector = VectorChildFinder(this, R.drawable.menu, menu)
+            val statsVector = VectorChildFinder(this, R.drawable.stats, stats)
+            val previousVector = VectorChildFinder(this, R.drawable.previous, previous)
+            themesViewModel.onThemeSelected.observe(this, Observer { theme ->
+                if (theme != null) {
+                    rootLayout.setBackgroundResource(theme.bg)
+                    ivTable.loadImage(theme.table)
 //                gameInfoIv.imageTintList = ColorStateList.valueOf(theme.dark)
 
-                foldCB.background = theme.textDrawable
-                fold_checkCB.background = theme.textDrawable
-                checkCB.background = theme.textDrawable
-                callCB.background = theme.textDrawable
-                checkOrCallAnyCB.background = theme.textDrawable
-                callAnyCB.background = theme.textDrawable
-                iAMBack.background = theme.btnDrawable
+                    iAMBack.background = theme.btnDrawable
 
-                menuVector.changePathStrokeColor("stroke", theme.btn2)
-                menu.invalidate()
+                    menuVector.changePathStrokeColor("stroke", theme.btn2)
+                    menu.invalidate()
 
-                settingsVector.changePathStrokeColor("stroke", theme.btn2)
-                settings.invalidate()
+                    settingsVector.changePathStrokeColor("stroke", theme.btn2)
+                    settings.invalidate()
 
-                statsVector.changePathStrokeColor("stroke", theme.btn2)
-                stats.invalidate()
+                    statsVector.changePathStrokeColor("stroke", theme.btn2)
+                    stats.invalidate()
 
-                previousVector.changePathStrokeColor("stroke", theme.btn2)
-                previous.invalidate()
+                    previousVector.changePathStrokeColor("stroke", theme.btn2)
+                    previous.invalidate()
+                }
+            })
 
-            }
-        })
+            vm.tableSlotsLD.observe(this, Observer {
+                slotViews.isJoined = vm.mySlot != null
 
-        vm.tableSlotsLD.observe(this, Observer {
-            slotViews.isJoined = vm.mySlot != null
+                if (vm.mySlot != null) {
 
-            if (vm.mySlot != null) {
-
-                when (vm.mySlot!!.status) {
-                    SeatStatus.SIT_OUT.status -> {
-                        iAMBack.visibility = VISIBLE
-                    }
-                    SeatStatus.ACTIVE.status -> {
-                        joinBBcb.visibility = GONE
-                    }
-                    SeatStatus.WAIT_FOR_BB.status -> {
-                        joinBBcb.visibility = VISIBLE
-                        joinBBcb.isChecked = true
-                    }
-                    SeatStatus.WAIT_FOR_NEXT.status -> {
-                        joinBBcb.visibility = VISIBLE
-                        joinBBcb.isChecked = false
+                    when (vm.mySlot!!.status) {
+                        SeatStatus.SIT_OUT.status -> {
+                            iAMBack.visibility = VISIBLE
+                        }
+                        SeatStatus.ACTIVE.status -> {
+                            joinBBcb.visibility = GONE
+                        }
+                        SeatStatus.WAIT_FOR_BB.status -> {
+                            joinBBcb.visibility = VISIBLE
+                            joinBBcb.isChecked = true
+                        }
+                        SeatStatus.WAIT_FOR_NEXT.status -> {
+                            joinBBcb.visibility = VISIBLE
+                            joinBBcb.isChecked = false
+                        }
                     }
                 }
-            }
 
-            slotViews.drawSlots(it)
-        })
+                slotViews.drawSlots(it)
+            })
 
-        vm.gameTriggerLD.observe(this, Observer {
+            vm.gameTriggerLD.observe(this, Observer {
 
-            it?.let {
-                gameIDTV.text = it.game_uid
+                it?.let {
+                    gameIDTV.text = it.game_uid
 //                gameIDTV.invalidate()
 
-                /*gamePreferencesFragment.dismissExitLobbyDialog()
+                    /*gamePreferencesFragment.dismissExitLobbyDialog()
 
                           gameIdTV.visibility = View.VISIBLE
                           gameIdTV.text = it.gameUID*/
 
-                slotViews.usersBestHand = null
-                slotViews.crownTo(-1)
-                slotViews.resetPlayers()
-
-                c1.alpha = 1f
-                c2.alpha = 1f
-                c3.alpha = 1f
-                c4.alpha = 1f
-                c5.alpha = 1f
-
-                mc1.alpha = 1f
-                mc2.alpha = 1f
-
-                messageFL.visibility = VISIBLE
-
-                if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer)) {
-                    leaderboardView.visibility = GONE
-
-                    bottomPannel.visibility = INVISIBLE
-                    community_cards_ll.visibility = INVISIBLE
-                    user_cards_fl.visibility = INVISIBLE
-                    totalPot.visibility = INVISIBLE
-                    pot_split.visibility = INVISIBLE
-
-//                exit.visibility = View.GONE
-//                playArea.visibility = GONE
-
-
-                    /*slotViews.showTime = 0L
-                slotViews.stopTimers()*/
-
-                    raiseLL.visibility = GONE
-
-                    afterSubmit.visibility = GONE
-                    vm.resetGame()
-
-                    messageFL.visibility = VISIBLE
-                    waitingTv.visibility = GONE
-                    gameStartsTimer.visibility = VISIBLE
-//                gamePreferencesViewModel.exitVisibility.value = View.GONE
-
-                    closeShow.visibility = GONE
-                    blur.visibility = GONE
-
-                    try {
-                        tableDetailsTimer?.cancel()
-                        gameTriggerTimer?.cancel()
-                    } catch (ex: Exception) {
-                    }
-
-                    gameTriggerTimer = object :
-                        CustomCountDownTimer(
-                            it.start_time - (System.currentTimeMillis() - timeDiffWithServer),
-                            1000
-                        ) {
-                        override fun onTick(millisUntilFinished: Long) {
-                            gameStartsTimer.text =
-                                "Game starts in ${millisUntilFinished / 1000} seconds..."
-                        }
-
-                        override fun onStop() {
-                            messageFL.visibility = GONE
-                        }
-
-                        override fun onFinish() {
-                            messageFL.visibility = GONE
-                        }
-                    }
-                    gameTriggerTimer!!.start()
-                } else {
-                    try {
-                        messageFL.visibility = GONE
-//                    gamePreferencesViewModel.exitVisibility.value = View.VISIBLE
-                        playArea.visibility = VISIBLE
-
-                        tableDetailsTimer?.cancel()
-                        gameTriggerTimer?.cancel()
-                    } catch (ex: Exception) {
-                    }
-                }
-            }
-        })
-
-        vm.userContestDetailsLD.observe(this, Observer {
-            it?.let {
-                user_cards_fl.visibility = VISIBLE
-                mc1.coloredCard(it.card_1)
-                mc2.coloredCard(it.card_2)
-            }
-        })
-
-        vm.gameDetailsLD.observe(this, Observer {
-            it?.let {
-                disableEnableActions(true)
-
-                slotViews.dealerPosition = it.dealer_position
-
-                gameTriggerTimer?.stop()
-                val slots = vm.tableSlotsLD.value
-                if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
-//                    sitOutCB.visibility = VISIBLE
-                } else {
-                    sitOutCB.visibility = GONE
-                }
-                bottomPannel.visibility = VISIBLE
-                community_cards_ll.visibility = VISIBLE
-
-                c1.coloredCard(it.card_1)
-                c2.coloredCard(it.card_2)
-                c3.coloredCard(it.card_3)
-                c4.coloredCard(it.card_4)
-                c5.coloredCard(it.card_5)
-            }
-        })
-
-        vm.dealCommunityCardsLD.observe(this, Observer {
-            val slots = vm.tableSlotsLD.value
-
-//            val potSplitPadding = dpToPx(15).toFloat()
-            val potSplitTop = dpToPx(40).toFloat()
-
-            if (slots != null) {
-                slots.forEach { slot ->
-                    if (slot.user != null && slot.status == TableSlotStatus.ACTIVE.name) {
-                        val position = slotViews.getPositionBySeatNumber(slot.seat_no)
-                        val coinsTv = TextView(this)
-                        rootLayout.addView(coinsTv)
-                        coinsTv.apply {
-                            drawableLeft(R.drawable.coin_small)
-                            compoundDrawablePadding = dpToPx(3)
-                            x = position.x + position.raiseAmt.ml
-                            y = position.y + position.raiseAmt.mt
-                            text = String.format(
-                                "%.2f",
-                                (slot.user!!.current_round_invested ?: 0.00)
-                            )
-
-                            animate().apply {
-                                x(totalPot.x + playArea.paddingStart + totalPot.width / 2)
-                                y(topMargin + potSplitTop)
-
-                                duration = 1000
-                                withEndAction {
-
-                                    try {
-                                        if(it.total_pot_value > 0.0) {
-                                            totalPot.visibility = VISIBLE
-                                            totalPot.text = "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
-
-                                            pot_split.removeAllViews()
-                                            it.side_pots.forEach {
-                                                pot_split.addView(TextView(this@GameActivity).apply {
-                                                    text = "  ₹ ${it.pot_value.toDecimalFormat()}  "
-                                                })
-                                            }
-
-                                            pot_split.visibility = if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
-                                        }
-                                    } catch (ex: Exception) {
-
-                                    }
-
-                                    rootLayout.removeView(coinsTv)
-                                }
-                                start()
-                            }
-                        }
-                    }
-                }
-            }
-
-            timeOut(1000) {
-                c1.coloredCard(it.card_1)
-                c2.coloredCard(it.card_2)
-                c3.coloredCard(it.card_3)
-                c4.coloredCard(it.card_4)
-                c5.coloredCard(it.card_5)
-                vm.getHandStrength()
-            }
-        })
-
-        vm.playerTurnLD.observe(this, Observer {
-            joinBBcb.visibility = GONE
-
-//            log("playerTurnLD", it)
-
-            if (it == null) {
-                raiseLL.visibility = GONE
-            } else {
-
-                if (vm.mySlot == null) {
-//                iAMBack.visibility = GONE
-                    sitOutCB.visibility = GONE
-                } else {
-                    val slots = vm.tableSlotsLD.value
-                    if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
-                        sitOutCB.visibility = VISIBLE
-                    }
-                }
-
-                if (it.player_turn == vm.userId) {
-
-                    if (preferencesvm.vibrate)
-                        vibrate(this) {}
-
-                    foldCB.visibility = GONE
-                    checkCB.visibility = GONE
-                    checkOrCallAnyCB.visibility = GONE
-                    fold_checkCB.visibility = GONE
-                    callCB.visibility = GONE
-                    callAnyCB.visibility = GONE
-
-                    auto_options_rg.clearCheck()
-
-                    if(vm.mySlot!!.user!!.status.startsWith("AUTO_")) {
-                        foldBtn.visibility = GONE
-                            callBtn.visibility = GONE
-                            raiseBtn.visibility = GONE
-                            checkBtn.visibility = GONE
-                            allinBtn.visibility = GONE
-                    } else {
-                        foldBtn.visibility =
-                            if (it.action_choices.contains(PlayerActions.FOLD.action)) VISIBLE else GONE
-
-                        callBtn.visibility =
-                            if (it.action_choices.contains(PlayerActions.CALL.action)) VISIBLE else GONE
-
-                        raiseBtn.visibility =
-                            if (it.action_choices.contains(PlayerActions.RAISE.action)) {
-                                raiseLL.visibility = VISIBLE
-                                VISIBLE
-                            } else {
-                                raiseLL.visibility = GONE
-                                GONE
-                            }
-
-                        checkBtn.visibility =
-                            if (it.action_choices.contains(PlayerActions.CHECK.action)) VISIBLE else GONE
-
-                        allinBtn.visibility =
-                            if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE
-                    }
-                    callBtn.text = "Call\n₹${it.player_min_amount_to_call.toDecimalFormat()}"
-                    callBtn.tag = it.player_min_amount_to_call
-
-
-                    val maxPossibleRaise = it.current_max_raise
-                    max_raise_value.text = maxPossibleRaise.toString()
-                    val minPossibleRaise = it.current_min_raise
-
-                    seek_raise.max = ((maxPossibleRaise - minPossibleRaise) * 100).toInt()
-
-                    pot_raise.onOneClick {
-                        seek_raise.progress =
-                            ((minPossibleRaise) * 100).toInt()
-                    }
-                    raise_3_4.onOneClick {
-                        seek_raise.progress =
-                            ((minPossibleRaise) * 300 / 4).toInt()
-                    }
-                    raise_1_2.onOneClick {
-                        seek_raise.progress = ((minPossibleRaise) * 50).toInt()
-                    }
-
-
-                    min_raise.onOneClick {
-                        seek_raise.progress = 0
-                    }
-
-                    max_raise.onOneClick {
-                        seek_raise.progress = seek_raise.max
-                    }
-
-                    increase_seek_raise.onOneClick {
-                        seek_raise.progress += 100
-                    }
-
-                    decrease_seek_raise.onOneClick {
-                        seek_raise.progress -= 100
-                    }
-
-                    seek_raise.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                        override fun onProgressChanged(
-                            seekBar: SeekBar?,
-                            progress: Int,
-                            fromUser: Boolean
-                        ) {
-                            log("minPossibleRaiseprogress", progress)
-                            raiseBtn.text =
-                                "Raise to\n₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
-                            raiseBtn.tag = (progress / 100.0 + minPossibleRaise)
-                        }
-
-                        override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-                        }
-
-                        override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-                        }
-                    })
-                    seek_raise.progress = 0
-
-                    raiseBtn.text =
-                        "Raise to\n₹${(it.current_min_raise).toDecimalFormat()}"
-
-                    allinBtn.text =
-                        "All in\n₹${(it.allin_amount).toDecimalFormat()}"
-                    raiseBtn.tag = minPossibleRaise
-                } else {
-                    raiseLL.visibility = GONE
-
-                    if (vm.me != null) {
-                        when {
-                            vm.me!!.status == PlayerActions.ALL_IN.action || vm.me!!.status == PlayerActions.FOLD.action -> {
-                                fold_checkCB.visibility = GONE
-                                checkCB.visibility = GONE
-                                checkOrCallAnyCB.visibility = GONE
-
-                                foldCB.visibility = GONE
-                                callCB.visibility = GONE
-                                callAnyCB.visibility = GONE
-                            }
-                            vm.me!!.amount_invested == it.game_max_bet_amount -> {
-                                fold_checkCB.visibility = VISIBLE
-                                checkCB.visibility = VISIBLE
-                                checkOrCallAnyCB.visibility = VISIBLE
-
-                                foldCB.visibility = GONE
-                                callCB.visibility = GONE
-                                callAnyCB.visibility = GONE
-                            }
-                            else -> {
-                                fold_checkCB.visibility = GONE
-                                checkCB.visibility = GONE
-                                checkOrCallAnyCB.visibility = GONE
-
-                                foldCB.visibility = VISIBLE
-                                callCB.visibility = VISIBLE
-                                callAnyCB.visibility = VISIBLE
-                            }
-                        }
-                    }
-
-                    foldBtn.visibility = GONE
-                    callBtn.visibility = GONE
-                    raiseBtn.visibility = GONE
-                    checkBtn.visibility = GONE
-                    allinBtn.visibility = GONE
-                }
-
-                slotViews.playerTurn = it
-            }
-        })
-
-        vm.enableActions.observe(this, Observer {
-            disableEnableActions(it)
-        })
-
-        var isPotAnimationDone = true
-        vm.leaderboardLD.observe(this, Observer { leaderboard ->
-            if (leaderboard == null)
-                return@Observer
-
-            bottomPannel.visibility = INVISIBLE
-
-            slotViews.resetPlayers()
-
-            pot_split.visibility = VISIBLE
-            val potSplitTop = dpToPx(50).toFloat() + totalPot.height
-            val playAreaPadding = playArea.paddingStart
-            val potSplitPadding = dpToPx(15).toFloat()
-
-            val pots = leaderboard.pot_winnings.filter { it.wonAmt > 0 }.sortedBy { it.pot_index }
-
-            fun animatePots(potIndex: Int) {
-                if (pots.size > potIndex) {
-                    isPotAnimationDone = false
+                    slotViews.usersBestHand = null
                     slotViews.crownTo(-1)
+                    slotViews.resetPlayers()
 
                     c1.alpha = 1f
                     c2.alpha = 1f
@@ -624,227 +240,609 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     mc1.alpha = 1f
                     mc2.alpha = 1f
 
-                    val potWinning = pots[potIndex]
+                    messageFL.visibility = VISIBLE
 
-                    val c1 = pot_split.getChildAt(0) ?: return
+                    if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer)) {
+                        leaderboardView.visibility = GONE
 
-                    val c = c1 as TextView
+                        bottomPannel.visibility = INVISIBLE
+                        community_cards_ll.visibility = INVISIBLE
+                        user_cards_fl.visibility = INVISIBLE
+                        totalPot.visibility = INVISIBLE
+                        pot_split.visibility = INVISIBLE
 
-                    val currentPotView = TextView(this)
-                    rootLayout.addView(currentPotView)
+//                exit.visibility = View.GONE
+//                playArea.visibility = GONE
 
-                    currentPotView.apply {
-                        text = c.text
-                        setBackgroundColor(Color.parseColor("#AD000000"))
-                        x = pot_split.x + c.x + playAreaPadding + potSplitPadding
-                        y = topMargin + potSplitTop
-                        z = 100f
+
+                        /*slotViews.showTime = 0L
+                slotViews.stopTimers()*/
+
+                        raiseLL.visibility = GONE
+
+                        afterSubmit.visibility = GONE
+                        vm.resetGame()
+
+                        messageFL.visibility = VISIBLE
+                        waitingTv.visibility = GONE
+                        gameStartsTimer.visibility = VISIBLE
+//                gamePreferencesViewModel.exitVisibility.value = View.GONE
+
+                        closeShow.visibility = GONE
+                        blur.visibility = GONE
+
+                        try {
+                            tableDetailsTimer?.cancel()
+                            gameTriggerTimer?.cancel()
+                        } catch (ex: Exception) {
+                        }
+
+                        gameTriggerTimer = object :
+                            CustomCountDownTimer(
+                                it.start_time - (System.currentTimeMillis() - timeDiffWithServer),
+                                1000
+                            ) {
+                            override fun onTick(millisUntilFinished: Long) {
+                                gameStartsTimer.text =
+                                    "Game starts in ${millisUntilFinished / 1000} seconds..."
+                            }
+
+                            override fun onStop() {
+                                messageFL.visibility = GONE
+                            }
+
+                            override fun onFinish() {
+                                messageFL.visibility = GONE
+                            }
+                        }
+                        gameTriggerTimer!!.start()
+                    } else {
+                        try {
+                            messageFL.visibility = GONE
+//                    gamePreferencesViewModel.exitVisibility.value = View.VISIBLE
+                            playArea.visibility = VISIBLE
+
+                            tableDetailsTimer?.cancel()
+                            gameTriggerTimer?.cancel()
+                        } catch (ex: Exception) {
+                        }
                     }
+                }
+            })
 
-                    if (leaderboard.cards_reveal) {
-                        slotViews.usersBestHand = leaderboard.users_best_hand
-                        slotViews.resetPlayers()
+            vm.userContestDetailsLD.observe(this, Observer {
+                it?.let {
+                    user_cards_fl.visibility = VISIBLE
+                    mc1.coloredCard(it.card_1)
+                    mc2.coloredCard(it.card_2)
+                }
+            })
+
+            vm.gameDetailsLD.observe(this, Observer {
+                it?.let {
+                    disableEnableActions(true)
+
+                    slotViews.dealerPosition = it.dealer_position
+
+                    gameTriggerTimer?.stop()
+                    val slots = vm.tableSlotsLD.value
+                    if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
+//                    sitOutCB.visibility = VISIBLE
+                    } else {
+                        sitOutCB.visibility = GONE
                     }
+                    bottomPannel.visibility = VISIBLE
+                    community_cards_ll.visibility = VISIBLE
 
-                    vm.tableSlotsLD.value?.let { slots ->
-                        slots.find { it.user_unique_id == potWinning.user_unique_id }?.let {
-                            slotViews.slotViews[it.seat_no]?.let { slot ->
-                                c.visibility = INVISIBLE
+                    c1.coloredCard(it.card_1)
+                    c2.coloredCard(it.card_2)
+                    c3.coloredCard(it.card_3)
+                    c4.coloredCard(it.card_4)
+                    c5.coloredCard(it.card_5)
+                }
+            })
 
-                                leaderboard.users_best_hand
-                                    .find { it.user_unique_id == potWinning.user_unique_id }
-                                    ?.let {
-                                        val cards = it.best_hand_details.cards
+            vm.dealCommunityCardsLD.observe(this, Observer {
+                val slots = vm.tableSlotsLD.value
 
-                                        slotViews.crownTo(
-                                            it.seat_no,
-                                            if (leaderboard.cards_reveal)
-                                                listOf(
-                                                    if (cards.contains(it.card_1)) 1f else 0.4f,
-                                                    if (cards.contains(it.card_2)) 1f else 0.4f
-                                                )
-                                            else
-                                                listOf(1f, 1f)
-                                        )
+//            val potSplitPadding = dpToPx(15).toFloat()
+                val potSplitTop = dpToPx(40).toFloat()
 
-                                        if (leaderboard.cards_reveal) {
+                if (slots != null) {
+                    slots.forEach { slot ->
+                        if (slot.user != null && slot.status == TableSlotStatus.ACTIVE.name) {
+                            val position = slotViews.getPositionBySeatNumber(slot.seat_no)
+                            val coinsTv = TextView(this)
+                            rootLayout.addView(coinsTv)
+                            coinsTv.apply {
+                                drawableLeft(R.drawable.coin_small)
+                                compoundDrawablePadding = dpToPx(3)
+                                x = position.x + position.raiseAmt.ml
+                                y = position.y + position.raiseAmt.mt
+                                text = String.format(
+                                    "%.2f",
+                                    (slot.user!!.current_round_invested ?: 0.00)
+                                )
 
-                                            if (it.user_unique_id == vm.userId) {
-                                                mc1.alpha =
-                                                    if (cards.contains(it.card_1)) 1f else 0.4f
-                                                mc2.alpha =
-                                                    if (cards.contains(it.card_2)) 1f else 0.4f
-                                            }
+                                animate().apply {
+                                    x(totalPot.x + playArea.paddingStart + totalPot.width / 2)
+                                    y(topMargin + potSplitTop)
 
-                                            c1.alpha =
-                                                if (cards.contains(leaderboard.community_cards.card_1)) 1f else 0.4f
-                                            c2.alpha =
-                                                if (cards.contains(leaderboard.community_cards.card_2)) 1f else 0.4f
-                                            c3.alpha =
-                                                if (cards.contains(leaderboard.community_cards.card_3)) 1f else 0.4f
-                                            c4.alpha =
-                                                if (cards.contains(leaderboard.community_cards.card_4)) 1f else 0.4f
-                                            c5.alpha =
-                                                if (cards.contains(leaderboard.community_cards.card_5)) 1f else 0.4f
-
-                                        }
-                                    }
-
-                                currentPotView.animate().apply {
-                                    x(slot.x + slot.width/2)
-                                    y(slot.y + slot.height/2)
                                     duration = 1000
                                     withEndAction {
-                                        rootLayout.removeView(currentPotView)
-                                        animatePots(potIndex + 1)
+
+                                        try {
+                                            if (it.total_pot_value > 0.0) {
+                                                totalPot.visibility = VISIBLE
+                                                totalPot.text =
+                                                    "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
+
+                                                pot_split.removeAllViews()
+                                                it.side_pots.forEach {
+                                                    pot_split.addView(TextView(this@GameActivity).apply {
+                                                        text =
+                                                            "  ₹ ${it.pot_value.toDecimalFormat()}  "
+                                                    })
+                                                }
+
+                                                pot_split.visibility =
+                                                    if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
+                                            }
+                                        } catch (ex: Exception) {
+
+                                        }
+
+                                        rootLayout.removeView(coinsTv)
                                     }
                                     start()
                                 }
                             }
                         }
                     }
+                }
+
+                timeOut(1000) {
+                    c1.coloredCard(it.card_1)
+                    c2.coloredCard(it.card_2)
+                    c3.coloredCard(it.card_3)
+                    c4.coloredCard(it.card_4)
+                    c5.coloredCard(it.card_5)
+                    vm.getHandStrength()
+                }
+            })
+
+            vm.playerTurnLD.observe(this, Observer {
+                joinBBcb.visibility = GONE
+
+//            log("playerTurnLD", it)
+
+                if (it == null) {
+                    raiseLL.visibility = GONE
                 } else {
+
+                    if (vm.mySlot == null) {
+//                iAMBack.visibility = GONE
+                        sitOutCB.visibility = GONE
+                    } else {
+                        val slots = vm.tableSlotsLD.value
+                        if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
+                            sitOutCB.visibility = VISIBLE
+                        }
+                    }
+
+                    if (it.player_turn == vm.userId) {
+
+                        if (preferencesvm.vibrate)
+                            vibrate(this) {}
+
+                        foldCB.visibility = GONE
+                        checkCB.visibility = GONE
+                        checkOrCallAnyCB.visibility = GONE
+                        fold_checkCB.visibility = GONE
+                        callCB.visibility = GONE
+                        callAnyCB.visibility = GONE
+
+                        auto_options_rg.clearCheck()
+
+                        if (vm.mySlot!!.user!!.status.startsWith("AUTO_")) {
+                            foldBtn.visibility = GONE
+                            callLL.visibility = GONE
+                            raiseBtnLL.visibility = GONE
+                            checkBtn.visibility = GONE
+                            allinLL.visibility = GONE
+                        } else {
+                            foldBtn.visibility =
+                                if (it.action_choices.contains(PlayerActions.FOLD.action)) VISIBLE else GONE
+
+                            callLL.visibility =
+                                if (it.action_choices.contains(PlayerActions.CALL.action)) VISIBLE else GONE
+
+                            raiseBtnLL.visibility =
+                                if (it.action_choices.contains(PlayerActions.RAISE.action)) {
+                                    raiseLL.visibility = VISIBLE
+                                    VISIBLE
+                                } else {
+                                    raiseLL.visibility = GONE
+                                    GONE
+                                }
+
+                            checkBtn.visibility =
+                                if (it.action_choices.contains(PlayerActions.CHECK.action)) VISIBLE else GONE
+
+                            allinLL.visibility =
+                                if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE
+                        }
+                        callBtn.text = "₹${it.player_min_amount_to_call.toDecimalFormat()}"
+                        callBtn.tag = it.player_min_amount_to_call
+
+
+                        val maxPossibleRaise = it.current_max_raise
+                        max_raise_value.text = maxPossibleRaise.toString()
+                        val minPossibleRaise = it.current_min_raise
+
+                        seek_raise.max = ((maxPossibleRaise - minPossibleRaise) * 100).toInt()
+
+                        pot_raise.onOneClick {
+                            seek_raise.progress =
+                                ((minPossibleRaise) * 100).toInt()
+                        }
+                        raise_3_4.onOneClick {
+                            seek_raise.progress =
+                                ((minPossibleRaise) * 300 / 4).toInt()
+                        }
+                        raise_1_2.onOneClick {
+                            seek_raise.progress = ((minPossibleRaise) * 50).toInt()
+                        }
+
+
+                        min_raise.onOneClick {
+                            seek_raise.progress = 0
+                        }
+
+                        max_raise.onOneClick {
+                            seek_raise.progress = seek_raise.max
+                        }
+
+                        increase_seek_raise.onOneClick {
+                            seek_raise.progress += 100
+                        }
+
+                        decrease_seek_raise.onOneClick {
+                            seek_raise.progress -= 100
+                        }
+
+                        seek_raise.setOnSeekBarChangeListener(object :
+                            SeekBar.OnSeekBarChangeListener {
+                            override fun onProgressChanged(
+                                seekBar: SeekBar?,
+                                progress: Int,
+                                fromUser: Boolean
+                            ) {
+                                log("minPossibleRaiseprogress", progress)
+                                raiseBtn.text =
+                                    "₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
+                                raiseBtn.tag = (progress / 100.0 + minPossibleRaise)
+                            }
+
+                            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+                            }
+
+                            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+                            }
+                        })
+                        seek_raise.progress = 0
+
+                        raiseBtn.text =
+                            "₹${(it.current_min_raise).toDecimalFormat()}"
+
+                        allinBtn.text =
+                            "₹${(it.allin_amount).toDecimalFormat()}"
+                        raiseBtn.tag = minPossibleRaise
+                    } else {
+                        raiseLL.visibility = GONE
+
+                        if (vm.me != null) {
+                            when {
+                                vm.me!!.status == PlayerActions.ALL_IN.action || vm.me!!.status == PlayerActions.FOLD.action -> {
+                                    fold_checkCB.visibility = GONE
+                                    checkCB.visibility = GONE
+                                    checkOrCallAnyCB.visibility = GONE
+
+                                    foldCB.visibility = GONE
+                                    callCB.visibility = GONE
+                                    callAnyCB.visibility = GONE
+                                }
+                                vm.me!!.amount_invested == it.game_max_bet_amount -> {
+                                    fold_checkCB.visibility = VISIBLE
+                                    checkCB.visibility = VISIBLE
+                                    checkOrCallAnyCB.visibility = VISIBLE
+
+                                    foldCB.visibility = GONE
+                                    callCB.visibility = GONE
+                                    callAnyCB.visibility = GONE
+                                }
+                                else -> {
+                                    fold_checkCB.visibility = GONE
+                                    checkCB.visibility = GONE
+                                    checkOrCallAnyCB.visibility = GONE
+
+                                    foldCB.visibility = VISIBLE
+                                    callCB.visibility = VISIBLE
+                                    callAnyCB.visibility = VISIBLE
+                                }
+                            }
+                        }
+
+                        foldBtn.visibility = GONE
+                        callLL.visibility = GONE
+                        raiseBtnLL.visibility = GONE
+                        checkBtn.visibility = GONE
+                        allinLL.visibility = GONE
+                    }
+
+                    slotViews.playerTurn = it
+                }
+            })
+
+            vm.enableActions.observe(this, Observer {
+                disableEnableActions(it)
+            })
+
+            var isPotAnimationDone = true
+            vm.leaderboardLD.observe(this, Observer { leaderboard ->
+                if (leaderboard == null)
+                    return@Observer
+
+                bottomPannel.visibility = INVISIBLE
+
+                slotViews.resetPlayers()
+
+                pot_split.visibility = VISIBLE
+                val potSplitTop = dpToPx(50).toFloat() + totalPot.height
+                val playAreaPadding = playArea.paddingStart
+                val potSplitPadding = dpToPx(15).toFloat()
+
+                val pots =
+                    leaderboard.pot_winnings.filter { it.wonAmt > 0 }.sortedBy { it.pot_index }
+
+                fun animatePots(potIndex: Int) {
+                    if (pots.size > potIndex) {
+                        isPotAnimationDone = false
+                        slotViews.crownTo(-1)
+
+                        c1.alpha = 1f
+                        c2.alpha = 1f
+                        c3.alpha = 1f
+                        c4.alpha = 1f
+                        c5.alpha = 1f
+
+                        mc1.alpha = 1f
+                        mc2.alpha = 1f
+
+                        val potWinning = pots[potIndex]
+
+                        val c1 = pot_split.getChildAt(0) ?: return
+
+                        val c = c1 as TextView
+
+                        val currentPotView = TextView(this)
+                        rootLayout.addView(currentPotView)
+
+                        currentPotView.apply {
+                            text = c.text
+                            setBackgroundColor(Color.parseColor("#AD000000"))
+                            x = pot_split.x + c.x + playAreaPadding + potSplitPadding
+                            y = topMargin + potSplitTop
+                            z = 100f
+                        }
+
+                        if (leaderboard.cards_reveal) {
+                            slotViews.usersBestHand = leaderboard.users_best_hand
+                            slotViews.resetPlayers()
+                        }
+
+                        vm.tableSlotsLD.value?.let { slots ->
+                            slots.find { it.user_unique_id == potWinning.user_unique_id }?.let {
+                                slotViews.slotViews[it.seat_no]?.let { slot ->
+                                    c.visibility = INVISIBLE
+
+                                    leaderboard.users_best_hand
+                                        .find { it.user_unique_id == potWinning.user_unique_id }
+                                        ?.let {
+                                            val cards = it.best_hand_details.cards
+
+                                            slotViews.crownTo(
+                                                it.seat_no,
+                                                if (leaderboard.cards_reveal)
+                                                    listOf(
+                                                        if (cards.contains(it.card_1)) 1f else 0.4f,
+                                                        if (cards.contains(it.card_2)) 1f else 0.4f
+                                                    )
+                                                else
+                                                    listOf(1f, 1f)
+                                            )
+
+                                            if (leaderboard.cards_reveal) {
+
+                                                if (it.user_unique_id == vm.userId) {
+                                                    mc1.alpha =
+                                                        if (cards.contains(it.card_1)) 1f else 0.4f
+                                                    mc2.alpha =
+                                                        if (cards.contains(it.card_2)) 1f else 0.4f
+                                                }
+
+                                                c1.alpha =
+                                                    if (cards.contains(leaderboard.community_cards.card_1)) 1f else 0.4f
+                                                c2.alpha =
+                                                    if (cards.contains(leaderboard.community_cards.card_2)) 1f else 0.4f
+                                                c3.alpha =
+                                                    if (cards.contains(leaderboard.community_cards.card_3)) 1f else 0.4f
+                                                c4.alpha =
+                                                    if (cards.contains(leaderboard.community_cards.card_4)) 1f else 0.4f
+                                                c5.alpha =
+                                                    if (cards.contains(leaderboard.community_cards.card_5)) 1f else 0.4f
+
+                                            }
+                                        }
+
+                                    currentPotView.animate().apply {
+                                        x(slot.x + slot.width / 2)
+                                        y(slot.y + slot.height / 2)
+                                        duration = 1000
+                                        withEndAction {
+                                            rootLayout.removeView(currentPotView)
+                                            animatePots(potIndex + 1)
+                                        }
+                                        start()
+                                    }
+                                }
+                            }
+                        }
+                    } else {
 //                    showToast("true")
-                    isPotAnimationDone = true
-                }
-            }
-
-            if (isPotAnimationDone) {
-                animatePots(0)
-            }
-        })
-
-        foldBtn.onOneClick {
-            disableEnableActions(false)
-            vm.actionEvent(ActionEvent.FOLD) {
-                runOnMain {
-                    disableEnableActions(true)
-
-                    if (it!!["success"].bool) {
-                        slotViews.resetPlayers()
-                        mc1.setImageResource(R.drawable.deck_card)
-                        mc2.setImageResource(R.drawable.deck_card)
-                    } else {
-                        showSnack(it["description"].string)
+                        isPotAnimationDone = true
                     }
                 }
-            }
-        }
 
-        callBtn.onOneClick {
-            disableEnableActions(false)
-            vm.actionEvent(ActionEvent.CALL_BET, total_amount = callBtn.tag as Double) {
-                disableEnableActions(true)
-            }
-        }
-        checkBtn.onOneClick {
-            disableEnableActions(false)
-            vm.actionEvent(ActionEvent.CHECK_BET, total_amount = callBtn.tag as Double) {
-                disableEnableActions(true)
-            }
-        }
-
-        allinBtn.onOneClick {
-            disableEnableActions(false)
-            vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
-                disableEnableActions(true)
-
-                if (it!!["success"].bool) {
-                    slotViews.resetPlayers()
+                if (isPotAnimationDone) {
+                    animatePots(0)
                 }
-            }
-        }
+            })
 
-        raiseBtn.onOneClick {
-            disableEnableActions(false)
-            vm.actionEvent(
-                ActionEvent.RAISE_BET,
-                total_amount = raiseBtn.tag as Double,
-                raise_amount = raiseBtn.tag as Double - callBtn.tag as Double
-            ) {
-                disableEnableActions(true)
-            }
-        }
-
-        sitOutCB.onOneClick {
-            vm.updateSeatStatus(if (sitOutCB.isChecked) SeatStatus.SIT_OUT else SeatStatus.ACTIVE) {
-                runOnMain {
-                    if (it!!["success"].bool) {
-                        /*iAMBack.visibility = VISIBLE
-                        bottomPannel.visibility = GONE*/
-                    } else {
-                        sitOutCB.isChecked = !sitOutCB.isChecked
-                        showSnack(it["description"].string)
-                    }
-                }
-            }
-        }
-
-        iAMBack.onOneClick {
-            val slots = vm.tableSlotsLD.value
-
-            if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } == 2) {
-                vm.updateSeatStatus(SeatStatus.ACTIVE) {
+            foldBtn.onOneClick {
+                disableEnableActions(false)
+                vm.actionEvent(ActionEvent.FOLD) {
                     runOnMain {
+                        disableEnableActions(true)
+
                         if (it!!["success"].bool) {
-                            sitOutCB.isChecked = false
-                            iAMBack.visibility = GONE
+                            slotViews.resetPlayers()
+                            mc1.setImageResource(R.drawable.deck_card)
+                            mc2.setImageResource(R.drawable.deck_card)
                         } else {
                             showSnack(it["description"].string)
                         }
                     }
                 }
-            } else {
-                joinTableActions {
-                    iAMBack.visibility = GONE
-                    bottomPannel.visibility = VISIBLE
+            }
+
+            callBtn.onOneClick {
+                disableEnableActions(false)
+                vm.actionEvent(ActionEvent.CALL_BET, total_amount = callBtn.tag as Double) {
+                    disableEnableActions(true)
                 }
             }
-        }
+            checkBtn.onOneClick {
+                disableEnableActions(false)
+                vm.actionEvent(ActionEvent.CHECK_BET, total_amount = callBtn.tag as Double) {
+                    disableEnableActions(true)
+                }
+            }
 
-        vm.iamBackLD.observe(this, Observer {
-            if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.SIT_OUT.status) {
-                if (it) {
-                    iAMBack.visibility = VISIBLE
-                    bottomPannel.visibility = GONE
+            allinBtn.onOneClick {
+                disableEnableActions(false)
+                vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
+                    disableEnableActions(true)
+
+                    if (it!!["success"].bool) {
+                        slotViews.resetPlayers()
+                    }
+                }
+            }
+
+            raiseBtn.onOneClick {
+                disableEnableActions(false)
+                vm.actionEvent(
+                    ActionEvent.RAISE_BET,
+                    total_amount = raiseBtn.tag as Double,
+                    raise_amount = raiseBtn.tag as Double - callBtn.tag as Double
+                ) {
+                    disableEnableActions(true)
+                }
+            }
+
+            sitOutCB.onOneClick {
+                vm.updateSeatStatus(if (sitOutCB.isChecked) SeatStatus.SIT_OUT else SeatStatus.ACTIVE) {
+                    runOnMain {
+                        if (it!!["success"].bool) {
+                            /*iAMBack.visibility = VISIBLE
+                        bottomPannel.visibility = GONE*/
+                        } else {
+                            sitOutCB.isChecked = !sitOutCB.isChecked
+                            showSnack(it["description"].string)
+                        }
+                    }
+                }
+            }
+
+            iAMBack.onOneClick {
+                val slots = vm.tableSlotsLD.value
+
+                if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } == 2) {
+                    vm.updateSeatStatus(SeatStatus.ACTIVE) {
+                        runOnMain {
+                            if (it!!["success"].bool) {
+                                sitOutCB.isChecked = false
+                                iAMBack.visibility = GONE
+                            } else {
+                                showSnack(it["description"].string)
+                            }
+                        }
+                    }
                 } else {
-                    iAMBack.visibility = GONE
-                    bottomPannel.visibility = VISIBLE
+                    joinTableActions {
+                        iAMBack.visibility = GONE
+                        bottomPannel.visibility = VISIBLE
+                    }
                 }
             }
-        })
 
-        joinBBcb.setOnClickListener {
-            vm.updateSeatStatus(
-                if (joinBBcb.isChecked) SeatStatus.WAIT_FOR_BB
-                else SeatStatus.WAIT_FOR_NEXT
-            ) {
-                if (it!!["success"].bool) {
+            vm.iamBackLD.observe(this, Observer {
+                if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.SIT_OUT.status) {
+                    if (it) {
+                        iAMBack.visibility = VISIBLE
+                        bottomPannel.visibility = GONE
+                    } else {
+                        iAMBack.visibility = GONE
+                        bottomPannel.visibility = VISIBLE
+                    }
+                }
+            })
 
-                } else {
-                    showSnack(it["description"].string)
+            joinBBcb.setOnClickListener {
+                vm.updateSeatStatus(
+                    if (joinBBcb.isChecked) SeatStatus.WAIT_FOR_BB
+                    else SeatStatus.WAIT_FOR_NEXT
+                ) {
+                    if (it!!["success"].bool) {
+
+                    } else {
+                        showSnack(it["description"].string)
+                    }
                 }
             }
-        }
 
-        foldCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_FOLD) {}
-        }
-        checkCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CHECK) {}
-        }
-        checkOrCallAnyCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CALL) {}
-        }
+            foldCB.onOneClick {
+                vm.autoGameAction(AutoGameAction.AUTO_FOLD) {}
+            }
+            checkCB.onOneClick {
+                vm.autoGameAction(AutoGameAction.AUTO_CHECK) {}
+            }
+            checkOrCallAnyCB.onOneClick {
+                vm.autoGameAction(AutoGameAction.AUTO_CALL) {}
+            }
 
-        fold_checkCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CHECK_FOLD) {}
-        }
-        callCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CALL) {}
-        }
-        callAnyCB.onOneClick {
-            vm.autoGameAction(AutoGameAction.AUTO_CALL_ANY) {}
+            fold_checkCB.onOneClick {
+                vm.autoGameAction(AutoGameAction.AUTO_CHECK_FOLD) {}
+            }
+            callCB.onOneClick {
+                vm.autoGameAction(AutoGameAction.AUTO_CALL) {}
+            }
+            callAnyCB.onOneClick {
+                vm.autoGameAction(AutoGameAction.AUTO_CALL_ANY) {}
+            }
         }
     }
 

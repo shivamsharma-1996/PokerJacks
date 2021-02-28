@@ -141,7 +141,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="40dp"
                     android:background="@drawable/pot_text_bg"
-                    android:backgroundTint="#1EFFFFFF"
+                    android:backgroundTint="#38000000"
                     android:gravity="center_horizontal"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
@@ -155,7 +155,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/pot_text_bg"
-                    android:backgroundTint="#1EFFFFFF"
+                    android:backgroundTint="#38000000"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:paddingStart="15dp"
@@ -299,12 +299,13 @@
         <LinearLayout
             android:id="@+id/bottomPannel"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="35dp"
-            android:layout_marginEnd="135dp"
+            android:layout_marginEnd="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingBottom="2dp"
             android:visibility="visible">
 
             <CheckBox
@@ -332,6 +333,11 @@
                 android:visibility="gone"
                 tools:ignore="RtlSymmetry" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
             <RadioGroup
                 android:id="@+id/auto_options_rg"
                 android:layout_width="wrap_content"
@@ -342,98 +348,99 @@
                     android:id="@+id/foldCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/stroke_cb"
-                    android:button="@drawable/cb"
-                    android:paddingEnd="5dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_fold"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
                     android:text="Fold"
-                    android:visibility="gone"
-                    tools:ignore="RtlSymmetry" />
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/fold_checkCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@drawable/stroke_cb"
-                    android:button="@drawable/cb"
-                    android:paddingEnd="5dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_fold_check"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
                     android:text="Fold/Check"
-
-                    android:visibility="gone"
-                    tools:ignore="RtlSymmetry" />
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/checkCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:background="@drawable/stroke_cb"
-                    android:button="@drawable/cb"
-                    android:paddingEnd="5dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_check"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
                     android:text="Check"
-                    android:visibility="gone"
-                    tools:ignore="RtlSymmetry" />
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/callCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:background="@drawable/stroke_cb"
-                    android:button="@drawable/cb"
-                    android:paddingEnd="5dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_call"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
                     android:text="Call"
-                    android:visibility="gone"
-                    tools:ignore="RtlSymmetry" />
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/checkOrCallAnyCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:background="@drawable/stroke_cb"
-                    android:button="@drawable/cb"
-                    android:paddingEnd="5dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_call"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
                     android:text="CallAny/Check"
-                    android:visibility="gone"
-                    tools:ignore="RtlSymmetry" />
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/callAnyCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:background="@drawable/stroke_cb"
-                    android:button="@drawable/cb"
-                    android:paddingEnd="5dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_call"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
                     android:text="CallAny"
-                    android:visibility="gone"
-                    tools:ignore="RtlSymmetry" />
+                    android:visibility="gone" />
             </RadioGroup>
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Button
+            <TextView
                 android:id="@+id/foldBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:background="@drawable/btn_red"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:drawableBottom="@drawable/fold"
                 android:gravity="center"
                 android:minWidth="62dp"
+                android:textColor="@color/white"
                 android:text="Fold"
                 android:textAllCaps="false"
                 android:textSize="13dp"
                 android:visibility="gone" />
 
-            <Button
+            <TextView
                 android:id="@+id/checkBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/btn_green"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:drawableBottom="@drawable/check"
                 android:gravity="center"
                 android:minWidth="62dp"
                 android:text="Check"
@@ -441,44 +448,108 @@
                 android:textSize="13dp"
                 android:visibility="gone" />
 
-            <Button
-                android:id="@+id/callBtn"
+            <LinearLayout
+                android:id="@+id/callLL"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_marginStart="20dp"
-                android:background="@drawable/btn_green"
-                android:gravity="center"
-                android:minWidth="62dp"
-                android:text="Call\n10"
-                android:textAllCaps="false"
-                android:textSize="13dp"
-                android:visibility="gone" />
+                android:gravity="center_horizontal">
 
-            <Button
-                android:id="@+id/raiseBtn"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Call"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/callBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/btn_blue"
+                    android:gravity="center"
+                    android:minWidth="62dp"
+                    android:text="10"
+                    android:textAllCaps="false"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/raiseBtnLL"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_marginStart="20dp"
-                android:background="@drawable/btn_blue"
-                android:gravity="center"
-                android:minWidth="62dp"
-                android:textAllCaps="false"
-                android:textSize="13dp"
-                android:visibility="gone" />
+                android:gravity="center_horizontal">
 
-            <Button
-                android:id="@+id/allinBtn"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Raise To"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/raiseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/btn_orange"
+                    android:gravity="center"
+                    android:minWidth="62dp"
+                    android:textAllCaps="false"
+                    android:textSize="13dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/raiseBtnLL"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_marginStart="20dp"
-                android:background="@drawable/btn_blue"
-                android:gravity="center"
-                android:minWidth="62dp"
-                android:text="All in"
-                android:textAllCaps="false"
-                android:textSize="13dp"
-                android:visibility="gone" />
+                android:gravity="center_horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Raise To"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/raiseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/btn_orange"
+                    android:gravity="center"
+                    android:minWidth="62dp"
+                    android:textAllCaps="false"
+                    android:textSize="13dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/allinLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginStart="20dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All in"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/allinBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/btn_orange"
+                    android:gravity="center"
+                    android:minWidth="62dp"
+                    android:textAllCaps="false"
+                    android:textSize="13dp"/>
+            </LinearLayout>
         </LinearLayout>
 
         <FrameLayout
@@ -565,6 +636,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:layout_marginBottom="62dp"
             android:visibility="gone" />
 
         <Button
@@ -572,9 +644,9 @@
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_alignParentBottom="true"
-            android:padding="0dp"
-            android:layout_marginBottom="7dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="7dp"
+            android:padding="0dp"
             android:text="I am Back"
             android:textSize="13dp"
             android:visibility="gone" />
@@ -605,10 +677,10 @@
         <com.gtgt.pokerjacks.components.VerticalTextView
             android:id="@+id/gameIDTV"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="130dp"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
 
     </RelativeLayout>
 

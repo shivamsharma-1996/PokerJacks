@@ -11,19 +11,6 @@
         android:adjustViewBounds="true"
         android:src="@drawable/crown"
         android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/in_play_amt"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:background="@drawable/stroke_white"
-        android:minWidth="60dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:text=""
-        android:textAlignment="center"
-        android:textSize="13dp" />
-
     <TextView
         android:id="@+id/raise_amt"
         android:layout_width="wrap_content"
@@ -31,13 +18,12 @@
         android:drawablePadding="3dp"
         android:paddingTop="4dp"
         android:text="₹40.208"
-        android:textSize="12dp"
-        app:drawableStartCompat="@drawable/coin_small" />
+        android:textSize="12dp" />
 
     <FrameLayout
         android:id="@+id/playerView"
         android:layout_width="68dp"
-        android:layout_height="68dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:layout_marginBottom="28dp">
 
@@ -52,7 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="7dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="7dp"
             android:visibility="gone" />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -68,7 +57,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="12dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="17dp"
             android:visibility="gone" />
 
         <TextView
@@ -95,14 +87,35 @@
             android:textColor="@color/black"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/nameTV"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/name_inplay_group"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
-            android:background="#D2000000"
-            android:textColor="@color/white"
-            android:textSize="10dp" />
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/nameTV"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@drawable/player_name"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:ellipsize="end"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="10dp"  />
+            <TextView
+                android:id="@+id/in_play_amt"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@drawable/player_inplay"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="10dp" />
+        </LinearLayout>
 
     </FrameLayout>
 
@@ -125,5 +138,4 @@
             android:adjustViewBounds="true"
             android:src="@drawable/deck_card" />
     </LinearLayout>
-
 </FrameLayout>

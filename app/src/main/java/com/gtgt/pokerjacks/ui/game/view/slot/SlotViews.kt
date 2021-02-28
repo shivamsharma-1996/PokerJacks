@@ -14,6 +14,8 @@ import com.gtgt.pokerjacks.ui.game.models.PlayerTurn
 import com.gtgt.pokerjacks.ui.game.models.TableSlot
 import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
 import com.gtgt.pokerjacks.ui.game.models.UsersBestHand
+import com.gtgt.pokerjacks.ui.game.viewModel.PlayerActions
+import com.gtgt.pokerjacks.ui.game.viewModel.SeatStatus
 import com.gtgt.pokerjacks.utils.SlotPositions.BOTTOM_CENTER
 import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.android.synthetic.main.player.view.*
@@ -151,21 +153,53 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     noPlayer.visibility = if (isJoined) GONE else VISIBLE
                     iv_userProfile.visibility = GONE
                     active_indication.visibility = GONE
-                    in_play_amt.visibility = GONE
+                    in_play_amt.text = "-"
                     raise_amt.visibility = GONE
+                    name_inplay_group.visibility = GONE
                 } else {
                     noPlayer.visibility = GONE
                     iv_userProfile.visibility = VISIBLE
+                    name_inplay_group.visibility = VISIBLE
 
                     if (slot.user != null && slot.user!!.status != TableSlotStatus.FOLD.name) {
                         active_indication.visibility = VISIBLE
+                        active_indication.setImageResource(
+                            when (slot.status) {
+                                SeatStatus.SIT_OUT.name -> R.drawable.sitout
+                                SeatStatus.ACTIVE.name -> R.drawable.active_indication
+                                else -> R.drawable.waiting
+                            }
+                        )
                     } else {
                         active_indication.visibility = GONE
                     }
 
-
                     if (slot.user != null && slot.user!!.current_round_invested > 0.0) {
                         raise_amt.visibility = VISIBLE
+                        raise_amt.text =
+                            "₹" + String.format(
+                                "%.2f",
+                                (slot.user?.current_round_invested ?: 1234.00)
+                            )
+
+                        val coin = when (slot.user!!.status) {
+                            "ACTIVE" -> R.drawable.bet
+                            PlayerActions.CHECK.name -> R.drawable.check_small
+                            PlayerActions.FOLD.name -> R.drawable.fold_small
+                            PlayerActions.CALL.name -> R.drawable.call_small
+                            else -> R.drawable.raise
+                        }
+
+                        if (slotPositionMap[slot.seat_no]!!.name.contains("RIGHT")) {
+                            active_indication.layoutGravity(Gravity.END)
+                            active_indication.rotationY = 0f
+                            raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, coin, 0)
+                        } else {
+                            active_indication.layoutGravity(Gravity.START)
+                            active_indication.rotationY = 180f
+                            raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(coin, 0, 0, 0)
+                        }
+
                     } else {
                         raise_amt.visibility = GONE
                     }
@@ -175,10 +209,10 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 visibility = VISIBLE
 
                 val slotPosition = if (isJoined && position == BOTTOM_CENTER) {
-                    playerView.widthHeightRaw(meSlotSize, meSlotSize)
+                    playerView.widthHeightRaw(meSlotSize, meSlotSize + dpToPx(20))
                     mySlotBottom
                 } else {
-                    playerView.widthHeightRaw(playerSize, playerSize)
+                    playerView.widthHeightRaw(playerSize, playerSize + dpToPx(20))
                     slotPositions[position]!!
                 }
 
@@ -196,10 +230,10 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     slotPosition.player.ml, slotPosition.player.mt,
                     slotPosition.player.mr, slotPosition.player.mb
                 )
-                in_play_amt.marginsRaw(
-                    slotPosition.inPlay.ml, slotPosition.inPlay.mt,
-                    slotPosition.inPlay.mr, slotPosition.inPlay.mb
-                )
+                /*name_inplay_group.marginsRaw(
+                    slotPosition.player.ml, slotPosition.player.mt,
+                    slotPosition.player.mr, slotPosition.player.mb
+                )*/
                 raise_amt.marginsRaw(
                     slotPosition.raiseAmt.ml, slotPosition.raiseAmt.mt,
                     slotPosition.raiseAmt.mr, slotPosition.raiseAmt.mb
@@ -217,15 +251,10 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
                 dealer.layoutGravity(Gravity.START)
 
-                raise_amt.text =
-                    String.format("%.2f", (slot.user?.current_round_invested ?: 0.00))
-
-
                 val inPlay = (slot.user?.game_inplay_amount ?: slot.inplay_amount)
-                if(inPlay == 0.0) {
-                    in_play_amt.visibility = GONE
+                if (inPlay == 0.0) {
+                    in_play_amt.text = "-"
                 } else {
-                    in_play_amt.visibility = VISIBLE
                     in_play_amt.text =
                         "₹${inPlay.toDecimalFormat()}"
                 }
