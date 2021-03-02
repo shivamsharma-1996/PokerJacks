@@ -2,7 +2,11 @@ package com.gtgt.pokerjacks.ui.game
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Matrix
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.os.ResultReceiver
@@ -38,6 +42,7 @@ import kotlinx.android.synthetic.main.byin_popup.view.join
 import kotlinx.android.synthetic.main.join_status_popup.view.*
 import kotlinx.android.synthetic.main.raise_amt.*
 import java.lang.Math.abs
+
 
 class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnectionChangeListener {
 
@@ -89,6 +94,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+
+        val orientation = resources.configuration.orientation
+
         mActivityTopLevelView = drawer_layout
 
         if (BuildConfig.DEBUG) {
@@ -171,7 +179,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             themesViewModel.onThemeSelected.observe(this, Observer { theme ->
                 if (theme != null) {
                     rootLayout.setBackgroundResource(theme.bg)
-                    ivTable.loadImage(theme.table)
 //                gameInfoIv.imageTintList = ColorStateList.valueOf(theme.dark)
 
                     iAMBack.background = theme.btnDrawable
@@ -187,6 +194,21 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     previousVector.changePathStrokeColor("stroke", theme.btn2)
                     previous.invalidate()
+
+                    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        ivTable.loadImage(theme.table)
+                    } else {
+                        val matrix = Matrix()
+                        matrix.postRotate(90f)
+                        val myImg = BitmapFactory.decodeResource(resources, theme.table)
+
+                        val rotated = Bitmap.createBitmap(
+                            myImg, 0, 0, myImg.width, myImg.height,
+                            matrix, true
+                        )
+
+                        ivTable.setImageBitmap(rotated)
+                    }
                 }
             })
 

@@ -249,7 +249,21 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     slotPosition.revealCards.mr, slotPosition.revealCards.mb
                 )
 
-                dealer.layoutGravity(Gravity.START)
+                dealer.layoutGravity(slotPosition.deal)
+
+                /*if (slotPositionMap[slot.seat_no]!!.name.contains("RIGHT")) {
+                    active_indication.layoutGravity(Gravity.END)
+                    active_indication.rotationY = 0f
+                    raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.coin_small, 0)
+                } else {
+                    active_indication.layoutGravity(Gravity.START)
+                    active_indication.rotationY = 180f
+                    raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.coin_small, 0, 0, 0)
+                }
+
+                dealer.visibility = VISIBLE
+                active_indication.visibility = VISIBLE
+                raise_amt.visibility = VISIBLE*/
 
                 val inPlay = (slot.user?.game_inplay_amount ?: slot.inplay_amount)
                 if (inPlay == 0.0) {

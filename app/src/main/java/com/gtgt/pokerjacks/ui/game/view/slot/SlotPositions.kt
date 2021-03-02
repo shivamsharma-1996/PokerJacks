@@ -78,7 +78,7 @@ fun makeSlotPositions(
 
     slotPositions[LEFT_TOP_CENTER] = SlotPosition(
         x = leftMargin.toFloat(),
-        y = playerSize + topMargin / 2f,
+        y = playerSize,
         player = Position(
             ml = (playerSize / 4).toInt(),
             mb = playerMargin
@@ -139,7 +139,7 @@ fun makeSlotPositions(
     slotPositions[RIGHT_TOP_CENTER] =
         SlotPosition(
             x = tableWidth - 1.5f * playerSize - leftMargin - inPlayWidth,
-            y = playerSize + topMargin / 2f,
+            y = playerSize - topMargin / 2f,
             player = Position(
                 ml = (playerSize / 4 + inPlayWidth).toInt(),
                 mt = playerMargin - topMargin / 4,
@@ -160,8 +160,8 @@ fun makeSlotPositions(
 
     slotPositions[RIGHT_BOTTOM_CENTER] =
         SlotPosition(
-            x = tableWidth - 1.5f * playerSize - leftMargin - inPlayWidth,
-            y = tableHeight - 2 * playerSize + topMargin,
+            x = tableWidth - 1.3f * playerSize - leftMargin - inPlayWidth,
+            y = tableHeight - 1.7f * playerSize + topMargin,
             player = Position(
                 ml = (playerSize / 4 + inPlayWidth).toInt(),
                 mt = playerMargin / 2,
@@ -232,8 +232,8 @@ fun makeSlotPositions(
         )
     slotPositions[LEFT_BOTTOM_CENTER] =
         SlotPosition(
-            x = playerSize / 2 + leftMargin / 2,
-            y = tableHeight - 2 * playerSize + topMargin,
+            x = playerSize / 2 + leftMargin / 2 - 2,
+            y = tableHeight - 1.7f * playerSize + topMargin,
             player = Position(
                 ml = (playerSize / 4).toInt(),
                 mt = playerMargin / 2,
