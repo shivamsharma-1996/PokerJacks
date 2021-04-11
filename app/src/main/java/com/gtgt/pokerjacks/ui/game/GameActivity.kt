@@ -157,7 +157,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             val cWidth = it.width / 1.5f
             mc1.widthHeightRaw(cWidth)
             mc2.widthHeightRaw(cWidth)
-            mc2.marginsRaw(left = (cWidth / 2).toInt())
+            mc2.marginsRaw(left = (cWidth / 1.5).toInt())
 
             replaceFragment(gamePreferencesFragment, R.id.settingsFragment)
             replaceFragment(SelectThemesFragment(), R.id.themeSelectFragment)
@@ -372,7 +372,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                 if (slots != null) {
                     slots.forEach { slot ->
-                        if (slot.user != null && slot.status == TableSlotStatus.ACTIVE.name) {
+                        if (slot.user != null && slot.status == TableSlotStatus.ACTIVE.name
+                            && slot.user!!.current_round_invested!=0.0) {
                             val position = slotViews.getPositionBySeatNumber(slot.seat_no)
                             val coinsTv = TextView(this)
                             rootLayout.addView(coinsTv)

@@ -16,7 +16,7 @@
         app:cardBackgroundColor="#2f384a"
         app:cardCornerRadius="8dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -25,14 +25,19 @@
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintEnd_toStartOf="@+id/ll_tableInfo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="11dp"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:adjustViewBounds="true"
                     android:src="@drawable/table" />
 
@@ -52,10 +57,14 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/ll_tableInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="end"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -69,9 +78,6 @@
                     android:text="@{`Blinds: ` + data.plan_details.small_blind + `/` + data.plan_details.big_blind}"
                     android:textColor="@color/white" />
 
-                    android:text="Blinds: 0.5/1"
-                    android:textColor="@color/white" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -81,7 +87,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_30dp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     >
 
 
@@ -95,20 +101,20 @@
 
                 </RelativeLayout>
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="@dimen/size_32dp"-->
-<!--                    android:layout_marginTop="30dp"-->
-<!--                    android:background="@drawable/blue_gradient_button"-->
-<!--                    android:paddingStart="@dimen/dimen_8dp"-->
-<!--                    android:paddingTop="5dp"-->
-<!--                    android:paddingEnd="8dp"-->
-<!--                    android:textAlignment="center"-->
-<!--                    android:paddingBottom="5dp"-->
-<!--                    android:text="Join - ₹20"-->
-<!--                    android:textSize="@dimen/text_14sp"-->
-<!--                    android:textColor="@color/white" />-->
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="@dimen/size_32dp"-->
+                <!--                    android:layout_marginTop="30dp"-->
+                <!--                    android:background="@drawable/blue_gradient_button"-->
+                <!--                    android:paddingStart="@dimen/dimen_8dp"-->
+                <!--                    android:paddingTop="5dp"-->
+                <!--                    android:paddingEnd="8dp"-->
+                <!--                    android:textAlignment="center"-->
+                <!--                    android:paddingBottom="5dp"-->
+                <!--                    android:text="Join - ₹20"-->
+                <!--                    android:textSize="@dimen/text_14sp"-->
+                <!--                    android:textColor="@color/white" />-->
             </LinearLayout>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

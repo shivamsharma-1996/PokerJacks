@@ -24,7 +24,7 @@ var tableHeight = 0
 var cardWidth = 0
 var cardHeight = 0
 
-val playerSize = dpToPx(22).toFloat()
+val playerSize = dpToPx(24).toFloat()
 val roundingSize = dpToPx(5).toFloat()
 
 var playerPositions = mutableMapOf<SlotPositions, Pair<Float, Float>>()
@@ -45,7 +45,7 @@ class LobbyAdapter(val onClick: (LobbyTables.Info) -> Unit) :
         holder.binding.table.postDelayed({
             if (tableWidth == 0) {
                 tableWidth = holder.binding.table.width
-                tableHeight = holder.binding.table.height
+                tableHeight = holder.binding.table.height - dpToPx(5)
 
                 cardWidth = tableWidth / 8
                 cardHeight = (cardWidth * 1.3).toInt()

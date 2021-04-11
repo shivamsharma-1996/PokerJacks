@@ -182,6 +182,10 @@ dependencies {
 
     // Add the SDK for Firebase Cloud Messaging
     implementation 'com.google.firebase:firebase-messaging:20.3.0'
+
+    //scalable dp
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
