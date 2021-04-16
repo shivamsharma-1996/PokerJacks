@@ -13,6 +13,7 @@
         android:layout_marginBottom="5dp">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_theme"
             android:layout_width="140dp"
             android:layout_height="74dp"
             android:elevation="0dp"
@@ -30,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                tools:src="@drawable/blue_table" />
+                tools:src="@drawable/landscape_blue_table" />
 
         </androidx.cardview.widget.CardView>
 

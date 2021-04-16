@@ -1,5 +1,6 @@
 package com.gtgt.pokerjacks.ui.game.view
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,6 +57,16 @@ class GamePreferencesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (!vm.playSound) {
+            soundPref.toggle()
+        }
+        if (!vm.vibrate) {
+            vibratePref.toggle()
+        }
+        if (!vm.autoRotate) {
+            autorotatePref.toggle()
+        }
+        gameVm.isAutoRotateOn.value = vm.autoRotate
         gameVm.userDetailsLD.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 if (auto_muck.isOn != it.auto_muck) {
@@ -98,11 +109,17 @@ class GamePreferencesFragment : BaseFragment() {
         }
 
         soundPref.setOnClickListener {
-            vm.vibrate = soundPref.toggle()
+            //vm.vibrate = soundPref.toggle()
+            vm.playSound = soundPref.toggle()
         }
 
         vibratePref.setOnClickListener {
             vm.vibrate = vibratePref.toggle()
+        }
+
+        autorotatePref.setOnClickListener {
+            vm.autoRotate = autorotatePref.toggle()
+            gameVm.isAutoRotateOn.value = vm.autoRotate
         }
 
         val settingsVector = VectorChildFinder(context, R.drawable.settings, settings)
@@ -114,6 +131,7 @@ class GamePreferencesFragment : BaseFragment() {
                 vibratePref.iconBg = theme.iconSolidDrawable
                 theme_menu.iconBg = theme.iconSolidDrawable
                 refill_menu.iconBg = theme.iconSolidDrawable
+                autorotatePref.iconBg = theme.iconSolidDrawable
 
                 color_deck.iconBg = theme.iconSolidDrawable
                 auto_muck.iconBg = theme.iconSolidDrawable
@@ -129,4 +147,14 @@ class GamePreferencesFragment : BaseFragment() {
             }
         })
     }
+
+/*    private fun updateUI() {
+        gameVm.currentOrientation.observe(viewLifecycleOwner, Observer { isLandscape ->
+            if(isLandscape){
+                orientationPref.setTitle("Portrait")
+            }else{
+                orientationPref.setTitle("Landscape")
+            }
+        })
+    }*/
 }

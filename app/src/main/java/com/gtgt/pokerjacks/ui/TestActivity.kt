@@ -39,7 +39,7 @@ class TestActivity : FullScreenScreenOnActivity() {
         themesViewModel.onThemeSelected.observe(this, Observer { theme ->
             if (theme != null) {
                 rootLayout.setBackgroundResource(theme.bg)
-                ivTable.loadImage(theme.table)
+                ivTable.loadImage(theme.landscapeTable)
                 gameInfoIv.imageTintList = ColorStateList.valueOf(theme.dark)
             }
         })

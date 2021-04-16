@@ -1,6 +1,5 @@
 package com.gtgt.pokerjacks.ui.game.view
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -9,14 +8,13 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
 import androidx.lifecycle.Observer
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
-import com.gtgt.pokerjacks.extensions.margins
-import com.gtgt.pokerjacks.extensions.onOneClick
-import com.gtgt.pokerjacks.extensions.retrieveString
-import com.gtgt.pokerjacks.extensions.sharedViewModel
+import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.game.models.themes
+import com.gtgt.pokerjacks.ui.game.viewModel.GameViewModel
 import com.gtgt.pokerjacks.ui.game.viewModel.ThemesViewModel
 import com.gtgt.pokerjacks.utils.Constants
 import com.gtgt.pokerjacks.utils.loadImage
@@ -27,6 +25,7 @@ import kotlinx.android.synthetic.main.theme_item.view.*
 class SelectThemesFragment : BaseFragment() {
     private lateinit var selectedTheme: View
     private val themesViewModel: ThemesViewModel by sharedViewModel()
+    private val gameViewModel: GameViewModel by sharedViewModel()
 
     private val enterAnim by lazy {
         AnimationUtils.loadAnimation(
@@ -58,12 +57,21 @@ class SelectThemesFragment : BaseFragment() {
 
         themes.forEachIndexed { index, theme ->
             val themeItem = LayoutInflater.from(context).inflate(R.layout.theme_item, null)
+            if (!gameViewModel.isLandscape) {
+                val parms: FrameLayout.LayoutParams =
+                    FrameLayout.LayoutParams(dpToPx(80), dpToPx(74))
+                themeItem.card_theme.setLayoutParams(parms)
+            }
             themesLL.addView(themeItem)
             themeItem.apply {
 //                main.backgroundTintList = ColorStateList.valueOf(theme.light)
 
                 bg.loadImage(theme.bg)
-                table.loadImage(theme.table)
+                if (gameViewModel.isLandscape) {
+                    table.loadImage(theme.landscapeTable)
+                } else {
+                    table.loadImage(theme.portraitTable)
+                }
 
                 margins(right = 15)
 

@@ -103,7 +103,7 @@ class SocketIoInstance(private val url: String) :
         }
     }
 
-    private var listeners: MutableSet<SocketConnectionChangeListener> = HashSet()
+    var listeners: MutableSet<SocketConnectionChangeListener> = HashSet()
     fun addSocketChangeListener(socketConnectionChangeListener: SocketConnectionChangeListener) {
         socketHandler.post {
             if (socket.connected()) {

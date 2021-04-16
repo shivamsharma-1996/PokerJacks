@@ -9,7 +9,8 @@ import com.gtgt.pokerjacks.extensions.dpToPxFloat
 class Theme(
     val name: String,
     val bg: Int,
-    val table: Int,
+    val landscapeTable: Int,
+    val portraitTable: Int,
     val gradientStart: Int,
     val gradientEnd: Int,
     val light: Int,
@@ -55,7 +56,8 @@ val themes = listOf(
     Theme(
         name = "blue",
         bg = R.drawable.blue_table_bg,
-        table = R.drawable.blue_table,
+        landscapeTable = R.drawable.landscape_blue_table,
+        portraitTable = R.drawable.portrait_blue_table,
         gradientStart = Color.parseColor("#fd055c"),
         gradientEnd = Color.parseColor("#930034"),
         light = Color.parseColor("#ed1561"),
@@ -66,7 +68,8 @@ val themes = listOf(
     Theme(
         name = "red",
         bg = R.drawable.blue_table_bg,
-        table = R.drawable.red_table,
+        landscapeTable = R.drawable.landscape_red_table,
+        portraitTable = R.drawable.portrait_red_table,
         gradientStart = Color.parseColor("#ccb205"),
         gradientEnd = Color.parseColor("#5f5302"),
         light = Color.parseColor("#b59f0d"),
@@ -77,7 +80,8 @@ val themes = listOf(
     Theme(
         name = "yellow",
         bg = R.drawable.blue_table_bg,
-        table = R.drawable.yellow_table,
+        landscapeTable = R.drawable.landscape_yellow_table,
+        portraitTable = R.drawable.portrait_yellow_table,
         gradientStart = Color.parseColor("#c3c34b"),
         gradientEnd = Color.parseColor("#626226"),
         light = Color.parseColor("#c3c34b"),
@@ -88,7 +92,8 @@ val themes = listOf(
     Theme(
         name = "green",
         bg = R.drawable.blue_table_bg,
-        table = R.drawable.green_table,
+        landscapeTable = R.drawable.landscape_green_table,
+        portraitTable = R.drawable.portrait_green_table,
         gradientStart = Color.parseColor("#fd055c"),
         gradientEnd = Color.parseColor("#930034"),
         light = Color.parseColor("#ed1561"),

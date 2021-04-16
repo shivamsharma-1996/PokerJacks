@@ -56,6 +56,10 @@ class GameMenu(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         view!!.title.text = title
     }
 
+    fun getTitle() : String {
+        return view!!.title.text as String
+    }
+
     fun toggle() =
         if (mode == Mode.OFF) {
             mode = Mode.ON

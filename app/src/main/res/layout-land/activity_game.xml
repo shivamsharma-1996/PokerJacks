@@ -16,12 +16,12 @@
             android:id="@+id/ivTable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="@dimen/_32sdp"
-            android:paddingTop="@dimen/_60sdp"
-            android:paddingEnd="@dimen/_32sdp"
-            android:paddingBottom="@dimen/_60sdp"
+            android:paddingStart="@dimen/_60sdp"
+            android:paddingTop="@dimen/_38sdp"
+            android:paddingEnd="@dimen/_60sdp"
+            android:paddingBottom="@dimen/_45sdp"
             android:scaleType="fitXY"
-            android:src="@drawable/portrait_green_table" />
+            android:src="@drawable/landscape_blue_table" />
 
         <LinearLayout
             android:id="@+id/topPanel"
@@ -78,9 +78,8 @@
                 android:id="@+id/menu"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:src="@drawable/menu"
-                android:layout_marginEnd="@dimen/_10sdp"/>
+                android:layout_marginStart="10dp"
+                android:src="@drawable/menu" />
 
         </LinearLayout>
 
@@ -126,42 +125,14 @@
                 android:textSize="20dp"
                 android:visibility="gone" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/playArea"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/_35sdp"
-                android:layout_marginEnd="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/play_area_padding"
+                android:layout_marginEnd="@dimen/play_area_padding"
                 android:layout_marginBottom="30dp"
                 android:orientation="vertical">
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.2"/>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.8"/>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.12"/>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_bottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_end="58dp" />
 
                 <TextView
                     android:id="@+id/totalPot"
@@ -175,13 +146,7 @@
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
                     android:text="Total Pot: ₹12.20"
-                    android:visibility="invisible"
-                    app:layout_constraintVertical_bias="0.7"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    app:layout_constraintTop_toBottomOf="@+id/gl_top"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/pot_split"/>
+                    android:visibility="invisible" />
 
                 <LinearLayout
                     android:id="@+id/pot_split"
@@ -195,112 +160,103 @@
                     android:orientation="horizontal"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/totalPot"
-                    app:layout_constraintBottom_toTopOf="@+id/community_cards_ll"/>
-
+                    android:visibility="invisible" />
 
                 <LinearLayout
-                    android:id="@+id/community_cards_ll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:visibility="invisible"
-                    app:layout_constraintVertical_bias="0.45"
-                    app:layout_constraintStart_toEndOf="@+id/gl_start"
-                    app:layout_constraintEnd_toStartOf="@+id/gl_end"
-                    app:layout_constraintTop_toBottomOf="@+id/gl_top"
-                    app:layout_constraintBottom_toTopOf="@+id/gl_bottom">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/c1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/deck_card" />
+                    <LinearLayout
+                        android:id="@+id/community_cards_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
 
-                    <ImageView
-                        android:id="@+id/c2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/deck_card" />
+                        <ImageView
+                            android:id="@+id/c1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:maxWidth="@dimen/_60sdp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
 
-                    <ImageView
-                        android:id="@+id/c3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/deck_card" />
+                        <ImageView
+                            android:id="@+id/c2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:maxWidth="@dimen/_60sdp"
+                            android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
 
-                    <ImageView
-                        android:id="@+id/c4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:adjustViewBounds="true"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
-                        android:src="@drawable/deck_card" />
+                        <ImageView
+                            android:id="@+id/c3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:maxWidth="@dimen/_60sdp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
 
-                    <ImageView
-                        android:id="@+id/c5"
+                        <ImageView
+                            android:id="@+id/c4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="@dimen/_60sdp"
+                            android:src="@drawable/deck_card" />
+
+                        <ImageView
+                            android:id="@+id/c5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="@dimen/_60sdp"
+                            android:src="@drawable/deck_card" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/user_cards_fl"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:adjustViewBounds="true"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
-                        android:src="@drawable/deck_card" />
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_weight="0.5"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <ImageView
+                            android:id="@+id/mc1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="@dimen/_60sdp"
+                            android:src="@drawable/deck_card" />
+
+                        <ImageView
+                            android:id="@+id/mc2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:maxWidth="@dimen/_60sdp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/deck_card" />
+                        <!--
+                            android:layout_marginStart="@dimen/_35sdp"
+-->
+                    </FrameLayout>
 
                 </LinearLayout>
 
-                <FrameLayout
-                    android:id="@+id/user_cards_fl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_weight="0.5"
-                    android:orientation="horizontal"
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toEndOf="@+id/gl_start"
-                    app:layout_constraintEnd_toStartOf="@+id/gl_end"
-                    app:layout_constraintBottom_toTopOf="@+id/gl_bottom">
-
-                    <ImageView
-                        android:id="@+id/mc1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
-                        android:maxWidth="@dimen/_36sdp"
-                        android:src="@drawable/deck_card" />
-
-                    <ImageView
-                        android:id="@+id/mc2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:maxWidth="@dimen/_36sdp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/deck_card" />
-                    <!--
-                        android:layout_marginStart="@dimen/_35sdp"
--->
-                </FrameLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/leaderboardView"
@@ -349,34 +305,131 @@
 
         </FrameLayout>
 
-        <CheckBox
-            android:id="@+id/sitOutCB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/stroke_cb"
-            android:button="@drawable/cb"
-            android:paddingStart="10dp"
-            android:paddingEnd="5dp"
-            android:text="Sit Out"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_alignParentEnd="true"
-            tools:ignore="RtlSymmetry"
-            android:visibility="gone"
-            android:layout_alignBottom="@+id/network_status_ll"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/bottomPannel"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_30sdp"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingBottom="2dp"
-            android:id="@+id/bottomPannel1"
-            android:visibility="visible"
-            android:layout_alignParentEnd="true"
-            >
+            android:visibility="visible">
+
+            <CheckBox
+                android:id="@+id/sitOutCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_cb"
+                android:button="@drawable/cb"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:text="Sit Out"
+                android:visibility="gone"
+                tools:ignore="RtlSymmetry" />
+
+            <CheckBox
+                android:id="@+id/joinBBcb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/stroke_cb"
+                android:button="@drawable/cb"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:text="Post BB"
+                android:visibility="gone"
+                tools:ignore="RtlSymmetry" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <RadioGroup
+                android:id="@+id/auto_options_rg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/foldCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_fold"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
+                    android:text="Fold"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/fold_checkCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_fold_check"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
+                    android:text="Fold/Check"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/checkCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_check"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
+                    android:text="Check"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/callCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_call"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
+                    android:text="Call"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/checkOrCallAnyCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_call"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
+                    android:text="CallAny/Check"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/callAnyCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_call"
+                    android:gravity="center_horizontal"
+                    android:paddingEnd="15dp"
+                    android:text="CallAny"
+                    android:visibility="gone" />
+            </RadioGroup>
+
             <TextView
                 android:id="@+id/foldBtn"
                 android:layout_width="wrap_content"
@@ -389,11 +442,7 @@
                 android:text="Fold"
                 android:textAllCaps="false"
                 android:textSize="13dp"
-                android:visibility="invisible"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/checkBtn"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/checkBtn"
@@ -406,23 +455,16 @@
                 android:text="Check"
                 android:textAllCaps="false"
                 android:textSize="13dp"
-                android:visibility="invisible"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/foldBtn"
-                app:layout_constraintEnd_toStartOf="@+id/callLL"
-               />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/callLL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="invisible"
-                android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/checkBtn"
-                app:layout_constraintEnd_toStartOf="@+id/raiseBtnLL"
-                android:layout_marginStart="20dp">
+                android:visibility="gone"
+                android:layout_marginStart="20dp"
+                android:gravity="center_horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -447,12 +489,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="invisible"
-                android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"
                 android:layout_marginStart="20dp"
-                app:layout_constraintStart_toEndOf="@+id/callLL"
-                app:layout_constraintEnd_toStartOf="@+id/allinLL">
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Raise To"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/raiseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/btn_orange"
+                    android:gravity="center"
+                    android:minWidth="62dp"
+                    android:textAllCaps="false"
+                    android:textSize="13dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/raiseBtnLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginStart="20dp"
+                android:gravity="center_horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -475,13 +539,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="invisible"
-                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="10dp"
-                android:gravity="center_horizontal"
-                app:layout_constraintStart_toEndOf="@+id/raiseBtnLL"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:gravity="center_horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -499,121 +559,6 @@
                     android:textAllCaps="false"
                     android:textSize="13dp"/>
             </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/bottomPannel"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="35dp"
-            android:layout_marginEnd="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="2dp"
-            android:visibility="visible">
-
-            <CheckBox
-                android:id="@+id/joinBBcb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/stroke_cb"
-                android:button="@drawable/cb"
-                android:paddingStart="10dp"
-                android:paddingEnd="5dp"
-                android:text="Post BB"
-                android:visibility="invisible"
-                tools:ignore="RtlSymmetry" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <RadioGroup
-                android:id="@+id/auto_options_rg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/foldCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_fold"
-                    android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
-                    android:text="Fold"
-                    android:visibility="invisible" />
-
-                <RadioButton
-                    android:id="@+id/fold_checkCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_fold_check"
-                    android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
-                    android:text="Fold/Check"
-                    android:visibility="invisible" />
-
-                <RadioButton
-                    android:id="@+id/checkCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_check"
-                    android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
-                    android:text="Check"
-                    android:visibility="invisible" />
-
-                <RadioButton
-                    android:id="@+id/callCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_call"
-                    android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
-                    android:text="Call"
-                    android:visibility="invisible" />
-
-                <RadioButton
-                    android:id="@+id/checkOrCallAnyCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_call"
-                    android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
-                    android:text="CallAny/Check"
-                    android:visibility="invisible" />
-
-                <RadioButton
-                    android:id="@+id/callAnyCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_call"
-                    android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
-                    android:text="CallAny"
-                    android:visibility="invisible" />
-            </RadioGroup>
-
         </LinearLayout>
 
         <FrameLayout
@@ -630,9 +575,8 @@
             android:id="@+id/messageFL"
             android:layout_width="wrap_content"
             android:layout_height="150dp"
-            android:visibility="invisible"
             android:layout_centerInParent="true"
-            android:translationZ="10dp">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/gameInfoIv"
@@ -701,10 +645,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_marginLeft="@dimen/_10sdp"
-           android:layout_above="@+id/bottomPannel"
             android:layout_marginBottom="62dp"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/iAMBack"
@@ -712,19 +654,18 @@
             android:layout_height="32dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginBottom="7dp"
             android:padding="0dp"
             android:text="I am Back"
             android:textSize="13dp"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <LinearLayout
-            android:id="@+id/network_status_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="@dimen/_60sdp"
+            android:layout_marginBottom="40dp"
             android:orientation="vertical">
 
             <ImageView
@@ -742,17 +683,12 @@
                 android:src="@drawable/signal_0" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/portrait_gameIDTV"
+        <com.gtgt.pokerjacks.components.VerticalTextView
+            android:id="@+id/gameIDTV"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_height="130dp"
+            android:layout_centerVertical="true"
             android:gravity="center"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:text=""
-            android:layout_marginTop="@dimen/_16sdp"
-            android:layout_alignParentTop="true"
             android:textAlignment="center" />
 
     </RelativeLayout>

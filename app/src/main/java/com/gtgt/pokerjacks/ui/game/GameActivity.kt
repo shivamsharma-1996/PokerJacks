@@ -2,11 +2,10 @@ package com.gtgt.pokerjacks.ui.game
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.pm.ActivityInfo.*
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.Matrix
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.os.ResultReceiver
@@ -85,7 +84,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     private val themesViewModel: ThemesViewModel by viewModel()
     private val gamePreferencesFragment by lazy { GamePreferencesFragment() }
 
-    val topMargin = dpToPx(56).toFloat()
+    val topMarginLandscape = dpToPx(56).toFloat()
+    val topMarginPortrait = dpToPx(100).toFloat()
 
 
     private var tableDetailsTimer: CountDownTimer? = null
@@ -137,12 +137,21 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         refresh.onOneClick { reconnected() }
 
         socketInstance.connect()
-        socketInstance.addSocketChangeListener(this)
+        if (socketInstance.listeners.isEmpty()) {
+            socketInstance.addSocketChangeListener(this)
+        }
 
         themeSelectFragment.z = 11f
         topPanel.z = 11f
         raiseLL.z = 100f
 
+        vm.isAutoRotateOn.observe(this, Observer {
+            if(it){
+                requestedOrientation = SCREEN_ORIENTATION_FULL_SENSOR
+            }else{
+                requestedOrientation = SCREEN_ORIENTATION_NOSENSOR
+            }
+        })
         c5.onRendered {
             slotViews = SlotViews(rootLayout) { seatNo ->
                 if (plan.mode == "REAL") {
@@ -152,6 +161,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 }
             }
 
+            slotViews.isLandscape = orientation == Configuration.ORIENTATION_LANDSCAPE
+            vm.isLandscape = slotViews.isLandscape
+            drawer_layout.closeDrawers()
             slotViews.totalSlots = plan.max_players
 
             val cWidth = it.width / 1.5f
@@ -159,8 +171,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             mc2.widthHeightRaw(cWidth)
             mc2.marginsRaw(left = (cWidth / 1.5).toInt())
 
-            replaceFragment(gamePreferencesFragment, R.id.settingsFragment)
-            replaceFragment(SelectThemesFragment(), R.id.themeSelectFragment)
+            replaceFragment(gamePreferencesFragment, R.id.settingsFragment, true)
+            replaceFragment(SelectThemesFragment(), R.id.themeSelectFragment, true)
 
             settings.onOneClick {
                 gamePreferencesFragment.type = "settings"
@@ -196,9 +208,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     previous.invalidate()
 
                     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        ivTable.loadImage(theme.table)
+                        ivTable.loadImage(theme.landscapeTable)
                     } else {
-                        val matrix = Matrix()
+                        ivTable.loadImage(theme.portraitTable)
+                        /*val matrix = Matrix()
                         matrix.postRotate(90f)
                         val myImg = BitmapFactory.decodeResource(resources, theme.table)
 
@@ -207,7 +220,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             matrix, true
                         )
 
-                        ivTable.setImageBitmap(rotated)
+                        ivTable.setImageBitmap(rotated)*/
                     }
                 }
             })
@@ -215,6 +228,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.tableSlotsLD.observe(this, Observer {
                 slotViews.isJoined = vm.mySlot != null
 
+                log("Poker::tableSlotsLD", "slots:/n" +it)
                 if (vm.mySlot != null) {
 
                     when (vm.mySlot!!.status) {
@@ -241,7 +255,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.gameTriggerLD.observe(this, Observer {
 
                 it?.let {
-                    gameIDTV.text = it.game_uid
+                    if(vm.isLandscape){
+                        gameIDTV.text = it.game_uid
+                    }else{
+                        portrait_gameIDTV.text = it.game_uid
+                    }
+
 //                gameIDTV.invalidate()
 
                     /*gamePreferencesFragment.dismissExitLobbyDialog()
@@ -264,10 +283,16 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     messageFL.visibility = VISIBLE
 
+                    if (vm.isCommunityCardsOpened) {
+                        totalPot.visibility = VISIBLE
+                    }
                     if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer)) {
                         leaderboardView.visibility = GONE
 
                         bottomPannel.visibility = INVISIBLE
+                        if(!vm.isLandscape && bottomPannel1!=null){
+                            bottomPannel1.visibility = INVISIBLE
+                        }
                         community_cards_ll.visibility = INVISIBLE
                         user_cards_fl.visibility = INVISIBLE
                         totalPot.visibility = INVISIBLE
@@ -354,6 +379,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         sitOutCB.visibility = GONE
                     }
                     bottomPannel.visibility = VISIBLE
+                    if(!vm.isLandscape && bottomPannel1!=null){
+                        bottomPannel1.visibility = VISIBLE
+                    }
                     community_cards_ll.visibility = VISIBLE
 
                     c1.coloredCard(it.card_1)
@@ -368,7 +396,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 val slots = vm.tableSlotsLD.value
 
 //            val potSplitPadding = dpToPx(15).toFloat()
-                val potSplitTop = dpToPx(40).toFloat()
+                val potSplitTopLandscape = dpToPx(40).toFloat()
+                val potSplitTopPortrait = playArea.height/4
 
                 if (slots != null) {
                     slots.forEach { slot ->
@@ -384,12 +413,17 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 y = position.y + position.raiseAmt.mt
                                 text = String.format(
                                     "%.2f",
-                                    (slot.user!!.current_round_invested ?: 0.00)
+                                    slot.user!!.current_round_invested
                                 )
 
                                 animate().apply {
-                                    x(totalPot.x + playArea.paddingStart + totalPot.width / 2)
-                                    y(topMargin + potSplitTop)
+                                    log("poker::animatePots", "potAnim")
+                                    x(totalPot.x + playArea.paddingTop + totalPot.width / 2)
+                                    y(if(vm.isLandscape){
+                                        topMarginLandscape +  potSplitTopLandscape
+                                    }else{
+                                        topMarginPortrait + potSplitTopPortrait
+                                    })
 
                                     duration = 1000
                                     withEndAction {
@@ -397,6 +431,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                         try {
                                             if (it.total_pot_value > 0.0) {
                                                 totalPot.visibility = VISIBLE
+                                                vm.isCommunityCardsOpened = true
                                                 totalPot.text =
                                                     "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"
 
@@ -619,6 +654,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     return@Observer
 
                 bottomPannel.visibility = INVISIBLE
+                if(!vm.isLandscape && bottomPannel1!=null){
+                    bottomPannel1.visibility = INVISIBLE
+                }
 
                 slotViews.resetPlayers()
 
@@ -632,6 +670,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                 fun animatePots(potIndex: Int) {
                     if (pots.size > potIndex) {
+                        log("poker::animatePots", "potIndex : " +potIndex)
                         isPotAnimationDone = false
                         slotViews.crownTo(-1)
 
@@ -657,7 +696,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             text = c.text
                             setBackgroundColor(Color.parseColor("#AD000000"))
                             x = pot_split.x + c.x + playAreaPadding + potSplitPadding
-                            y = topMargin + potSplitTop
+                            y = topMarginLandscape + potSplitTop
                             z = 100f
                         }
 
@@ -818,6 +857,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     joinTableActions {
                         iAMBack.visibility = GONE
                         bottomPannel.visibility = VISIBLE
+                        if(!vm.isLandscape && bottomPannel1!=null){
+                            bottomPannel1.visibility = VISIBLE
+                        }
                     }
                 }
             }
@@ -827,9 +869,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     if (it) {
                         iAMBack.visibility = VISIBLE
                         bottomPannel.visibility = GONE
+                        if(!vm.isLandscape && bottomPannel1!=null){
+                            bottomPannel1.visibility = GONE
+                        }
                     } else {
                         iAMBack.visibility = GONE
                         bottomPannel.visibility = VISIBLE
+                        if(!vm.isLandscape && bottomPannel1!=null){
+                            bottomPannel1.visibility = VISIBLE
+                        }
                     }
                 }
             })
@@ -1123,6 +1171,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 dialog.dismiss()
                 vm.leaveTable()
                 socketInstance.removeSocketChangeListener(this)
+                vm.isCommunityCardsOpened = false
                 super.onBackPressed()
             } else {
                 dialog.dismiss()

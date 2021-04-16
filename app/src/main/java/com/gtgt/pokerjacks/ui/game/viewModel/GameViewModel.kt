@@ -9,10 +9,7 @@ import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.socket.ChannelCallbackType
 import com.gtgt.pokerjacks.socket.SocketIOViewModel
 import com.gtgt.pokerjacks.ui.game.models.*
-import com.gtgt.pokerjacks.ui.game.view.slot.slotPositionMap
-import com.gtgt.pokerjacks.ui.game.view.slot.slots2Positions
-import com.gtgt.pokerjacks.ui.game.view.slot.slots6PositionsTable
-import com.gtgt.pokerjacks.ui.game.view.slot.slots9Positions
+import com.gtgt.pokerjacks.ui.game.view.slot.*
 import com.gtgt.pokerjacks.utils.SlotPositions
 
 enum class ActionEvent(val event: String) {
@@ -60,6 +57,15 @@ class GameViewModel : SocketIOViewModel() {
     val leaderboardLD = MutableLiveData<Leaderboard>()
     val iamBackLD = MutableLiveData<Boolean>()
     val enableActions = MutableLiveData<Boolean>()
+    var isCommunityCardsOpened : Boolean = false
+    var isAutoRotateOn = MutableLiveData<Boolean>()
+    var isLandscape: Boolean = false
+    set(value) {
+        field = value
+        selectedSlotPositions?.let {
+             setSelectedSlotPositions(it?.size)
+        }
+    }
 
     var tableId: String = ""
         set(value) {
@@ -213,11 +219,7 @@ class GameViewModel : SocketIOViewModel() {
 
     private fun handleTableSlots(slots: List<TableSlot>, gameUsers: List<GameUser>) {
         if (selectedSlotPositions.isNullOrEmpty()) {
-            selectedSlotPositions = when (slots.size) {
-                9 -> slots9Positions
-                6 -> slots6PositionsTable
-                else -> slots2Positions
-            }
+           setSelectedSlotPositions(slots.size)
         }
 
         me = gameUsers.find { it.user_unique_id == userId }
@@ -243,8 +245,23 @@ class GameViewModel : SocketIOViewModel() {
         tableSlotsLD.data = slots
     }
 
+    private fun setSelectedSlotPositions(size: Int) {
+        selectedSlotPositions =  when (size) {
+            9 -> slots9Positions
+            6 -> if(isLandscape){
+                log("poker::handleTableSlots" , "isLandscape : " +isLandscape)
+                slots6PositionsTable
+            }else{
+                log("poker::handleTableSlots" , "isLandscape : " +isLandscape)
+                slots6PortraitPositionsTable
+            }
+            else -> slots2Positions
+        }
+    }
+
     var connectionData: JsonElement? = null
     fun connectTable() {
+        log("poker::connectTable()", "connectTable");
         emit<JsonElement>("connectTable", jsonObject("table_id" to tableId)) {
             connectionData = it
 
@@ -278,7 +295,9 @@ class GameViewModel : SocketIOViewModel() {
         emit<JsonElement>(
             "getHandStrength", jsonObject(
                 "table_id" to tableId,
-                "game_id" to gameDetailsLD.data!!._id
+                "game_id" to gameDetailsLD.data?.let {
+                    gameDetailsLD.data!!._id
+                }
             )
         )
     }

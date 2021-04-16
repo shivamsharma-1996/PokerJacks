@@ -26,7 +26,6 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
             field = value
             resetPlayers()
         }
-
     private val context = rootLayout.context
     private val userId = retrieveString("USER_ID")
 //    private var animateTimer: CustomCountDownTimer? = null
@@ -34,14 +33,27 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
     val slotViews = mutableMapOf<Int, View>()
     private val slots = mutableMapOf<Int, TableSlot>()
 
-    private val topMargin = dpToPx(38)
-    private val leftMargin = dpToPx(60)
+    private var topMargin = dpToPx(38)
+    private var leftMargin = dpToPx(60)
     private val playerSize = dpToPx(63).toFloat()
     private val meSlotSize = dpToPx(70).toFloat()
     private val roundingSize = dpToPx(5).toFloat()
     private val tableWidth = rootLayout.width.toFloat()
     private val tableHeight = rootLayout.playArea.height.toFloat()
     private lateinit var mySlotBottom: SlotPosition
+
+    var isLandscape = false
+        set(value) {
+            field = value
+            if (field) {
+                topMargin = dpToPx(38)
+                leftMargin = dpToPx(60)
+            } else {
+                topMargin = dpToPx(50)
+                leftMargin = dpToPx(32)
+            }
+        }
+
 
     var usersBestHand: List<UsersBestHand>? = null
 
@@ -71,6 +83,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     slotViews[it] = v
                 }
 
+                //LANDSCAPE
                 mySlotBottom = makeSlotPositions(
                     playerSize,
                     topMargin,
@@ -78,7 +91,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     tableWidth,
                     tableHeight,
                     roundingSize,
-                    meSlotSize
+                    meSlotSize,
+                    isLandscape
                 )
             }
         }

@@ -155,7 +155,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.game.GameActivity"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="nosensor" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
