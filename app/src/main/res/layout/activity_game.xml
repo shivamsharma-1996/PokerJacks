@@ -369,7 +369,7 @@
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingBottom="2dp"
@@ -506,9 +506,9 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="35dp"
-            android:layout_marginEnd="20dp"
-            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="2dp"
             android:visibility="visible">
@@ -517,27 +517,21 @@
                 android:id="@+id/joinBBcb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:background="@drawable/stroke_cb"
                 android:button="@drawable/cb"
                 android:paddingStart="10dp"
                 android:paddingEnd="5dp"
                 android:text="Post BB"
-                android:visibility="invisible"
+                android:visibility="gone"
                 tools:ignore="RtlSymmetry" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <RadioGroup
+      <!--      <RadioGroup
                 android:id="@+id/auto_options_rg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal">-->
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/foldCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -545,11 +539,10 @@
                     android:button="@android:color/transparent"
                     android:drawableBottom="@drawable/cb_fold"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
                     android:text="Fold"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/fold_checkCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -557,11 +550,11 @@
                     android:button="@android:color/transparent"
                     android:drawableBottom="@drawable/cb_fold_check"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
+                    android:layout_marginStart="15dp"
                     android:text="Fold/Check"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/checkCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -570,11 +563,10 @@
                     android:button="@android:color/transparent"
                     android:drawableBottom="@drawable/cb_check"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
                     android:text="Check"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/callCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -583,11 +575,10 @@
                     android:button="@android:color/transparent"
                     android:drawableBottom="@drawable/cb_call"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
                     android:text="Call"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/checkOrCallAnyCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -596,11 +587,10 @@
                     android:button="@android:color/transparent"
                     android:drawableBottom="@drawable/cb_call"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
                     android:text="CallAny/Check"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/callAnyCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -609,10 +599,11 @@
                     android:button="@android:color/transparent"
                     android:drawableBottom="@drawable/cb_call"
                     android:gravity="center_horizontal"
-                    android:paddingEnd="15dp"
                     android:text="CallAny"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
+<!--
             </RadioGroup>
+-->
 
         </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.gtgt.pokerjacks.ui.game.view.slot
 
+import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -35,8 +36,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
     private var topMargin = dpToPx(38)
     private var leftMargin = dpToPx(60)
-    private val playerSize = dpToPx(63).toFloat()
-    private val meSlotSize = dpToPx(70).toFloat()
+    private var playerSize = dpToPx(63).toFloat()
+    private var meSlotSize = dpToPx(70).toFloat()
     private val roundingSize = dpToPx(5).toFloat()
     private val tableWidth = rootLayout.width.toFloat()
     private val tableHeight = rootLayout.playArea.height.toFloat()
@@ -149,6 +150,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     dealer.visibility = GONE
                 }
 
+                //if(!slot.status.equals(PlayerActions.))
                 if (userId == slot.user_unique_id) {
                     revealCards.visibility = GONE
                 } else {
@@ -167,11 +169,13 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     noPlayer.visibility = if (isJoined) GONE else VISIBLE
                     iv_userProfile.visibility = GONE
                     active_indication.visibility = GONE
+                    player_action.visibility = GONE
                     in_play_amt.text = "-"
                     raise_amt.visibility = GONE
                     name_inplay_group.visibility = GONE
                 } else {
                     noPlayer.visibility = GONE
+                    //player_action.visibility = GONE
                     iv_userProfile.visibility = VISIBLE
                     name_inplay_group.visibility = VISIBLE
 
@@ -222,6 +226,36 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 widthHeightRaw(WRAP_CONTENT, WRAP_CONTENT)
                 visibility = VISIBLE
 
+                if(slot.user!=null && slot.user!!.status.equals(PlayerActions.FOLD.name)){
+
+                }else{
+
+                }
+                if (slot.user != null/* slot.user!!.current_round_invested == 0.0 &&*/) {
+                    val status = slot.user!!.status
+                    when(status){
+                        PlayerActions.CHECK.name -> {
+                            player_action.visibility = VISIBLE
+                            player_action.setImageResource(R.drawable.ic_opponent_check_turn)
+                        }
+                        PlayerActions.FOLD.name -> {
+                            player_action.visibility = VISIBLE
+                            player_action.setImageResource(R.drawable.fold)
+                            iv_userProfile.alpha = 0.55f
+                            iv_userProfile.circleBackgroundColor = Color.parseColor("#000000")
+                            if (userId == slot.user_unique_id){
+                                meSlotSize = dpToPx(60).toFloat()
+                            }else{
+                                playerSize = dpToPx(53).toFloat()
+                            }
+                        }
+                        else -> {
+                            player_action.visibility = GONE
+                            meSlotSize = dpToPx(70).toFloat()
+                            playerSize = dpToPx(63).toFloat()
+                        }
+                    }
+                }
                 val slotPosition = if (isJoined && position == BOTTOM_CENTER) {
                     playerView.widthHeightRaw(meSlotSize, meSlotSize + dpToPx(20))
                     mySlotBottom
@@ -262,7 +296,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     slotPosition.revealCards.ml, slotPosition.revealCards.mt,
                     slotPosition.revealCards.mr, slotPosition.revealCards.mb
                 )
-
+                player_action.layoutGravity(slotPosition.playerAction)
                 dealer.layoutGravity(slotPosition.deal)
 
                 /*if (slotPositionMap[slot.seat_no]!!.name.contains("RIGHT")) {
@@ -309,6 +343,9 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
                 it.value.revealCards.getChildAt(0).alpha = 1f
                 it.value.revealCards.getChildAt(1).alpha = 1f
+                it.value.player_action.visibility = GONE
+                it.value.iv_userProfile.alpha = 1f
+                it.value.iv_userProfile.circleBackgroundColor = 0
             }
             drawSlots(slots.values.toList())
         } catch (ex: Exception) {

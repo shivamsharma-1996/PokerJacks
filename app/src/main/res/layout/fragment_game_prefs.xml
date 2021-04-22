@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/options"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="vertical">
 
             <com.gtgt.pokerjacks.components.GameRadioMenu
@@ -117,13 +117,13 @@
                 app:normalIcon="@drawable/game_menu_vibrate_on"
                 app:name="Vibration" />
 
-            <com.gtgt.pokerjacks.components.GameMenu
+            <!--<com.gtgt.pokerjacks.components.GameMenu
                 android:id="@+id/autorotatePref"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:disabledIcon="@drawable/game_menu_autorotate_on"
                 app:normalIcon="@drawable/game_menu_autorotate_on"
-                app:name="Auto rotate" />
+                app:name="Auto rotate" />-->
         </LinearLayout>
 
     </RelativeLayout>

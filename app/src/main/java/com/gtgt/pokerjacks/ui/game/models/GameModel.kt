@@ -113,7 +113,7 @@ data class PlayerTurn(
     val player_grace_timer: Long,
     val player_turn: String,
     val current_bettor_position: Int,
-    val allin_amount: Int
+    val allin_amount: Double
 //    val total_pot_value: Double
 )
 

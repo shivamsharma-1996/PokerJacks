@@ -1,5 +1,7 @@
 package com.gtgt.pokerjacks.ui.game.viewModel
 
+import android.view.View
+import android.widget.CheckBox
 import androidx.lifecycle.MutableLiveData
 import com.github.salomonbrys.kotson.*
 import com.google.gson.JsonElement
@@ -57,8 +59,10 @@ class GameViewModel : SocketIOViewModel() {
     val leaderboardLD = MutableLiveData<Leaderboard>()
     val iamBackLD = MutableLiveData<Boolean>()
     val enableActions = MutableLiveData<Boolean>()
+    var totalPotAmount : String? = null
     var isCommunityCardsOpened : Boolean = false
     var isAutoRotateOn = MutableLiveData<Boolean>()
+    var autoActionView: CheckBox? = null
     var isLandscape: Boolean = false
     set(value) {
         field = value
@@ -312,8 +316,10 @@ class GameViewModel : SocketIOViewModel() {
 
     fun autoGameAction(
         action: AutoGameAction,
+        enable: Boolean = true,
         callback: ChannelCallbackType<JsonElement?>
     ) {
+        log("poker::autoGameAction", "enable : $enable")
         emit(
             "autoGameAction",
             jsonObject(
@@ -321,7 +327,7 @@ class GameViewModel : SocketIOViewModel() {
                 "game_id" to gameDetailsLD.data!!._id,
                 "action_details" to jsonObject(
                     "action" to action.action,
-                    "enable" to true
+                    "enable" to enable
                 )
             ),
             callback = callback

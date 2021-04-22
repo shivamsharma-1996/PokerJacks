@@ -63,8 +63,8 @@ class GamePreferencesFragment : BaseFragment() {
         if (!vm.vibrate) {
             vibratePref.toggle()
         }
-        if (!vm.autoRotate) {
-            autorotatePref.toggle()
+        if (vm.autoRotate) {
+            auto_rotate.toggle()
         }
         gameVm.isAutoRotateOn.value = vm.autoRotate
         gameVm.userDetailsLD.observe(viewLifecycleOwner, Observer {
@@ -99,6 +99,11 @@ class GamePreferencesFragment : BaseFragment() {
             isColorDeckEnabled = color_deck.toggle()
         }
 
+        auto_rotate.setOnClickListener{
+            vm.autoRotate = auto_rotate.toggle()
+            gameVm.isAutoRotateOn.value = vm.autoRotate
+        }
+
         theme_menu.onOneClick {
             activity?.onBackPressed()
             themesVm.openThemeSwitcher()
@@ -117,11 +122,6 @@ class GamePreferencesFragment : BaseFragment() {
             vm.vibrate = vibratePref.toggle()
         }
 
-        autorotatePref.setOnClickListener {
-            vm.autoRotate = autorotatePref.toggle()
-            gameVm.isAutoRotateOn.value = vm.autoRotate
-        }
-
         val settingsVector = VectorChildFinder(context, R.drawable.settings, settings)
         val menuVector = VectorChildFinder(context, R.drawable.menu, menu)
         themesVm.onThemeSelected.observe(viewLifecycleOwner, Observer { theme ->
@@ -131,7 +131,7 @@ class GamePreferencesFragment : BaseFragment() {
                 vibratePref.iconBg = theme.iconSolidDrawable
                 theme_menu.iconBg = theme.iconSolidDrawable
                 refill_menu.iconBg = theme.iconSolidDrawable
-                autorotatePref.iconBg = theme.iconSolidDrawable
+                //autorotatePref.iconBg = theme.iconSolidDrawable
 
                 color_deck.iconBg = theme.iconSolidDrawable
                 auto_muck.iconBg = theme.iconSolidDrawable
@@ -147,14 +147,4 @@ class GamePreferencesFragment : BaseFragment() {
             }
         })
     }
-
-/*    private fun updateUI() {
-        gameVm.currentOrientation.observe(viewLifecycleOwner, Observer { isLandscape ->
-            if(isLandscape){
-                orientationPref.setTitle("Portrait")
-            }else{
-                orientationPref.setTitle("Landscape")
-            }
-        })
-    }*/
 }

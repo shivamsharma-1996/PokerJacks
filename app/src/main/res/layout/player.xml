@@ -88,6 +88,17 @@
             android:textColor="@color/black"
             android:visibility="gone" />
 
+        <ImageView
+            android:id="@+id/player_action"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end|center"
+            android:gravity="center"
+            android:tag="player_action_tag"
+            android:src="@drawable/ic_opponent_check_turn"
+            android:textColor="@color/black"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/name_inplay_group"
             android:layout_width="match_parent"
