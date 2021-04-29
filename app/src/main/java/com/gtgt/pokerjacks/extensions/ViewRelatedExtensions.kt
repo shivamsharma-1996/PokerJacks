@@ -1,5 +1,6 @@
 package com.gtgt.pokerjacks.extensions
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.res.Resources
@@ -20,6 +21,9 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.gtgt.pokerjacks.R
+import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.player.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -43,6 +47,27 @@ fun View.onRendered(callback: (View) -> Unit) {
             }
         })
     }
+}
+
+fun View.blurOut(){
+    this.alpha = 0.40f
+    (this as CircleImageView).circleBackgroundColor = Color.TRANSPARENT
+}
+
+fun View.resizeAnimation(newWidth: Int, newHeight: Int, animDuration:Long) {
+    val anim =
+        ValueAnimator.ofInt(
+            this.measuredHeight,
+            (newHeight))
+    anim.addUpdateListener { valueAnimator ->
+        val animatedValue = valueAnimator.animatedValue as Int
+        val layoutParams = this.layoutParams
+        layoutParams.height = animatedValue
+        layoutParams.width = newWidth
+        this.layoutParams = layoutParams
+    }
+    anim.duration = animDuration
+    anim.start()
 }
 
 /*fun View.onEveryRendered(callback: (View) -> Unit) {

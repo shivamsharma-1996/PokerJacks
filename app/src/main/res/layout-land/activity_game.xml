@@ -17,9 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="@dimen/_60sdp"
-            android:paddingTop="@dimen/_38sdp"
+            android:paddingTop="@dimen/_40sdp"
             android:paddingEnd="@dimen/_60sdp"
-            android:paddingBottom="@dimen/_45sdp"
+            android:paddingBottom="@dimen/_30sdp"
             android:scaleType="fitXY"
             android:src="@drawable/landscape_blue_table" />
 
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_27sdp"
                     android:background="@drawable/pot_text_bg"
                     android:backgroundTint="#38000000"
                     android:gravity="center_horizontal"
@@ -153,7 +153,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
                     android:background="@drawable/pot_text_bg"
                     android:backgroundTint="#38000000"
                     android:gravity="center_horizontal"
@@ -166,63 +166,71 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/_7sdp"
-                    android:layout_marginBottom="@dimen/_30sdp"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/community_cards_ll"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="0.5"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal"
+                        android:layout_weight="0.6"
                         android:visibility="invisible">
 
                         <ImageView
                             android:id="@+id/c1"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:maxWidth="@dimen/_60sdp"
+                            android:maxWidth="@dimen/_70sdp"
                             android:adjustViewBounds="true"
-                            android:src="@drawable/deck_card" />
+                            android:src="@drawable/deck_card"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/c2"/>
 
                         <ImageView
                             android:id="@+id/c2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:maxWidth="@dimen/_60sdp"
-                            android:layout_marginStart="10dp"
+                            android:maxWidth="@dimen/_70sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
                             android:adjustViewBounds="true"
-                            android:src="@drawable/deck_card" />
+                            android:src="@drawable/deck_card"
+                            app:layout_constraintStart_toEndOf="@+id/c1"
+                            app:layout_constraintEnd_toStartOf="@+id/c3"/>
 
                         <ImageView
                             android:id="@+id/c3"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="10dp"
-                            android:maxWidth="@dimen/_60sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:maxWidth="@dimen/_70sdp"
                             android:adjustViewBounds="true"
-                            android:src="@drawable/deck_card" />
+                            android:src="@drawable/deck_card"
+                            app:layout_constraintStart_toEndOf="@+id/c2"
+                            app:layout_constraintEnd_toStartOf="@+id/c4"/>
 
                         <ImageView
                             android:id="@+id/c4"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="@dimen/_5sdp"
                             android:adjustViewBounds="true"
-                            android:maxWidth="@dimen/_60sdp"
-                            android:src="@drawable/deck_card" />
+                            android:maxWidth="@dimen/_70sdp"
+                            android:src="@drawable/deck_card"
+                            app:layout_constraintStart_toEndOf="@+id/c3"
+                            app:layout_constraintEnd_toStartOf="@+id/c5"/>
 
                         <ImageView
                             android:id="@+id/c5"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="@dimen/_5sdp"
                             android:adjustViewBounds="true"
-                            android:maxWidth="@dimen/_60sdp"
-                            android:src="@drawable/deck_card" />
+                            android:maxWidth="@dimen/_70sdp"
+                            android:src="@drawable/deck_card"
+                            app:layout_constraintStart_toEndOf="@+id/c4"
+                            app:layout_constraintEnd_toEndOf="parent"/>
 
-                    </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <FrameLayout
                         android:id="@+id/user_cards_fl"
@@ -239,14 +247,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:adjustViewBounds="true"
-                            android:maxWidth="@dimen/_60sdp"
+                            android:maxWidth="@dimen/_70sdp"
                             android:src="@drawable/deck_card" />
 
                         <ImageView
                             android:id="@+id/mc2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:maxWidth="@dimen/_60sdp"
+                            android:maxWidth="@dimen/_70sdp"
                             android:adjustViewBounds="true"
                             android:src="@drawable/deck_card" />
                         <!--
@@ -481,6 +489,7 @@
                     android:textSize="13dp" />
             </LinearLayout>
 
+<!--
             <LinearLayout
                 android:id="@+id/raiseBtnLL"
                 android:layout_width="wrap_content"
@@ -506,6 +515,7 @@
                     android:textAllCaps="false"
                     android:textSize="13dp"/>
             </LinearLayout>
+-->
             <LinearLayout
                 android:id="@+id/raiseBtnLL"
                 android:layout_width="wrap_content"
@@ -651,7 +661,7 @@
             android:layout_height="32dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="7dp"
+            android:layout_marginBottom="5dp"
             android:padding="0dp"
             android:text="I am Back"
             android:textSize="13dp"

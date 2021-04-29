@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.os.ResultReceiver
 import android.view.LayoutInflater
+import android.view.View
 import android.view.View.*
 import android.widget.CheckBox
 import android.widget.SeekBar
@@ -40,6 +41,7 @@ import kotlinx.android.synthetic.main.byin_popup.view.insufficient
 import kotlinx.android.synthetic.main.byin_popup.view.join
 import kotlinx.android.synthetic.main.join_status_popup.view.*
 import kotlinx.android.synthetic.main.player.*
+import kotlinx.android.synthetic.main.player.view.*
 import kotlinx.android.synthetic.main.raise_amt.*
 import java.lang.Math.abs
 
@@ -170,7 +172,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             updatePotAmount()
 
-            val cWidth = it.width / 1.5f
+            val cWidth = it.width / 1.3f
             mc1.widthHeightRaw(cWidth)
             mc2.widthHeightRaw(cWidth)
             mc2.marginsRaw(left = (cWidth / 1.5).toInt())
@@ -824,6 +826,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             slotViews.resetPlayers()
                             mc1.setImageResource(R.drawable.deck_card)
                             mc2.setImageResource(R.drawable.deck_card)
+
+                            if (vm.mySlot != null) {
+                              vm.mySlot!!.seat_no.apply {
+                                  slotViews.animateSelfView(PlayerActions.FOLD, vm.mySlot!!.seat_no)
+                              }
+                            }
                         } else {
                             showSnack(it["description"].string)
                         }

@@ -59,6 +59,8 @@ class GameViewModel : SocketIOViewModel() {
     val leaderboardLD = MutableLiveData<Leaderboard>()
     val iamBackLD = MutableLiveData<Boolean>()
     val enableActions = MutableLiveData<Boolean>()
+    var tableSlots : List<TableSlot>? = null
+    var gameUsers : List<GameUser>? = null
     var totalPotAmount : String? = null
     var isCommunityCardsOpened : Boolean = false
     var isAutoRotateOn = MutableLiveData<Boolean>()
@@ -67,7 +69,9 @@ class GameViewModel : SocketIOViewModel() {
     set(value) {
         field = value
         selectedSlotPositions?.let {
-             setSelectedSlotPositions(it?.size)
+            if(tableSlots!=null && gameUsers!=null){
+                handleTableSlots(tableSlots!!, gameUsers!!)
+            }
         }
     }
 
@@ -105,6 +109,8 @@ class GameViewModel : SocketIOViewModel() {
             }
 
             on<TablePlayers>("tablePlayers") {
+                tableSlots = it.tableSlots
+                gameUsers = it.gameUsers
                 handleTableSlots(it.tableSlots, it.gameUsers)
             }
 
@@ -163,7 +169,8 @@ class GameViewModel : SocketIOViewModel() {
                 when (it["event"].string) {
                     "endGame" -> {
                         val gameInfo = data.to<GameModel.Info>()
-
+                        tableSlots = gameInfo.tableSlots
+                        gameUsers = gameInfo.gameUsers
                         handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
 
                         if (gameInfo.canCreateNewGame) {
@@ -222,9 +229,7 @@ class GameViewModel : SocketIOViewModel() {
     }
 
     private fun handleTableSlots(slots: List<TableSlot>, gameUsers: List<GameUser>) {
-        if (selectedSlotPositions.isNullOrEmpty()) {
-           setSelectedSlotPositions(slots.size)
-        }
+        setSelectedSlotPositions(slots.size)
 
         me = gameUsers.find { it.user_unique_id == userId }
 
@@ -235,7 +240,6 @@ class GameViewModel : SocketIOViewModel() {
 
             slots.forEachIndexed { i, slot ->
                 slot.user = gameUsers.firstOrNull { it.user_unique_id == slot.user_unique_id }
-
                 slotPositionMap[currentSlot.seat_no] = selectedSlotPositions!![i]
                 currentSlot = currentSlot.next(slots)
             }
@@ -254,6 +258,7 @@ class GameViewModel : SocketIOViewModel() {
             9 -> slots9Positions
             6 -> if(isLandscape){
                 log("poker::handleTableSlots" , "isLandscape : " +isLandscape)
+
                 slots6PositionsTable
             }else{
                 log("poker::handleTableSlots" , "isLandscape : " +isLandscape)
@@ -280,7 +285,8 @@ class GameViewModel : SocketIOViewModel() {
                     val gameInfo = data.info
                     gameTriggerLD.data = gameInfo.gameDetails
                     userContestDetailsLD.data = gameInfo.userContestDetails
-
+                    tableSlots = gameInfo.tableSlots
+                    gameUsers = gameInfo.gameUsers
                     handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
                     socketIO.socketHandler.postDelayed({
                         playerTurnLD.data = gameInfo.playerTurn
