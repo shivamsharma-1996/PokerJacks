@@ -73,7 +73,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     v.visibility = GONE
                     rootLayout.addView(v)
 
-                    v.onOneClick {
+                    v.playerView.onOneClick {
                         if (!isJoined) {
                             val slotPosition = v.tag as Int
                             if (slots[slotPosition]!!.status == TableSlotStatus.VACANT.name) {
@@ -190,6 +190,10 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         active_indication.visibility = VISIBLE
                         active_indication.setImageResource(
                             when (slot.status) {
+                                SeatStatus.WAIT_FOR_BB.name, SeatStatus.WAIT_FOR_NEXT.name -> {
+                                    iv_userProfile.blurOut()
+                                    R.drawable.waiting
+                                }
                                 SeatStatus.SIT_OUT.name -> {
                                     iv_userProfile.blurOut()
                                     R.drawable.sitout
