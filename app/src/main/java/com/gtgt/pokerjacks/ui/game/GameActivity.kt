@@ -78,6 +78,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         )
     }
 
+    private var isAmountRaisedViaBtn = false
     private lateinit var slotViews: SlotViews
     private val vm: GameViewModel by viewModel()
     private val preferencesvm: GamePreferencesViewModel by viewModel()
@@ -375,7 +376,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.gameDetailsLD.observe(this, Observer {
                 it?.let {
                     disableEnableActions(true)
-
+                    log("poker::gameDetailsLD", it)
                     slotViews.dealerPosition = it.dealer_position
 
                     gameTriggerTimer?.stop()
@@ -401,7 +402,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             vm.dealCommunityCardsLD.observe(this, Observer {
                 val slots = vm.tableSlotsLD.value
-                log("poker::dealCommunityCardsLD", "dealCommunityCardsLD : ${slots.toString()}")
+                log("poker::dealCommunityCardsLD", "dealCommunityCardsLD : ${it.toString()}")
 //            val potSplitPadding = dpToPx(15).toFloat()
                 val potSplitTopLandscape = dpToPx(40).toFloat()
                 val potSplitTopPortrait = playArea.height / 4
@@ -487,7 +488,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     c2.coloredCard(it.card_2)
                     c3.coloredCard(it.card_3)
                     c4.coloredCard(it.card_4)
-                    c5.coloredCard(it.card_5)
+                    //c5.coloredCard(it.card_5)
                     vm.getHandStrength()
                 }
             })
@@ -545,7 +546,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             callAnyCB.isChecked = false
                         }
 
-                        if (vm.mySlot!!.user!!.status.startsWith("AUTO_")) {
+                        if (vm.mySlot?.user!!.status.startsWith("AUTO_")) {
                             foldBtn.visibility = GONE
                             callLL.visibility = GONE
                             raiseBtnLL.visibility = GONE
@@ -584,20 +585,24 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         seek_raise.max = ((maxPossibleRaise - minPossibleRaise) * 100).toInt()
 
                         pot_raise.onOneClick {
-                            seek_raise.progress =
-                                ((minPossibleRaise) * 100).toInt()
+                            /*seek_raise.progress =
+                                ((minPossibleRaise) * 100).toInt()*/
+                            onSeekChangeBtnClicked(it.full_pot_value)
+
                         }
                         raise_3_4.onOneClick {
-                            seek_raise.progress =
-                                ((minPossibleRaise) * 300 / 4).toInt()
+//                                ((minPossibleRaise) * 300 / 4).toInt()
+                            onSeekChangeBtnClicked(it.three_fourth_pot_value)
                         }
                         raise_1_2.onOneClick {
-                            seek_raise.progress = ((minPossibleRaise) * 50).toInt()
+                           // seek_raise.progress = ((minPossibleRaise) * 50).toInt()
+                            onSeekChangeBtnClicked(it.half_pot_value)
                         }
 
 
                         min_raise.onOneClick {
-                            seek_raise.progress = 0
+                            //seek_raise.progress = 0
+                            onSeekChangeBtnClicked(it.current_min_raise)
                         }
 
                         max_raise.onOneClick {
@@ -620,9 +625,13 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 fromUser: Boolean
                             ) {
                                 log("minPossibleRaiseprogress", progress)
-                                raiseBtn.text =
-                                    "₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
-                                raiseBtn.tag = (progress / 100.0 + minPossibleRaise)
+                                if(isAmountRaisedViaBtn == false){
+                                    raiseBtn.text =
+                                        "₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
+                                    raiseBtn.tag = (progress / 100.0 + minPossibleRaise)
+                                }else{
+                                    isAmountRaisedViaBtn = false  //resetting the value
+                                }
                             }
 
                             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -696,11 +705,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 if (leaderboard == null)
                     return@Observer
 
+                log("poker::leaderboardLD", leaderboard)
                 bottomPannel.visibility = INVISIBLE
                 if (!vm.isLandscape && bottomPannel1 != null) {
                     bottomPannel1.visibility = INVISIBLE
                 }
 
+                if(leaderboard.cards_reveal){
+                    c5.coloredCard(leaderboard.community_cards.card_5)
+                }
                 slotViews.resetPlayers()
 
                 pot_split.visibility = VISIBLE
@@ -978,6 +991,13 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 vm.autoGameAction(AutoGameAction.AUTO_CALL_ANY, callAnyCB.isChecked) {}
             }
         }
+    }
+
+    private fun onSeekChangeBtnClicked(newAmount: Double) {
+        isAmountRaisedViaBtn = true
+        seek_raise.progress = newAmount.toInt()
+        raiseBtn.text = "₹${(newAmount).toDecimalFormat()}"
+        raiseBtn.tag = newAmount
     }
 
     private fun updatePotAmount(amount: String? = vm.totalPotAmount) {

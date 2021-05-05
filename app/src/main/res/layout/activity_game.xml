@@ -619,17 +619,18 @@
 
         <FrameLayout
             android:id="@+id/messageFL"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:layout_width="@dimen/_165sdp"
+            android:layout_height="@dimen/_85sdp"
             android:visibility="invisible"
             android:layout_centerInParent="true"
             android:translationZ="10dp">
 
             <ImageView
                 android:id="@+id/gameInfoIv"
-                android:layout_width="400dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_165sdp"
+                android:layout_height="@dimen/_85sdp"
                 android:alpha="0.4"
+                android:scaleType="fitXY"
                 android:src="@drawable/game_info_bg"
                 android:tint="#000" />
 
@@ -637,16 +638,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="2dp">
 
                 <TextView
                     android:id="@+id/waitingTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="Waiting for other players to join,"
                     android:textColor="@color/white"
-                    android:textSize="20dp" />
+                    android:textSize="14sp"
+                    android:visibility="invisible"
+                    android:lineSpacingExtra="5sp"/>
 
                 <TextView
                     android:id="@+id/gameStartsTimer"
@@ -654,9 +662,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Game starts in"
+                    android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="20dp"
-                    android:visibility="gone" />
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="5sp"                    android:visibility="gone" />
             </LinearLayout>
         </FrameLayout>
 
