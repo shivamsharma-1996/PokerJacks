@@ -117,7 +117,7 @@ fun makeSlotPositions(
                 ml = (playerMargin / 2) + dpToPx(2)
             ),
             crown = Position(
-                ml = (playerSize / 4 + (playerSize - crownWidth) / 4).toInt(),
+                ml = (playerSize / 4 + (playerSize - crownWidth) / 2).toInt(),
                 mt = (roundingSize * 2).toInt()
             ),
             revealCards = Position(ml = (playerSize / 4 + playerSize).toInt()),
@@ -150,7 +150,7 @@ fun makeSlotPositions(
     } else {
         slotPositions[LEFT_TOP] = SlotPosition(
             x = leftMargin.toFloat(),
-            y = 2 * playerSize + leftMargin - inPlayWidth, //copied from left_bottom
+            y = 1.8f * playerSize + leftMargin - inPlayWidth,
             player = Position(
                 ml = (playerSize / 4).toInt(),
                 mb = playerMargin
@@ -227,12 +227,12 @@ fun makeSlotPositions(
     } else {
         slotPositions[RIGHT_TOP] =
             SlotPosition(
-                x = tableWidth - 1.5f * playerSize - leftMargin - inPlayWidth,
-                y = 2 * playerSize + leftMargin - inPlayWidth,
+                x = tableWidth - 1.5f * playerSize - leftMargin - inPlayWidth ,
+                y = 1.8f * playerSize + leftMargin - inPlayWidth,
                 player = Position(ml = (playerSize / 4 + inPlayWidth).toInt(), mr = inPlayWidth/4),
                 revealCards = Position(ml = (inPlayWidth - playerSize/2.5).toInt(), mt = -cardHeight / 6),
                 crown = Position(
-                    ml = (playerSize / 3.5 + inPlayWidth + (playerSize - crownWidth) / 2).toInt()
+                    ml = (playerSize / 4 + inPlayWidth + (playerSize - crownWidth) / 2).toInt()
                 ),
                 inPlay = Position(ml = playerSize.toInt() + inPlayWidth / 2, mt = topMargin / 4),
                 raiseAmt = Position(
@@ -475,7 +475,7 @@ fun makeSlotPositions(
                 player = Position(ml = (playerMargin / 2) + dpToPx(2),
                      mt = inPlayHeight / 2),
                 crown = Position(
-                    ml = (playerSize / 4 + (playerSize - crownWidth) / 4).toInt(),
+                    ml = (playerSize / 4 + (playerSize - crownWidth) / 2).toInt(),
                     mt = (roundingSize * 3).toInt()
                 ),
                 revealCards = Position(
@@ -534,7 +534,7 @@ fun makeSlotPositions(
                     mb = playerMargin
                 ),
                 crown = Position(
-                    ml = (playerSize / 4 + (playerSize - crownWidth) / 4).toInt(),
+                    ml = (playerSize / 4 + (playerSize - crownWidth) / 2).toInt(),
                     mt = (roundingSize * 3).toInt()
                 ),
                 revealCards = Position(
@@ -618,21 +618,21 @@ fun makeSlotPositions(
         )
     } else {
         return SlotPosition(
-            x = (tableWidth - meSlotSize) / 2,
+            x = (tableWidth - meSlotSize) / 2 -inPlayWidth/4,
             y = tableHeight - playerSize * 1.5f + topMargin / 2.5f,
-            player = Position(mt = topMargin),
+            player = Position(mt = topMargin,  ml = inPlayWidth/4, mr = inPlayWidth/4),
             crown = Position(
-                ml = ((meSlotSize - crownWidth) / 2f).toInt(),
+                ml = ((meSlotSize - crownWidth)).toInt(),
                 mt = (topMargin / 1.5).toInt()
             ),
             inPlay = Position(
                 mt = (meSlotSize - inPlayHeight / 1.5 + topMargin).toInt(),
                 ml = meSlotSize.toInt()
             ),
-            raiseAmt = Position(ml = meSlotSize.toInt(), mt = topMargin + playerMargin),
+            raiseAmt = Position(alignment = Gravity.TOP, ml = inPlayWidth/4 + roundingSize.toInt()),
             activeIndication = Gravity.START,
-            playerAction =  Position(Gravity.END or Gravity.CENTER),
-            deal = Position()
+            playerAction =  Position(alignment = Gravity.END or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2 + dpToPx(5)),
+            deal = Position(Gravity.BOTTOM or Gravity.START,mb = inPlayHeight - topMargin/2 + dpToPx(5))
         )
     }
 

@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.os.ResultReceiver
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.*
 import android.widget.CheckBox
 import android.widget.SeekBar
@@ -100,6 +99,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
 
         val orientation = resources.configuration.orientation
 
@@ -151,10 +151,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         raiseLL.z = 100f
 
         vm.isAutoRotateOn.observe(this, Observer {
-            if(it){
+            if (it) {
                 requestedOrientation = SCREEN_ORIENTATION_FULL_SENSOR
-            }else{
-                requestedOrientation = SCREEN_ORIENTATION_NOSENSOR
+            } else {
+                requestedOrientation = SCREEN_ORIENTATION_SENSOR_LANDSCAPE
             }
         })
         c5.onRendered {
@@ -173,10 +173,13 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             updatePotAmount()
 
-            val cWidth = it.width / 1.3f
+            var cWidth = it.width / 1.3f
+            mc2.marginsRaw(left = (cWidth / 1.5).toInt())
+            if(!vm.isLandscape){
+                cWidth = it.width.toFloat()
+            }
             mc1.widthHeightRaw(cWidth)
             mc2.widthHeightRaw(cWidth)
-            mc2.marginsRaw(left = (cWidth / 1.5).toInt())
 
             replaceFragment(gamePreferencesFragment, R.id.settingsFragment, true)
             replaceFragment(SelectThemesFragment(), R.id.themeSelectFragment, true)
@@ -240,7 +243,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     when (vm.mySlot!!.status) {
                         SeatStatus.SIT_OUT.status -> {
-                           // iAMBack.visibility = VISIBLE
+                            // iAMBack.visibility = VISIBLE
                         }
                         SeatStatus.ACTIVE.status -> {
                             joinBBcb.visibility = GONE
@@ -262,9 +265,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.gameTriggerLD.observe(this, Observer {
 
                 it?.let {
-                    if(vm.isLandscape){
+                    if (vm.isLandscape) {
                         gameIDTV.text = it.game_uid
-                    }else{
+                    } else {
                         portrait_gameIDTV.text = it.game_uid
                     }
 
@@ -412,7 +415,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         if (slot.user != null && slot.status == TableSlotStatus.ACTIVE.name) {
                             val slotPosition = slotViews.getPositionBySeatNumber(slot.seat_no)
                             val slotView = slotViews.slotViews[slot.seat_no]
-                            if(slot.user!!.current_round_invested != 0.0){
+                            if (slot.user!!.current_round_invested != 0.0) {
                                 val coinsTv = TextView(this)
                                 rootLayout.addView(coinsTv)
                                 coinsTv.apply {
@@ -467,9 +470,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                         start()
                                     }
                                 }
-                            }else{
+                            } else {
                                 //any slot has invested 0.0 money i.e. CHECK
-                               /*     val slotUserStatus = slot.user!!.status
+                                /*     val slotUserStatus = slot.user!!.status
                                 log("poker::check", "$slotUserStatus" + slot.user!!.seat_no)
                                 when(slotUserStatus){
                                     PlayerActions.CHECK.name ->
@@ -495,7 +498,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             vm.playerTurnLD.observe(this, Observer {
                 joinBBcb.visibility = GONE
-                log("poker::playerTurnLD" , "playerTurnLD : $it")
+                log("poker::playerTurnLD", "playerTurnLD : $it")
 
 //            log("playerTurnLD", it)
 
@@ -595,7 +598,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             onSeekChangeBtnClicked(it.three_fourth_pot_value)
                         }
                         raise_1_2.onOneClick {
-                           // seek_raise.progress = ((minPossibleRaise) * 50).toInt()
+                            // seek_raise.progress = ((minPossibleRaise) * 50).toInt()
                             onSeekChangeBtnClicked(it.half_pot_value)
                         }
 
@@ -625,11 +628,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 fromUser: Boolean
                             ) {
                                 log("minPossibleRaiseprogress", progress)
-                                if(isAmountRaisedViaBtn == false){
+                                if (isAmountRaisedViaBtn == false) {
                                     raiseBtn.text =
                                         "₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
                                     raiseBtn.tag = (progress / 100.0 + minPossibleRaise)
-                                }else{
+                                } else {
                                     isAmountRaisedViaBtn = false  //resetting the value
                                 }
                             }
@@ -711,7 +714,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     bottomPannel1.visibility = INVISIBLE
                 }
 
-                if(leaderboard.cards_reveal){
+                if (leaderboard.cards_reveal) {
                     c5.coloredCard(leaderboard.community_cards.card_5)
                 }
                 slotViews.resetPlayers()
@@ -876,6 +879,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 }
             }
 
+
             raiseBtn.onOneClick {
                 disableEnableActions(false)
                 vm.actionEvent(
@@ -888,7 +892,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             }
 
             sitOutCB.onOneClick {
-                vm.updateSeatStatus(if (sitOutCB.isChecked) SeatStatus.SIT_OUT else SeatStatus.ACTIVE) {
+                vm.updateSeatStatus(if (sitOutCB.isChecked) SeatStatus.SIT_OUT_NEXT else SeatStatus.ACTIVE) {
                     runOnMain {
                         if (it!!["success"].bool) {
                             /*iAMBack.visibility = VISIBLE

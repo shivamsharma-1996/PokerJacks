@@ -154,7 +154,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 if (slot.seat_no == dealerPosition) {
                     dealer.visibility = VISIBLE
                 } else {
-                    dealer.visibility = GONE
+                    //dealer.visibility = GONE
                 }
 
                 //if(!slot.status.equals(PlayerActions.))
@@ -176,7 +176,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     noPlayer.visibility = if (isJoined) GONE else VISIBLE
                     iv_userProfile.visibility = GONE
                     active_indication.visibility = GONE
-                    player_action.visibility = GONE
+                    //player_action.visibility = GONE
                     in_play_amt.text = "-"
                     raise_amt.visibility = GONE
                     name_inplay_group.visibility = GONE
@@ -194,14 +194,16 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                                     iv_userProfile.blurOut()
                                     R.drawable.waiting
                                 }
-                                SeatStatus.SIT_OUT.name -> {
+                                SeatStatus.SIT_OUT.name, SeatStatus.SIT_OUT_NEXT.name-> {
                                     iv_userProfile.blurOut()
                                     R.drawable.sitout
                                 }
                                 SeatStatus.ACTIVE.name -> R.drawable.active_indication
                                 else -> {
-                                    iv_userProfile.blurOut()
-                                    R.drawable.waiting
+                                    log("poker::active_indication", slot.status)
+                                    R.drawable.active_indication
+                                    /*iv_userProfile.blurOut()
+                                    R.drawable.waiting*/
                                 }
                             }
                         )
@@ -217,28 +219,30 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                                 (slot.user?.current_round_invested ?: 1234.00)
                             )
 
-                       /* val coin = when (slot.user!!.status) {
+                        val coin = when (slot.user!!.status) {
                             "ACTIVE" -> R.drawable.bet
-                            PlayerActions.CHECK.name -> R.drawable.check_small
-                            PlayerActions.FOLD.name -> R.drawable.fold_small
+                            /*PlayerActions.CHECK.name -> R.drawable.check_small
+                            PlayerActions.FOLD.name -> R.drawable.fold_small*/
                             PlayerActions.CALL.name -> R.drawable.call_small
-                            else -> R.drawable.raise
-                        }*/
-                        val coin = R.drawable.bet
-
-                        if (slotPositionMap[slot.seat_no]!!.name.contains("RIGHT")) {
-                            active_indication.layoutGravity(Gravity.END)
-                            active_indication.rotationY = 0f
-                            if(isLandscape)
-                            raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, coin, 0)
-                            else
-                                raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(coin, 0, coin, 0)
-                        } else {
-                            active_indication.layoutGravity(Gravity.START)
-                            active_indication.rotationY = 180f
-                            raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(coin, 0, 0, 0)
+                            PlayerActions.RAISE.name -> R.drawable.raise
+                            else -> null
                         }
 
+                        if(coin!=null){
+                            if (slotPositionMap[slot.seat_no]!!.name.contains("RIGHT")) {
+                                active_indication.layoutGravity(Gravity.END)
+                                active_indication.rotationY = 0f
+                                if(isLandscape)
+                                    raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,
+                                        coin, 0)
+                                else
+                                    raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(coin, 0, 0, 0)
+                            } else {
+                                active_indication.layoutGravity(Gravity.START)
+                                active_indication.rotationY = 180f
+                                raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(coin, 0, 0, 0)
+                            }
+                        }
                     } else {
                         raise_amt.visibility = GONE
                     }
@@ -273,7 +277,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                             }*/
                         }
                         else -> {
-                            player_action.visibility = GONE
+                          //  player_action.visibility = GONE
                         }
                     }
                 }
@@ -290,7 +294,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         animateView.stopAnim()
                         iv_userProfile.blurOut()
                         dealer.visibility = GONE
-                        player_action.visibility = VISIBLE
+                      //  player_action.visibility = VISIBLE
                         player_action.setImageResource(R.drawable.fold)
                         if (userId == slot.user_unique_id){
                             meSlotSize = dpToPx(63).toFloat()
@@ -444,7 +448,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
                 it.value.revealCards.getChildAt(0).alpha = 1f
                 it.value.revealCards.getChildAt(1).alpha = 1f
-                it.value.player_action.visibility = GONE
+               // it.value.player_action.visibility = GONE
                 it.value.dealer.visibility = GONE
                 it.value.iv_userProfile.alpha = 1f
                 it.value.iv_userProfile.circleBackgroundColor = 0

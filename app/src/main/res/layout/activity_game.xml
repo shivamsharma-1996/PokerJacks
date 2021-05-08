@@ -16,9 +16,9 @@
             android:id="@+id/ivTable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="@dimen/_32sdp"
+            android:paddingStart="@dimen/_30sdp"
             android:paddingTop="@dimen/_60sdp"
-            android:paddingEnd="@dimen/_32sdp"
+            android:paddingEnd="@dimen/_30sdp"
             android:paddingBottom="@dimen/_60sdp"
             android:scaleType="fitXY"
             android:src="@drawable/portrait_green_table" />
@@ -140,14 +140,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.2"/>
+                    app:layout_constraintGuide_percent="0.15"/>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.8"/>
+                    app:layout_constraintGuide_percent="0.85"/>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_top"
@@ -161,7 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_end="58dp" />
+                    app:layout_constraintGuide_end="50dp" />
 
                 <TextView
                     android:id="@+id/totalPot"
@@ -206,7 +206,6 @@
                     android:id="@+id/community_cards_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:visibility="invisible"
@@ -220,8 +219,8 @@
                         android:id="@+id/c1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
+                        android:maxWidth="@dimen/_40sdp"
+                        android:maxHeight="@dimen/_45sdp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/deck_card" />
 
@@ -229,9 +228,9 @@
                         android:id="@+id/c2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
-                        android:layout_marginStart="@dimen/_4sdp"
+                        android:maxWidth="@dimen/_35sdp"
+                        android:maxHeight="@dimen/_45sdp"
+                        android:layout_marginStart="@dimen/_3sdp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/deck_card" />
 
@@ -239,9 +238,9 @@
                         android:id="@+id/c3"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:maxWidth="@dimen/_35sdp"
+                        android:maxHeight="@dimen/_45sdp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/deck_card" />
 
@@ -249,20 +248,20 @@
                         android:id="@+id/c4"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_marginStart="@dimen/_3sdp"
                         android:adjustViewBounds="true"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
+                        android:maxWidth="@dimen/_35sdp"
+                        android:maxHeight="@dimen/_45sdp"
                         android:src="@drawable/deck_card" />
 
                     <ImageView
                         android:id="@+id/c5"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_marginStart="@dimen/_3sdp"
                         android:adjustViewBounds="true"
-                        android:maxWidth="@dimen/_30sdp"
-                        android:maxHeight="@dimen/_42sdp"
+                        android:maxWidth="@dimen/_35sdp"
+                        android:maxHeight="@dimen/_45sdp"
                         android:src="@drawable/deck_card" />
 
                 </LinearLayout>

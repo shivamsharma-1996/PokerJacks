@@ -26,6 +26,7 @@ enum class SeatStatus(val status: String) {
     WAIT_FOR_NEXT("WAIT_FOR_NEXT"),
     WAIT_FOR_BB("WAIT_FOR_BB"),
     SIT_OUT("SIT_OUT"),
+    SIT_OUT_NEXT("SIT_OUT_NEXT"),
     ACTIVE("ACTIVE")
 }
 
