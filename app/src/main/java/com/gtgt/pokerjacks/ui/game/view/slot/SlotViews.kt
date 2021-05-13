@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.extensions.*
+import com.gtgt.pokerjacks.ui.game.GameActivity
 import com.gtgt.pokerjacks.ui.game.models.PlayerTurn
 import com.gtgt.pokerjacks.ui.game.models.TableSlot
 import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
@@ -47,6 +48,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
     private val tableWidth = rootLayout.width.toFloat()
     private val tableHeight = rootLayout.playArea.height.toFloat()
     private lateinit var mySlotBottom: SlotPosition
+    private lateinit var meSlotBottom: TableSlot
+    var isRefillPopupVisible = false
 
     var isLandscape = false
         set(value) {
@@ -180,7 +183,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     in_play_amt.text = "-"
                     raise_amt.visibility = GONE
                     name_inplay_group.visibility = GONE
-                } else {
+                }
+                else {
                     noPlayer.visibility = GONE
                     //player_action.visibility = GONE
                     iv_userProfile.visibility = VISIBLE
@@ -282,6 +286,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     }
                 }
                 val slotPosition = if (isJoined && position == BOTTOM_CENTER) {
+                    meSlotBottom = slot
                     active_indication.visibility = GONE
                     if(slot.user!=null && slot.user!!.status.equals(PlayerActions.FOLD.name)){
                         //playerView.resizeAnimation(meSlotSize.toInt(), meSlotSize.toInt() + dpToPx(20), 1000L)
@@ -459,4 +464,44 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
         }
     }
 
+    fun checkCanRefillWallet(slots: List<TableSlot>){
+        slots.forEach { slot ->
+            log("checkCanRefill2", "checkCanRefillWallet")
+            val position = slotPositionMap[slot.seat_no]
+            if(!isRefillPopupVisible){
+                if(isJoined && position == BOTTOM_CENTER && slot.status.equals(TableSlotStatus.REFILL.name)){
+                    meSlotBottom = slot
+                    (context as GameActivity).showBuyInAlert(true, meSlotBottom.seat_no)
+                    isRefillPopupVisible = true
+                    log("checkCanRefill3", "checkCanRefillWallet")
+                }
+            }
+        }
+    }
+
+    fun resetGame(){
+        slotViews.forEach {
+            try {
+                if (slots[it.key]?.user_unique_id != "") {
+                    it.value.iv_userProfile.visibility = VISIBLE
+                }
+            }catch (ex : KotlinNullPointerException){
+
+            }
+            it.value.animateView.stopAnim()
+
+            it.value.revealCards.getChildAt(0).alpha = 1f
+            it.value.revealCards.getChildAt(1).alpha = 1f
+            it.value.revealCards.visibility = GONE
+            // it.value.player_action.visibility = GONE
+            it.value.iv_userProfile.alpha = 1f
+            it.value.iv_userProfile.circleBackgroundColor = 0
+            isFoldAnimated[it.key] = false
+
+            it.value.dealer.visibility = GONE
+            it.value.player_action.visibility = GONE
+            it.value.raise_amt.visibility = GONE
+            it.value.active_indication.visibility = GONE
+        }
+    }
 }

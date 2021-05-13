@@ -122,6 +122,11 @@ class GamePreferencesFragment : BaseFragment() {
             vm.vibrate = vibratePref.toggle()
         }
 
+        refill_menu.setOnClickListener {
+            gameVm.refillNextInPlayAmount = true
+            gameVm._refillInPlayAmount.postValue(true)
+        }
+
         val settingsVector = VectorChildFinder(context, R.drawable.settings, settings)
         val menuVector = VectorChildFinder(context, R.drawable.menu, menu)
         themesVm.onThemeSelected.observe(viewLifecycleOwner, Observer { theme ->

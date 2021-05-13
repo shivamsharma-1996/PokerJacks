@@ -182,7 +182,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_red"
                 android:gravity="center"
-                android:text="Join table" />
+                android:text="Join Table" />
 
         </LinearLayout>
     </LinearLayout>

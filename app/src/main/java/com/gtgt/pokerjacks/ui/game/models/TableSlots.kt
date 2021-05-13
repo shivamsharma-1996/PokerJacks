@@ -9,6 +9,7 @@ enum class TableSlotStatus(status: String) {
     INACTIVE("INACTIVE"),
     VACANT("VACANT"),
     FOLD("FOLD"),
+    REFILL("REFILL"),
 }
 
 data class TableSlot(

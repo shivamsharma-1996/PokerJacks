@@ -159,11 +159,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         })
         c5.onRendered {
             slotViews = SlotViews(rootLayout) { seatNo ->
-                if (plan.mode == "REAL") {
-                    walletVM.getRealAmount { byIn(it, seatNo, true) }
-                } else {
-                    walletVM.getPlayAmount { byIn(it, seatNo, false) }
-                }
+                showBuyInAlert(false, seatNo)
             }
 
             slotViews.isLandscape = orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -259,11 +255,31 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     }
                 }
 
+                log("checkCanRefill1", "checkCanRefillWallet")
+                slotViews.checkCanRefillWallet(it)
                 slotViews.drawSlots(it)
             })
 
-            vm.gameTriggerLD.observe(this, Observer {
+            vm.isGameEnded.observe(this, Observer { isGameEnded ->
+                if(isGameEnded){
+                    log("poker::resetGame", "isGameEnded : " +isGameEnded)
+                    if(isGameEnded){
+                        slotViews.resetGame()
+                        //if inplay_amount less than bb amount
+                        /*slotViews.meTableSlotBottomCenter.user?.let {
+                            val meGameInplayAmount: Double = slotViews.meTableSlotBottomCenter.user!!.game_inplay_amount
+                            if(slotViews.currentBigBlindAmount!=null){
+                                if(meGameInplayAmount < slotViews.currentBigBlindAmount!!){
+                                    //showBuyInAlert()
+                                }
+                            }
+                        }*/
+                    }
+                }
+            })
 
+            vm.gameTriggerLD.observe(this, Observer {
+                log("poker::gameTriggerLD", it)
                 it?.let {
                     if (vm.isLandscape) {
                         gameIDTV.text = it.game_uid
@@ -280,7 +296,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     slotViews.usersBestHand = null
                     slotViews.crownTo(-1)
-                    slotViews.resetPlayers()
+                    slotViews.resetGame()
 
                     c1.alpha = 1f
                     c2.alpha = 1f
@@ -496,6 +512,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 }
             })
 
+            vm.refillInPlayAmount.observe(this, Observer { isRefill ->
+                if(isRefill){
+                    vm.resetRefillInPlayAmount()
+                    vm.mySlot?.let {
+                        showBuyInAlert(true,vm.mySlot!!.seat_no)
+                    }
+                }
+            })
             vm.playerTurnLD.observe(this, Observer {
                 joinBBcb.visibility = GONE
                 log("poker::playerTurnLD", "playerTurnLD : $it")
@@ -872,7 +896,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 disableEnableActions(false)
                 vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
                     disableEnableActions(true)
-
+                    runOnMain {
+                        bottomPannel.visibility = INVISIBLE
+                        if (!vm.isLandscape && bottomPannel1 != null) {
+                            bottomPannel1.visibility = INVISIBLE
+                        }
+                    }
                     if (it!!["success"].bool) {
                         slotViews.resetPlayers()
                     }
@@ -997,6 +1026,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
     }
 
+    fun showBuyInAlert(isRefillAmt: Boolean, seatNo: Int) {
+        if (plan.mode == "REAL") {
+            walletVM.getRealAmount { byIn(isRefillAmt, it, seatNo, true) }
+        } else {
+            walletVM.getPlayAmount { byIn(isRefillAmt, it, seatNo, false) }
+        }
+    }
+
     private fun onSeekChangeBtnClicked(newAmount: Double) {
         isAmountRaisedViaBtn = true
         seek_raise.progress = newAmount.toInt()
@@ -1030,7 +1067,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
     }
 
-    private fun byIn(balance: Double, seatNo: Int, isCash: Boolean) {
+    private fun byIn(isRefillAmt : Boolean, balance: Double, seatNo: Int, isCash: Boolean) {
         var availableBalance = balance
 
         val builder = AlertDialog.Builder(this)
@@ -1060,6 +1097,34 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         dialogView.byInAmt.drawableLeft(amtDrawable)
 
         dialogView.join.background = selectedTheme?.btnDrawable
+
+        fun refillAmount(){
+            val amt = dialogView.seek.progress + plan.min_buyin
+            if(!vm.refillNextInPlayAmount){
+                vm.refillInPlayAmount(amt){
+                    runOnMain {
+                        if (it!!["success"].bool) {
+                            dialog.dismiss()
+                            slotViews.isRefillPopupVisible = false
+                        } else {
+                            showSnack(it["description"].string)
+                        }
+                    }
+                }
+            }else{
+                vm.refillNextInPlayAmount = false
+                vm.refillNextInPlayAmount(amt){
+                    runOnMain {
+                        if (it!!["success"].bool) {
+                            slotViews.isRefillPopupVisible = false
+                            dialog.dismiss()
+                        } else {
+                            showSnack(it["description"].string)
+                        }
+                    }
+                }
+            }
+        }
 
         fun joinNow() {
             val amt = dialogView.seek.progress + plan.min_buyin
@@ -1096,7 +1161,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 dialogView.insufficient.visibility = VISIBLE
 
                 if (isCash) {
-                    dialogView.join.text = "Add Money"
+                    if(isRefillAmt){
+                        dialogView.join.text = "Re-fill"
+                    }else{
+                        dialogView.join.text = "Add Money"
+                    }
 
                     dialogView.join.onOneClick {
                         launchActivity<InsufficientBalanceActivity> {
@@ -1134,11 +1203,18 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                             if (availableBalance >= dialogView.seek.progress + plan.min_buyin) {
                                                 dialogView.insufficient.visibility =
                                                     GONE
-                                                dialogView.join.text =
-                                                    "Join Table"
 
+                                                if(isRefillAmt){
+                                                    dialogView.join.text = "Re-fill"
+                                                }else{
+                                                    dialogView.join.text =
+                                                        "Join Table"
+                                                }
                                                 dialogView.join.onOneClick {
-                                                    joinNow()
+                                                    when(dialogView.join.text){
+                                                        "Join Table" -> joinNow()
+                                                        "Re-fill" -> refillAmount()
+                                                    }
                                                 }
                                             }
                                         }
@@ -1147,7 +1223,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         }
                     }
                 } else {
-                    dialogView.join.text = "Add Coins"
+                    if(isRefillAmt){
+                        dialogView.join.text = "Re-fill"
+                    }else{
+                        dialogView.join.text = "Add Coins"
+                    }
                     dialogView.join.drawableLeft(R.drawable.coin)
                     dialogView.join.onOneClick {
                         walletVM.addChips {
@@ -1160,19 +1240,34 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 (availableBalance + 5000).toDecimalFormat()
 
                             dialogView.join.drawableLeft(0)
-                            dialogView.join.text = "Join Table"
+
+                            if(isRefillAmt){
+                                dialogView.join.text = "Re-fill"
+                            }else{
+                                dialogView.join.text = "Join Table"
+                            }
 
                             dialogView.join.onOneClick {
-                                joinNow()
+                                when(dialogView.join.text){
+                                    "Join Table" -> joinNow()
+                                    "Re-fill" -> refillAmount()
+                                }
                             }
                         }
                     }
                 }
             } else {
                 dialogView.insufficient.visibility = GONE
-                dialogView.join.text = "Join Table"
+                if(isRefillAmt){
+                    dialogView.join.text = "Re-fill"
+                }else{
+                    dialogView.join.text = "Join Table"
+                }
                 dialogView.join.onOneClick {
-                    joinNow()
+                    when(dialogView.join.text){
+                        "Join Table" -> joinNow()
+                        "Re-fill" -> refillAmount()
+                    }
                 }
             }
         }
@@ -1207,7 +1302,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             dialogView.seek.progress = dialogView.seek.progress + 1
         }
 
-        dialogView.close.onOneClick { dialog.dismiss() }
+        dialogView.close.onOneClick {
+            if(isRefillAmt)
+                exitTOLobby()
+            dialog.dismiss() }
 
         dialog.show()
     }

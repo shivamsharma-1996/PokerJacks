@@ -2,6 +2,7 @@ package com.gtgt.pokerjacks.ui.game.viewModel
 
 import android.view.View
 import android.widget.CheckBox
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.salomonbrys.kotson.*
 import com.google.gson.JsonElement
@@ -66,6 +67,14 @@ class GameViewModel : SocketIOViewModel() {
     var isCommunityCardsOpened : Boolean = false
     var isAutoRotateOn = MutableLiveData<Boolean>()
     var autoActionView: CheckBox? = null
+    private var _isGameEnded = MutableLiveData<Boolean>()
+    val isGameEnded : LiveData<Boolean>
+      get() = _isGameEnded
+    var refillNextInPlayAmount : Boolean = false
+    var _refillInPlayAmount = MutableLiveData<Boolean>()
+    val refillInPlayAmount : LiveData<Boolean>
+        get() = _refillInPlayAmount
+
     var isLandscape: Boolean = false
     set(value) {
         field = value
@@ -82,6 +91,7 @@ class GameViewModel : SocketIOViewModel() {
 
             on<JsonElement>("gameTrigger") {
                 coloredImages.clear()
+                _isGameEnded.postValue(false)
                 gameTriggerLD.data = it["data"]["gameDetails"].to()
             }
             on<JsonElement>("gameStart") {
@@ -164,6 +174,13 @@ class GameViewModel : SocketIOViewModel() {
                 }
             }
 
+           /* on<JsonElement>("refill") {
+                val data = it["data"]
+                _refillInPlayAmount.postValue(true)
+                log("poker::refill", it)
+                    //show buyin popup here
+            }*/
+
             on<JsonElement>("gameEvent") {
                 val data = it["data"]
 
@@ -173,6 +190,7 @@ class GameViewModel : SocketIOViewModel() {
                         tableSlots = gameInfo.tableSlots
                         gameUsers = gameInfo.gameUsers
                         handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
+                        _isGameEnded.postValue(true)
 
                         if (gameInfo.canCreateNewGame) {
 
@@ -313,6 +331,24 @@ class GameViewModel : SocketIOViewModel() {
         )
     }
 
+    fun refillInPlayAmount(refillAmount: Double, callback: ChannelCallbackType<JsonElement?>) {
+        emit(
+            "refill",
+            jsonObject("amount" to refillAmount, "table_id" to tableId, "join_id" to mySlot!!.join_id),
+            callback = callback
+        )
+    }
+
+    fun refillNextInPlayAmount(refillAmount: Double, callback: ChannelCallbackType<JsonElement?>) {
+        emit(
+            "refillNext",
+            jsonObject("amount" to refillAmount, "table_id" to tableId, "join_id" to mySlot!!.join_id, "game_id" to gameDetailsLD.data?.let {
+                gameDetailsLD.data!!._id
+            }),
+            callback = callback
+        )
+    }
+
     fun updateSeatStatus(status: SeatStatus, callback: ChannelCallbackType<JsonElement?>) {
         emit(
             "updateSeatStatus",
@@ -368,6 +404,9 @@ class GameViewModel : SocketIOViewModel() {
 
     }
 
+    fun resetRefillInPlayAmount(){
+        _refillInPlayAmount.postValue(false)
+    }
     var mySlot: TableSlot? = null
     var me: GameUser? = null
 }
