@@ -17,6 +17,7 @@ import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import com.devs.vectorchildfinder.VectorChildFinder
 import com.github.salomonbrys.kotson.*
+import com.google.gson.Gson
 import com.gtgt.pokerjacks.BuildConfig
 import com.gtgt.pokerjacks.InsufficientBalanceActivity
 import com.gtgt.pokerjacks.R
@@ -24,6 +25,7 @@ import com.gtgt.pokerjacks.base.FullScreenScreenOnActivity
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.socket.SocketIoInstance
 import com.gtgt.pokerjacks.socket.socketInstance
+import com.gtgt.pokerjacks.ui.game.models.GameModel
 import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
 import com.gtgt.pokerjacks.ui.game.view.GamePreferencesFragment
 import com.gtgt.pokerjacks.ui.game.view.SelectThemesFragment
@@ -32,6 +34,7 @@ import com.gtgt.pokerjacks.ui.game.viewModel.*
 import com.gtgt.pokerjacks.ui.lobby.model.LobbyTables
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletViewModel
 import com.gtgt.pokerjacks.utils.CustomCountDownTimer
+import com.gtgt.pokerjacks.utils.EventObserver
 import com.gtgt.pokerjacks.utils.loadImage
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.byin_popup.view.*
@@ -101,8 +104,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         setContentView(R.layout.activity_game)
         requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
 
-        val orientation = resources.configuration.orientation
-
         mActivityTopLevelView = drawer_layout
 
         if (BuildConfig.DEBUG) {
@@ -161,10 +162,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             slotViews = SlotViews(rootLayout) { seatNo ->
                 showBuyInAlert(false, seatNo)
             }
-
+            drawer_layout.closeDrawers()
+            val orientation = resources.configuration.orientation
             slotViews.isLandscape = orientation == Configuration.ORIENTATION_LANDSCAPE
             vm.isLandscape = slotViews.isLandscape
-            drawer_layout.closeDrawers()
+
+            //vm.isConfigurationChanged = orientation != vm.previousOrientation
+            vm.previousOrientation = orientation
+
+
             slotViews.totalSlots = plan.max_players
 
             updatePotAmount()
@@ -232,32 +238,32 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             })
 
             vm.tableSlotsLD.observe(this, Observer {
-                slotViews.isJoined = vm.mySlot != null
+                it?.let {
+                    slotViews.isJoined = vm.mySlot != null
 
-                log("Poker::tableSlotsLD", "slots:/n" + it)
-                if (vm.mySlot != null) {
+                    log("Poker::tableSlotsLD", "slots:/n" + Gson().toJson(it))
+                    if (vm.mySlot != null) {
 
-                    when (vm.mySlot!!.status) {
-                        SeatStatus.SIT_OUT.status -> {
-                            // iAMBack.visibility = VISIBLE
-                        }
-                        SeatStatus.ACTIVE.status -> {
-                            joinBBcb.visibility = GONE
-                        }
-                        SeatStatus.WAIT_FOR_BB.status -> {
-                            joinBBcb.visibility = VISIBLE
-                            joinBBcb.isChecked = true
-                        }
-                        SeatStatus.WAIT_FOR_NEXT.status -> {
-                            joinBBcb.visibility = VISIBLE
-                            joinBBcb.isChecked = false
+                        when (vm.mySlot!!.status) {
+                            SeatStatus.SIT_OUT.status -> {
+                                // iAMBack.visibility = VISIBLE
+                            }
+                            SeatStatus.ACTIVE.status -> {
+                                joinBBcb.visibility = GONE
+                            }
+                            SeatStatus.WAIT_FOR_BB.status -> {
+                                joinBBcb.visibility = VISIBLE
+                                joinBBcb.isChecked = true
+                            }
+                            SeatStatus.WAIT_FOR_NEXT.status -> {
+                                joinBBcb.visibility = VISIBLE
+                                joinBBcb.isChecked = false
+                            }
                         }
                     }
+                    slotViews.checkCanRefillWallet(it)
+                    slotViews.drawSlots(it)
                 }
-
-                log("checkCanRefill1", "checkCanRefillWallet")
-                slotViews.checkCanRefillWallet(it)
-                slotViews.drawSlots(it)
             })
 
             vm.isGameEnded.observe(this, Observer { isGameEnded ->
@@ -312,12 +318,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     if (vm.isCommunityCardsOpened) {
                         totalPot.visibility = VISIBLE
                     }
-                    if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer)) {
+                    if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || vm.gameCountdownTimeLeft != 0L) {
                         leaderboardView.visibility = GONE
 
-                        bottomPannel.visibility = GONE
+                        bottomPannel.visibility = INVISIBLE
                         if (!vm.isLandscape && bottomPannel1 != null) {
-                            bottomPannel1.visibility = GONE
+                            bottomPannel1.visibility = INVISIBLE
                         }
                         community_cards_ll.visibility = INVISIBLE
                         user_cards_fl.visibility = INVISIBLE
@@ -350,26 +356,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             gameTriggerTimer?.cancel()
                         } catch (ex: Exception) {
                         }
-
-                        gameTriggerTimer = object :
-                            CustomCountDownTimer(
-                                it.start_time - (System.currentTimeMillis() - timeDiffWithServer),
-                                1000
-                            ) {
-                            override fun onTick(millisUntilFinished: Long) {
-                                gameStartsTimer.text =
-                                    "Game starts in ${millisUntilFinished / 1000} seconds..."
-                            }
-
-                            override fun onStop() {
-                                messageFL.visibility = GONE
-                            }
-
-                            override fun onFinish() {
-                                messageFL.visibility = GONE
-                            }
-                        }
-                        gameTriggerTimer!!.start()
+                        startGameCountdownTicker(it, vm.gameCountdownTimeLeft)
                     } else {
                         try {
                             messageFL.visibility = GONE
@@ -385,130 +372,120 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             })
 
             vm.userContestDetailsLD.observe(this, Observer {
+                log("poker::userContestDetailsLD", it)
                 it?.let {
-                    user_cards_fl.visibility = VISIBLE
-                    mc1.coloredCard(it.card_1)
-                    mc2.coloredCard(it.card_2)
+                    onUserContestDetailsLDObserved(it)
+
+                    /*if(vm.gameCountdownTimeLeft == 0L){
+                        onUserContestDetailsLDObserved(it)
+                    }*/
                 }
             })
 
             vm.gameDetailsLD.observe(this, Observer {
                 it?.let {
-                    disableEnableActions(true)
-                    log("poker::gameDetailsLD", it)
-                    slotViews.dealerPosition = it.dealer_position
+                    onGameDetailsLdObserved(it)
 
-                    gameTriggerTimer?.stop()
-                    val slots = vm.tableSlotsLD.value
-                    if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
-//                    sitOutCB.visibility = VISIBLE
-                    } else {
-                        sitOutCB.visibility = GONE
-                    }
-                    bottomPannel.visibility = VISIBLE
-                    if (!vm.isLandscape && bottomPannel1 != null) {
-                        bottomPannel1.visibility = VISIBLE
-                    }
-                    community_cards_ll.visibility = VISIBLE
-
-                    c1.coloredCard(it.card_1)
-                    c2.coloredCard(it.card_2)
-                    c3.coloredCard(it.card_3)
-                    c4.coloredCard(it.card_4)
-                    c5.coloredCard(it.card_5)
+                    /*if(vm.gameCountdownTimeLeft == 0L){
+                        onGameDetailsLdObserved(it)
+                    }*/
                 }
             })
 
             vm.dealCommunityCardsLD.observe(this, Observer {
-                val slots = vm.tableSlotsLD.value
-                log("poker::dealCommunityCardsLD", "dealCommunityCardsLD : ${it.toString()}")
+                if(it !=null){
+                    if(/*!vm.isConfigurationChanged && */vm.isDealCommunityCardsEventReceived){
+                        val slots = vm.tableSlotsLD.value
+                        log("poker::dealCommunityCardsLD", "dealCommunityCardsLD : ${it.toString()}")
 //            val potSplitPadding = dpToPx(15).toFloat()
-                val potSplitTopLandscape = dpToPx(40).toFloat()
-                val potSplitTopPortrait = playArea.height / 4
+                        val potSplitTopLandscape = dpToPx(40).toFloat()
+                        val potSplitTopPortrait = playArea.height / 4
 
-                if (slots != null) {
-                    slots.forEach { slot ->
-                        if (slot.user != null && slot.status == TableSlotStatus.ACTIVE.name) {
-                            val slotPosition = slotViews.getPositionBySeatNumber(slot.seat_no)
-                            val slotView = slotViews.slotViews[slot.seat_no]
-                            if (slot.user!!.current_round_invested != 0.0) {
-                                val coinsTv = TextView(this)
-                                rootLayout.addView(coinsTv)
-                                coinsTv.apply {
-                                    drawableLeft(R.drawable.coin_small)
-                                    compoundDrawablePadding = dpToPx(3)
-                                    x = slotPosition.x + slotPosition.raiseAmt.ml
-                                    y = slotPosition.y + slotPosition.raiseAmt.mt
-                                    text = String.format(
-                                        "%.2f",
-                                        slot.user!!.current_round_invested
-                                    )
+                        if (slots != null) {
+                            slots.forEach { slot ->
+                                if (slot.user != null && slot.status == TableSlotStatus.ACTIVE.name) {
+                                    val slotPosition = slotViews.getPositionBySeatNumber(slots.size, slot.seat_no)
+                                    val slotView = slotViews.slotViews[slot.seat_no]
+                                    if (slot.user!!.current_round_invested != 0.0) {
+                                        val coinsTv = TextView(this)
+                                        rootLayout.addView(coinsTv)
+                                        coinsTv.apply {
+                                            drawableLeft(R.drawable.coin_small)
+                                            compoundDrawablePadding = dpToPx(3)
+                                            x = slotPosition.x + slotPosition.raiseAmt.ml
+                                            y = slotPosition.y + slotPosition.raiseAmt.mt
+                                            text = String.format(
+                                                "%.2f",
+                                                slot.user!!.current_round_invested
+                                            )
 
-                                    animate().apply {
-                                        log("poker::animatePots", "potAnim")
-                                        x(totalPot.x + playArea.paddingTop + totalPot.width / 2)
-                                        y(
-                                            if (vm.isLandscape) {
-                                                topMarginLandscape + potSplitTopLandscape
-                                            } else {
-                                                topMarginPortrait + potSplitTopPortrait
-                                            }
-                                        )
+                                            animate().apply {
+                                                log("poker::animatePots", "potAnim")
+                                                x(totalPot.x + playArea.paddingTop + totalPot.width / 2)
+                                                y(
+                                                    if (vm.isLandscape) {
+                                                        topMarginLandscape + potSplitTopLandscape
+                                                    } else {
+                                                        topMarginPortrait + potSplitTopPortrait
+                                                    }
+                                                )
 
-                                        duration = 1000
-                                        withEndAction {
+                                                duration = 1000
+                                                withEndAction {
 
-                                            try {
-                                                if (it.total_pot_value > 0.0) {
-                                                    totalPot.visibility = VISIBLE
-                                                    vm.isCommunityCardsOpened = true
-                                                    /*totalPot.text =
-                                                        "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"*/
-                                                    updatePotAmount(it.total_pot_value.toDecimalFormat())
+                                                    try {
+                                                        if (it.total_pot_value > 0.0) {
+                                                            totalPot.visibility = VISIBLE
+                                                            vm.isCommunityCardsOpened = true
+                                                            /*totalPot.text =
+                                                                "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"*/
+                                                            updatePotAmount(it.total_pot_value.toDecimalFormat())
 
-                                                    pot_split.removeAllViews()
-                                                    it.side_pots.forEach {
-                                                        pot_split.addView(TextView(this@GameActivity).apply {
-                                                            text =
-                                                                "  ₹ ${it.pot_value.toDecimalFormat()}  "
-                                                        })
+                                                            pot_split.removeAllViews()
+                                                            it.side_pots.forEach {
+                                                                pot_split.addView(TextView(this@GameActivity).apply {
+                                                                    text =
+                                                                        "  ₹ ${it.pot_value.toDecimalFormat()}  "
+                                                                })
+                                                            }
+
+                                                            pot_split.visibility =
+                                                                if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
+                                                        }
+                                                    } catch (ex: Exception) {
+
                                                     }
 
-                                                    pot_split.visibility =
-                                                        if (it.side_pots.size >= 2) VISIBLE else INVISIBLE
+                                                    rootLayout.removeView(coinsTv)
                                                 }
-                                            } catch (ex: Exception) {
-
+                                                start()
                                             }
-
-                                            rootLayout.removeView(coinsTv)
                                         }
-                                        start()
+                                    } else {
+                                        //any slot has invested 0.0 money i.e. CHECK
+                                        /*     val slotUserStatus = slot.user!!.status
+                                        log("poker::check", "$slotUserStatus" + slot.user!!.seat_no)
+                                        when(slotUserStatus){
+                                            PlayerActions.CHECK.name ->
+                                                slotView?.apply {
+                                                    player_action.visibility = VISIBLE
+                                                    log("poker::check", "true" )
+                                                }
+                                        }*/
                                     }
                                 }
-                            } else {
-                                //any slot has invested 0.0 money i.e. CHECK
-                                /*     val slotUserStatus = slot.user!!.status
-                                log("poker::check", "$slotUserStatus" + slot.user!!.seat_no)
-                                when(slotUserStatus){
-                                    PlayerActions.CHECK.name ->
-                                        slotView?.apply {
-                                            player_action.visibility = VISIBLE
-                                            log("poker::check", "true" )
-                                        }
-                                }*/
                             }
                         }
                     }
-                }
-
-                timeOut(1000) {
-                    c1.coloredCard(it.card_1)
-                    c2.coloredCard(it.card_2)
-                    c3.coloredCard(it.card_3)
-                    c4.coloredCard(it.card_4)
-                    //c5.coloredCard(it.card_5)
-                    vm.getHandStrength()
+                    vm.isDealCommunityCardsEventReceived = false
+                    timeOut(1000) {
+                        c1.coloredCard(it.card_1)
+                        c2.coloredCard(it.card_2)
+                        c3.coloredCard(it.card_3)
+                        c4.coloredCard(it.card_4)
+                        //c5.coloredCard(it.card_5)
+                        vm.getHandStrength()
+                    }
                 }
             })
 
@@ -573,7 +550,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             callAnyCB.isChecked = false
                         }
 
-                        if (vm.mySlot?.user!!.status.startsWith("AUTO_")) {
+                        if (vm.mySlot?.user != null && vm.mySlot?.user!!.status.startsWith("AUTO_")) {
                             foldBtn.visibility = GONE
                             callLL.visibility = GONE
                             raiseBtnLL.visibility = GONE
@@ -728,9 +705,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             })
 
             var isPotAnimationDone = true
-            vm.leaderboardLD.observe(this, Observer { leaderboard ->
+            vm.leaderboardLD.observe(this, EventObserver { leaderboard ->
                 if (leaderboard == null)
-                    return@Observer
+                    return@EventObserver
 
                 log("poker::leaderboardLD", leaderboard)
                 bottomPannel.visibility = INVISIBLE
@@ -743,7 +720,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 }
                 slotViews.resetPlayers()
 
-                pot_split.visibility = VISIBLE
+                if (leaderboard.pot_distributions.size > 1) {
+                    pot_split.visibility = VISIBLE
+                }
                 val potSplitTop = dpToPx(50).toFloat() + totalPot.height
                 val playAreaPadding = playArea.paddingStart
                 val potSplitPadding = dpToPx(15).toFloat()
@@ -1026,6 +1005,84 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
     }
 
+    private fun onUserContestDetailsLDObserved(userContentDetails: GameModel.UserContestDetails) {
+        user_cards_fl.visibility = VISIBLE
+        mc1.coloredCard(userContentDetails.card_1)
+        mc2.coloredCard(userContentDetails.card_2)
+    }
+
+    private fun onGameDetailsLdObserved(it: GameModel.GameDetails) {
+        disableEnableActions(true)
+        log("poker::gameDetailsLD", it)
+        slotViews.dealerPosition = it.dealer_position
+
+        gameTriggerTimer?.stop()
+        val slots = vm.tableSlotsLD.value
+        if (slots != null && slots.count { !it.user_unique_id.isNullOrEmpty() } >= 2) {
+//                    sitOutCB.visibility = VISIBLE
+        } else {
+            sitOutCB.visibility = GONE
+        }
+        bottomPannel.visibility = VISIBLE
+        if (!vm.isLandscape && bottomPannel1 != null) {
+            bottomPannel1.visibility = VISIBLE
+        }
+
+        community_cards_ll.visibility = VISIBLE
+
+        c1.coloredCard(it.card_1)
+        c2.coloredCard(it.card_2)
+        c3.coloredCard(it.card_3)
+        c4.coloredCard(it.card_4)
+        c5.coloredCard(it.card_5)
+    }
+
+    private fun startGameCountdownTicker(
+        gameDetails: GameModel.GameDetails,
+        gameCountdownTimeLeft: Long = 0L
+    ) {
+        log("vm.gameCountdownTimeLeft2", gameCountdownTimeLeft)
+
+        val gameStartCountdownTime = if(gameCountdownTimeLeft ==0L){
+            gameDetails.start_time - (System.currentTimeMillis() - timeDiffWithServer)
+        }
+        else{
+            gameCountdownTimeLeft
+        }
+        log("vm.gameCountdownTimeLeft3", gameCountdownTimeLeft)
+        gameTriggerTimer = object :
+            CustomCountDownTimer(
+                gameStartCountdownTime,
+                1000
+            ) {
+            override fun onTick(millisUntilFinished: Long) {
+                log("vm.gameCountdownTimeLeft4", millisUntilFinished)
+                vm.gameCountdownTimeLeft = millisUntilFinished //in millis
+                gameStartsTimer.text =
+                    "Game starts in ${millisUntilFinished / 1000} seconds..."
+            }
+
+            override fun onStop() {
+                messageFL.visibility = GONE
+            }
+
+            override fun onFinish() {
+                vm.gameCountdownTimeLeft = 0L
+                messageFL.visibility = GONE
+//
+//                if(community_cards_ll.visibility != VISIBLE){
+//                    vm.gameDetailsLD.value?.let {
+//                        onGameDetailsLdObserved(vm.gameDetailsLD.value!!)
+//                    }
+//                    vm.userContestDetailsLD.value?.let {
+//                        onUserContestDetailsLDObserved(vm.userContestDetailsLD.value!!)
+//                    }
+//                }
+            }
+        }
+        gameTriggerTimer!!.start()
+    }
+
     fun showBuyInAlert(isRefillAmt: Boolean, seatNo: Int) {
         if (plan.mode == "REAL") {
             walletVM.getRealAmount { byIn(isRefillAmt, it, seatNo, true) }
@@ -1103,6 +1160,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             if(!vm.refillNextInPlayAmount){
                 vm.refillInPlayAmount(amt){
                     runOnMain {
+                        onBackPressed()
                         if (it!!["success"].bool) {
                             dialog.dismiss()
                             slotViews.isRefillPopupVisible = false
@@ -1115,6 +1173,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 vm.refillNextInPlayAmount = false
                 vm.refillNextInPlayAmount(amt){
                     runOnMain {
+                        onBackPressed()
                         if (it!!["success"].bool) {
                             slotViews.isRefillPopupVisible = false
                             dialog.dismiss()

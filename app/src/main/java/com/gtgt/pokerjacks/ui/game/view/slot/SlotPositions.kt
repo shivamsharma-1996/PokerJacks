@@ -71,6 +71,7 @@ var slots6PortraitPositionsTable = listOf(
 val slots2Positions = listOf(TOP_CENTER, BOTTOM_CENTER)
 
 val slotPositionMap = mutableMapOf<Int, SlotPositions>()
+val slotPosition6TableMap = mutableMapOf<Int, SlotPositions>()
 
 fun makeSlotPositions(
     playerSize: Float,
@@ -370,7 +371,7 @@ fun makeSlotPositions(
                     mt = (playerSize).toInt(),
                     ml = playerSize.toInt() + inPlayWidth
                 ),
-                raiseAmt = Position(mt = inPlayWidth - playerMargin - dpToPx(3)),
+                raiseAmt = Position(mt = inPlayWidth - playerMargin - dpToPx(3), ml = inPlayWidth/6),
                 activeIndication = Gravity.END,
                 playerAction =  Position(alignment = Gravity.END or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2, mr = playerSize.toInt() + inPlayWidth/3),
                 deal = Position(alignment = Gravity.END or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2)
@@ -406,18 +407,18 @@ fun makeSlotPositions(
     if (isLandscape) {
         slotPositions[BOTTOM_CENTER] =
             SlotPosition(
-                x = (tableWidth - meSlotSize) / 2 - inPlayWidth/4,
+                x = (tableWidth - playerSize) / 2 - inPlayWidth/4,
                 y = tableHeight - playerSize * 1.5f + topMargin * 2.3f,
                 player = Position(mt = topMargin, ml = inPlayWidth/4, mr = inPlayWidth/4),
                 crown = Position(
-                    ml = ((playerSize - crownWidth) / 2f).toInt(),
-                    mt = (topMargin)
+                    ml = ((meSlotSize - crownWidth)/1.2).toInt(),
+                    mt = (topMargin / 1.5).toInt()
                 ),
                 inPlay = Position(
                     mt = (playerSize - inPlayHeight / 1.5 + topMargin).toInt(),
                     ml = playerSize.toInt()
                 ),
-                raiseAmt = Position(ml = inPlayWidth/6 + meSlotSize.toInt(), mt = inPlayWidth + dpToPx(7) - playerMargin ),
+                raiseAmt = Position(ml = inPlayWidth/6 + playerSize.toInt(), mt = inPlayWidth + dpToPx(7) - playerMargin ),
                 activeIndication = Gravity.START,
                 playerAction =  Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2, ml = playerMargin +inPlayWidth - dpToPx(5)),
                 deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2)
@@ -432,8 +433,8 @@ fun makeSlotPositions(
                 y = tableHeight - playerSize * 1.5f + topMargin / 2.5f,
                 player = Position(mt = topMargin,  ml = inPlayWidth/4, mr = inPlayWidth/4),
                 crown = Position(
-                    ml = ((playerSize - crownWidth) / 2f).toInt(),
-                    mt = (topMargin)
+                    ml = ((playerSize - crownWidth)/1.2).toInt(),
+                    mt = (topMargin / 1.5).toInt()
                 ),
                 inPlay = Position(
                     mt = (playerSize - inPlayHeight / 1.5 + topMargin).toInt(),
@@ -611,7 +612,7 @@ fun makeSlotPositions(
                 mt = (meSlotSize - inPlayHeight / 1.5 + topMargin).toInt(),
                 ml = meSlotSize.toInt()
             ),
-            raiseAmt = Position(ml = inPlayWidth/4 + meSlotSize.toInt(), mt = inPlayWidth + dpToPx(7) - playerMargin ),
+            raiseAmt = Position(ml = inPlayWidth/4 + meSlotSize.toInt(), mt = inPlayWidth + dpToPx(7) - playerMargin, mr = inPlayWidth),
             activeIndication = Gravity.START,
             playerAction =  Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2, ml = playerMargin+ inPlayWidth),
             deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2)

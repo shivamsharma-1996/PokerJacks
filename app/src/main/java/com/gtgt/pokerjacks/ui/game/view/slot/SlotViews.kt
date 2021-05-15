@@ -146,7 +146,12 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
     fun drawSlots(slots: List<TableSlot>) {
 //        this.slots.clear()
         slots.forEach { slot ->
-            val position = slotPositionMap[slot.seat_no]
+            val currentSlotPositionMap = if(slots.size == 6 && isLandscape){
+                slotPosition6TableMap
+            }else{
+                slotPositionMap
+            }
+            val position = currentSlotPositionMap[slot.seat_no]
             this.slots[slot.seat_no] = slot
             val slotView = slotViews[slot.seat_no]
             meSlotSize = dpToPx(73).toFloat()
@@ -157,7 +162,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 if (slot.seat_no == dealerPosition) {
                     dealer.visibility = VISIBLE
                 } else {
-                    //dealer.visibility = GONE
+                    dealer.visibility = GONE
                 }
 
                 //if(!slot.status.equals(PlayerActions.))
@@ -179,7 +184,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     noPlayer.visibility = if (isJoined) GONE else VISIBLE
                     iv_userProfile.visibility = GONE
                     active_indication.visibility = GONE
-                    //player_action.visibility = GONE
+                    player_action.visibility = GONE
                     in_play_amt.text = "-"
                     raise_amt.visibility = GONE
                     name_inplay_group.visibility = GONE
@@ -233,7 +238,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         }
 
                         if(coin!=null){
-                            if (slotPositionMap[slot.seat_no]!!.name.contains("RIGHT")) {
+                            if (currentSlotPositionMap[slot.seat_no]!!.name.contains("RIGHT")) {
                                 active_indication.layoutGravity(Gravity.END)
                                 active_indication.rotationY = 0f
                                 if(isLandscape)
@@ -281,7 +286,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                             }*/
                         }
                         else -> {
-                          //  player_action.visibility = GONE
+                            player_action.visibility = GONE
                         }
                     }
                 }
@@ -299,7 +304,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         animateView.stopAnim()
                         iv_userProfile.blurOut()
                         dealer.visibility = GONE
-                      //  player_action.visibility = VISIBLE
+                        player_action.visibility = VISIBLE
                         player_action.setImageResource(R.drawable.fold)
                         if (userId == slot.user_unique_id){
                             meSlotSize = dpToPx(63).toFloat()
@@ -434,8 +439,13 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
     }
 
-    fun getPositionBySeatNumber(seatNo: Int): SlotPosition {
-        val position = slotPositionMap[seatNo]
+    fun getPositionBySeatNumber(seatSize: Int, seatNo: Int): SlotPosition {
+        val currentSlotPositionMap = if(seatSize == 6 && isLandscape){
+            slotPosition6TableMap
+        }else{
+            slotPositionMap
+        }
+        val position = currentSlotPositionMap[seatNo]
         return if (isJoined && position == BOTTOM_CENTER) {
             mySlotBottom
         } else {
@@ -453,7 +463,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
                 it.value.revealCards.getChildAt(0).alpha = 1f
                 it.value.revealCards.getChildAt(1).alpha = 1f
-               // it.value.player_action.visibility = GONE
+                it.value.player_action.visibility = GONE
                 it.value.dealer.visibility = GONE
                 it.value.iv_userProfile.alpha = 1f
                 it.value.iv_userProfile.circleBackgroundColor = 0
@@ -466,8 +476,12 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
     fun checkCanRefillWallet(slots: List<TableSlot>){
         slots.forEach { slot ->
-            log("checkCanRefill2", "checkCanRefillWallet")
-            val position = slotPositionMap[slot.seat_no]
+            val currentSlotPositionMap = if(slots.size == 6 && isLandscape){
+                slotPosition6TableMap
+            }else{
+                slotPositionMap
+            }
+            val position =  currentSlotPositionMap[slot.seat_no]
             if(!isRefillPopupVisible){
                 if(isJoined && position == BOTTOM_CENTER && slot.status.equals(TableSlotStatus.REFILL.name)){
                     meSlotBottom = slot

@@ -1,5 +1,6 @@
 package com.gtgt.pokerjacks.ui.game.viewModel
 
+import android.content.res.Configuration
 import android.view.View
 import android.widget.CheckBox
 import androidx.lifecycle.LiveData
@@ -13,6 +14,7 @@ import com.gtgt.pokerjacks.socket.ChannelCallbackType
 import com.gtgt.pokerjacks.socket.SocketIOViewModel
 import com.gtgt.pokerjacks.ui.game.models.*
 import com.gtgt.pokerjacks.ui.game.view.slot.*
+import com.gtgt.pokerjacks.utils.Event
 import com.gtgt.pokerjacks.utils.SlotPositions
 
 enum class ActionEvent(val event: String) {
@@ -58,7 +60,7 @@ class GameViewModel : SocketIOViewModel() {
     val userContestDetailsLD = MutableLiveData<GameModel.UserContestDetails>()
     val playerTurnLD = MutableLiveData<PlayerTurn>()
     val dealCommunityCardsLD = MutableLiveData<DealCommunityCards>()
-    val leaderboardLD = MutableLiveData<Leaderboard>()
+    val leaderboardLD = MutableLiveData<Event<Leaderboard>>()
     val iamBackLD = MutableLiveData<Boolean>()
     val enableActions = MutableLiveData<Boolean>()
     var tableSlots : List<TableSlot>? = null
@@ -74,7 +76,10 @@ class GameViewModel : SocketIOViewModel() {
     var _refillInPlayAmount = MutableLiveData<Boolean>()
     val refillInPlayAmount : LiveData<Boolean>
         get() = _refillInPlayAmount
-
+    //var isConfigurationChanged = false
+    var isDealCommunityCardsEventReceived = false
+    var previousOrientation = Configuration.ORIENTATION_LANDSCAPE
+    var gameCountdownTimeLeft : Long = 0
     var isLandscape: Boolean = false
     set(value) {
         field = value
@@ -147,7 +152,7 @@ class GameViewModel : SocketIOViewModel() {
 
 
                 socketIO.socketHandler.postDelayed({
-                    leaderboardLD.data = leaderboard
+                    leaderboardLD.data = Event(leaderboard)
                 }, 1000)
             }
 
@@ -155,7 +160,8 @@ class GameViewModel : SocketIOViewModel() {
                 val community_cards: DealCommunityCards = it["community_cards"].to()
                 community_cards.total_pot_value = it["total_pot_value"].double
                 community_cards.side_pots = it["side_pots"].to()
-
+                isDealCommunityCardsEventReceived = true
+                //isConfigurationChanged = false
                 try {
                     val previousCommunityCards = dealCommunityCardsLD.data
                     if (previousCommunityCards != null
@@ -192,6 +198,8 @@ class GameViewModel : SocketIOViewModel() {
                         handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
                         _isGameEnded.postValue(true)
 
+                        resetVmResources()
+
                         if (gameInfo.canCreateNewGame) {
 
                         } else {
@@ -210,6 +218,15 @@ class GameViewModel : SocketIOViewModel() {
 
             connectTable()
         }
+
+    private fun resetVmResources() {
+        gameCountdownTimeLeft = 0L
+        isCommunityCardsOpened = false
+        dealCommunityCardsLD.postValue(null)
+        gameDetailsLD.postValue(null)
+        userContestDetailsLD.postValue(null)
+        tableSlotsLD.postValue(null)
+    }
 
 
     var selectedSlotPositions: List<SlotPositions>? = null
@@ -252,14 +269,20 @@ class GameViewModel : SocketIOViewModel() {
 
         me = gameUsers.find { it.user_unique_id == userId }
 
-        if (mySlot == null) {
+        val currentSlotPositionMap = if(slots.size == 6 && isLandscape){
+            slotPosition6TableMap
+        }else{
+            slotPositionMap
+        }
+        if (mySlot == null || !isSlot6PostitionMapInitialized){
             mySlot = slots.firstOrNull { it.user_unique_id == userId }
 
             var currentSlot = mySlot ?: slots[0]
+            isSlot6PostitionMapInitialized = true
 
             slots.forEachIndexed { i, slot ->
                 slot.user = gameUsers.firstOrNull { it.user_unique_id == slot.user_unique_id }
-                slotPositionMap[currentSlot.seat_no] = selectedSlotPositions!![i]
+                currentSlotPositionMap[currentSlot.seat_no] = selectedSlotPositions!![i]
                 currentSlot = currentSlot.next(slots)
             }
         } else {
@@ -311,7 +334,7 @@ class GameViewModel : SocketIOViewModel() {
                         playerTurnLD.data = gameInfo.playerTurn
                         gameDetailsLD.data = gameInfo.gameDetails
                         if (gameInfo.leaderboard != null)
-                            leaderboardLD.data = gameInfo.leaderboard
+                            leaderboardLD.data = Event(gameInfo.leaderboard)
                     }, 300)
                 } else {
                     activity?.showSnack(data.description)
@@ -408,5 +431,6 @@ class GameViewModel : SocketIOViewModel() {
         _refillInPlayAmount.postValue(false)
     }
     var mySlot: TableSlot? = null
+    var isSlot6PostitionMapInitialized = false
     var me: GameUser? = null
 }
