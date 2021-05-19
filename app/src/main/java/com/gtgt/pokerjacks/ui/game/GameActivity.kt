@@ -53,9 +53,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     override fun connectionAvailable() {
         reconnect.text = "Go Offline"
         offlineMsg.visibility = GONE
-        if(vm.tableId.isEmpty()){
-            vm.tableId = tableId
-        }
+        vm.tableId = tableId
     }
 
     override fun reconnected() {
@@ -287,9 +285,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.gameTriggerLD.observe(this, Observer {
                 log("poker::gameTriggerLD", it)
                 it?.let {
-                    if (vm.isLandscape) {
+                    if (gameIDTV!= null/* && vm.isLandscape*/) {
                         gameIDTV.text = it.game_uid
-                    } else {
+                    } else if(portrait_gameIDTV!=null) {
                         portrait_gameIDTV.text = it.game_uid
                     }
 
@@ -1436,6 +1434,19 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.END)) {
             drawer_layout.closeDrawer(GravityCompat.END)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        removeSocketChangeListeners()
+    }
+
+    private fun removeSocketChangeListeners() {
+        socketInstance.listeners?.let {
+            if(socketInstance.listeners.size!=0){
+                socketInstance.removeSocketChangeListener(this)
+            }
         }
     }
 }

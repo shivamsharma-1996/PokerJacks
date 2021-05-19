@@ -89,6 +89,7 @@ class GameViewModel : SocketIOViewModel() {
             }
         }
     }
+    var currentTableId: String = ""
 
     var tableId: String = ""
         set(value) {
@@ -125,6 +126,7 @@ class GameViewModel : SocketIOViewModel() {
             }
 
             on<TablePlayers>("tablePlayers") {
+                log("poker::tablePlayers", "tablePlayers")
                 tableSlots = it.tableSlots
                 gameUsers = it.gameUsers
                 handleTableSlots(it.tableSlots, it.gameUsers)
@@ -269,16 +271,16 @@ class GameViewModel : SocketIOViewModel() {
 
         me = gameUsers.find { it.user_unique_id == userId }
 
-        val currentSlotPositionMap = if(slots.size == 6 && isLandscape){
+        val currentSlotPositionMap = if(slots.size == 6 && !isLandscape){
             slotPosition6TableMap
         }else{
             slotPositionMap
         }
-        if (mySlot == null || !isSlot6PostitionMapInitialized){
+        if (mySlot == null || (slots.size == 6 && !isLandscape)){
             mySlot = slots.firstOrNull { it.user_unique_id == userId }
 
             var currentSlot = mySlot ?: slots[0]
-            isSlot6PostitionMapInitialized = true
+            //isSlot6PostitionMapInitialized = true
 
             slots.forEachIndexed { i, slot ->
                 slot.user = gameUsers.firstOrNull { it.user_unique_id == slot.user_unique_id }
@@ -325,17 +327,22 @@ class GameViewModel : SocketIOViewModel() {
 
                 if (data.success) {
                     val gameInfo = data.info
-                    gameTriggerLD.data = gameInfo.gameDetails
-                    userContestDetailsLD.data = gameInfo.userContestDetails
-                    tableSlots = gameInfo.tableSlots
-                    gameUsers = gameInfo.gameUsers
-                    handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
-                    socketIO.socketHandler.postDelayed({
+                    if(currentTableId.isEmpty()){
+                        gameTriggerLD.data = gameInfo.gameDetails
+                        userContestDetailsLD.data = gameInfo.userContestDetails
+                        tableSlots = gameInfo.tableSlots
+                        gameUsers = gameInfo.gameUsers
+                        handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
+                        socketIO.socketHandler.delayedHandler(300) {
+                            gameDetailsLD.data = gameInfo.gameDetails
+                            if (gameInfo.leaderboard != null)
+                                leaderboardLD.data = Event(gameInfo.leaderboard)
+                        }
+                    }
+                    socketIO.socketHandler.delayedHandler(300) {
                         playerTurnLD.data = gameInfo.playerTurn
-                        gameDetailsLD.data = gameInfo.gameDetails
-                        if (gameInfo.leaderboard != null)
-                            leaderboardLD.data = Event(gameInfo.leaderboard)
-                    }, 300)
+                    }
+                    currentTableId = tableId
                 } else {
                     activity?.showSnack(data.description)
                 }
@@ -431,6 +438,6 @@ class GameViewModel : SocketIOViewModel() {
         _refillInPlayAmount.postValue(false)
     }
     var mySlot: TableSlot? = null
-    var isSlot6PostitionMapInitialized = false
+    //var isSlot6PostitionMapInitialized = false
     var me: GameUser? = null
 }

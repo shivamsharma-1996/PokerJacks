@@ -26,6 +26,7 @@ open class SocketIOViewModel() : BaseViewModel() {
         executeOnBackground(Runnable {
             socketIO.connect()
             socketIO.socket.off(eventName)
+            log("SocketIo:OnEvent $eventName")
             events.add(eventName)
             socketIO.socket.onModel<T>(eventName) {
                 val time = System.currentTimeMillis()

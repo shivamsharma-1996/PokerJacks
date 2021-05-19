@@ -146,7 +146,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
     fun drawSlots(slots: List<TableSlot>) {
 //        this.slots.clear()
         slots.forEach { slot ->
-            val currentSlotPositionMap = if(slots.size == 6 && isLandscape){
+            val currentSlotPositionMap = if(slots.size == 6 && !isLandscape){
                 slotPosition6TableMap
             }else{
                 slotPositionMap
@@ -440,7 +440,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
     }
 
     fun getPositionBySeatNumber(seatSize: Int, seatNo: Int): SlotPosition {
-        val currentSlotPositionMap = if(seatSize == 6 && isLandscape){
+        val currentSlotPositionMap = if(seatSize == 6 && !isLandscape){
             slotPosition6TableMap
         }else{
             slotPositionMap
@@ -476,7 +476,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
     fun checkCanRefillWallet(slots: List<TableSlot>){
         slots.forEach { slot ->
-            val currentSlotPositionMap = if(slots.size == 6 && isLandscape){
+            val currentSlotPositionMap = if(slots.size == 6 && !isLandscape){
                 slotPosition6TableMap
             }else{
                 slotPositionMap

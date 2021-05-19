@@ -90,6 +90,10 @@ fun Fragment.showToast(message: String) {
     }
 }
 
+fun Handler.delayedHandler(delay: Int, runnable: () -> Unit) {
+    this.postDelayed(runnable, delay.toLong())
+}
+
 fun Activity.showSnack(message: String) {
     runOnMain {
         if (isRunning()) {

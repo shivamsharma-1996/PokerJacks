@@ -44,7 +44,7 @@ class SocketIoInstance(private val url: String) :
         socket = IO.socket(url, opts)
         socketHandler.post {
             socket.onNoResponse(Socket.EVENT_CONNECT) {
-                log("SocketIo, connected", socket.connected())
+                log("SocketIo:EVENT_CONNECT", "" +socket.connected() + " " +  socket.id())
                 val userId = retrieveString("USER_ID")
 
                 socket.emit(
@@ -60,13 +60,29 @@ class SocketIoInstance(private val url: String) :
 
             socket.onNoResponse(Socket.EVENT_RECONNECT) {
                 runOnMain {
-                    log("SocketIo:reconnect", socket.connected().toString())
-                    notifyReConnection()
+                    log("SocketIo:EVENT_RECONNECT", socket.connected().toString())
+                }
+            }
+
+            socket.onNoResponse(Socket.EVENT_RECONNECTING) {
+                runOnMain {
+                    log("SocketIo:EVENT_RECONNECTING", socket.connected().toString())
+                }
+            }
+
+            socket.onNoResponse(Socket.EVENT_RECONNECT_ERROR) {
+                runOnMain {
+                    log("SocketIo:EVENT_RECONNECT_ERROR", socket.connected().toString())
+                }
+            }
+            socket.onNoResponse(Socket.EVENT_RECONNECT_FAILED) {
+                runOnMain {
+                    log("SocketIo:EVENT_RECONNECT_FAILED", socket.connected().toString())
                 }
             }
 
             socket.onNoResponse(Socket.EVENT_DISCONNECT) {
-
+                log("SocketIo:EVENT_DISCONNECT", "EVENT_DISCONNECT")
                 runOnMain {
 //                    connectionDelayHandler.removeCallbacksAndMessages(null)
 //                    connectionDelayHandler.postDelayed({
