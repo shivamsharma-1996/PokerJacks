@@ -567,8 +567,8 @@ fun makeSlotPositions(
             player = Position(mt = topMargin / 2, ml = inPlayWidth/4),
             revealCards = Position(ml = (playerSize).toInt()),
             crown = Position(
-                ml = ((playerSize - crownWidth) / 2f).toInt(),
-                mt = topMargin
+                ml = ((playerSize - crownWidth)).toInt(),
+                mt = topMargin / 2
             ),
             inPlay = Position(mt = (playerSize + roundingSize + topMargin / 2).toInt()),
             raiseAmt = Position(

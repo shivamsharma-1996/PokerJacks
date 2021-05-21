@@ -24,7 +24,7 @@ class ThemesViewModel : BaseViewModel() {
             putString(Constants.SELECTED_THEME, value!!.name)
         }
 
-    fun openThemeSwitcher() {
-        _openThemeSwitcher.value = true
+    fun openThemeSwitcher(doOpen: Boolean) {
+        _openThemeSwitcher.value = doOpen
     }
 }

@@ -530,7 +530,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">-->
 
-                <CheckBox
+                <!--<CheckBox
                     android:id="@+id/foldCB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -539,8 +539,30 @@
                     android:drawableBottom="@drawable/cb_fold"
                     android:gravity="center_horizontal"
                     android:text="Fold"
-                    android:visibility="gone" />
+                    android:visibility="visible" />-->
 
+            <!--                <CheckBox
+                    android:id="@+id/callCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawableBottom="@drawable/cb_call"
+                    android:gravity="center_horizontal"
+                    android:text="Call"
+                    android:visibility="visible" />-->
+            <!-- <CheckBox
+                   android:id="@+id/callAnyCB"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="20dp"
+                   android:background="@android:color/transparent"
+                   android:button="@android:color/transparent"
+                   android:drawableBottom="@drawable/cb_call"
+                   android:gravity="center_horizontal"
+                   android:text="CallAny"
+                   android:visibility="visible" />-->
                 <CheckBox
                     android:id="@+id/fold_checkCB"
                     android:layout_width="wrap_content"
@@ -565,17 +587,7 @@
                     android:text="Check"
                     android:visibility="gone" />
 
-                <CheckBox
-                    android:id="@+id/callCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_call"
-                    android:gravity="center_horizontal"
-                    android:text="Call"
-                    android:visibility="gone" />
+
 
                 <CheckBox
                     android:id="@+id/checkOrCallAnyCB"
@@ -589,17 +601,7 @@
                     android:text="CallAny/Check"
                     android:visibility="gone" />
 
-                <CheckBox
-                    android:id="@+id/callAnyCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_call"
-                    android:gravity="center_horizontal"
-                    android:text="CallAny"
-                    android:visibility="gone" />
+
 <!--
             </RadioGroup>
 -->

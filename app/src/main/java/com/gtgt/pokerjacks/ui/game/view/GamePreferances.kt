@@ -106,7 +106,7 @@ class GamePreferencesFragment : BaseFragment() {
 
         theme_menu.onOneClick {
             activity?.onBackPressed()
-            themesVm.openThemeSwitcher()
+            themesVm.openThemeSwitcher(true)
         }
 
         exit_lobby.onOneClick {
@@ -151,5 +151,15 @@ class GamePreferencesFragment : BaseFragment() {
                 settings.invalidate()
             }
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        resetDrawerMenu()
+    }
+
+    private fun resetDrawerMenu() {
+        radioMenu.visibility = GONE
+        prefrencesMenu.visibility = GONE
     }
 }

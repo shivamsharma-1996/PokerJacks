@@ -34,11 +34,12 @@ enum class SeatStatus(val status: String) {
 }
 
 enum class AutoGameAction(val action: String) {
-    AUTO_FOLD("AUTO_FOLD"),
-    AUTO_CALL("AUTO_CALL"),
+//    AUTO_FOLD("AUTO_FOLD"),
+//    AUTO_CALL("AUTO_CALL"),
+//AUTO_CALL_ANY("AUTO_CALL_ANY"),
+    AUTO_FOLD_CHECK("AUTO_FOLD_CHECK"),
     AUTO_CHECK("AUTO_CHECK"),
-    AUTO_CHECK_FOLD("AUTO_CHECK_FOLD"),
-    AUTO_CALL_ANY("AUTO_CALL_ANY"),
+    AUTO_CALLANY_CHECK("AUTO_CALLANY_CHECK"),
 }
 
 enum class PlayerActions(val action: String) {

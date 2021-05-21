@@ -93,15 +93,19 @@ class SelectThemesFragment : BaseFragment() {
         selectedTheme.selected.visibility = VISIBLE
         themesViewModel.theme = themes[selectedThemeIndex]
 
-        themesViewModel.openThemeSwitcher.observe(viewLifecycleOwner, Observer {
-            root.visibility = VISIBLE
-            root.startAnimation(enterAnim)
+        themesViewModel.openThemeSwitcher.observe(viewLifecycleOwner, Observer { openThemeSwitcher ->
+            if(openThemeSwitcher){
+                root.visibility = VISIBLE
+                root.startAnimation(enterAnim)
+            }
         })
         close.onOneClick {
             root.startAnimation(leaveAnim)
+            themesViewModel.openThemeSwitcher(false)
             Handler().postDelayed({
                 root.visibility = GONE
             }, 500)
         }
     }
+
 }

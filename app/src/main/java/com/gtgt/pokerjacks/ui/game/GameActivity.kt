@@ -481,7 +481,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         c2.coloredCard(it.card_2)
                         c3.coloredCard(it.card_3)
                         c4.coloredCard(it.card_4)
-                        //c5.coloredCard(it.card_5)
+                        c5.coloredCard(it.card_5)
                         vm.getHandStrength()
                     }
                 }
@@ -520,18 +520,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         if (preferencesvm.vibrate)
                             vibrate(this) {}
 
-                        foldCB.visibility = GONE
                         checkCB.visibility = GONE
                         checkOrCallAnyCB.visibility = GONE
                         fold_checkCB.visibility = GONE
-                        callCB.visibility = GONE
-                        callAnyCB.visibility = GONE
 
                         //auto_options_rg.clearCheck()
                         //resetting the autoActions here
-                        if (foldCB.isChecked) {
-                            foldCB.isChecked = false
-                        }
                         if (checkCB.isChecked) {
                             checkCB.isChecked = false
                         }
@@ -540,12 +534,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         }
                         if (fold_checkCB.isChecked) {
                             fold_checkCB.isChecked = false
-                        }
-                        if (callCB.isChecked) {
-                            callCB.isChecked = false
-                        }
-                        if (callAnyCB.isChecked) {
-                            callAnyCB.isChecked = false
                         }
 
                         if (vm.mySlot?.user != null && vm.mySlot?.user!!.status.startsWith("AUTO_")) {
@@ -661,28 +649,24 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                     fold_checkCB.visibility = GONE
                                     checkCB.visibility = GONE
                                     checkOrCallAnyCB.visibility = GONE
-
-                                    foldCB.visibility = GONE
-                                    callCB.visibility = GONE
-                                    callAnyCB.visibility = GONE
                                 }
                                 vm.me!!.amount_invested == it.game_max_bet_amount -> {
                                     fold_checkCB.visibility = VISIBLE
                                     checkCB.visibility = VISIBLE
                                     checkOrCallAnyCB.visibility = VISIBLE
 
-                                    foldCB.visibility = GONE
+                                    /*foldCB.visibility = GONE
                                     callCB.visibility = GONE
-                                    callAnyCB.visibility = GONE
+                                    callAnyCB.visibility = GONE*/
                                 }
                                 else -> {
-                                    fold_checkCB.visibility = GONE
-                                    checkCB.visibility = GONE
-                                    checkOrCallAnyCB.visibility = GONE
+                                    fold_checkCB.visibility = VISIBLE
+                                    checkCB.visibility = VISIBLE
+                                    checkOrCallAnyCB.visibility = VISIBLE
 
-                                    foldCB.visibility = VISIBLE
+                                   /* foldCB.visibility = VISIBLE
                                     callCB.visibility = VISIBLE
-                                    callAnyCB.visibility = VISIBLE
+                                    callAnyCB.visibility = VISIBLE*/
                                 }
                             }
                         }
@@ -975,9 +959,21 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 vm.autoActionView = actionView
             }
 
-            foldCB.onOneClick {
-                selectedAutoActionView(foldCB)
-                vm.autoGameAction(AutoGameAction.AUTO_FOLD, foldCB.isChecked) {}
+//            foldCB.onOneClick {
+//                selectedAutoActionView(foldCB)
+//                vm.autoGameAction(AutoGameAction.AUTO_FOLD, foldCB.isChecked) {}
+//            }
+//            callCB.onOneClick {
+//                selectedAutoActionView(callCB)
+//                vm.autoGameAction(AutoGameAction.AUTO_CALL, callCB.isChecked) {}
+//            }
+//            callAnyCB.onOneClick {
+//                selectedAutoActionView(callAnyCB)
+//                vm.autoGameAction(AutoGameAction.AUTO_CALL_ANY, callAnyCB.isChecked) {}
+//            }
+            fold_checkCB.onOneClick {
+                selectedAutoActionView(fold_checkCB)
+                vm.autoGameAction(AutoGameAction.AUTO_FOLD_CHECK, fold_checkCB.isChecked) {}
             }
             checkCB.onOneClick {
                 selectedAutoActionView(checkCB)
@@ -986,19 +982,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             }
             checkOrCallAnyCB.onOneClick {
                 selectedAutoActionView(checkOrCallAnyCB)
-                vm.autoGameAction(AutoGameAction.AUTO_CALL, checkOrCallAnyCB.isChecked) {}
-            }
-            fold_checkCB.onOneClick {
-                selectedAutoActionView(fold_checkCB)
-                vm.autoGameAction(AutoGameAction.AUTO_CHECK_FOLD, fold_checkCB.isChecked) {}
-            }
-            callCB.onOneClick {
-                selectedAutoActionView(callCB)
-                vm.autoGameAction(AutoGameAction.AUTO_CALL, callCB.isChecked) {}
-            }
-            callAnyCB.onOneClick {
-                selectedAutoActionView(callAnyCB)
-                vm.autoGameAction(AutoGameAction.AUTO_CALL_ANY, callAnyCB.isChecked) {}
+                vm.autoGameAction(AutoGameAction.AUTO_CALLANY_CHECK, checkOrCallAnyCB.isChecked) {}
             }
         }
     }
