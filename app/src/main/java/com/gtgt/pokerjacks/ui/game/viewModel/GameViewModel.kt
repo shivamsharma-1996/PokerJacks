@@ -1,11 +1,11 @@
 package com.gtgt.pokerjacks.ui.game.viewModel
 
 import android.content.res.Configuration
-import android.view.View
 import android.widget.CheckBox
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.salomonbrys.kotson.*
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.gtgt.pokerjacks.base.AnyModel
@@ -91,6 +91,7 @@ class GameViewModel : SocketIOViewModel() {
         }
     }
     var currentTableId: String = ""
+    var currentGameId: String = ""
 
     var tableId: String = ""
         set(value) {
@@ -100,6 +101,10 @@ class GameViewModel : SocketIOViewModel() {
                 coloredImages.clear()
                 _isGameEnded.postValue(false)
                 gameTriggerLD.data = it["data"]["gameDetails"].to()
+                log("poker:gameEvent", "gameTrigger "+ it["data"]["gameDetails"].to())
+
+                currentGameId = gameTriggerLD.data!!._id
+
             }
             on<JsonElement>("gameStart") {
 
@@ -114,6 +119,7 @@ class GameViewModel : SocketIOViewModel() {
                 }
 
                 val gameDetails = it["data"]["gameDetails"].to<GameModel.GameDetails>()
+                log("poker:gameEvent", "gameStart "+ gameDetails)
 
                 emit<AnyModel>("getUserCards", jsonObject("table_id" to tableId)) {
 
@@ -277,11 +283,13 @@ class GameViewModel : SocketIOViewModel() {
         }else{
             slotPositionMap
         }
-        if (mySlot == null || (slots.size == 6 && !isLandscape)){
+        if (mySlot == null || (slots.size == 6 && !isLandscape && !isSlot6PostitionMapInitialized)){
             mySlot = slots.firstOrNull { it.user_unique_id == userId }
 
+            if(slots.size == 6 && !isLandscape){
+                isSlot6PostitionMapInitialized = true
+            }
             var currentSlot = mySlot ?: slots[0]
-            //isSlot6PostitionMapInitialized = true
 
             slots.forEachIndexed { i, slot ->
                 slot.user = gameUsers.firstOrNull { it.user_unique_id == slot.user_unique_id }
@@ -315,7 +323,6 @@ class GameViewModel : SocketIOViewModel() {
 
     var connectionData: JsonElement? = null
     fun connectTable() {
-        log("poker::connectTable()", "connectTable");
         emit<JsonElement>("connectTable", jsonObject("table_id" to tableId)) {
             connectionData = it
 
@@ -328,26 +335,43 @@ class GameViewModel : SocketIOViewModel() {
 
                 if (data.success) {
                     val gameInfo = data.info
-                    if(currentTableId.isEmpty()){
-                        gameTriggerLD.data = gameInfo.gameDetails
-                        userContestDetailsLD.data = gameInfo.userContestDetails
-                        tableSlots = gameInfo.tableSlots
-                        gameUsers = gameInfo.gameUsers
-                        handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
-                        socketIO.socketHandler.delayedHandler(300) {
-                            gameDetailsLD.data = gameInfo.gameDetails
-                            if (gameInfo.leaderboard != null)
-                                leaderboardLD.data = Event(gameInfo.leaderboard)
+                    log("gameInfo", "gameInfo: " + gameInfo)
+                    if(gameInfo.gameDetails!=null){
+                        if(!gameInfo.gameDetails._id.equals(currentGameId)){
+                            if(currentTableId.isEmpty()){
+                                //here, if there is any ongoing game, then user will be able to resume
+                                restoreGame(gameInfo)
+                            }
+                            //here, new game-timer is going to trigger
+                            gameInfo.gameDetails._id.let {
+                                gameTriggerLD.data = gameInfo.gameDetails
+                                currentTableId = gameInfo.gameDetails._id
+                                gameCountdownTimeLeft = 0L
+                            }
+                        }else{
+                            restoreGame(gameInfo)
                         }
                     }
-                    socketIO.socketHandler.delayedHandler(300) {
-                        playerTurnLD.data = gameInfo.playerTurn
-                    }
+                    tableSlots = gameInfo.tableSlots
+                    gameUsers = gameInfo.gameUsers
+                    handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
                     currentTableId = tableId
                 } else {
                     activity?.showSnack(data.description)
                 }
             }
+        }
+    }
+
+    fun restoreGame(gameInfo: GameModel.Info) {
+        if(gameCountdownTimeLeft==0L){
+            gameDetailsLD.data = gameInfo.gameDetails
+        }
+        userContestDetailsLD.data = gameInfo.userContestDetails
+        socketIO.socketHandler.delayedHandler(300) {
+            if (gameInfo.leaderboard != null)
+                leaderboardLD.data = Event(gameInfo.leaderboard)
+            playerTurnLD.data = gameInfo.playerTurn
         }
     }
 
@@ -398,7 +422,7 @@ class GameViewModel : SocketIOViewModel() {
             "autoGameAction",
             jsonObject(
                 "table_id" to tableId,
-                "game_id" to gameDetailsLD.data!!._id,
+                "game_id" to gameDetailsLD?.data!!._id,
                 "action_details" to jsonObject(
                     "action" to action.action,
                     "enable" to enable
@@ -439,6 +463,6 @@ class GameViewModel : SocketIOViewModel() {
         _refillInPlayAmount.postValue(false)
     }
     var mySlot: TableSlot? = null
-    //var isSlot6PostitionMapInitialized = false
+    var isSlot6PostitionMapInitialized = false
     var me: GameUser? = null
 }

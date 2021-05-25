@@ -155,6 +155,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             } else {
                 requestedOrientation = SCREEN_ORIENTATION_SENSOR_LANDSCAPE
             }
+            if (vm.isCommunityCardsOpened) {
+                totalPot.visibility = VISIBLE
+            }
         })
         c5.onRendered {
             slotViews = SlotViews(rootLayout) { seatNo ->
@@ -284,6 +287,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             vm.gameTriggerLD.observe(this, Observer {
                 log("poker::gameTriggerLD", it)
+                resetAutoOptions()
                 it?.let {
                     if (gameIDTV!= null/* && vm.isLandscape*/) {
                         gameIDTV.text = it.game_uid
@@ -313,9 +317,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     messageFL.visibility = VISIBLE
 
-                    if (vm.isCommunityCardsOpened) {
-                        totalPot.visibility = VISIBLE
-                    }
                     if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || vm.gameCountdownTimeLeft != 0L) {
                         leaderboardView.visibility = GONE
 
@@ -394,6 +395,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 if(it !=null){
                     if(/*!vm.isConfigurationChanged && */vm.isDealCommunityCardsEventReceived){
                         val slots = vm.tableSlotsLD.value
+                        resetAutoOptions()
                         log("poker::dealCommunityCardsLD", "dealCommunityCardsLD : ${it.toString()}")
 //            val potSplitPadding = dpToPx(15).toFloat()
                         val potSplitTopLandscape = dpToPx(40).toFloat()
@@ -985,6 +987,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 vm.autoGameAction(AutoGameAction.AUTO_CALLANY_CHECK, checkOrCallAnyCB.isChecked) {}
             }
         }
+    }
+
+    private fun resetAutoOptions() {
+        fold_checkCB.isChecked = false
+        checkCB.isChecked = false
+        checkOrCallAnyCB.isChecked = false
     }
 
     private fun onUserContestDetailsLDObserved(userContentDetails: GameModel.UserContestDetails) {

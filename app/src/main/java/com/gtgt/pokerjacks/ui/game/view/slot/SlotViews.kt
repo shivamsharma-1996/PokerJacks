@@ -192,7 +192,10 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 else {
                     noPlayer.visibility = GONE
                     //player_action.visibility = GONE
-                    iv_userProfile.visibility = VISIBLE
+                    log("animateView.time2", animateView.remainingTimeInSec)
+                    if(animateView.remainingTimeInSec== 0L){
+                        iv_userProfile.visibility = VISIBLE
+                    }
                     name_inplay_group.visibility = VISIBLE
 
                     if (slot.user != null && slot.user!!.status != TableSlotStatus.FOLD.name) {

@@ -23,7 +23,7 @@ class AnimateArcView(context: Context, attrs: AttributeSet) : View(context, attr
     private val tp = TextPaint()
     private lateinit var rectF: RectF
     private var sweepAngle = 0f
-    private var remainingTimeInSec = 0L
+    var remainingTimeInSec = 0L
     var animateCounter: CountDownTimer? = null
 
     var isGraceTime = false
@@ -114,6 +114,7 @@ class AnimateArcView(context: Context, attrs: AttributeSet) : View(context, attr
     fun stopAnim() {
         visibility = GONE
         animateCounter?.cancel()
+        remainingTimeInSec = 0L
     }
 
     override fun onDraw(canvas: Canvas) {
