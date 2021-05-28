@@ -459,6 +459,10 @@ class GameViewModel : SocketIOViewModel() {
 
     }
 
+    fun getVacantSlotsCount() : Int {
+        return (tableSlots!!.filter { it.status == TableSlotStatus.VACANT.name }).size
+    }
+
     fun resetRefillInPlayAmount(){
         _refillInPlayAmount.postValue(false)
     }

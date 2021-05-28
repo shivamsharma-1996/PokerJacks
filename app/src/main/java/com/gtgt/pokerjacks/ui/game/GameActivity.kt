@@ -242,7 +242,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 it?.let {
                     slotViews.isJoined = vm.mySlot != null
 
-                    log("Poker::tableSlotsLD", "slots:/n" + Gson().toJson(it))
+                    log("tableSlotsLD", "slots:/n" + Gson().toJson(it))
                     if (vm.mySlot != null) {
 
                         when (vm.mySlot!!.status) {
@@ -262,6 +262,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             }
                         }
                     }
+
+                    if(vm.getVacantSlotsCount() == vm.tableSlots!!.size){
+                        resetGameToDefault()
+                    }
+                    checkIfNeedToWait()
                     slotViews.checkCanRefillWallet(it)
                     slotViews.drawSlots(it)
                 }
@@ -269,18 +274,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             vm.isGameEnded.observe(this, Observer { isGameEnded ->
                 if(isGameEnded){
-                    log("poker::resetGame", "isGameEnded : " +isGameEnded)
                     if(isGameEnded){
                         slotViews.resetGame()
-                        //if inplay_amount less than bb amount
-                        /*slotViews.meTableSlotBottomCenter.user?.let {
-                            val meGameInplayAmount: Double = slotViews.meTableSlotBottomCenter.user!!.game_inplay_amount
-                            if(slotViews.currentBigBlindAmount!=null){
-                                if(meGameInplayAmount < slotViews.currentBigBlindAmount!!){
-                                    //showBuyInAlert()
-                                }
-                            }
-                        }*/
                     }
                 }
             })
@@ -303,19 +298,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                           gameIdTV.text = it.gameUID*/
 
                     slotViews.usersBestHand = null
-                    slotViews.crownTo(-1)
-                    slotViews.resetGame()
-
-                    c1.alpha = 1f
-                    c2.alpha = 1f
-                    c3.alpha = 1f
-                    c4.alpha = 1f
-                    c5.alpha = 1f
-
-                    mc1.alpha = 1f
-                    mc2.alpha = 1f
-
-                    messageFL.visibility = VISIBLE
+                    resetGameToDefault()
 
                     if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || vm.gameCountdownTimeLeft != 0L) {
                         leaderboardView.visibility = GONE
@@ -987,6 +970,30 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 vm.autoGameAction(AutoGameAction.AUTO_CALLANY_CHECK, checkOrCallAnyCB.isChecked) {}
             }
         }
+    }
+
+    private fun checkIfNeedToWait() {
+        vm.tableSlots?.let {
+                if(vm.getVacantSlotsCount() == vm.tableSlots!!.size-1 && vm.mySlot != null){
+                    resetGameToDefault()          // <--this is because gameTrigger event will not be triggered in this becomes true
+                    messageFL.visibility = VISIBLE
+                    waitingTv.visibility = VISIBLE
+                }
+        }
+    }
+
+    private fun resetGameToDefault() {
+        slotViews.crownTo(-1)
+        slotViews.resetGame()
+
+        c1.alpha = 1f
+        c2.alpha = 1f
+        c3.alpha = 1f
+        c4.alpha = 1f
+        c5.alpha = 1f
+
+        mc1.alpha = 1f
+        mc2.alpha = 1f
     }
 
     private fun resetAutoOptions() {
