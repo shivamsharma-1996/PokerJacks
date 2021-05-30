@@ -107,7 +107,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomPannel"
+            android:layout_above="@+id/bottomPannel2"
             android:layout_below="@+id/topPanel"
             android:layout_weight="1">
 
@@ -501,7 +501,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/bottomPannel"
+            android:id="@+id/bottomPannel2"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
@@ -703,7 +703,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/_10sdp"
-           android:layout_above="@+id/bottomPannel"
+           android:layout_above="@+id/bottomPannel2"
             android:layout_marginBottom="62dp"
             android:visibility="invisible" />
 

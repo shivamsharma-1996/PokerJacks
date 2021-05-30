@@ -198,30 +198,31 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     }
                     name_inplay_group.visibility = VISIBLE
 
-                    if (slot.user != null && slot.user!!.status != TableSlotStatus.FOLD.name) {
                         active_indication.visibility = VISIBLE
-                        active_indication.setImageResource(
-                            when (slot.status) {
-                                SeatStatus.WAIT_FOR_BB.name, SeatStatus.WAIT_FOR_NEXT.name -> {
-                                    iv_userProfile.blurOut()
-                                    R.drawable.waiting
-                                }
-                                SeatStatus.SIT_OUT.name, SeatStatus.SIT_OUT_NEXT.name-> {
-                                    iv_userProfile.blurOut()
-                                    R.drawable.sitout
-                                }
-                                SeatStatus.ACTIVE.name -> R.drawable.active_indication
-                                else -> {
-                                    log("poker::active_indication", slot.status)
-                                    R.drawable.active_indication
-                                    /*iv_userProfile.blurOut()
-                                    R.drawable.waiting*/
-                                }
-                            }
-                        )
-                    } else {
-                        active_indication.visibility = GONE
+                    if(slot.game_user){
+                      when(slot.status){
+                          SeatStatus.WAIT_FOR_BB.name, SeatStatus.WAIT_FOR_NEXT.name -> {
+                              if(!((context as GameActivity).vm.checkIsFirstGame)){
+                                  iv_userProfile.blurOut()
+                                  active_indication.setImageResource(R.drawable.waiting)
+                              }
+                          }else -> { active_indication.setImageResource(
+                              when (slot.status) {
+                                  SeatStatus.SIT_OUT.name -> {
+                                      iv_userProfile.blurOut()
+                                      R.drawable.sitout
+                                  }
+                                  else -> {
+                                      R.drawable.active_indication
+                                  }
+                              }
+                          )
+                          }
+                      }
                     }
+
+
+
 
                     if (slot.user != null && slot.user!!.current_round_invested > 0.0) {
                         raise_amt.visibility = VISIBLE

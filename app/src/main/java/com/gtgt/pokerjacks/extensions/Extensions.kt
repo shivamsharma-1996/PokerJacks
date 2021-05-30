@@ -1096,3 +1096,7 @@ var <T> MutableLiveData<T>.data: T?
     set(v) {
         postValue(v)
     }
+
+fun <T> MutableLiveData<T>.forceRefresh() {
+    postValue(this.value)
+}

@@ -53,6 +53,7 @@ enum class PlayerActions(val action: String) {
 class GameViewModel : SocketIOViewModel() {
     val userId = retrieveString("USER_ID")
 
+    var checkIsFirstGame = true
     val userDetailsLD = MutableLiveData<JoinModel.UserDetails>()
 
     val tableSlotsLD = MutableLiveData<List<TableSlot>>()
@@ -107,7 +108,7 @@ class GameViewModel : SocketIOViewModel() {
 
             }
             on<JsonElement>("gameStart") {
-
+                checkIsFirstGame = false
                 val gameInfo = it["data"].to<GameModel.Info>()
 
                 val mySlot = gameInfo.tableSlots.find { it.user_unique_id == userId }
@@ -133,7 +134,7 @@ class GameViewModel : SocketIOViewModel() {
             }
 
             on<TablePlayers>("tablePlayers") {
-                log("poker::tablePlayers", "tablePlayers")
+                log("poker::tablePlayers", "tablePlayers : " + Gson().toJson(it))
                 tableSlots = it.tableSlots
                 gameUsers = it.gameUsers
                 handleTableSlots(it.tableSlots, it.gameUsers)
@@ -231,6 +232,10 @@ class GameViewModel : SocketIOViewModel() {
     private fun resetVmResources() {
         gameCountdownTimeLeft = 0L
         isCommunityCardsOpened = false
+        userDetailsLD.value?.let {
+            it.auto_next_game = false
+        }
+        userDetailsLD.forceRefresh()
         dealCommunityCardsLD.postValue(null)
         gameDetailsLD.postValue(null)
         userContestDetailsLD.postValue(null)
@@ -276,6 +281,7 @@ class GameViewModel : SocketIOViewModel() {
     private fun handleTableSlots(slots: List<TableSlot>, gameUsers: List<GameUser>) {
         setSelectedSlotPositions(slots.size)
 
+        log("gameUsers12", gameUsers)
         me = gameUsers.find { it.user_unique_id == userId }
 
         val currentSlotPositionMap = if(slots.size == 6 && !isLandscape){

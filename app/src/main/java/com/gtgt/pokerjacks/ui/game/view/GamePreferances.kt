@@ -11,10 +11,7 @@ import com.devs.vectorchildfinder.VectorChildFinder
 import com.github.salomonbrys.kotson.jsonObject
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.base.BaseFragment
-import com.gtgt.pokerjacks.extensions.changePathStrokeColor
-import com.gtgt.pokerjacks.extensions.isColorDeckEnabled
-import com.gtgt.pokerjacks.extensions.onOneClick
-import com.gtgt.pokerjacks.extensions.sharedViewModel
+import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.game.GameActivity
 import com.gtgt.pokerjacks.ui.game.viewModel.GamePreferencesViewModel
 import com.gtgt.pokerjacks.ui.game.viewModel.GameViewModel

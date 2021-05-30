@@ -80,7 +80,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
     private var isAmountRaisedViaBtn = false
     private lateinit var slotViews: SlotViews
-    private val vm: GameViewModel by viewModel()
+    public val vm: GameViewModel by viewModel()
     private val preferencesvm: GamePreferencesViewModel by viewModel()
 
     private val tableId by lazy { intent.getStringExtra("table_id") }
@@ -303,9 +303,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || vm.gameCountdownTimeLeft != 0L) {
                         leaderboardView.visibility = GONE
 
-                        bottomPannel.visibility = INVISIBLE
                         if (!vm.isLandscape && bottomPannel1 != null) {
                             bottomPannel1.visibility = INVISIBLE
+                            bottomPannel2.visibility = INVISIBLE
+                        }else{
+                            bottomPannel.visibility = INVISIBLE
                         }
                         community_cards_ll.visibility = INVISIBLE
                         user_cards_fl.visibility = INVISIBLE
@@ -677,9 +679,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     return@EventObserver
 
                 log("poker::leaderboardLD", leaderboard)
-                bottomPannel.visibility = INVISIBLE
                 if (!vm.isLandscape && bottomPannel1 != null) {
                     bottomPannel1.visibility = INVISIBLE
+                    bottomPannel2.visibility = INVISIBLE
+                }else{
+                    bottomPannel.visibility = INVISIBLE
                 }
 
                 if (leaderboard.cards_reveal) {
@@ -812,6 +816,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             slotViews.resetPlayers()
                             mc1.setImageResource(R.drawable.deck_card)
                             mc2.setImageResource(R.drawable.deck_card)
+                            raiseLL.visibility = GONE
 
                             if (vm.mySlot != null) {
                               vm.mySlot!!.seat_no.apply {
@@ -843,9 +848,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
                     disableEnableActions(true)
                     runOnMain {
-                        bottomPannel.visibility = INVISIBLE
                         if (!vm.isLandscape && bottomPannel1 != null) {
                             bottomPannel1.visibility = INVISIBLE
+                            bottomPannel2.visibility = INVISIBLE
+                        }else{
+                            bottomPannel.visibility = INVISIBLE
                         }
                     }
                     if (it!!["success"].bool) {
@@ -897,9 +904,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 } else {
                     joinTableActions {
                         iAMBack.visibility = GONE
-                        bottomPannel.visibility = VISIBLE
                         if (!vm.isLandscape && bottomPannel1 != null) {
                             bottomPannel1.visibility = VISIBLE
+                            bottomPannel2.visibility = VISIBLE
+                        }else{
+                            bottomPannel.visibility = VISIBLE
                         }
                     }
                 }
@@ -909,15 +918,19 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.SIT_OUT.status) {
                     if (it) {
                         iAMBack.visibility = VISIBLE
-                        bottomPannel.visibility = INVISIBLE
                         if (!vm.isLandscape && bottomPannel1 != null) {
                             bottomPannel1.visibility = INVISIBLE
+                            bottomPannel2.visibility = INVISIBLE
+                        }else{
+                            bottomPannel.visibility = INVISIBLE
                         }
                     } else {
                         iAMBack.visibility = GONE
-                        bottomPannel.visibility = VISIBLE
                         if (!vm.isLandscape && bottomPannel1 != null) {
                             bottomPannel1.visibility = VISIBLE
+                            bottomPannel2.visibility = VISIBLE
+                        }else{
+                            bottomPannel.visibility = VISIBLE
                         }
                     }
                 }
@@ -1020,9 +1033,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         } else {
             sitOutCB.visibility = GONE
         }
-        bottomPannel.visibility = VISIBLE
         if (!vm.isLandscape && bottomPannel1 != null) {
             bottomPannel1.visibility = VISIBLE
+            bottomPannel2.visibility = VISIBLE
+        }else{
+            bottomPannel.visibility = VISIBLE
         }
 
         community_cards_ll.visibility = VISIBLE
@@ -1396,6 +1411,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 vm.updateUserGameSettings(jsonObject("auto_next_game" to true))
                             }
 
+                            sitOutCB.isChecked = false
                             dialog.dismiss()
 
                             callback()
