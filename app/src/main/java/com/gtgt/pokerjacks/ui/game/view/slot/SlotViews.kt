@@ -1,7 +1,5 @@
 package com.gtgt.pokerjacks.ui.game.view.slot
 
-import android.animation.ValueAnimator
-import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +20,6 @@ import com.gtgt.pokerjacks.ui.game.viewModel.SeatStatus
 import com.gtgt.pokerjacks.utils.SlotPositions.*
 import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.android.synthetic.main.player.view.*
-import kotlin.math.roundToInt
 
 
 class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int) -> Unit) {
@@ -144,6 +141,9 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
     }
 
     fun drawSlots(slots: List<TableSlot>) {
+//        if((context as GameActivity).vm.isWaitingForOthersShown){
+//            return
+//        }
 //        this.slots.clear()
         slots.forEach { slot ->
             val currentSlotPositionMap = if(slots.size == 6 && !isLandscape){
@@ -202,7 +202,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     if(slot.game_user){
                       when(slot.status){
                           SeatStatus.WAIT_FOR_BB.name, SeatStatus.WAIT_FOR_NEXT.name -> {
-                              if(!((context as GameActivity).vm.checkIsFirstGame)){
+                              if(((context as GameActivity).vm.canDisplayWaitingIcon)){
                                   iv_userProfile.blurOut()
                                   active_indication.setImageResource(R.drawable.waiting)
                               }
@@ -226,6 +226,12 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
                     if (slot.user != null && slot.user!!.current_round_invested > 0.0) {
                         raise_amt.visibility = VISIBLE
+
+                        /*if((context as GameActivity).vm.isWaitingForOthersShown){
+                            raise_amt.visibility = VISIBLE
+                        }else{
+                            raise_amt.visibility = GONE
+                        }*/
                         raise_amt.text =
                             "₹" + String.format(
                                 "%.2f",
@@ -521,5 +527,9 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
             it.value.raise_amt.visibility = GONE
             it.value.active_indication.visibility = GONE
         }
+    }
+
+    fun resetDealerIcon(){
+        dealerPosition = 0
     }
 }

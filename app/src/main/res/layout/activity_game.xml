@@ -622,7 +622,7 @@
             android:id="@+id/messageFL"
             android:layout_width="@dimen/_165sdp"
             android:layout_height="@dimen/_85sdp"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:layout_centerInParent="true"
             android:translationZ="10dp">
 
@@ -651,10 +651,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Waiting for other players to join"
+                    android:text="Please wait while other player(s) join the table"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:visibility="invisible"
+                    android:maxWidth="@dimen/_150sdp"
+                    android:visibility="gone"
                     android:lineSpacingExtra="5sp"/>
 
                 <TextView
@@ -666,7 +667,8 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:lineSpacingExtra="5sp"                    android:visibility="gone" />
+                    android:lineSpacingExtra="5sp"
+                    android:visibility="gone" />
             </LinearLayout>
         </FrameLayout>
 

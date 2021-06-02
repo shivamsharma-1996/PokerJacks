@@ -71,13 +71,15 @@ class LobbyFragment : BaseFragment() {
 
 
         lobbyVM.lobbyTables.observe(viewLifecycleOwner, Observer {
-            if (it.success) {
-                log("selectedPlayersFilter", lobbyVM.playersAllTables)
-                when (selectedPlayersFilter) {
-                    -1 -> lobbyAdapter.submitList(lobbyVM.playersAllTables)
-                    2 -> lobbyAdapter.submitList(lobbyVM.players2Tables)
-                    6 -> lobbyAdapter.submitList(lobbyVM.players6Tables)
-                    9 -> lobbyAdapter.submitList(lobbyVM.players9Tables)
+            it?.let {
+                if (it?.success) {
+                    log("selectedPlayersFilter", lobbyVM.playersAllTables)
+                    when (selectedPlayersFilter) {
+                        -1 -> lobbyAdapter.submitList(lobbyVM.playersAllTables)
+                        2 -> lobbyAdapter.submitList(lobbyVM.players2Tables)
+                        6 -> lobbyAdapter.submitList(lobbyVM.players6Tables)
+                        9 -> lobbyAdapter.submitList(lobbyVM.players9Tables)
+                    }
                 }
             }
         })

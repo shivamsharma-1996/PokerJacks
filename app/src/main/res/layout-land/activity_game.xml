@@ -605,9 +605,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Waiting for other players to join"
+                    android:maxWidth="350dp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="Please wait while other player(s) join the table"
                     android:textColor="@color/white"
-                    android:textSize="20dp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/gameStartsTimer"
