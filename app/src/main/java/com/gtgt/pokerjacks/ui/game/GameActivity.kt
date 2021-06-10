@@ -25,8 +25,7 @@ import com.gtgt.pokerjacks.base.FullScreenScreenOnActivity
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.socket.SocketIoInstance
 import com.gtgt.pokerjacks.socket.socketInstance
-import com.gtgt.pokerjacks.ui.game.models.GameModel
-import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
+import com.gtgt.pokerjacks.ui.game.models.*
 import com.gtgt.pokerjacks.ui.game.view.GamePreferencesFragment
 import com.gtgt.pokerjacks.ui.game.view.SelectThemesFragment
 import com.gtgt.pokerjacks.ui.game.view.slot.SlotViews
@@ -79,6 +78,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     private var isAmountRaisedViaBtn = false
+    open var isGameRunning = false
     private lateinit var slotViews: SlotViews
     public val vm: GameViewModel by viewModel()
     private val preferencesvm: GamePreferencesViewModel by viewModel()
@@ -199,7 +199,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             val settingsVector = VectorChildFinder(this, R.drawable.settings, settings)
             val menuVector = VectorChildFinder(this, R.drawable.menu, menu)
-            val statsVector = VectorChildFinder(this, R.drawable.stats, stats)
+            //val statsVector = VectorChildFinder(this, R.drawable.stats, stats)
             val previousVector = VectorChildFinder(this, R.drawable.previous, previous)
             themesViewModel.onThemeSelected.observe(this, Observer { theme ->
                 if (theme != null) {
@@ -214,8 +214,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     settingsVector.changePathStrokeColor("stroke", theme.btn2)
                     settings.invalidate()
 
-                    statsVector.changePathStrokeColor("stroke", theme.btn2)
-                    stats.invalidate()
+                    //statsVector.changePathStrokeColor("stroke", theme.btn2)
+                   // stats.invalidate()
 
                     previousVector.changePathStrokeColor("stroke", theme.btn2)
                     previous.invalidate()
@@ -253,11 +253,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 joinBBcb.visibility = GONE
                             }
                             SeatStatus.WAIT_FOR_BB.status -> {
-                                joinBBcb.visibility = VISIBLE
+                                //joinBBcb.visibility = VISIBLE
                                 joinBBcb.isChecked = true
                             }
                             SeatStatus.WAIT_FOR_NEXT.status -> {
-                                joinBBcb.visibility = VISIBLE
+                                //joinBBcb.visibility = VISIBLE
                                 joinBBcb.isChecked = false
                             }
                         }
@@ -272,9 +272,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     if(vm.getfilteredSlotsCount(TableSlotStatus.VACANT.name) == totalSlotsCount){
                             resetGameToDefault()
-                            messageFL.visibility = GONE
+                            //messageFL.visibility = GONE
                             waitingTv.visibility = GONE
-                            gameStartsTimer.visibility = GONE
+                           // gameStartsTimer.visibility = GONE
                             iAMBack.visibility = GONE
                         }else if(vm.mySlot != null &&
                         (vacantSlotsCount == totalSlotsCount-1)
@@ -285,9 +285,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             resetGameToDefault()          // <--this is because gameTrigger event will not be triggered in this case
                             vm.isWaitingForOthersShown = true
 
-                            messageFL.visibility = VISIBLE
+                            //messageFL.visibility = VISIBLE
                             waitingTv.visibility = VISIBLE
-                            gameStartsTimer.visibility = GONE
+                            waitingTv.text = getString(R.string.waiting_for_opponents)
+                            //gameStartsTimer.visibility = GONE
                         }else if(activeSlotsCount >= 2){
                             vm.canDisplayWaitingIcon = true
                         }else if(activeSlotsCount == 0 && inactiveSlotsCount>0 && vm.isFirstGameStarted){
@@ -300,9 +301,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             vm.isGameEnded.observe(this, Observer { isGameEnded ->
                 if(isGameEnded){
-                    if(isGameEnded){
-                        slotViews.resetGame()
-                    }
+                    slotViews.resetGame()
+                    isGameRunning= false
                 }
             })
 
@@ -314,6 +314,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         gameIDTV.text = it.game_uid
                     } else if(portrait_gameIDTV!=null) {
                         portrait_gameIDTV.text = it.game_uid
+                    }
+                    if(it.small_blind!=null && it.big_blind!=null){
+                        gameBlindInfo.text = "" + it.small_blind + " /" + it.big_blind + "  | "
                     }
 
 //                gameIDTV.invalidate()
@@ -338,14 +341,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     slotViews.resetDealerIcon()
 
                     if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || vm.gameCountdownTimeLeft != 0L) {
-                        leaderboardView.visibility = GONE
+                        //leaderboardView.visibility = GONE
 
-                        if (!vm.isLandscape && bottomPannel1 != null) {
-                            bottomPannel1.visibility = INVISIBLE
-                            bottomPannel2.visibility = INVISIBLE
-                        }else{
-                            bottomPannel.visibility = INVISIBLE
-                        }
+                        isGameRunning = true
+                        bottomPannel_new.visibility = INVISIBLE
+                        user_best_hand.visibility = INVISIBLE
+                        tv_rankOrder.visibility = INVISIBLE
                         community_cards_ll.visibility = INVISIBLE
                         user_cards_fl.visibility = INVISIBLE
                         totalPot.visibility = INVISIBLE
@@ -358,14 +359,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         /*slotViews.showTime = 0L
                 slotViews.stopTimers()*/
 
-                        raiseLL.visibility = GONE
+                        raiseLL.visibility = INVISIBLE
 
-                        afterSubmit.visibility = GONE
+                        //afterSubmit.visibility = GONE
                         vm.resetGame()
 
-                        messageFL.visibility = VISIBLE
-                        waitingTv.visibility = GONE
-                        gameStartsTimer.visibility = VISIBLE
+                        //messageFL.visibility = VISIBLE
+                        waitingTv.visibility = VISIBLE
+                        //gameStartsTimer.visibility = VISIBLE
                         iAMBack.visibility = GONE
 //                gamePreferencesViewModel.exitVisibility.value = View.GONE
 
@@ -406,10 +407,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.gameDetailsLD.observe(this, Observer {
                 it?.let {
                     onGameDetailsLdObserved(it)
-
                     /*if(vm.gameCountdownTimeLeft == 0L){
                         onGameDetailsLdObserved(it)
                     }*/
+                }
+            })
+
+            vm.userBestHandLd.observe(this, Observer {
+                it?.let {
+                    onBestHandReveal(it)
                 }
             })
 
@@ -506,7 +512,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         c3.coloredCard(it.card_3)
                         c4.coloredCard(it.card_4)
                         c5.coloredCard(it.card_5)
-                        vm.getHandStrength()
+                        log("poker::dealCommunityCardsLD", "dealCommunityCardsLD123 : ${vm.isUserBestHandAvailable(it)}")
+
+                        if(vm.isUserBestHandAvailable(it)){
+                            vm.getHandStrength()
+                        }
                     }
                 }
             })
@@ -526,7 +536,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 //            log("playerTurnLD", it)
 
                 if (it == null) {
-                    raiseLL.visibility = GONE
+                    raiseLL.visibility = INVISIBLE
                 } else {
 
                     if (vm.mySlot == null) {
@@ -566,7 +576,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             callLL.visibility = GONE
                             raiseBtnLL.visibility = GONE
                             checkBtn.visibility = GONE
-                            allinLL.visibility = GONE
+                            //allinLL.visibility = GONE
                         } else {
                             foldBtn.visibility =
                                 if (it.action_choices.contains(PlayerActions.FOLD.action)) VISIBLE else GONE
@@ -579,14 +589,16 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                     raiseLL.visibility = VISIBLE
                                     VISIBLE
                                 } else {
-                                    raiseLL.visibility = GONE
+                                    raiseLL.visibility = INVISIBLE
                                     GONE
                                 }
 
                             checkBtn.visibility =
                                 if (it.action_choices.contains(PlayerActions.CHECK.action)) VISIBLE else GONE
 
-                            allinLL.visibility =
+                            /*allinLL.visibility =
+                                if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE*/
+                            allinBtn.visibility =
                                 if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE
                         }
                         callBtn.text = "₹${it.player_min_amount_to_call.toDecimalFormat()}"
@@ -620,9 +632,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             onSeekChangeBtnClicked(it.current_min_raise)
                         }
 
-                        max_raise.onOneClick {
+                        /*allinBtn.onOneClick {
                             seek_raise.progress = seek_raise.max
-                        }
+                        }*/
 
                         increase_seek_raise.onOneClick {
                             seek_raise.progress += 100
@@ -662,11 +674,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         raiseBtn.text =
                             "₹${(it.current_min_raise).toDecimalFormat()}"
 
-                        allinBtn.text =
-                            "₹${(it.allin_amount).toDecimalFormat()}"
+                        /*allinBtn.text =
+                            "₹${(it.allin_amount).toDecimalFormat()}"*/
                         raiseBtn.tag = minPossibleRaise
                     } else {
-                        raiseLL.visibility = GONE
+                        raiseLL.visibility = INVISIBLE
 
                         if (vm.me != null) {
                             when {
@@ -674,11 +686,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                     fold_checkCB.visibility = GONE
                                     checkCB.visibility = GONE
                                     checkOrCallAnyCB.visibility = GONE
+                                    raiseBtnLL.visibility = INVISIBLE
+                                    bottomPannel_new.visibility = INVISIBLE
                                 }
                                 vm.me!!.amount_invested == it.game_max_bet_amount -> {
                                     fold_checkCB.visibility = VISIBLE
                                     checkCB.visibility = VISIBLE
                                     checkOrCallAnyCB.visibility = VISIBLE
+                                    raiseBtnLL.visibility = INVISIBLE
+                                    bottomPannel_new.visibility = VISIBLE
 
                                     /*foldCB.visibility = GONE
                                     callCB.visibility = GONE
@@ -688,10 +704,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                     fold_checkCB.visibility = VISIBLE
                                     checkCB.visibility = VISIBLE
                                     checkOrCallAnyCB.visibility = VISIBLE
+                                    raiseBtnLL.visibility = INVISIBLE
+                                    bottomPannel_new.visibility = VISIBLE
 
-                                   /* foldCB.visibility = VISIBLE
-                                    callCB.visibility = VISIBLE
-                                    callAnyCB.visibility = VISIBLE*/
+                                    /* foldCB.visibility = VISIBLE
+                                     callCB.visibility = VISIBLE
+                                     callAnyCB.visibility = VISIBLE*/
                                 }
                             }
                         }
@@ -700,7 +718,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         callLL.visibility = GONE
                         raiseBtnLL.visibility = GONE
                         checkBtn.visibility = GONE
-                        allinLL.visibility = GONE
+//                        allinLL.visibility = GONE
+                        allinBtn.visibility = GONE
                     }
 
                     slotViews.playerTurn = it
@@ -717,18 +736,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     return@EventObserver
 
                 log("poker::leaderboardLD", leaderboard)
-                if (!vm.isLandscape && bottomPannel1 != null) {
-                    bottomPannel1.visibility = INVISIBLE
-                    bottomPannel2.visibility = INVISIBLE
-                }else{
-                    bottomPannel.visibility = INVISIBLE
-                }
+                bottomPannel_new.visibility = INVISIBLE
 
                 if (leaderboard.cards_reveal) {
                     c5.coloredCard(leaderboard.community_cards.card_5)
                 }
                 slotViews.resetPlayers()
-                raiseLL.visibility = GONE
+                raiseLL.visibility = INVISIBLE
+
 
                 if(leaderboard.pot_distributions.size >= 2){
                     pot_split.removeAllViews()
@@ -869,7 +884,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             slotViews.resetPlayers()
                             /*mc1.setImageResource(R.drawable.deck_card)
                             mc2.setImageResource(R.drawable.deck_card)*/
-                            raiseLL.visibility = GONE
+                            raiseLL.visibility = INVISIBLE
 
                             if (vm.mySlot != null) {
                               vm.mySlot!!.seat_no.apply {
@@ -883,7 +898,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 }
             }
 
-            callBtn.onOneClick {
+            callLL.onOneClick {
                 disableEnableActions(false)
                 vm.actionEvent(ActionEvent.CALL_BET, total_amount = callBtn.tag as Double) {
                     disableEnableActions(true)
@@ -901,12 +916,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
                     disableEnableActions(true)
                     runOnMain {
-                        if (!vm.isLandscape && bottomPannel1 != null) {
-                            bottomPannel1.visibility = INVISIBLE
-                            bottomPannel2.visibility = INVISIBLE
-                        }else{
-                            bottomPannel.visibility = INVISIBLE
-                        }
+                        bottomPannel_new.visibility = INVISIBLE
                     }
                     if (it!!["success"].bool) {
                         slotViews.resetPlayers()
@@ -915,7 +925,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             }
 
 
-            raiseBtn.onOneClick {
+            raiseBtnLL.onOneClick {
                 disableEnableActions(false)
                 vm.actionEvent(
                     ActionEvent.RAISE_BET,
@@ -931,7 +941,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     runOnMain {
                         if (it!!["success"].bool) {
                             /*iAMBack.visibility = VISIBLE
-                        bottomPannel.visibility = GONE*/
+                        bottomPannel_new.visibility = GONE*/
                         } else {
                             sitOutCB.isChecked = !sitOutCB.isChecked
                             showSnack(it["description"].string)
@@ -957,12 +967,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 } else {
                     joinTableActions {
                         iAMBack.visibility = GONE
-                        if (!vm.isLandscape && bottomPannel1 != null) {
-                            bottomPannel1.visibility = VISIBLE
-                            bottomPannel2.visibility = VISIBLE
-                        }else{
-                            bottomPannel.visibility = VISIBLE
-                        }
                     }
                 }
             }
@@ -970,21 +974,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.iamBackLD.observe(this, Observer {
                 if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.SIT_OUT.status) {
                     if (it) {
+                        sitOutCB.visibility = INVISIBLE
                         iAMBack.visibility = VISIBLE
-                        if (!vm.isLandscape && bottomPannel1 != null) {
-                            bottomPannel1.visibility = INVISIBLE
-                            bottomPannel2.visibility = INVISIBLE
-                        }else{
-                            bottomPannel.visibility = INVISIBLE
-                        }
+                        user_cards_fl.visibility = INVISIBLE
+                        waitingTv.visibility = INVISIBLE
+                        bottomPannel_new.visibility = INVISIBLE
                     } else {
                         iAMBack.visibility = GONE
-                        if (!vm.isLandscape && bottomPannel1 != null) {
-                            bottomPannel1.visibility = VISIBLE
-                            bottomPannel2.visibility = VISIBLE
-                        }else{
-                            bottomPannel.visibility = VISIBLE
-                        }
+                        bottomPannel_new.visibility = VISIBLE
                     }
                 }
             })
@@ -1038,9 +1035,25 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
     }
 
+    private fun onBestHandReveal(handStrength: UserBestHand) {
+        val userBestHand = handStrength.handDetails
+        tv_rankOrder.visibility = VISIBLE
+        user_best_hand.visibility = VISIBLE
+        tv_rankOrder.text = userBestHand.rankOrder
+        hand_c1.coloredCard(userBestHand.cards.get(0))
+        hand_c2.coloredCard(userBestHand.cards.get(1))
+        hand_c3.coloredCard(userBestHand.cards.get(2))
+        hand_c4.coloredCard(userBestHand.cards.get(3))
+        hand_c5.coloredCard(userBestHand.cards.get(4))
+    }
+
     private fun resetGameToDefault() {
+        isGameRunning = false
         slotViews.crownTo(-1)
         slotViews.resetGame()
+
+        user_best_hand.visibility = INVISIBLE
+        tv_rankOrder.visibility = INVISIBLE
 
         if(vm.isFirstGameStarted){  //this condition is used reset the resources and to omit the case  when VACANT players count are "initially" equal to total size
             vm.resetVmResources()
@@ -1050,17 +1063,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         vm.canDisplayWaitingIcon = false
         slotViews.resetDealerIcon()
 
-        if (!vm.isLandscape && bottomPannel1 != null) {
-            bottomPannel1.visibility = INVISIBLE
-            bottomPannel2.visibility = INVISIBLE
-        }else{
-            bottomPannel.visibility = INVISIBLE
-        }
+        bottomPannel_new.visibility = INVISIBLE
         community_cards_ll.visibility = INVISIBLE
         user_cards_fl.visibility = INVISIBLE
         totalPot.visibility = INVISIBLE
         pot_split.visibility = INVISIBLE
-        raiseLL.visibility = GONE
+        raiseLL.visibility = INVISIBLE
         //iAMBack.visibility = GONE
     }
 
@@ -1088,12 +1096,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         } else {
             sitOutCB.visibility = GONE
         }
-        if (!vm.isLandscape && bottomPannel1 != null) {
-            bottomPannel1.visibility = VISIBLE
-            bottomPannel2.visibility = VISIBLE
-        }else{
-            bottomPannel.visibility = VISIBLE
-        }
+        bottomPannel_new.visibility = VISIBLE
 
         if (it.total_pot_value > 0.0 && it.community_cards?.size != 0) {
             updatePotAmount(it.total_pot_value.toDecimalFormat())
@@ -1102,6 +1105,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             totalPot.visibility = INVISIBLE
         }
         messageFL.visibility = GONE
+        waitingTv.visibility = GONE
         community_cards_ll.visibility = VISIBLE
 
         c1.coloredCard(it.card_1)
@@ -1132,19 +1136,21 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             override fun onTick(millisUntilFinished: Long) {
                 log("vm.gameCountdownTimeLeft4", millisUntilFinished)
                 vm.gameCountdownTimeLeft = millisUntilFinished //in millis
-                gameStartsTimer.text =
+                waitingTv.text =
                     "Game starts in ${millisUntilFinished / 1000} seconds..."
             }
 
             override fun onStop() {
-                messageFL.visibility = GONE
-                gameStartsTimer.visibility = GONE
+                //messageFL.visibility = GONE
+                //gameStartsTimer.visibility = GONE
+                waitingTv.visibility = GONE
             }
 
             override fun onFinish() {
                 vm.gameCountdownTimeLeft = 0L
-                messageFL.visibility = GONE
-                gameStartsTimer.visibility = GONE
+                //messageFL.visibility = GONE
+                //gameStartsTimer.visibility = GONE
+                waitingTv.visibility = GONE
 //
 //                if(community_cards_ll.visibility != VISIBLE){
 //                    vm.gameDetailsLD.value?.let {
@@ -1467,7 +1473,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 ) {
                     if (it!!["success"].bool) {
                         runOnMain {
-                            joinBBcb.visibility = VISIBLE
+                            //joinBBcb.visibility = VISIBLE
 
                             joinBBcb.isChecked = !dialogView.join_from_next.isChecked
 

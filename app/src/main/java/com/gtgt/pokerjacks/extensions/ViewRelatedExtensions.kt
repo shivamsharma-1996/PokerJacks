@@ -14,6 +14,7 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -24,6 +25,8 @@ import com.bumptech.glide.Glide
 import com.gtgt.pokerjacks.R
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.player.view.*
+import kotlinx.android.synthetic.main.player.view.iv_userProfile
+import kotlinx.android.synthetic.main.player_new.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -68,6 +71,19 @@ fun View.resizeAnimation(newWidth: Int, newHeight: Int, animDuration:Long) {
     }
     anim.duration = animDuration
     anim.start()
+}
+
+fun View.markSeatEmpty(isEmpty: Boolean){
+    if(isEmpty){
+        this.iv_userProfile.visibility = View.INVISIBLE
+        this.vacant_dp.visibility = View.INVISIBLE
+        this.tv_sit_here.visibility = View.INVISIBLE
+        this.tv_empty_seat.visibility = View.VISIBLE
+    }else{
+        this.iv_userProfile.visibility = View.VISIBLE
+        this.tv_sit_here.visibility = View.VISIBLE
+        this.tv_empty_seat.visibility = View.INVISIBLE
+    }
 }
 
 /*fun View.onEveryRendered(callback: (View) -> Unit) {
@@ -196,10 +212,12 @@ fun View.widthHeightRaw(width: Float = 0f, height: Float = 0f): View {
     if (params != null) {
         if (width != 0f)
             params.width = width.toInt()
+        else
+            params.width = WRAP_CONTENT
         if (height != 0f)
             params.height = height.toInt()
-
-
+        else
+            params.width = WRAP_CONTENT
         layoutParams = params
     }
     return this

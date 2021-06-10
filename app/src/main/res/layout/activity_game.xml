@@ -16,34 +16,28 @@
             android:id="@+id/ivTable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="@dimen/_30sdp"
-            android:paddingTop="@dimen/_60sdp"
-            android:paddingEnd="@dimen/_30sdp"
-            android:paddingBottom="@dimen/_60sdp"
+            android:adjustViewBounds="true"
             android:scaleType="fitXY"
+            android:paddingStart="@dimen/_55sdp"
+            android:paddingEnd="@dimen/_55sdp"
+            android:paddingTop="@dimen/_70sdp"
+            android:paddingBottom="@dimen/_100sdp"
+            android:layout_centerInParent="true"
             android:src="@drawable/portrait_green_table" />
 
         <LinearLayout
             android:id="@+id/topPanel"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_56dp"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="15dp"
             android:paddingEnd="15dp">
 
-            <ImageView
+           <!-- <ImageView
                 android:id="@+id/stats"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/stats" />
-
-            <ImageView
-                android:id="@+id/previous"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/previous" />
+                android:src="@drawable/stats" />-->
 
             <TextView
                 android:id="@+id/reconnect"
@@ -51,6 +45,7 @@
                 android:layout_marginStart="10dp"
                 android:background="@drawable/stroke_blue"
                 android:minWidth="70dp"
+                android:layout_marginTop="16dp"
                 android:text="Go Offline"
                 android:visibility="gone" />
 
@@ -60,6 +55,7 @@
                 android:layout_marginStart="10dp"
                 android:background="@drawable/stroke_blue"
                 android:minWidth="70dp"
+                android:layout_marginTop="16dp"
                 android:text="Share Reconnect"
                 android:visibility="gone" />
 
@@ -69,20 +65,157 @@
                 android:layout_weight="1" />
 
             <ImageView
+                android:id="@+id/previous"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/previous" />
+
+            <ImageView
                 android:id="@+id/settings"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="12dp"
                 android:src="@drawable/settings" />
 
             <ImageView
                 android:id="@+id/menu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="12dp"
                 android:src="@drawable/menu"
                 android:layout_marginEnd="@dimen/_10sdp"/>
 
         </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/signalIv"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/signal_0" />
+
+        <TextView
+            android:id="@+id/tv_rankOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:textColor="#ffffff"
+            android:lineSpacingExtra="3sp"
+            tools:text="A Pair"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="6dp"
+            android:layout_toEndOf="@+id/signalIv"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/gameBlindInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="5 / 10  | "
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/gameIDTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="NDM-27536781"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_best_hand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:visibility="gone"
+            android:layout_below="@+id/signalIv"
+            android:layout_alignStart="@+id/signalIv">
+
+            <ImageView
+                android:id="@+id/hand_c1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/hand_c2"/>
+
+            <ImageView
+                android:id="@+id/hand_c2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:layout_marginStart="3dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hand_c1"
+                app:layout_constraintEnd_toStartOf="@+id/hand_c3"/>
+
+            <ImageView
+                android:id="@+id/hand_c3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:layout_marginStart="3dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hand_c2"
+                app:layout_constraintEnd_toStartOf="@+id/hand_c4"/>
+
+            <ImageView
+                android:id="@+id/hand_c4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:layout_marginStart="3dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hand_c3"
+                app:layout_constraintEnd_toStartOf="@+id/hand_c5"/>
+
+            <ImageView
+                android:id="@+id/hand_c5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:layout_marginStart="3dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hand_c4"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/blur"
@@ -107,7 +240,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomPannel2"
+            android:layout_above="@+id/bottomPannel_new"
             android:layout_below="@+id/topPanel"
             android:layout_weight="1">
 
@@ -140,28 +273,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.15"/>
+                    app:layout_constraintGuide_percent="0.18"/>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.85"/>
+                    app:layout_constraintGuide_percent="0.82"/>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.12"/>
+                    app:layout_constraintGuide_percent="0.1"/>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_end="50dp" />
+                    app:layout_constraintGuide_percent="0.95"/>
 
                 <TextView
                     android:id="@+id/totalPot"
@@ -174,9 +307,10 @@
                     android:gravity="center_horizontal"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:text="Total Pot: ₹12.20"
+                    android:fontFamily="@font/tondo_regular"
+                    tools:text="Total Pot: ₹12.20"
                     android:visibility="invisible"
-                    app:layout_constraintVertical_bias="0.7"
+                    app:layout_constraintVertical_bias="0.35"
                     app:layout_constraintVertical_chainStyle="packed"
                     app:layout_constraintTop_toBottomOf="@+id/gl_top"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -204,7 +338,7 @@
 
                 <LinearLayout
                     android:id="@+id/community_cards_ll"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
@@ -219,8 +353,8 @@
                         android:id="@+id/c1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:maxWidth="@dimen/_40sdp"
-                        android:maxHeight="@dimen/_45sdp"
+                        android:maxWidth="@dimen/_28sdp"
+                        android:maxHeight="@dimen/_40sdp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/deck_card" />
 
@@ -228,8 +362,8 @@
                         android:id="@+id/c2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:maxWidth="@dimen/_35sdp"
-                        android:maxHeight="@dimen/_45sdp"
+                        android:maxWidth="@dimen/_28sdp"
+                        android:maxHeight="@dimen/_40sdp"
                         android:layout_marginStart="@dimen/_3sdp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/deck_card" />
@@ -239,8 +373,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_3sdp"
-                        android:maxWidth="@dimen/_35sdp"
-                        android:maxHeight="@dimen/_45sdp"
+                        android:maxWidth="@dimen/_28sdp"
+                        android:maxHeight="@dimen/_40sdp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/deck_card" />
 
@@ -250,8 +384,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_3sdp"
                         android:adjustViewBounds="true"
-                        android:maxWidth="@dimen/_35sdp"
-                        android:maxHeight="@dimen/_45sdp"
+                        android:maxWidth="@dimen/_28sdp"
+                        android:maxHeight="@dimen/_40sdp"
                         android:src="@drawable/deck_card" />
 
                     <ImageView
@@ -260,44 +394,11 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_3sdp"
                         android:adjustViewBounds="true"
-                        android:maxWidth="@dimen/_35sdp"
-                        android:maxHeight="@dimen/_45sdp"
+                        android:maxWidth="@dimen/_28sdp"
+                        android:maxHeight="@dimen/_40sdp"
                         android:src="@drawable/deck_card" />
 
                 </LinearLayout>
-
-                <FrameLayout
-                    android:id="@+id/user_cards_fl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_weight="0.5"
-                    android:orientation="horizontal"
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toEndOf="@+id/gl_start"
-                    app:layout_constraintEnd_toStartOf="@+id/gl_end"
-                    app:layout_constraintBottom_toTopOf="@+id/gl_bottom">
-
-                    <ImageView
-                        android:id="@+id/mc1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
-                        android:maxWidth="@dimen/_36sdp"
-                        android:src="@drawable/deck_card" />
-
-                    <ImageView
-                        android:id="@+id/mc2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:maxWidth="@dimen/_36sdp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/deck_card" />
-                    <!--
-                        android:layout_marginStart="@dimen/_35sdp"
--->
-                </FrameLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -348,169 +449,131 @@
 
         </FrameLayout>
 
-        <CheckBox
-            android:id="@+id/sitOutCB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/stroke_cb"
-            android:button="@drawable/cb"
-            android:paddingStart="10dp"
-            android:paddingEnd="5dp"
-            android:text="Sit Out"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_alignParentEnd="true"
-            tools:ignore="RtlSymmetry"
-            android:visibility="gone"
-            android:layout_alignBottom="@+id/network_status_ll"/>
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:id="@+id/bottomPannel_new"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingBottom="2dp"
-            android:id="@+id/bottomPannel1"
             android:visibility="visible"
-            android:layout_alignParentEnd="true"
-            >
-            <TextView
-                android:id="@+id/foldBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:drawableBottom="@drawable/fold"
-                android:gravity="center"
-                android:minWidth="62dp"
-                android:textColor="@color/white"
-                android:text="Fold"
-                android:textAllCaps="false"
-                android:textSize="13dp"
-                android:visibility="invisible"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/checkBtn"/>
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/user_cards_fl">
 
-            <TextView
-                android:id="@+id/checkBtn"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/raiseLL"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:drawableBottom="@drawable/check"
-                android:gravity="center"
-                android:minWidth="62dp"
+                layout="@layout/raise_amt"
+                android:visibility="gone"
+                app:layout_constraintWidth_max="@dimen/_230sdp"
+                app:layout_constraintStart_toStartOf="@+id/foldBtn"
+                app:layout_constraintEnd_toEndOf="@+id/raiseBtnLL"
+                app:layout_constraintBottom_toTopOf="@+id/foldBtn"/>
+
+            <Button
+                android:id="@+id/foldBtn"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
+                android:text="Fold"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                android:layout_marginStart="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/checkBtn"
+                android:background="@drawable/btn_red" />
+
+            <Button
+                android:id="@+id/checkBtn"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
                 android:text="Check"
                 android:textAllCaps="false"
-                android:textSize="13dp"
-                android:visibility="invisible"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/_4sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/foldBtn"
                 app:layout_constraintEnd_toStartOf="@+id/callLL"
-               />
+                android:background="@drawable/btn_green"
+                />
 
             <LinearLayout
                 android:id="@+id/callLL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
                 android:orientation="vertical"
-                android:visibility="invisible"
+                android:layout_marginStart="@dimen/_4sdp"
                 android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/checkBtn"
                 app:layout_constraintEnd_toStartOf="@+id/raiseBtnLL"
-                android:layout_marginStart="20dp">
+                android:background="@drawable/btn_green">
+
+                <TextView
+                    android:id="@+id/callBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="₹50"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Call"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/callBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:background="@drawable/btn_blue"
                     android:gravity="center"
-                    android:minWidth="62dp"
-                    android:text="10"
+                    android:text="Call"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
                     android:textAllCaps="false"
-                    android:textSize="13dp" />
+                    android:textSize="10sp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/raiseBtnLL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
                 android:orientation="vertical"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="20dp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_4sdp"
                 app:layout_constraintStart_toEndOf="@+id/callLL"
-                app:layout_constraintEnd_toStartOf="@+id/allinLL">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/btn_orange">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Raise To"
-                    android:textColor="@color/white" />
-
-                <Button
                     android:id="@+id/raiseBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:background="@drawable/btn_orange"
-                    android:gravity="center"
-                    android:minWidth="62dp"
-                    android:textAllCaps="false"
-                    android:textSize="13dp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/allinLL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="invisible"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="10dp"
-                android:gravity="center_horizontal"
-                app:layout_constraintStart_toEndOf="@+id/raiseBtnLL"
-                app:layout_constraintEnd_toEndOf="parent">
+                    android:layout_height="wrap_content"
+                    tools:text="₹150"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="All in"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/allinBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:background="@drawable/btn_orange"
                     android:gravity="center"
-                    android:minWidth="62dp"
+                    android:text="Raise to"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
                     android:textAllCaps="false"
-                    android:textSize="13dp"/>
+                    android:textSize="10sp"/>
             </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/bottomPannel2"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="2dp"
-            android:visibility="visible">
 
             <CheckBox
                 android:id="@+id/joinBBcb"
@@ -521,92 +584,99 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="5dp"
                 android:text="Post BB"
+                tools:ignore="RtlSymmetry"
                 android:visibility="gone"
-                tools:ignore="RtlSymmetry" />
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:layout_constraintBottom_toTopOf="@+id/fold_checkCB"
+                android:layout_marginStart="35dp"
+                app:layout_constraintStart_toStartOf="@+id/fold_checkCB"/>
 
-      <!--      <RadioGroup
-                android:id="@+id/auto_options_rg"
-                android:layout_width="match_parent"
+            <CheckBox
+                android:id="@+id/fold_checkCB"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">-->
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableBottom="@drawable/cb_fold_check"
+                android:gravity="center_horizontal"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:text="Fold/Check"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/checkCB"
+                />
 
-                <!--<CheckBox
-                    android:id="@+id/foldCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_fold"
-                    android:gravity="center_horizontal"
-                    android:text="Fold"
-                    android:visibility="visible" />-->
+            <CheckBox
+                android:id="@+id/checkCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_24sdp"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableBottom="@drawable/cb_check"
+                android:gravity="center_horizontal"
+                android:text="Check"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/fold_checkCB"
+                app:layout_constraintEnd_toStartOf="@+id/checkOrCallAnyCB"
+                />
 
-            <!--                <CheckBox
-                    android:id="@+id/callCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_call"
-                    android:gravity="center_horizontal"
-                    android:text="Call"
-                    android:visibility="visible" />-->
-            <!-- <CheckBox
-                   android:id="@+id/callAnyCB"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="20dp"
-                   android:background="@android:color/transparent"
-                   android:button="@android:color/transparent"
-                   android:drawableBottom="@drawable/cb_call"
-                   android:gravity="center_horizontal"
-                   android:text="CallAny"
-                   android:visibility="visible" />-->
-                <CheckBox
-                    android:id="@+id/fold_checkCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_fold_check"
-                    android:gravity="center_horizontal"
-                    android:layout_marginStart="15dp"
-                    android:text="Fold/Check"
-                    android:visibility="gone" />
-
-                <CheckBox
-                    android:id="@+id/checkCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_check"
-                    android:gravity="center_horizontal"
-                    android:text="Check"
-                    android:visibility="gone" />
+            <CheckBox
+                android:id="@+id/checkOrCallAnyCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_24sdp"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableBottom="@drawable/cb_call"
+                android:gravity="center_horizontal"
+                android:text="CallAny/Check"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkCB"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        <FrameLayout
+            android:id="@+id/user_cards_fl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible"
+            android:layout_marginBottom="-10dp">
 
-                <CheckBox
-                    android:id="@+id/checkOrCallAnyCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@android:color/transparent"
-                    android:button="@android:color/transparent"
-                    android:drawableBottom="@drawable/cb_call"
-                    android:gravity="center_horizontal"
-                    android:text="CallAny/Check"
-                    android:visibility="gone" />
+            <ImageView
+                android:id="@+id/mc1"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_64sdp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                />
 
-
-<!--
-            </RadioGroup>
+            <ImageView
+                android:id="@+id/mc2"
+                android:layout_marginStart="@dimen/_22sdp"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_64sdp"
+                android:src="@drawable/deck_card"
+                android:adjustViewBounds="true"
+                />
+            <!--
+                android:layout_marginStart="@dimen/_35sdp"
 -->
-
-        </LinearLayout>
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/cardsDistributionArea"
@@ -617,6 +687,27 @@
             android:id="@+id/me"
             layout="@layout/player"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/waitingTv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:fontFamily="@font/tondo_regular"
+            android:layout_marginStart="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_24sdp"
+            android:visibility="invisible"
+            tools:text="@string/waiting_for_opponents"
+            android:textColor="@color/white"
+            android:background="@drawable/game_message_gradient"/>
+
 
         <FrameLayout
             android:id="@+id/messageFL"
@@ -633,7 +724,7 @@
                 android:alpha="0.4"
                 android:scaleType="fitXY"
                 android:src="@drawable/game_info_bg"
-                android:tint="#000" />
+                app:tint="#000" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -645,18 +736,18 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="2dp">
 
-                <TextView
-                    android:id="@+id/waitingTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Please wait while other player(s) join the table"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:maxWidth="@dimen/_150sdp"
-                    android:visibility="gone"
-                    android:lineSpacingExtra="5sp"/>
+<!--                <TextView-->
+<!--                    android:id="@+id/waitingTv"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="Please wait while other player(s) join the table"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:maxWidth="@dimen/_150sdp"-->
+<!--                    android:visibility="gone"-->
+<!--                    android:lineSpacingExtra="5sp"/>-->
 
                 <TextView
                     android:id="@+id/gameStartsTimer"
@@ -698,17 +789,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <include
-            android:id="@+id/raiseLL"
-            layout="@layout/raise_amt"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="@dimen/_10sdp"
-           android:layout_above="@+id/bottomPannel2"
-            android:layout_marginBottom="62dp"
-            android:visibility="invisible" />
-
         <Button
             android:id="@+id/iAMBack"
             android:layout_width="wrap_content"
@@ -721,28 +801,75 @@
             android:textSize="13dp"
             android:visibility="invisible" />
 
+        <!-- <LinearLayout
+             android:id="@+id/network_status_ll"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+             android:layout_marginStart="10dp"
+             android:layout_marginBottom="@dimen/_60sdp"
+             android:orientation="vertical">
+
+             <ImageView
+                 android:id="@+id/refresh"
+                 android:layout_width="50dp"
+                 android:layout_height="50dp"
+                 android:padding="10dp"
+                 android:src="@drawable/reset" />
+
+             <ImageView
+                 android:id="@+id/signalIv"
+                 android:layout_width="50dp"
+                 android:layout_height="50dp"
+                 android:padding="10dp"
+                 android:src="@drawable/signal_0" />
+         </LinearLayout>-->
+
         <LinearLayout
-            android:id="@+id/network_status_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="@dimen/_60sdp"
-            android:orientation="vertical">
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="@dimen/_50sdp"
+            android:orientation="vertical"
+            android:layout_above="@+id/user_cards_fl"
+            android:layout_alignParentEnd="true">
 
             <ImageView
                 android:id="@+id/refresh"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="10dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="2dp"
+                android:layout_gravity="center"
                 android:src="@drawable/reset" />
 
-            <ImageView
+            <CheckBox
+                android:id="@+id/sitOutCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_sitout_bg"
+                android:button="@null"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:lineSpacingExtra="3sp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="2dp"
+                android:letterSpacing="-0.07"
+                android:textSize="14sp"
+                android:text="Sit\nOut"
+                android:textColor="@drawable/selector_sitout_textcolor"
+                android:textStyle="bold"
+                tools:ignore="RtlSymmetry" />
+
+            <!--<ImageView
                 android:id="@+id/signalIv"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="10dp"
-                android:src="@drawable/signal_0" />
+                android:visibility="gone"
+                android:src="@drawable/signal_0" />-->
         </LinearLayout>
 
         <TextView

@@ -36,7 +36,7 @@ class VerticalSeekBar : SeekBar {
     }
 
     override fun onDraw(c: Canvas) {
-        c.rotate(-90f)
+        //c.rotate(-90f)
         c.translate(-height.toFloat(), 0f)
         super.onDraw(c)
     }

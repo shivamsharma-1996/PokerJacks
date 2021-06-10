@@ -15,35 +15,24 @@
         <ImageView
             android:id="@+id/ivTable"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="@dimen/_60sdp"
-            android:paddingTop="@dimen/_40sdp"
-            android:paddingEnd="@dimen/_60sdp"
-            android:paddingBottom="@dimen/_30sdp"
+            android:layout_height="@dimen/_206sdp"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
             android:scaleType="fitXY"
+            android:paddingStart="@dimen/_80sdp"
+            android:paddingEnd="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_above="@+id/bottomPannel_new"
             android:src="@drawable/landscape_blue_table" />
 
         <LinearLayout
             android:id="@+id/topPanel"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_56dp"
-            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingStart="15dp"
+            android:paddingStart="@dimen/_6sdp"
             android:paddingEnd="15dp">
-
-            <ImageView
-                android:id="@+id/stats"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/stats" />
-
-            <ImageView
-                android:id="@+id/previous"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/previous" />
 
             <TextView
                 android:id="@+id/reconnect"
@@ -52,7 +41,8 @@
                 android:background="@drawable/stroke_blue"
                 android:minWidth="70dp"
                 android:text="Go Offline"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:id="@+id/shareReconnect"
@@ -61,7 +51,9 @@
                 android:background="@drawable/stroke_blue"
                 android:minWidth="70dp"
                 android:text="Share Reconnect"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                />
 
             <View
                 android:layout_width="0dp"
@@ -69,19 +61,165 @@
                 android:layout_weight="1" />
 
             <ImageView
+                android:id="@+id/previous"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/previous" />
+
+            <ImageView
                 android:id="@+id/settings"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="10dp"
                 android:src="@drawable/settings" />
 
             <ImageView
                 android:id="@+id/menu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/menu" />
 
         </LinearLayout>
+
+        <!--<ImageView
+            android:id="@+id/stats"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_signal_stength" />-->
+        <ImageView
+            android:id="@+id/signalIv"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/signal_0" />
+
+        <TextView
+            android:id="@+id/tv_rankOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:textColor="#ffffff"
+            android:lineSpacingExtra="3sp"
+            tools:text="A Pair"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="6dp"
+            android:layout_toEndOf="@+id/signalIv"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/gameBlindInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="5 / 10  | "
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/gameIDTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="NDM-27536781"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_best_hand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="4dp"
+            android:layout_below="@+id/signalIv"
+            android:layout_alignStart="@+id/signalIv">
+
+            <ImageView
+                android:id="@+id/hand_c1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/hand_c2"/>
+
+            <ImageView
+                android:id="@+id/hand_c2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:layout_marginStart="3dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hand_c1"
+                app:layout_constraintEnd_toStartOf="@+id/hand_c3"/>
+
+            <ImageView
+                android:id="@+id/hand_c3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:layout_marginStart="3dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hand_c2"
+                app:layout_constraintEnd_toStartOf="@+id/hand_c4"/>
+
+            <ImageView
+                android:id="@+id/hand_c4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:layout_marginStart="3dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hand_c3"
+                app:layout_constraintEnd_toStartOf="@+id/hand_c5"/>
+
+            <ImageView
+                android:id="@+id/hand_c5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/_15sdp"
+                android:maxHeight="@dimen/_25sdp"
+                android:layout_marginStart="3dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hand_c4"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <ImageView
             android:id="@+id/blur"
@@ -103,170 +241,149 @@
             android:textColor="@color/white"
             android:visibility="gone" />
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/playArea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomPannel"
-            android:layout_below="@+id/topPanel"
+            android:layout_above="@+id/bottomPannel_new"
+            android:layout_alignTop="@+id/ivTable"
+            android:layout_marginStart="@dimen/play_area_padding"
+            android:layout_marginEnd="@dimen/play_area_padding"
+            android:layout_marginBottom="30dp"
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/afterSubmit"
+                android:id="@+id/totalPot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/transparent_black_curve"
-                android:paddingStart="20dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="10dp"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:visibility="gone" />
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/pot_text_bg"
+                android:backgroundTint="#38000000"
+                android:gravity="center_horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:fontFamily="@font/tondo_regular"
+                android:text="Total Pot: ₹12.20"
+                android:visibility="invisible"
+                app:layout_constraintVertical_bias="0.4"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/pot_split"/>
 
             <LinearLayout
-                android:id="@+id/playArea"
+                android:id="@+id/pot_split"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:background="@drawable/pot_text_bg"
+                android:backgroundTint="#38000000"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:fontFamily="@font/tondo_regular"
+                android:paddingEnd="15dp"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@+id/totalPot"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/community_cards_ll"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/community_cards_ll"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/play_area_padding"
-                android:layout_marginEnd="@dimen/play_area_padding"
-                android:layout_marginBottom="30dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_marginTop="@dimen/_6sdp"
+                app:layout_constraintTop_toBottomOf="@+id/pot_split"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
 
-                <TextView
-                    android:id="@+id/totalPot"
+                <ImageView
+                    android:id="@+id/c1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_27sdp"
-                    android:background="@drawable/pot_text_bg"
-                    android:backgroundTint="#38000000"
-                    android:gravity="center_horizontal"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:text="Total Pot: ₹12.20"
-                    android:visibility="invisible" />
+                    android:maxWidth="@dimen/_40sdp"
+                    android:maxHeight="@dimen/_50sdp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/deck_card"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/c2"/>
 
-                <LinearLayout
-                    android:id="@+id/pot_split"
+                <ImageView
+                    android:id="@+id/c2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:background="@drawable/pot_text_bg"
-                    android:backgroundTint="#38000000"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:visibility="invisible" />
+                    android:maxWidth="@dimen/_40sdp"
+                    android:maxHeight="@dimen/_50sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/deck_card"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/c1"
+                    app:layout_constraintEnd_toStartOf="@+id/c3"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/c3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="@dimen/_40sdp"
+                    android:maxHeight="@dimen/_50sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/deck_card"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/c2"
+                    app:layout_constraintEnd_toStartOf="@+id/c4"/>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/community_cards_ll"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.6"
-                        android:visibility="invisible">
+                <ImageView
+                    android:id="@+id/c4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="@dimen/_40sdp"
+                    android:maxHeight="@dimen/_50sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/deck_card"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/c3"
+                    app:layout_constraintEnd_toStartOf="@+id/c5"/>
 
-                        <ImageView
-                            android:id="@+id/c1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:maxWidth="@dimen/_70sdp"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/deck_card"
-                            app:layout_constraintHorizontal_chainStyle="packed"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/c2"/>
+                <ImageView
+                    android:id="@+id/c5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="@dimen/_40sdp"
+                    android:maxHeight="@dimen/_50sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/deck_card"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/c4"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-                        <ImageView
-                            android:id="@+id/c2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:maxWidth="@dimen/_70sdp"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/deck_card"
-                            app:layout_constraintStart_toEndOf="@+id/c1"
-                            app:layout_constraintEnd_toStartOf="@+id/c3"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <ImageView
-                            android:id="@+id/c3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:maxWidth="@dimen/_70sdp"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/deck_card"
-                            app:layout_constraintStart_toEndOf="@+id/c2"
-                            app:layout_constraintEnd_toStartOf="@+id/c4"/>
+            <!-- <TextView
+                 android:id="@+id/afterSubmit"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:background="@drawable/transparent_black_curve"
+                 android:paddingStart="20dp"
+                 android:paddingTop="10dp"
+                 android:paddingEnd="20dp"
+                 android:paddingBottom="10dp"
+                 android:text=""
+                 android:textColor="@color/white"
+                 android:textSize="20dp"
+                 android:visibility="gone" />-->
 
-                        <ImageView
-                            android:id="@+id/c4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:adjustViewBounds="true"
-                            android:maxWidth="@dimen/_70sdp"
-                            android:src="@drawable/deck_card"
-                            app:layout_constraintStart_toEndOf="@+id/c3"
-                            app:layout_constraintEnd_toStartOf="@+id/c5"/>
-
-                        <ImageView
-                            android:id="@+id/c5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:adjustViewBounds="true"
-                            android:maxWidth="@dimen/_70sdp"
-                            android:src="@drawable/deck_card"
-                            app:layout_constraintStart_toEndOf="@+id/c4"
-                            app:layout_constraintEnd_toEndOf="parent"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <FrameLayout
-                        android:id="@+id/user_cards_fl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_weight="0.5"
-                        android:orientation="horizontal"
-                        android:visibility="invisible">
-
-                        <ImageView
-                            android:id="@+id/mc1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:adjustViewBounds="true"
-                            android:maxWidth="@dimen/_70sdp"
-                            android:src="@drawable/deck_card" />
-
-                        <ImageView
-                            android:id="@+id/mc2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:maxWidth="@dimen/_70sdp"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/deck_card" />
-                        <!--
-                            android:layout_marginStart="@dimen/_35sdp"
--->
-                    </FrameLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:id="@+id/leaderboardView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -309,9 +426,257 @@
                     android:textSize="@dimen/size_20dp" />
 
 
-            </RelativeLayout>
+            </RelativeLayout>-->
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/waitingTv"
+            android:layout_width="@dimen/_320sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/tondo_regular"
+            android:gravity="center"
+            android:visibility="invisible"
+            tools:text="@string/waiting_for_opponents"
+            android:textColor="@color/white"
+            android:background="@drawable/game_message_gradient"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/user_cards_fl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:gravity="bottom"
+            android:visibility="invisible"
+            android:layout_marginBottom="-10dp">
+
+            <ImageView
+                android:id="@+id/mc1"
+                android:layout_width="@dimen/_64sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/deck_card"
+                />
+
+            <ImageView
+                android:id="@+id/mc2"
+                android:layout_marginStart="@dimen/_22sdp"
+                android:layout_width="@dimen/_64sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:src="@drawable/deck_card"
+                android:adjustViewBounds="true"
+                />
+            <!--
+                android:layout_marginStart="@dimen/_35sdp"
+-->
         </FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottomPannel_new"
+            android:layout_width="0dp"
+            android:visibility="invisible"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_toEndOf="@+id/user_cards_fl"
+            android:layout_alignParentEnd="true">
+
+            <Button
+                android:id="@+id/foldBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:text="Fold"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                android:minWidth="@dimen/_60sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/checkBtn"
+                android:background="@drawable/btn_red" />
+
+            <Button
+                android:id="@+id/checkBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:text="Check"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:minWidth="@dimen/_60sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/foldBtn"
+                app:layout_constraintEnd_toStartOf="@+id/callLL"
+                android:background="@drawable/btn_green"
+                />
+
+            <LinearLayout
+                android:id="@+id/callLL"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:orientation="vertical"
+                android:minWidth="@dimen/_60sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkBtn"
+                app:layout_constraintEnd_toStartOf="@+id/raiseLL"
+                android:background="@drawable/btn_green">
+
+                <TextView
+                    android:id="@+id/callBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="₹50"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Call"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:textAllCaps="false"
+                    android:textSize="10sp"/>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/raiseLL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/raise_amt"
+                android:visibility="invisible"
+                app:layout_constraintWidth_max="@dimen/_230sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintStart_toEndOf="@id/callLL"
+                app:layout_constraintEnd_toStartOf="@+id/raiseBtnLL"/>
+
+            <LinearLayout
+                android:id="@+id/raiseBtnLL"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:minWidth="@dimen/_60sdp"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/_12sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/btn_orange">
+
+                <TextView
+                    android:id="@+id/raiseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="₹150"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Raise to"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:textAllCaps="false"
+                    android:textSize="10sp"/>
+            </LinearLayout>
+
+
+            <CheckBox
+                android:id="@+id/fold_checkCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableBottom="@drawable/cb_fold_check"
+                android:gravity="center_horizontal"
+                android:layout_marginStart="15dp"
+                android:text="Fold/Check"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/checkCB"
+                />
+
+            <CheckBox
+                android:id="@+id/checkCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableBottom="@drawable/cb_check"
+                android:gravity="center_horizontal"
+                android:text="Check"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/fold_checkCB"
+                app:layout_constraintEnd_toStartOf="@+id/checkOrCallAnyCB"
+                />
+
+            <CheckBox
+                android:id="@+id/checkOrCallAnyCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableBottom="@drawable/cb_call"
+                android:gravity="center_horizontal"
+                android:text="CallAny/Check"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkCB"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/bottomPannel"
@@ -325,17 +690,17 @@
             android:paddingBottom="2dp"
             android:visibility="visible">
 
-            <CheckBox
-                android:id="@+id/sitOutCB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/stroke_cb"
-                android:button="@drawable/cb"
-                android:paddingStart="10dp"
-                android:paddingEnd="5dp"
-                android:text="Sit Out"
-                android:visibility="gone"
-                tools:ignore="RtlSymmetry" />
+            <!--            <CheckBox-->
+            <!--                android:id="@+id/sitOutCB"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:background="@drawable/stroke_cb"-->
+            <!--                android:button="@drawable/cb"-->
+            <!--                android:paddingStart="10dp"-->
+            <!--                android:paddingEnd="5dp"-->
+            <!--                android:text="Sit Out"-->
+            <!--                android:visibility="gone"-->
+            <!--                tools:ignore="RtlSymmetry" />-->
 
             <CheckBox
                 android:id="@+id/joinBBcb"
@@ -355,11 +720,11 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-<!--            <RadioGroup
-                android:id="@+id/auto_options_rg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">-->
+            <!--            <RadioGroup
+                            android:id="@+id/auto_options_rg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">-->
 
             <!--<CheckBox
                 android:id="@+id/foldCB"
@@ -372,17 +737,17 @@
                 android:text="Fold"
                 android:visibility="visible" />-->
 
-           <!--             <CheckBox
-                            android:id="@+id/callCB"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:background="@android:color/transparent"
-                            android:button="@android:color/transparent"
-                            android:drawableBottom="@drawable/cb_call"
-                            android:gravity="center_horizontal"
-                            android:text="Call"
-                            android:visibility="visible" />-->
+            <!--             <CheckBox
+                             android:id="@+id/callCB"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginStart="20dp"
+                             android:background="@android:color/transparent"
+                             android:button="@android:color/transparent"
+                             android:drawableBottom="@drawable/cb_call"
+                             android:gravity="center_horizontal"
+                             android:text="Call"
+                             android:visibility="visible" />-->
 
             <!--  <CheckBox
                android:id="@+id/callAnyCB"
@@ -396,7 +761,7 @@
                android:text="CallAny"
                android:visibility="visible" />-->
 
-            <CheckBox
+           <!-- <CheckBox
                 android:id="@+id/fold_checkCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -430,13 +795,13 @@
                 android:drawableBottom="@drawable/cb_call"
                 android:gravity="center_horizontal"
                 android:text="CallAny/Check"
-                android:visibility="gone" />
+                android:visibility="gone" />-->
 
-<!--
-            </RadioGroup>
--->
+            <!--
+                        </RadioGroup>
+            -->
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/foldBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -461,88 +826,90 @@
                 android:text="Check"
                 android:textAllCaps="false"
                 android:textSize="13dp"
-                android:visibility="gone" />
+                android:visibility="gone" />-->
 
-            <LinearLayout
-                android:id="@+id/callLL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:layout_marginStart="20dp"
-                android:gravity="center_horizontal">
+            <!--  <LinearLayout
+                  android:id="@+id/callLL"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:visibility="gone"
+                  android:layout_marginStart="20dp"
+                  android:gravity="center_horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Call"
-                    android:textColor="@color/white" />
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Call"
+                      android:textColor="@color/white" />
 
-                <Button
-                    android:id="@+id/callBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:background="@drawable/btn_blue"
-                    android:gravity="center"
-                    android:minWidth="62dp"
-                    android:text="10"
-                    android:textAllCaps="false"
-                    android:textSize="13dp" />
-            </LinearLayout>
+                  <Button
+                      android:id="@+id/callBtn"
+                      android:layout_width="wrap_content"
+                      android:layout_height="32dp"
+                      android:background="@drawable/btn_blue"
+                      android:gravity="center"
+                      android:minWidth="62dp"
+                      android:text="10"
+                      android:textAllCaps="false"
+                      android:textSize="13dp" />
+              </LinearLayout>
+  -->
+            <!--
+                        <LinearLayout
+                            android:id="@+id/raiseBtnLL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center_horizontal">
 
-<!--
-            <LinearLayout
-                android:id="@+id/raiseBtnLL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:layout_marginStart="20dp"
-                android:gravity="center_horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Raise To"
+                                android:textColor="@color/white" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Raise To"
-                    android:textColor="@color/white" />
+                            <Button
+                                android:id="@+id/raiseBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:background="@drawable/btn_orange"
+                                android:gravity="center"
+                                android:minWidth="62dp"
+                                android:textAllCaps="false"
+                                android:textSize="13dp"/>
+                        </LinearLayout>
+            -->
+            <!--
+                        <LinearLayout
+                            android:id="@+id/raiseBtnLL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center_horizontal">
 
-                <Button
-                    android:id="@+id/raiseBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:background="@drawable/btn_orange"
-                    android:gravity="center"
-                    android:minWidth="62dp"
-                    android:textAllCaps="false"
-                    android:textSize="13dp"/>
-            </LinearLayout>
--->
-            <LinearLayout
-                android:id="@+id/raiseBtnLL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:layout_marginStart="20dp"
-                android:gravity="center_horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Raise To"
+                                android:textColor="@color/white" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Raise To"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/raiseBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:background="@drawable/btn_orange"
-                    android:gravity="center"
-                    android:minWidth="62dp"
-                    android:textAllCaps="false"
-                    android:textSize="13dp"/>
-            </LinearLayout>
-            <LinearLayout
+                            <Button
+                                android:id="@+id/raiseBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:background="@drawable/btn_orange"
+                                android:gravity="center"
+                                android:minWidth="62dp"
+                                android:textAllCaps="false"
+                                android:textSize="13dp"/>
+                        </LinearLayout>
+            -->
+           <!-- <LinearLayout
                 android:id="@+id/allinLL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -557,7 +924,7 @@
                     android:text="All in"
                     android:textColor="@color/white" />
 
-                <Button
+                <TextView
                     android:id="@+id/allinBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
@@ -566,7 +933,7 @@
                     android:minWidth="62dp"
                     android:textAllCaps="false"
                     android:textSize="13dp"/>
-            </LinearLayout>
+            </LinearLayout>-->
         </LinearLayout>
 
         <FrameLayout
@@ -600,17 +967,17 @@
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/waitingTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxWidth="350dp"
-                    android:gravity="center"
-                    android:visibility="gone"
-                    android:text="Please wait while other player(s) join the table"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
+                <!--  <TextView
+                      android:id="@+id/waitingTv"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:maxWidth="350dp"
+                      android:gravity="center"
+                      android:visibility="gone"
+                      android:text="Please wait while other player(s) join the table"
+                      android:textColor="@color/white"
+                      android:textSize="18sp" />-->
 
                 <TextView
                     android:id="@+id/gameStartsTimer"
@@ -650,14 +1017,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <include
+     <!--   <include
             android:id="@+id/raiseLL"
             layout="@layout/raise_amt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="62dp"
-            android:visibility="gone" />
+            android:visibility="gone" />-->
 
         <Button
             android:id="@+id/iAMBack"
@@ -674,10 +1041,12 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="40dp"
-            android:orientation="vertical">
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_above="@+id/bottomPannel_new"
+            android:layout_alignParentEnd="true">
 
             <ImageView
                 android:id="@+id/refresh"
@@ -686,40 +1055,55 @@
                 android:padding="10dp"
                 android:src="@drawable/reset" />
 
-            <ImageView
+            <CheckBox
+                android:id="@+id/sitOutCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_sitout_bg"
+                android:button="@null"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:lineSpacingExtra="3sp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="2dp"
+                android:letterSpacing="-0.07"
+                android:textSize="14sp"
+                android:text="Sit\nOut"
+                android:visibility="gone"
+                android:textColor="@drawable/selector_sitout_textcolor"
+                android:textStyle="bold"
+                tools:ignore="RtlSymmetry" />
+
+           <!-- <ImageView
                 android:id="@+id/signalIv"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="10dp"
-                android:src="@drawable/signal_0" />
+                android:visibility="gone"
+                android:src="@drawable/signal_0" />-->
         </LinearLayout>
 
-        <com.gtgt.pokerjacks.components.VerticalTextView
-            android:id="@+id/gameIDTV"
-            android:layout_width="wrap_content"
-            android:layout_height="130dp"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:textAlignment="center" />
 
     </RelativeLayout>
 
-   <!-- <com.google.android.material.navigation.NavigationView
-        android:id="@+id/leftDrawer"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@android:color/transparent"
-        android:elevation="0dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/Base.Theme.AppCompat.Light">
+    <!-- <com.google.android.material.navigation.NavigationView
+         android:id="@+id/leftDrawer"
+         android:layout_width="wrap_content"
+         android:layout_height="match_parent"
+         android:layout_gravity="start"
+         android:background="@android:color/transparent"
+         android:elevation="0dp"
+         android:fitsSystemWindows="true"
+         android:theme="@style/Base.Theme.AppCompat.Light">
 
-        <FrameLayout
-            android:id="@+id/openDeckFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+         <FrameLayout
+             android:id="@+id/openDeckFragment"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" />
 
-    </com.google.android.material.navigation.NavigationView>-->
+     </com.google.android.material.navigation.NavigationView>-->
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/rightDrawer"

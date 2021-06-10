@@ -1,13 +1,15 @@
 package com.gtgt.pokerjacks.ui.game.view.slot
 
-import android.view.Gravity
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.TextView
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.game.GameActivity
@@ -19,7 +21,7 @@ import com.gtgt.pokerjacks.ui.game.viewModel.PlayerActions
 import com.gtgt.pokerjacks.ui.game.viewModel.SeatStatus
 import com.gtgt.pokerjacks.utils.SlotPositions.*
 import kotlinx.android.synthetic.main.activity_game.view.*
-import kotlinx.android.synthetic.main.player.view.*
+import kotlinx.android.synthetic.main.player_new.view.*
 
 
 class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int) -> Unit) {
@@ -69,11 +71,11 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
             if (slotViews.isEmpty()) {
                 (1..totalSlots).forEach {
-                    val v = LayoutInflater.from(context).inflate(R.layout.player, null)
+                    val v = LayoutInflater.from(context).inflate(R.layout.player_new, null)
                     v.visibility = GONE
                     rootLayout.addView(v)
 
-                    v.playerView.onOneClick {
+                    v.playerViewNew.onOneClick {
                         if (!isJoined) {
                             val slotPosition = v.tag as Int
                             if (slots[slotPosition]!!.status == TableSlotStatus.VACANT.name) {
@@ -85,7 +87,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     v.x = tableWidth / 2
                     v.y = tableHeight / 2
 
-                    v.widthHeight(52, 52)
+                    //v.widthHeight(52, 52)
                     slotViews[it] = v
                     isFoldAnimated[it] = false //default values for all slotPositions would be false
                 }
@@ -104,6 +106,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
             }
         }
 
+    var animatadView: CountDownTimer? = null
     var playerTurn: PlayerTurn? = null
         set(value) {
             field = value!!
@@ -112,14 +115,19 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     it.value.iv_userProfile.visibility = VISIBLE
                 }
                 it.value.animateView.stopAnim()
+                it.value.countDown.visibility = GONE
+                animatadView?.cancel()
             }
 
             timeOut(100) {
+
                 slotViews[value.current_bettor_position]!!.apply {
                     iv_userProfile.visibility = GONE
-                    animateView.startAnim(value) {
-                        iv_userProfile.visibility = VISIBLE
-                    }
+//                    animateView.startAnim(value) {
+//                        iv_userProfile.visibility = VISIBLE
+//                    }
+                    countDown.visibility = VISIBLE
+                    animatadView = animateView.animate(value.player_action_timer, value.player_grace_timer, animateView, countDown,true,false)!!
                 }
             }
         }
@@ -134,7 +142,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 it.value.revealCards.getChildAt(1).alpha = cardsAlpha[1]
             }
         } else {
-            slotViews[slotNo]!!.crown.visibility = VISIBLE
+            //slotViews[slotNo]!!.crown.visibility = VISIBLE
             slotViews[slotNo]!!.revealCards.getChildAt(0).alpha = cardsAlpha[0]
             slotViews[slotNo]!!.revealCards.getChildAt(1).alpha = cardsAlpha[1]
         }
@@ -181,51 +189,77 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 }
 
                 if (slot.status == TableSlotStatus.VACANT.name) {
-                    noPlayer.visibility = if (isJoined) GONE else VISIBLE
+                    tv_sit_here.visibility = VISIBLE
+                    noPlayer.visibility = if (isJoined) GONE else {
+                        VISIBLE
+                    }
+                    if(isJoined){
+                        this.markSeatEmpty(true)
+                    } else{
+                        this.markSeatEmpty(false)
+                    }
                     iv_userProfile.visibility = GONE
                     active_indication.visibility = GONE
                     player_action.visibility = GONE
+                    all_in_flag.visibility = GONE
                     in_play_amt.text = "-"
-                    raise_amt.visibility = GONE
+                    raise_amt.visibility = View.INVISIBLE
+                    deduceRaiseAmtSpace(raise_amt)
                     name_inplay_group.visibility = GONE
+                    cl_player.background = context.getDrawable(R.drawable.player_view_gradient)
                 }
                 else {
+                    if (isJoined && position == BOTTOM_CENTER){
+                        cl_player.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#112236"))
+                    }
+                    this.markSeatEmpty(false)
+
+                    tv_sit_here.visibility = GONE
                     noPlayer.visibility = GONE
                     //player_action.visibility = GONE
-                    log("animateView.time2", animateView.remainingTimeInSec)
-                    if(animateView.remainingTimeInSec== 0L){
+                    /*if(animateView.isGraceTime== false){
+                        iv_userProfile.visibility = VISIBLE
+                    }*/
+                    log("animateView.time2", animateView.isStopped)
+                    if(animateView.isStopped){
                         iv_userProfile.visibility = VISIBLE
                     }
                     name_inplay_group.visibility = VISIBLE
 
-                        active_indication.visibility = VISIBLE
+                    active_indication.visibility = VISIBLE
                     if(slot.game_user){
-                      when(slot.status){
-                          SeatStatus.WAIT_FOR_BB.name, SeatStatus.WAIT_FOR_NEXT.name -> {
-                              if(((context as GameActivity).vm.canDisplayWaitingIcon)){
-                                  iv_userProfile.blurOut()
-                                  active_indication.setImageResource(R.drawable.waiting)
-                              }
-                          }else -> { active_indication.setImageResource(
-                              when (slot.status) {
-                                  SeatStatus.SIT_OUT.name -> {
-                                      iv_userProfile.blurOut()
-                                      R.drawable.sitout
-                                  }
-                                  else -> {
-                                      R.drawable.active_indication
-                                  }
-                              }
-                          )
-                          }
-                      }
+                        when(slot.status){
+                            SeatStatus.WAIT_FOR_BB.name, SeatStatus.WAIT_FOR_NEXT.name -> {
+                                if(((context as GameActivity).vm.canDisplayWaitingIcon)){
+                                    iv_userProfile.blurOut()
+                                    active_indication.setImageResource(R.drawable.waiting)
+                                }
+                            }else -> { active_indication.setImageResource(
+                            when (slot.status) {
+                                SeatStatus.SIT_OUT.name -> {
+                                    iv_userProfile.blurOut()
+                                    R.drawable.sitout
+                                }
+                                else -> {
+                                    R.drawable.active_indication
+                                }
+                            }
+                        )
+                        }
+                        }
                     }
 
-
-
-
                     if (slot.user != null && slot.user!!.current_round_invested > 0.0) {
-                        raise_amt.visibility = VISIBLE
+                        if(slot.user!!.status.equals(PlayerActions.ALL_IN.name)
+                            && !(isJoined && position == BOTTOM_CENTER)){
+                            all_in_flag.visibility = VISIBLE
+                            raise_amt.visibility = GONE
+                            deduceRaiseAmtSpace(raise_amt)
+                        }else{
+                            all_in_flag.visibility = GONE
+                            if((context as GameActivity).isGameRunning)
+                            raise_amt.visibility = VISIBLE
+                        }
 
                         /*if((context as GameActivity).vm.isWaitingForOthersShown){
                             raise_amt.visibility = VISIBLE
@@ -249,51 +283,48 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
                         if(coin!=null){
                             if (currentSlotPositionMap[slot.seat_no]!!.name.contains("RIGHT")) {
-                                active_indication.layoutGravity(Gravity.END)
-                                active_indication.rotationY = 0f
+                                //active_indication.layoutGravity(Gravity.END)
+                                //active_indication.rotationY = 0f
                                 if(isLandscape)
                                     raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,
                                         coin, 0)
                                 else
                                     raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(coin, 0, 0, 0)
                             } else {
-                                active_indication.layoutGravity(Gravity.START)
-                                active_indication.rotationY = 180f
+                                //active_indication.layoutGravity(Gravity.START)
+                                //active_indication.rotationY = 180f
                                 raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(coin, 0, 0, 0)
                             }
                         }
                     } else {
-                        raise_amt.visibility = GONE
+                        raise_amt.visibility = View.INVISIBLE
+                        deduceRaiseAmtSpace(raise_amt)
                     }
                 }
 
-                widthHeightRaw(WRAP_CONTENT, WRAP_CONTENT)
+                //widthHeightRaw(WRAP_CONTENT, WRAP_CONTENT)
                 visibility = VISIBLE
 
-                if(slot.user!=null && slot.user!!.status.equals(PlayerActions.FOLD.name)){
 
-                }else{
-
-                }
                 if (slot.user != null/* slot.user!!.current_round_invested == 0.0 &&*/) {
                     val status = slot.user!!.status
                     log("user::status", status)
                     when(status){
                         PlayerActions.CHECK.name -> {
-                            player_action.visibility = VISIBLE
+                            //player_action.visibility = VISIBLE
                             player_action.setImageResource(R.drawable.check_small)
                         }
                         PlayerActions.FOLD.name -> {
 //                            player_action.visibility = VISIBLE
 //                            player_action.setImageResource(R.drawable.fold)
-                          /*  if(!isJoined || position != BOTTOM_CENTER){
-                                iv_userProfile.blurOut()
-                                if (userId == slot.user_unique_id){
-                                    meSlotSize = dpToPx(63).toFloat()
-                                }else{
-                                    playerSize = dpToPx(56).toFloat()
-                                }
-                            }*/
+                            /*  if(!isJoined || position != BOTTOM_CENTER){
+                                  iv_userProfile.blurOut()
+                                  if (userId == slot.user_unique_id){
+                                      meSlotSize = dpToPx(63).toFloat()
+                                  }else{
+                                      playerSize = dpToPx(56).toFloat()
+                                  }
+                              }*/
                         }
                         else -> {
                             player_action.visibility = GONE
@@ -304,9 +335,9 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     meSlotBottom = slot
                     active_indication.visibility = GONE
                     if(slot.user!=null && slot.user!!.status.equals(PlayerActions.FOLD.name)){
-                        //playerView.resizeAnimation(meSlotSize.toInt(), meSlotSize.toInt() + dpToPx(20), 1000L)
+                        //playerView1.resizeAnimation(meSlotSize.toInt(), meSlotSize.toInt() + dpToPx(20), 1000L)
                     }else{
-                        playerView.widthHeightRaw(meSlotSize, meSlotSize + dpToPx(20))
+                        // playerView1.widthHeightRaw(meSlotSize, meSlotSize + dpToPx(20))
                     }
                     mySlotBottom
                 } else {
@@ -314,7 +345,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         animateView.stopAnim()
                         iv_userProfile.blurOut()
                         dealer.visibility = GONE
-                        player_action.visibility = VISIBLE
+                        //player_action.visibility = VISIBLE
                         player_action.setImageResource(R.drawable.fold)
                         if (userId == slot.user_unique_id){
                             meSlotSize = dpToPx(63).toFloat()
@@ -322,11 +353,11 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                             playerSize = dpToPx(56).toFloat()
                         }
                         if(isFoldAnimated[slot.seat_no] == false){
-                            playerView.resizeAnimation(playerSize.toInt(), playerSize.toInt() + dpToPx(20), 1000L)
+                            //playerViewNew.resizeAnimation(playerSize.toInt(), playerSize.toInt() + dpToPx(20), 1000L)
                         }
                         isFoldAnimated[slot.seat_no] = true
                     }else{
-                        playerView.widthHeightRaw(playerSize, playerSize + dpToPx(20))
+                        //   playerView1.widthHeightRaw(playerSize, playerSize + dpToPx(20))
                     }
                     slotPositions[position]!!
                 }
@@ -340,7 +371,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                             fromY = slotPosition.y + dpToPx(3)
                         }
                         RIGHT_TOP -> {
-                            fromX = slotPosition.x*1.1f
+                            fromX = slotPosition.x*1.2f
                             fromY = slotPosition.y
                         }
                         else -> {
@@ -360,6 +391,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         start()
                     }
                 }
+
                 /*x = slotPosition.x
                 y = slotPosition.y*/
 
@@ -367,7 +399,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 if (isJoined && position == BOTTOM_CENTER && slot.user!=null && slot.user!!.status.equals(PlayerActions.FOLD.name)){
                     //do nothing
                 }else{
-                    playerView.marginsRaw(
+                    playerViewNew.marginsRaw(
                         slotPosition.player.ml, slotPosition.player.mt,
                         slotPosition.player.mr, slotPosition.player.mb
                     )
@@ -376,17 +408,25 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     slotPosition.player.ml, slotPosition.player.mt,
                     slotPosition.player.mr, slotPosition.player.mb
                 )*/
-                raise_amt.marginsRaw(
-                    slotPosition.raiseAmt.ml, slotPosition.raiseAmt.mt,
-                    slotPosition.raiseAmt.mr, slotPosition.raiseAmt.mb
-                )
+                if(slotPosition.player.alignment!= -1){
+                    rl_player.layoutGravity(slotPosition.player.alignment)
+                }
+
+                if(slot.user!=null && !slot.user!!.status.equals(PlayerActions.ALL_IN.name)
+                    && (!(isJoined && position == BOTTOM_CENTER))){
+                    raise_amt.marginsRaw(
+                        slotPosition.raiseAmt.ml, slotPosition.raiseAmt.mt,
+                        slotPosition.raiseAmt.mr, slotPosition.raiseAmt.mb
+                    )
+                }
+
                 if(slotPosition.raiseAmt.alignment!=-1)
-                raise_amt.layoutGravity(slotPosition.raiseAmt.alignment)
-                dealer.marginsRaw(
-                    slotPosition.deal.ml, slotPosition.deal.mt,
-                    slotPosition.deal.mr, slotPosition.deal.mb
-                )
-                dealer.layoutGravity(slotPosition.deal.alignment)
+                    raise_amt.layoutGravity(slotPosition.raiseAmt.alignment)
+//                dealer.marginsRaw(
+//                    slotPosition.deal.ml, slotPosition.deal.mt,
+//                    slotPosition.deal.mr, slotPosition.deal.mb
+//                )
+                //dealer.layoutGravity(slotPosition.deal.alignment)
                 player_action.marginsRaw(
                     slotPosition.playerAction.ml, slotPosition.playerAction.mt,
                     slotPosition.playerAction.mr, slotPosition.playerAction.mb
@@ -429,6 +469,10 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
         }
     }
 
+    private fun deduceRaiseAmtSpace(raise_amt: TextView) {
+        raise_amt.marginsRaw(0, 0,0,0)
+    }
+
     fun animateSelfView(playerAction: PlayerActions, seatNo: Int){
         if(isJoined){
             when(playerAction.name){
@@ -437,8 +481,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     slotViews[seatNo]?.player_action!!.visibility = VISIBLE
                     slotViews[seatNo]?.player_action!!.setImageResource(R.drawable.fold)
                     slotViews[seatNo]?.iv_userProfile!!.blurOut()
-                    slotViews[seatNo]?.playerView!!.resizeAnimation(meSlotSize.toInt(), meSlotSize.toInt() + dpToPx(20), 1000L)
-                    slotViews[seatNo]?.playerView!!.marginsRaw(
+                    //slotViews[seatNo]?.playerViewNew!!.resizeAnimation(meSlotSize.toInt(), meSlotSize.toInt() + dpToPx(20), 1000L)
+                    slotViews[seatNo]?.playerViewNew!!.marginsRaw(
                         mySlotBottom.player.ml + dpToPx(5), mySlotBottom.player.mt,
                         mySlotBottom.player.mr, mySlotBottom.player.mb
                     )
@@ -470,7 +514,9 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     it.value.iv_userProfile.visibility = VISIBLE
                 }
                 it.value.animateView.stopAnim()
-
+                it.value.countDown.visibility = GONE
+                animatadView?.cancel()
+                it.value.all_in_flag.visibility = GONE
                 it.value.revealCards.getChildAt(0).alpha = 1f
                 it.value.revealCards.getChildAt(1).alpha = 1f
                 it.value.player_action.visibility = GONE
@@ -513,6 +559,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
             }
             it.value.animateView.stopAnim()
+            it.value.countDown.visibility = GONE
+            animatadView?.cancel()
 
             it.value.revealCards.getChildAt(0).alpha = 1f
             it.value.revealCards.getChildAt(1).alpha = 1f
@@ -522,9 +570,11 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
             it.value.iv_userProfile.circleBackgroundColor = 0
             isFoldAnimated[it.key] = false
 
+            it.value.all_in_flag.visibility = GONE
             it.value.dealer.visibility = GONE
             it.value.player_action.visibility = GONE
-            it.value.raise_amt.visibility = GONE
+            it.value.raise_amt.visibility = View.INVISIBLE
+            deduceRaiseAmtSpace(it.value.raise_amt)
             it.value.active_indication.visibility = GONE
         }
     }

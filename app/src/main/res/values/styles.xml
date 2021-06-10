@@ -47,4 +47,9 @@
         <item name="android:windowMinWidthMinor">98%</item>
     </style>
 
+    <style name="ripple">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
 </resources>

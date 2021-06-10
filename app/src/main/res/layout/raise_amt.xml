@@ -1,135 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/gradient_black"
-    android:gravity="right"
-    android:orientation="horizontal"
-    android:paddingTop="20dp">
+    android:orientation="vertical"
+    android:paddingTop="@dimen/_4sdp"
+    android:paddingBottom="@dimen/_4sdp">
 
+    <TextView
+        android:id="@+id/min_raise"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/btn_black"
+        android:gravity="center"
+        android:text="Min"
+        style="@style/ripple"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/raise_bar"
+        app:layout_constraintEnd_toStartOf="@id/raise_1_2"
+        />
+
+    <TextView
+        android:id="@+id/raise_1_2"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/btn_black"
+        android:gravity="center"
+        android:text="1/2"
+        style="@style/ripple"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/min_raise"
+        app:layout_constraintEnd_toStartOf="@+id/raise_3_4" />
+
+    <TextView
+        android:id="@+id/raise_3_4"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/btn_black"
+        android:gravity="center"
+        android:text="3/4"
+        style="@style/ripple"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/raise_1_2"
+        app:layout_constraintEnd_toStartOf="@+id/pot_raise" />
+
+    <TextView
+        android:id="@+id/pot_raise"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/btn_black"
+        android:gravity="center"
+        android:text="Pot"
+        style="@style/ripple"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/raise_3_4"
+        app:layout_constraintEnd_toEndOf="@+id/allinBtn"
+        />
+
+    <TextView
+        android:id="@+id/allinBtn"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/all_in_btn"
+        android:gravity="center"
+        android:text="All in"
+        style="@style/ripple"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pot_raise"
+        app:layout_constraintEnd_toEndOf="@+id/raise_bar" />
+
+    <TextView
+        android:id="@+id/max_raise_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="40"
+        android:visibility="gone"
+        android:textSize="20dp"
+        android:layout_marginStart="6dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toEndOf="@+id/raise_bar"
+        app:layout_constraintTop_toTopOf="@+id/raise_bar"
+        app:layout_constraintBottom_toBottomOf="@+id/raise_bar"/>
 
     <LinearLayout
-        android:id="@+id/seekbar_buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@+id/seekbar_ll"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical"
-        android:layout_gravity="bottom"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        android:id="@+id/raise_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_25sdp"
+        android:background="@drawable/raise_bg"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:minWidth="@dimen/_150sdp"
+        android:layout_marginTop="@dimen/_2sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/seekbar_ll"
-        app:layout_constraintBottom_toBottomOf="@+id/seekbar_ll">
+        app:layout_constraintTop_toBottomOf="@+id/min_raise">
 
-        <TextView
-            android:id="@+id/max_raise"
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:layout_weight="1"
-            android:background="@drawable/raise_btn"
-            android:gravity="center"
-            android:text="Max" />
+        <ImageView
+            android:id="@+id/increase_seek_raise"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_plus_raise" />
 
-        <TextView
-            android:id="@+id/pot_raise"
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
+        <SeekBar
+            android:id="@+id/seek_raise"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/raise_btn"
-            android:gravity="center"
-            android:text="Pot" />
+            android:progressDrawable="@drawable/progress_raise"
+            android:thumb="@drawable/seekbar_thumb"
+            android:max="100"
+            android:progress="0" />
 
-        <TextView
-            android:id="@+id/raise_3_4"
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:layout_weight="1"
-            android:background="@drawable/raise_btn"
-            android:gravity="center"
-            android:text="3/4" />
+        <ImageView
+            android:id="@+id/decrease_seek_raise"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_minus_raise" />
 
-        <TextView
-            android:id="@+id/raise_1_2"
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:layout_weight="1"
-            android:background="@drawable/raise_btn"
-            android:gravity="center"
-            android:text="1/2" />
-
-        <TextView
-            android:id="@+id/min_raise"
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:layout_weight="1"
-            android:background="@drawable/raise_btn"
-            android:gravity="center"
-            android:text="Min" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/seekbar_ll"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_236sdp"
-        android:gravity="center_horizontal"
-        android:layout_marginRight="20dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@+id/seekbar_buttons"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:id="@+id/max_raise_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="40"
-            android:textSize="20dp" />
-
+    <!--
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/raise_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/increase_seek_raise"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_plus_raise" />
-
-            <com.gtgt.pokerjacks.components.VerticalSeekBar
-                android:id="@+id/seek_raise"
+            <TextView
+                android:id="@+id/max_raise_value"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:progressDrawable="@drawable/progress_raise"
-                android:thumb="@drawable/seekbar_thumb"
-                android:max="100"
-                android:progress="0" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="40"
+                android:textSize="20dp" />
 
-            <ImageView
-                android:id="@+id/decrease_seek_raise"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_minus_raise" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/raise_bg"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/increase_seek_raise"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_plus_raise" />
+
+                <com.gtgt.pokerjacks.components.VerticalSeekBar
+                    android:id="@+id/seek_raise"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:progressDrawable="@drawable/progress_raise"
+                    android:thumb="@drawable/seekbar_thumb"
+                    android:max="100"
+                    android:progress="0" />
+
+                <ImageView
+                    android:id="@+id/decrease_seek_raise"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_minus_raise" />
 
 
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    -->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

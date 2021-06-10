@@ -64,6 +64,7 @@ class GameViewModel : SocketIOViewModel() {
     val userContestDetailsLD = MutableLiveData<GameModel.UserContestDetails>()
     val playerTurnLD = MutableLiveData<PlayerTurn>()
     val dealCommunityCardsLD = MutableLiveData<DealCommunityCards>()
+    val userBestHandLd = MutableLiveData<UserBestHand>()
     val leaderboardLD = MutableLiveData<Event<Leaderboard>>()
     val iamBackLD = MutableLiveData<Boolean>()
     val enableActions = MutableLiveData<Boolean>()
@@ -125,7 +126,6 @@ class GameViewModel : SocketIOViewModel() {
                 log("poker:gameEvent", "gameStart "+ gameDetails)
 
                 emit<AnyModel>("getUserCards", jsonObject("table_id" to tableId)) {
-
                     if (!it!!.info["userContestDetails"].isJsonNull) {
                         userContestDetailsLD.data = it.info["userContestDetails"].to()
                     }
@@ -401,7 +401,11 @@ class GameViewModel : SocketIOViewModel() {
                     gameDetailsLD.data!!._id
                 }
             )
-        )
+        ){
+            val userBestHand = it?.to<UserBestHand>()
+            log("getHandStrength", "it: {$userBestHand}")
+            userBestHandLd.data = userBestHand
+        }
     }
 
     fun refillInPlayAmount(refillAmount: Double, callback: ChannelCallbackType<JsonElement?>) {
@@ -504,6 +508,27 @@ class GameViewModel : SocketIOViewModel() {
     fun checkIfMySlotActive() : Boolean{
         val meSlot = tableSlots!!.firstOrNull { it.user_unique_id == userId }
         return meSlot?.status == SeatStatus.ACTIVE.name
+    }
+
+    fun isUserBestHandAvailable(dealCommunityCards: DealCommunityCards): Boolean{
+        var openCommunityCardsCount = 0;
+        val USER_CARDS_COUNT = 2
+        if(dealCommunityCards.card_1.isNotEmpty()){
+            openCommunityCardsCount+=1
+        }
+        if(dealCommunityCards.card_2.isNotEmpty()){
+                openCommunityCardsCount+=1
+        }
+        if(dealCommunityCards.card_3.isNotEmpty()){
+            openCommunityCardsCount+=1
+        }
+        if(dealCommunityCards.card_4.isNotEmpty()){
+            openCommunityCardsCount+=1
+        }
+        if(dealCommunityCards.card_5.isNotEmpty()){
+            openCommunityCardsCount+=1
+        }
+        return (openCommunityCardsCount+ USER_CARDS_COUNT) >=5
     }
 
 }

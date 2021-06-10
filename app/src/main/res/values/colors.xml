@@ -9,6 +9,14 @@
     <color name="white_blue">#d1e2f4</color>
     <color name="light_blue">#39b2ea</color>
     <color name="dark_blue">#4e4af2</color>
+    <color name="queen_light_blue">#4e6989</color>
+    <color name="queen_dark_blue">#29384a</color>
+    <color name="light_red">#ff2e3e</color>
+    <color name="dark_red">#8a020c</color>
+    <color name="light_green">#25e868</color>
+    <color name="dark_green">#1f6f3a</color>
+    <color name="light_orange">#ff8000</color>
+    <color name="dark_orange">#954900</color>
     <color name="text_blue">#4188ed</color>
     <color name="light_gray">#909aad</color>
     <color name="red">#850810</color>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <FrameLayout
+            android:id="@+id/playerViewNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <RelativeLayout
+                android:id="@+id/rl_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/revealCards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_alignEnd="@+id/cl_player"
+                    >
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/deck_card" />
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-14dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/deck_card" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_player"
+                    android:layout_width="@dimen/_92sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_12sdp"
+                    android:background="@drawable/player_view_gradient">
+
+                    <FrameLayout
+                        android:id="@+id/fl_userProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <ImageView
+                            android:id="@+id/vacant_dp"
+                            android:layout_width="@dimen/_36sdp"
+                            android:layout_height="@dimen/_36sdp"
+                            android:src="@drawable/vacant_slot_circle" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_userProfile"
+                            android:layout_width="@dimen/_36sdp"
+                            android:layout_height="@dimen/_36sdp"
+                            android:src="@drawable/dp_new" />
+
+                        <com.gtgt.pokerjacks.components.new.AnimateArcView
+                            android:id="@+id/animateView"
+                            android:layout_width="@dimen/_34sdp"
+                            android:layout_height="@dimen/_34sdp"
+                            android:layout_gravity="center"
+                            android:alpha="0.8"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/countDown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="18dp"
+                            android:fontFamily="@font/tondo_regular"
+                            tools:text="00" />
+
+                        <com.gtgt.pokerjacks.components.NoPlayerView
+                            android:id="@+id/noPlayer"
+                            android:layout_width="@dimen/_34sdp"
+                            android:layout_height="@dimen/_34sdp"
+                            android:visibility="gone"
+                            android:layout_gravity="center|bottom"/>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tv_sit_here"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sit Here"
+                        android:visibility="gone"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/fl_userProfile" />
+
+                    <ImageView
+                        android:id="@+id/crown"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/crown"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/fl_userProfile"
+                        app:layout_constraintEnd_toEndOf="@+id/fl_userProfile"/>
+
+                    <LinearLayout
+                        android:id="@+id/name_inplay_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/fl_userProfile"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <TextView
+                            android:id="@+id/nameTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            tools:text="Sai_tej"
+                            android:lines="1"
+                            android:fontFamily="@font/tondo_regular"
+                            android:textColor="@color/white"
+                            android:textAlignment="textStart"
+                            android:textSize="12sp"/>
+                        <TextView
+                            android:id="@+id/in_play_amt"
+                            android:layout_width="match_parent"
+                            android:layout_height="15dp"
+                            tools:text="₹497.63"
+                            android:lines="1"
+                            android:fontFamily="@font/tondo_bold"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:textColor="@color/white"
+                            android:textAlignment="textStart"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_empty_seat"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="Empty\nSeat"
+                        android:lineSpacingExtra="3sp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/dealer"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/disk_yellow"
+                        app:layout_constraintEnd_toEndOf="@+id/fl_userProfile"
+                        app:layout_constraintTop_toTopOf="@+id/fl_userProfile"
+                        android:src="@drawable/ic_dealer"
+                        android:visibility="invisible" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/active_indication"
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_gravity="start"
+                    android:visibility="invisible"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/active_indication"
+                    android:textColor="@color/black" />
+
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/all_in_flag"
+                android:layout_width="24dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:src="@drawable/all_in_flag"
+                android:layout_marginTop="@dimen/_22sdp"
+                android:layout_gravity="end"
+                />
+
+            <ImageView
+                android:id="@+id/player_action"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:tag="player_action_tag"
+                android:textColor="@color/black" />
+        </FrameLayout>
+
+    <TextView
+        android:id="@+id/raise_amt"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:drawablePadding="3dp"
+        android:paddingTop="4dp"
+        tools:text="₹40.208"
+        android:fontFamily="@font/tondo_regular"
+        android:layout_gravity="center_vertical|end"
+        android:visibility="invisible"
+        android:textSize="@dimen/_10sdp" />
+
+</FrameLayout>
