@@ -110,7 +110,7 @@
         tools:text="₹40.208"
         android:visibility="gone"
         android:textSize="@dimen/_10sdp" />
-    <ImageView
+    <!--<ImageView
         android:id="@+id/dealer"
         android:layout_width="12dp"
         android:layout_height="12dp"
@@ -118,7 +118,7 @@
         android:background="@drawable/disk_yellow"
         android:gravity="center"
         android:src="@drawable/ic_dealer"
-        android:visibility="gone" />
+        android:visibility="gone" />-->
 
     <ImageView
         android:id="@+id/player_action"

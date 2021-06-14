@@ -56,7 +56,7 @@ class GameViewModel : SocketIOViewModel() {
     var isWaitingForOthersShown = false;
     var isFirstGameStarted = false
     var canDisplayWaitingIcon = false
-    val userDetailsLD = MutableLiveData<JoinModel.UserDetails>()
+    val userDetailsLD = MutableLiveData<UserDetails>()
 
     val tableSlotsLD = MutableLiveData<List<TableSlot>>()
     val gameTriggerLD = MutableLiveData<GameModel.GameDetails>()
@@ -241,7 +241,7 @@ class GameViewModel : SocketIOViewModel() {
         dealCommunityCardsLD.postValue(null)
         gameDetailsLD.postValue(null)
         userContestDetailsLD.postValue(null)
-        tableSlotsLD.postValue(null)
+        //tableSlotsLD.postValue(null)
     }
 
 
@@ -343,20 +343,30 @@ class GameViewModel : SocketIOViewModel() {
 
                 if (data.success) {
                     val gameInfo = data.info
-                    log("gameInfo", "gameInfo: " + gameInfo)
                     restoreGame(gameInfo)
                     if(gameInfo.gameDetails!=null){
+
+                        gameInfo.gameDetails._id.let {
+                            gameTriggerLD.data = gameInfo.gameDetails
+                            currentTableId = gameInfo.gameDetails._id
+                        }
+/*
                         if(!gameInfo.gameDetails._id.equals(currentGameId)){
-                            /*if(currentTableId.isEmpty()){
+                            */
+/*if(currentTableId.isEmpty()){
                                 //here, if there is any ongoing game, then user will be able to resume
                                 restoreGame(gameInfo)
-                            }*/
+                            }*//*
+
                             //here, new game-timer is going to trigger
+                            log("gameInfo<>conenct", "restoring gametrigger")
+
                             gameInfo.gameDetails._id.let {
                                 gameTriggerLD.data = gameInfo.gameDetails
                                 currentTableId = gameInfo.gameDetails._id
                             }
                         }
+*/
                     }/*else{
                        restoreGame(gameInfo)
                    }*/
@@ -389,6 +399,9 @@ class GameViewModel : SocketIOViewModel() {
         }
         tableSlots = gameInfo.tableSlots
         gameUsers = gameInfo.gameUsers
+        gameInfo.userDetails?.let {
+            userDetailsLD.data = it
+        }
         handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
         currentTableId = tableId
     }

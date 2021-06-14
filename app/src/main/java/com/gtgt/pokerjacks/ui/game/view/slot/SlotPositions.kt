@@ -411,7 +411,7 @@ fun makeSlotPositions(
                  y = tableHeight/1.3f ,
                  */
                 x = (tableWidth - playerSize) / 2.3f -inPlayWidth/4,
-                y = tableHeight / 1.12f,
+                y = tableHeight / 1.2f,
                 player = Position(),
                 crown = Position(
                     ml = ((playerSize - crownWidth)/1.2).toInt(),
@@ -586,7 +586,7 @@ fun makeSlotPositions(
     } else {
         return SlotPosition(
             x = (tableWidth - playerSize) / 2.3f -inPlayWidth/4,
-            y = tableHeight / 1.12f,
+            y = tableHeight / 1.2f,
             player = Position(),
             crown = Position(
                 ml = ((meSlotSize - crownWidth)).toInt(),

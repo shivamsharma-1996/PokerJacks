@@ -106,22 +106,35 @@
                         android:layout_height="wrap_content"
                         android:text="Sit Here"
                         android:visibility="gone"
+                        android:fontFamily="@font/tondo_regular"
                         android:layout_marginStart="@dimen/_4sdp"
                         android:textColor="@color/white"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/fl_userProfile" />
 
-                    <ImageView
+                   <!-- <ImageView
                         android:id="@+id/crown"
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:src="@drawable/crown"
-                        android:visibility="gone"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="@id/fl_userProfile"
                         app:layout_constraintEnd_toEndOf="@+id/fl_userProfile"/>
+-->
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/crown"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="0dp"
+                        app:lottie_repeatCount="0"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_1sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:lottie_fileName="winner_animation.json" />
 
                     <LinearLayout
                         android:id="@+id/name_inplay_group"
@@ -170,6 +183,7 @@
                         android:lineSpacingExtra="3sp"
                         android:gravity="center"
                         android:visibility="gone"
+                        android:fontFamily="@font/tondo_regular"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 

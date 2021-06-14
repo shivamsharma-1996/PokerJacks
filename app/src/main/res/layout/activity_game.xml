@@ -33,11 +33,11 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp">
 
-           <!-- <ImageView
-                android:id="@+id/stats"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/stats" />-->
+            <!-- <ImageView
+                 android:id="@+id/stats"
+                 android:layout_width="30dp"
+                 android:layout_height="30dp"
+                 android:src="@drawable/stats" />-->
 
             <TextView
                 android:id="@+id/reconnect"
@@ -126,6 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="5 / 10  | "
+                android:fontFamily="@font/tondo_regular"
                 android:textSize="10sp"
                 android:textColor="@color/white"
                 android:layout_weight="1" />
@@ -137,6 +138,7 @@
                 android:layout_weight="1"
                 tools:text="NDM-27536781"
                 android:textSize="10sp"
+                android:fontFamily="@font/tondo_regular"
                 android:textColor="@color/white"
                 android:textAlignment="center" />
         </LinearLayout>
@@ -484,8 +486,44 @@
                 android:layout_marginStart="@dimen/_12sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/checkBtn"
+                app:layout_constraintEnd_toStartOf="@+id/allinBtnLL"
                 android:background="@drawable/btn_red" />
+
+            <LinearLayout
+                android:id="@+id/allinBtnLL"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/_4sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/foldBtn"
+                app:layout_constraintEnd_toStartOf="@+id/checkBtn"
+                android:background="@drawable/btn_orange">
+
+                <TextView
+                    android:id="@+id/allInValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="₹150"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="All in"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:textAllCaps="false"
+                    android:textSize="10sp"/>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/checkBtn"
@@ -497,7 +535,7 @@
                 android:visibility="gone"
                 android:layout_marginStart="@dimen/_4sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/foldBtn"
+                app:layout_constraintStart_toEndOf="@+id/allinBtnLL"
                 app:layout_constraintEnd_toStartOf="@+id/callLL"
                 android:background="@drawable/btn_green"
                 />
@@ -675,7 +713,7 @@
                 />
             <!--
                 android:layout_marginStart="@dimen/_35sdp"
--->
+ -->
         </FrameLayout>
 
         <FrameLayout
@@ -736,18 +774,18 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="2dp">
 
-<!--                <TextView-->
-<!--                    android:id="@+id/waitingTv"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="Please wait while other player(s) join the table"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:maxWidth="@dimen/_150sdp"-->
-<!--                    android:visibility="gone"-->
-<!--                    android:lineSpacingExtra="5sp"/>-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/waitingTv"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:text="Please wait while other player(s) join the table"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    android:textSize="14sp"-->
+                <!--                    android:maxWidth="@dimen/_150sdp"-->
+                <!--                    android:visibility="gone"-->
+                <!--                    android:lineSpacingExtra="5sp"/>-->
 
                 <TextView
                     android:id="@+id/gameStartsTimer"
@@ -923,3 +961,4 @@
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
+

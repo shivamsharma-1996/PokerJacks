@@ -10,6 +10,7 @@ data class TablePlayers(
 
 data class GameModel(val info: Info) : BaseModel() {
     data class Info(
+        val userDetails: UserDetails?,
         val gameDetails: GameDetails,
         val tableDetails: TableDetails,
         val tableSlots: List<TableSlot>,
@@ -137,4 +138,7 @@ data class DealCommunityCards(
     var side_pots: List<SidePot>,
     var total_pot_value: Double
 )
+
+
+
 

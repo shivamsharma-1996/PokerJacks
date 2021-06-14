@@ -75,12 +75,12 @@ fun View.resizeAnimation(newWidth: Int, newHeight: Int, animDuration:Long) {
 
 fun View.markSeatEmpty(isEmpty: Boolean){
     if(isEmpty){
-        this.iv_userProfile.visibility = View.INVISIBLE
         this.vacant_dp.visibility = View.INVISIBLE
         this.tv_sit_here.visibility = View.INVISIBLE
         this.tv_empty_seat.visibility = View.VISIBLE
+        this.dealer.visibility = View.INVISIBLE
     }else{
-        this.iv_userProfile.visibility = View.VISIBLE
+        this.vacant_dp.visibility = View.VISIBLE
         this.tv_sit_here.visibility = View.VISIBLE
         this.tv_empty_seat.visibility = View.INVISIBLE
     }
