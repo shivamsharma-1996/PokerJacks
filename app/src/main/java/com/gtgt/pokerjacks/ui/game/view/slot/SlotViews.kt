@@ -12,10 +12,7 @@ import android.widget.TextView
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.extensions.*
 import com.gtgt.pokerjacks.ui.game.GameActivity
-import com.gtgt.pokerjacks.ui.game.models.PlayerTurn
-import com.gtgt.pokerjacks.ui.game.models.TableSlot
-import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
-import com.gtgt.pokerjacks.ui.game.models.UsersBestHand
+import com.gtgt.pokerjacks.ui.game.models.*
 import com.gtgt.pokerjacks.ui.game.viewModel.PlayerActions
 import com.gtgt.pokerjacks.ui.game.viewModel.SeatStatus
 import com.gtgt.pokerjacks.utils.SlotPositions.*
@@ -183,6 +180,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
     fun stopTurnAnimation(slotView: View) {
         slotView.animateView.stopAnim()
         animatadView?.cancel()
+        slotView.countDown.visibility = GONE
     }
 
     fun drawSlots(slots: List<TableSlot>) {
@@ -214,14 +212,14 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
                 if (slot.status == TableSlotStatus.VACANT.name) {
                     tv_sit_here.visibility = VISIBLE
-                    noPlayer.visibility = if (isJoined) GONE else {
-                        VISIBLE
-                    }
-                    if (isJoined) {
+                    noPlayer.visibility = if (isJoined) {
                         this.markSeatEmpty(true)
+                        GONE
                     } else {
                         this.markSeatEmpty(false)
+                        VISIBLE
                     }
+
                     iv_userProfile.visibility = GONE
                     active_indication.visibility = GONE
                     player_action.visibility = GONE
@@ -261,20 +259,23 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                                 if (((context as GameActivity).vm.canDisplayWaitingIcon)) {
                                     iv_userProfile.blurOut()
                                     active_indication.setImageResource(R.drawable.waiting)
+                                    active_indication.visibility = VISIBLE
                                 }
                             }
                             else -> {
-                                active_indication.setImageResource(
-                                    when (slot.status) {
-                                        SeatStatus.SIT_OUT.name -> {
-                                            iv_userProfile.blurOut()
-                                            R.drawable.sitout
-                                        }
-                                        else -> {
-                                            R.drawable.active_indication
-                                        }
+                                when (slot.status) {
+                                    SeatStatus.SIT_OUT.name -> {
+                                        iv_userProfile.blurOut()
+                                        active_indication.setImageResource(R.drawable.sitout)
                                     }
-                                )
+                                    else -> {
+                                        active_indication.setImageResource(R.drawable.active_indication)
+                                        iv_userProfile.alpha = 1f
+                                    }
+                                }
+
+                                if ((context as GameActivity).isGameStartedAndRunning)
+                                active_indication.visibility = VISIBLE
                             }
                         }
                     }
@@ -283,14 +284,14 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         if (slot.user!!.status.equals(PlayerActions.ALL_IN.name)
                             && !(isJoined && position == BOTTOM_CENTER)
                         ) {
-                            if ((context as GameActivity).isGameRunning)
+                            if ((context as GameActivity).isGameStartedAndRunning)
                             all_in_flag.visibility = VISIBLE
                             raise_amt.visibility = GONE
                             stopTurnAnimation(slotView)
                             deduceRaiseAmtSpace(raise_amt)
                         } else {
                             all_in_flag.visibility = GONE
-                            if ((context as GameActivity).isGameRunning)
+                            if ((context as GameActivity).isGameStartedAndRunning)
                                 raise_amt.visibility = VISIBLE
                         }
 
@@ -356,7 +357,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     log("user::status", status)
                     when (status) {
                         PlayerActions.CHECK.name -> {
-                            if ((context as GameActivity).isGameRunning)
+                            if ((context as GameActivity).isGameStartedAndRunning)
                             player_action.visibility = VISIBLE
                             raise_amt.visibility = INVISIBLE
                             player_action.setImageResource(R.drawable.check_small)
@@ -380,7 +381,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         animateView.stopAnim()
                         iv_userProfile.blurOut()
                         dealer.visibility = GONE
-                        if ((context as GameActivity).isGameRunning){
+                        if ((context as GameActivity).isGameStartedAndRunning){
                             player_action.visibility = VISIBLE
                             player_action.setImageResource(R.drawable.fold)
                         }
@@ -505,7 +506,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     in_play_amt.text = "-"
                 } else {
                     in_play_amt.text =
-                        "₹${inPlay.toDecimalFormat()}"
+                        "₹${inPlay?.toDecimalFormat()}"
                 }
             }
         }
@@ -549,6 +550,12 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
         }
     }
 
+    fun restartGame(){
+        slotViews.forEach {
+            it.value.all_in_flag.visibility = GONE
+            it.value.revealCards.visibility = GONE
+        }
+    }
     fun resetPlayers() {
         try {
             slotViews.forEach {
@@ -558,12 +565,10 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 it.value.animateView.stopAnim()
                 it.value.countDown.visibility = GONE
                 animatadView?.cancel()
-                it.value.all_in_flag.visibility = GONE
                 it.value.revealCards.getChildAt(0).alpha = 1f
                 it.value.revealCards.getChildAt(1).alpha = 1f
                 it.value.player_action.visibility = GONE
                 it.value.dealer.visibility = GONE
-                it.value.iv_userProfile.alpha = 1f
                 it.value.iv_userProfile.circleBackgroundColor = 0
                 isFoldAnimated[it.key] = false
                 drawSlots(slots.values.toList())
@@ -606,22 +611,21 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
                 it.value.revealCards.getChildAt(0).alpha = 1f
                 it.value.revealCards.getChildAt(1).alpha = 1f
-                it.value.revealCards.visibility = GONE
-                it.value.iv_userProfile.alpha = 1f
                 it.value.iv_userProfile.circleBackgroundColor = 0
                 isFoldAnimated[it.key] = false
 
-                it.value.all_in_flag.visibility = GONE
                 it.value.dealer.visibility = GONE
                 it.value.player_action.visibility = GONE
                 it.value.raise_amt.visibility = View.INVISIBLE
                 deduceRaiseAmtSpace(it.value.raise_amt)
                 try {
                     val slotStatus = slots[it.key]?.status!!
-                    if (!slotStatus.equals(SeatStatus.SIT_OUT) &&
-                        !slotStatus.equals(SeatStatus.WAIT_FOR_NEXT) &&
-                        !slotStatus.equals(SeatStatus.WAIT_FOR_BB)
+
+                    if (!slotStatus.equals(SeatStatus.SIT_OUT.name) &&
+                        !slotStatus.equals(SeatStatus.WAIT_FOR_NEXT.name) &&
+                        !slotStatus.equals(SeatStatus.WAIT_FOR_BB.name)
                     ) {
+                        log("ayaa", "sfvff")
                         it.value.active_indication.visibility = View.INVISIBLE
                     }
                     //it.value.active_indication.visibility = View.INVISIBLE

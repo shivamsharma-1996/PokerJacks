@@ -25,6 +25,11 @@ enum class ActionEvent(val event: String) {
     ALL_IN("allIn")
 }
 
+enum class SlotsFilter(val event: String) {
+    SEAT_STATUS("seatuStatus"),
+    PLAYER_ACTION("playerAction"),
+}
+
 enum class SeatStatus(val status: String) {
     WAIT_FOR_NEXT("WAIT_FOR_NEXT"),
     WAIT_FOR_BB("WAIT_FOR_BB"),
@@ -206,6 +211,7 @@ class GameViewModel : SocketIOViewModel() {
                     "endGame" -> {
                         val gameInfo = data.to<GameModel.Info>()
                         tableSlots = gameInfo.tableSlots
+                        tableSlotsLD.data = gameInfo.tableSlots
                         gameUsers = gameInfo.gameUsers
                         handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
                         _isGameEnded.postValue(true)
@@ -377,6 +383,12 @@ class GameViewModel : SocketIOViewModel() {
         }
     }
 
+    fun checkIsNewGameStarting(gameInfo: GameModel.Info): Boolean{
+        gameInfo?.gameDetails?.let {
+            return it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || gameCountdownTimeLeft != 0L
+        }
+    }
+
     fun restoreGame(gameInfo: GameModel.Info) {
         gameCountdownTimeLeft = 0L
         if (mySlot != null && mySlot!!.status == SeatStatus.SIT_OUT.status
@@ -384,9 +396,8 @@ class GameViewModel : SocketIOViewModel() {
             || currentTableId.isEmpty()) {
             iamBackLD.data = true
         }
-        if(gameInfo.gameDetails!=null){
-            val  gameDetails = gameInfo.gameDetails
-            gameDetailsLD.data = gameDetails
+        if(gameInfo.gameDetails!=null && !checkIsNewGameStarting(gameInfo)){
+            gameDetailsLD.data = gameInfo.gameDetails
         }
         /*dealCommunityCardsLD.data = DealCommunityCards(gameDetails.card_1, gameDetails.card_2, gameDetails.card_3, gameDetails.card_4
         ,gameDetails.card_5, emptyList(), gameDetails.total_pot_value)*/
@@ -494,8 +505,20 @@ class GameViewModel : SocketIOViewModel() {
 
     }
 
-    fun getfilteredSlotsCount(seatStatus: String) : Int {
-        return (tableSlots!!.count { it.status == seatStatus })
+    fun getFilteredSlotsCount(status: String, filterType: SlotsFilter = SlotsFilter.SEAT_STATUS) : Int {
+        when (filterType) {
+            SlotsFilter.SEAT_STATUS -> return (tableSlots!!.count { it.status == status })
+            SlotsFilter.PLAYER_ACTION -> {
+                val list = tableSlots!!.filter { it.user != null && it.user!!.status != null }
+                if(list.isNotEmpty()){
+                    return list.count {
+                        it.user!!.status == status
+                    }
+                }else{
+                    return 0
+                }
+            }
+        }
     }
 
     fun getInactiveSlotsCount() : Int{

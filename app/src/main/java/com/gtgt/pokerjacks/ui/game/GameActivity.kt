@@ -78,7 +78,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     private var isAmountRaisedViaBtn = false
-    open var isGameRunning = false
+    open var isGameStartedAndRunning = false
     private lateinit var slotViews: SlotViews
     public val vm: GameViewModel by viewModel()
     private val preferencesvm: GamePreferencesViewModel by viewModel()
@@ -264,18 +264,23 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     }
 
                     vm.isWaitingForOthersShown = false
-                    val activeSlotsCount = vm.getfilteredSlotsCount(TableSlotStatus.ACTIVE.name)
+                    val activeSlotsCount = vm.getFilteredSlotsCount(status = TableSlotStatus.ACTIVE.name)
                     val inactiveSlotsCount = vm.getInactiveSlotsCount()
-                    val vacantSlotsCount = vm.getfilteredSlotsCount(TableSlotStatus.VACANT.name)
+                    val vacantSlotsCount = vm.getFilteredSlotsCount(status = TableSlotStatus.VACANT.name)
                     val totalSlotsCount = vm.tableSlots!!.size
                     val playerCountSatOnTable = totalSlotsCount - vacantSlotsCount
 
-                    if(vm.getfilteredSlotsCount(TableSlotStatus.VACANT.name) == totalSlotsCount){
+                    if(vm.getFilteredSlotsCount(status = TableSlotStatus.VACANT.name) == totalSlotsCount){
                             resetGameToDefault()
-                            waitingTv.visibility = GONE
+                        slotViews.resetGame()
+                        waitingTv.visibility = GONE
                             iAMBack.visibility = GONE
-                        }else if(vm.mySlot != null){
-                        if((vacantSlotsCount == totalSlotsCount-1)){
+                        }
+                    else if(vm.mySlot != null){
+                        /*if(activeSlotsCount == playerCountSatOnTable && allInSlotsCount == (playerCountSatOnTable - 1)){
+                            bottomPannel_new.visibility = INVISIBLE
+                        }*/
+                            if((vacantSlotsCount == totalSlotsCount-1)){
                             // if one player himself is active while others are inactive
                             resetGameToDefault()
                             displayMessage(getString(R.string.waiting_for_opponents))
@@ -297,7 +302,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.isGameEnded.observe(this, Observer { isGameEnded ->
                 if(isGameEnded){
                     slotViews.resetGame()
-                    isGameRunning= false
+                    isGameStartedAndRunning= false
                 }
             })
 
@@ -323,6 +328,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     slotViews.usersBestHand = null
                     slotViews.crownTo(-1)
+                    slotViews.restartGame()
                     slotViews.resetGame()
 
                     c1.alpha = 1f
@@ -340,7 +346,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || vm.gameCountdownTimeLeft != 0L) {
                         //leaderboardView.visibility = GONE
 
-                        isGameRunning = true
+                        isGameStartedAndRunning = false
                         bottomPannel_new.visibility = INVISIBLE
                         user_best_hand.visibility = INVISIBLE
                         tv_rankOrder.visibility = INVISIBLE
@@ -403,6 +409,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             vm.gameDetailsLD.observe(this, Observer {
                 it?.let {
+                    isGameStartedAndRunning = true
                     onGameDetailsLdObserved(it)
                     /*if(vm.gameCountdownTimeLeft == 0L){
                         onGameDetailsLdObserved(it)
@@ -421,6 +428,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     if(/*!vm.isConfigurationChanged && */vm.isDealCommunityCardsEventReceived){
                         val slots = vm.tableSlotsLD.value
                         resetAutoOptions()
+                        handleAllIn()
                         log("poker::dealCommunityCardsLD", "dealCommunityCardsLD : ${it.toString()}")
 //            val potSplitPadding = dpToPx(15).toFloat()
                         val potSplitTopLandscape = dpToPx(40).toFloat()
@@ -575,6 +583,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             checkBtn.visibility = GONE
                             //allinLL.visibility = GONE
                             allinBtnLL.visibility = GONE
+
                         } else {
                             foldBtn.visibility =
                                 if (it.action_choices.contains(PlayerActions.FOLD.action)) VISIBLE else GONE
@@ -598,7 +607,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE*/
 
 
-                            if(it.action_choices.size == 2 && it.action_choices.contains(PlayerActions.ALL_IN.action) &&
+                            if(!it.action_choices.contains(PlayerActions.RAISE.action) && it.action_choices.contains(PlayerActions.ALL_IN.action) &&
                                 it.action_choices.contains(PlayerActions.FOLD.action)){
                                 allinBtnLL.visibility = VISIBLE
                                 allInValue.text = "₹${(it.allin_amount).toDecimalFormat()}"
@@ -727,6 +736,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         checkBtn.visibility = GONE
 //                        allinLL.visibility = GONE
                         allinBtn.visibility = GONE
+                        allinBtnLL.visibility = GONE
                     }
 
                     slotViews.playerTurn = it
@@ -1074,7 +1084,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     private fun resetGameToDefault() {
-        isGameRunning = false
+        isGameStartedAndRunning = false
         slotViews.crownTo(-1)
         slotViews.resetGame()
 
@@ -1218,6 +1228,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             callBtn.isEnabled = isEnabled
             raiseBtn.isEnabled = isEnabled
             allinBtn.isEnabled = isEnabled
+            allinBtnLL.isEnabled = isEnabled
         }
     }
 
@@ -1555,6 +1566,18 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             if(socketInstance.listeners.size!=0){
                 socketInstance.removeSocketChangeListener(this)
             }
+        }
+    }
+
+    private fun handleAllIn(){
+        val activeSlotsCount = vm.getFilteredSlotsCount(status = TableSlotStatus.ACTIVE.name)
+        val vacantSlotsCount = vm.getFilteredSlotsCount(status = TableSlotStatus.VACANT.name)
+        val totalSlotsCount = vm.tableSlots!!.size
+        val playerCountSatOnTable = totalSlotsCount - vacantSlotsCount
+        val allInSlotsCount = vm.getFilteredSlotsCount(PlayerActions.ALL_IN.name, SlotsFilter.PLAYER_ACTION)
+
+        if(activeSlotsCount == playerCountSatOnTable && allInSlotsCount == (playerCountSatOnTable - 1)){
+            bottomPannel_new.visibility = INVISIBLE
         }
     }
 }
