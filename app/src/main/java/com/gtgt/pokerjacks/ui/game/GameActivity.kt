@@ -77,7 +77,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         )
     }
 
-    private var isAmountRaisedViaBtn = false
+    private var isAmountRaisedViaRaiseBar = false
+    private var isAmountRaisedViaAllInBtn = false
     open var isGameStartedAndRunning = false
     private lateinit var slotViews: SlotViews
     public val vm: GameViewModel by viewModel()
@@ -309,6 +310,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.gameTriggerLD.observe(this, Observer {
                 log("poker::gameTriggerLD", it)
                 resetAutoOptions()
+                isGameStartedAndRunning = false
                 it?.let {
                     if (gameIDTV!= null/* && vm.isLandscape*/) {
                         gameIDTV.text = it.game_uid
@@ -327,6 +329,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                           gameIdTV.text = it.gameUID*/
 
                     slotViews.usersBestHand = null
+                    isAmountRaisedViaAllInBtn = false
+                    isAmountRaisedViaRaiseBar = false
                     slotViews.crownTo(-1)
                     slotViews.restartGame()
                     slotViews.resetGame()
@@ -341,12 +345,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     mc2.alpha = 1f
                     slotViews.resetDealerIcon()
 
-                    log("poker::gameTriggerLD12", vm.gameCountdownTimeLeft)
-
                     if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || vm.gameCountdownTimeLeft != 0L) {
                         //leaderboardView.visibility = GONE
 
-                        isGameStartedAndRunning = false
                         bottomPannel_new.visibility = INVISIBLE
                         user_best_hand.visibility = INVISIBLE
                         tv_rankOrder.visibility = INVISIBLE
@@ -625,32 +626,38 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         max_raise_value.text = maxPossibleRaise.toString()
                         val minPossibleRaise = it.current_min_raise
 
-                        seek_raise.max = ((maxPossibleRaise - minPossibleRaise) * 100).toInt()
+                        seek_raise.max = ((maxPossibleRaise - minPossibleRaise).toInt())
 
                         pot_raise.onOneClick {
+                            isAmountRaisedViaAllInBtn = false
                             /*seek_raise.progress =
                                 ((minPossibleRaise) * 100).toInt()*/
                             onSeekChangeBtnClicked(it.full_pot_value)
 
                         }
                         raise_3_4.onOneClick {
+                            isAmountRaisedViaAllInBtn = false
 //                                ((minPossibleRaise) * 300 / 4).toInt()
                             onSeekChangeBtnClicked(it.three_fourth_pot_value)
                         }
                         raise_1_2.onOneClick {
+                            isAmountRaisedViaAllInBtn = false
                             // seek_raise.progress = ((minPossibleRaise) * 50).toInt()
                             onSeekChangeBtnClicked(it.half_pot_value)
                         }
 
 
                         min_raise.onOneClick {
+                            isAmountRaisedViaAllInBtn = false
                             //seek_raise.progress = 0
                             onSeekChangeBtnClicked(it.current_min_raise)
                         }
 
-                        /*allinBtn.onOneClick {
-                            seek_raise.progress = seek_raise.max
-                        }*/
+                        allinBtn.onOneClick {
+                            isAmountRaisedViaAllInBtn = true
+                           // seek_raise.progress = seek_raise.max
+                            onSeekChangeBtnClicked(it.allin_amount)
+                        }
 
                         increase_seek_raise.onOneClick {
                             seek_raise.progress += 100
@@ -668,12 +675,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 fromUser: Boolean
                             ) {
                                 log("minPossibleRaiseprogress", progress)
-                                if (isAmountRaisedViaBtn == false) {
+                                if (isAmountRaisedViaRaiseBar == false) {
                                     raiseBtn.text =
                                         "₹${(progress / 100.0 + minPossibleRaise).toDecimalFormat()}"
                                     raiseBtn.tag = (progress / 100.0 + minPossibleRaise)
                                 } else {
-                                    isAmountRaisedViaBtn = false  //resetting the value
+                                    isAmountRaisedViaRaiseBar = false  //resetting the value
                                 }
                             }
 
@@ -762,6 +769,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 raiseLL.visibility = INVISIBLE
 
 
+//                pot_split.removeAllViews()
                 if(leaderboard.pot_distributions.size >= 2){
                     pot_split.removeAllViews()
                     leaderboard.pot_distributions.forEach {
@@ -775,20 +783,26 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 }else{
                     pot_split.visibility = INVISIBLE
                 }
-
-                /*if (leaderboard.pot_distributions.size > 1) {
-                    pot_split.visibility = VISIBLE
-                }*/
                 val potSplitTop = dpToPx(50).toFloat() + totalPot.height
                 val playAreaPadding = playArea.paddingStart
                 val potSplitPadding = dpToPx(15).toFloat()
 
+                var finalPotForAnim = mutableListOf<PotWinnerDistribution>()
+                leaderboard.pot_winnings.filter { it.wonAmt > 0 }.
+                zip(leaderboard.pot_refunds.filter { it.wonAmt >0 }).
+                forEach {pair ->
+                    if(pair.first.user_unique_id.isNotEmpty()){
+                        finalPotForAnim.add(PotWinnerDistribution(pair.first.user_unique_id, pair.first.wonAmt.toDouble()))
+                    }
+                    if(pair.second.user_unique_id.isNotEmpty()){
+                        finalPotForAnim.add(PotWinnerDistribution(pair.second.user_unique_id, pair.second.wonAmt))
+                    }
+                }
                 val pots =
-                    leaderboard.pot_winnings.filter { it.wonAmt > 0 }.sortedBy { it.pot_index }
+                    leaderboard.pot_winnings.filter { it.wonAmt > 0 }.sortedBy { it.rank }
 
                 fun animatePots(potIndex: Int) {
-                    if (pots.size > potIndex) {
-                        log("poker::animatePots", "potIndex : " + potIndex)
+                    if (finalPotForAnim!=null && finalPotForAnim.size > potIndex) {
                         isPotAnimationDone = false
                         slotViews.crownTo(-1)
 
@@ -801,9 +815,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         mc1.alpha = 1f
                         mc2.alpha = 1f
 
-                        val potWinning = pots[potIndex]
-
-                        val c1 = pot_split.getChildAt(0) ?: return
+                        val c1 = pot_split.getChildAt(potIndex) ?: return
 
                         val c = c1 as TextView
 
@@ -825,10 +837,13 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             slotViews.displayLeaderBoard()
                         }
 
+                        val potWinning = finalPotForAnim[potIndex]
+                        log("poker::animatePots", "potRefunds meaya2 niche : " + potWinning)
+
                         vm.tableSlotsLD.value?.let { slots ->
                             slots.find { it.user_unique_id == potWinning.user_unique_id }?.let {
                                 slotViews.slotViews[it.seat_no]?.let { slot ->
-                                    c.visibility = GONE
+                                    //c.visibility = GONE
 
                                     leaderboard.users_best_hand
                                         .find { it.user_unique_id == potWinning.user_unique_id }
@@ -875,6 +890,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                         duration = 1000
                                         withEndAction {
                                             rootLayout.removeView(currentPotView)
+//                                            val updatedInPlayAmt = it.inplay_amount + potWinning.wonAmt
+//                                            slot.in_play_amt.text = "₹${updatedInPlayAmt?.toDecimalFormat()}"
                                             animatePots(potIndex + 1)
                                         }
                                         start()
@@ -883,7 +900,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             }
                         }
                     } else {
-//                    showToast("true")
                         isPotAnimationDone = true
                     }
                 }
@@ -931,22 +947,27 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 }
             }
 
-            allinBtn.onOneClick {
-                allInClicked()
-            }
+//            allinBtn.onOneClick {
+//                allInClicked()
+//            }
 
             allinBtnLL.onOneClick {
-                allInClicked()
+                goForallIn()
             }
 
             raiseBtnLL.onOneClick {
                 disableEnableActions(false)
-                vm.actionEvent(
-                    ActionEvent.RAISE_BET,
-                    total_amount = raiseBtn.tag as Double,
-                    raise_amount = raiseBtn.tag as Double - callBtn.tag as Double
-                ) {
-                    disableEnableActions(true)
+                if(isAmountRaisedViaAllInBtn){
+                   goForallIn()
+                    isAmountRaisedViaAllInBtn = false
+                }else{
+                    vm.actionEvent(
+                        ActionEvent.RAISE_BET,
+                        total_amount = raiseBtn.tag as Double,
+                        raise_amount = raiseBtn.tag as Double - callBtn.tag as Double
+                    ) {
+                        disableEnableActions(true)
+                    }
                 }
             }
 
@@ -1049,7 +1070,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
     }
 
-    private fun allInClicked() {
+    private fun goForallIn() {
         disableEnableActions(false)
         vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
             disableEnableActions(true)
@@ -1207,7 +1228,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     private fun onSeekChangeBtnClicked(newAmount: Double) {
-        isAmountRaisedViaBtn = true
+        isAmountRaisedViaRaiseBar = true
         seek_raise.progress = newAmount.toInt()
         raiseBtn.text = "₹${(newAmount).toDecimalFormat()}"
         raiseBtn.tag = newAmount
@@ -1249,6 +1270,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 .inflate(R.layout.byin_popup, null)
         builder.setView(dialogView)
         builder.setCancelable(false)
+
         val dialog = builder.create()
 
         val amtDrawable =
@@ -1483,6 +1505,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             dialog.dismiss() }
 
         dialog.show()
+        if(slotViews.isLandscape){
+            dialog.window?.setLayout(dpToPx(375), dpToPx(300))
+        }
     }
 
     private fun joinTableActions(callback: () -> Unit) {

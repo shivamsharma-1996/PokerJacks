@@ -225,7 +225,7 @@ class GameViewModel : SocketIOViewModel() {
                         }
 
                         playerTurnLD.data = null
-                        activity?.showSnack("Game is ended")
+                       // activity?.showSnack("Game is ended")
                     }
                 }
             }

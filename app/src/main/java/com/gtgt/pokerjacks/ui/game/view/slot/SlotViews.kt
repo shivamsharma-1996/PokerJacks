@@ -1,5 +1,6 @@
 package com.gtgt.pokerjacks.ui.game.view.slot
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.CountDownTimer
@@ -166,6 +167,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     if (bestHand == null) {
                         revealCards.visibility = GONE
                     } else {
+                        raise_amt.visibility = INVISIBLE
+                        deduceRaiseAmtSpace(raise_amt)
                         revealCards.visibility = VISIBLE
                         (revealCards.getChildAt(0) as ImageView).coloredCard(bestHand.card_1)
 
@@ -183,6 +186,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
         slotView.countDown.visibility = GONE
     }
 
+    @SuppressLint("SetTextI18n")
     fun drawSlots(slots: List<TableSlot>) {
 //        if((context as GameActivity).vm.isWaitingForOthersShown){
 //            return
@@ -225,7 +229,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     player_action.visibility = GONE
                     all_in_flag.visibility = GONE
                     in_play_amt.text = "-"
-                    raise_amt.visibility = View.INVISIBLE
+                    raise_amt.visibility = INVISIBLE
                     deduceRaiseAmtSpace(raise_amt)
                     name_inplay_group.visibility = GONE
                     cl_player.background = context.getDrawable(R.drawable.player_view_gradient)
@@ -280,31 +284,36 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         }
                     }
 
-                    if (slot.user != null && slot.user!!.current_round_invested > 0.0) {
+                    if (slot.user != null &&
+                        ((slot.user!!.current_round_invested > 0.0) ||
+                                slot.user!!.status.equals(PlayerActions.ALL_IN.name))) {
+
                         if (slot.user!!.status.equals(PlayerActions.ALL_IN.name)
                             && !(isJoined && position == BOTTOM_CENTER)
                         ) {
                             if ((context as GameActivity).isGameStartedAndRunning)
                             all_in_flag.visibility = VISIBLE
-                            raise_amt.visibility = GONE
                             stopTurnAnimation(slotView)
-                            deduceRaiseAmtSpace(raise_amt)
                         } else {
                             all_in_flag.visibility = GONE
-                            if ((context as GameActivity).isGameStartedAndRunning)
-                                raise_amt.visibility = VISIBLE
                         }
 
-                        /*if((context as GameActivity).vm.isWaitingForOthersShown){
+                        if ((context as GameActivity).isGameStartedAndRunning && revealCards.visibility != VISIBLE)
                             raise_amt.visibility = VISIBLE
+
+                        if(slot.user!!.current_round_invested > 0.0){
+                            raise_amt.text =
+                                "₹" + String.format(
+                                    "%.2f",
+                                    slot.user!!.current_round_invested
+                                )
                         }else{
-                            raise_amt.visibility = GONE
-                        }*/
-                        raise_amt.text =
-                            "₹" + String.format(
-                                "%.2f",
-                                (slot.user?.current_round_invested ?: 1234.00)
-                            )
+                            raise_amt.text =
+                                "₹" + String.format(
+                                    "%.2f",
+                                    slot.user!!.amount_invested
+                                )
+                        }
 
                         val coin = when (slot.user!!.status) {
                             "ACTIVE" -> R.drawable.bet
@@ -312,6 +321,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                             PlayerActions.FOLD.name -> R.drawable.fold_small*/
                             PlayerActions.CALL.name -> R.drawable.call_small
                             PlayerActions.RAISE.name -> R.drawable.raise
+                            PlayerActions.ALL_IN.name -> R.drawable.raise
                             else -> null
                         }
 
@@ -343,7 +353,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                             }
                         }
                     } else {
-                        raise_amt.visibility = View.INVISIBLE
+                        raise_amt.visibility = INVISIBLE
                         deduceRaiseAmtSpace(raise_amt)
                     }
                 }
@@ -616,8 +626,14 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
                 it.value.dealer.visibility = GONE
                 it.value.player_action.visibility = GONE
-                it.value.raise_amt.visibility = View.INVISIBLE
+//                if (!(slots[it.key]?.user?.status.equals(PlayerActions.ALL_IN.name) &&
+//                            (context as GameActivity).isGameStartedAndRunning)) {
+//                    it.value.raise_amt.visibility = INVISIBLE
+//                    deduceRaiseAmtSpace(it.value.raise_amt)
+//                }
+                it.value.raise_amt.visibility = INVISIBLE
                 deduceRaiseAmtSpace(it.value.raise_amt)
+
                 try {
                     val slotStatus = slots[it.key]?.status!!
 

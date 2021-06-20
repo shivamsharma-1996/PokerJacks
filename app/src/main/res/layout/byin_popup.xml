@@ -8,9 +8,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -20,7 +22,7 @@
             android:fontFamily="@font/sf_semibold"
             android:text="Buy-In"
             android:textColor="@color/white"
-            android:textSize="22dp" />
+            android:textSize="18sp" />
 
 
         <RelativeLayout
@@ -48,7 +50,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:background="#151b26"
             android:padding="16dp">
 
@@ -74,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:drawablePadding="2dp"
             android:fontFamily="@font/sf_semibold"
             android:textColor="@color/white"
@@ -164,7 +166,7 @@
                 android:id="@+id/close"
                 style="@style/buton_tv"
                 android:layout_width="0dp"
-                android:layout_height="44dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:background="@drawable/button_cancel"
@@ -176,7 +178,7 @@
                 android:id="@+id/join"
                 style="@style/buton_tv"
                 android:layout_width="0dp"
-                android:layout_height="44dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"

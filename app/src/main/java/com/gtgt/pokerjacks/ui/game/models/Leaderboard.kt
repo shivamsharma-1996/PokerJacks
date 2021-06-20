@@ -6,9 +6,17 @@ data class Leaderboard(
     val pot_winnings: List<PotWinning>,
     val users_best_hand: List<UsersBestHand>,
     val users_winnings: List<UsersWinning>,
-    val community_cards: DealCommunityCards
+    val community_cards: DealCommunityCards,
+    val pot_refunds: List<potRefunds>
 )
 
+
+data class potRefunds(
+    val user_unique_id: String,
+    val wonAmt: Double,
+    val pot_index: Int,
+    val rank: Int
+)
 data class PotDistribution(
     val players: List<String>,
     val pot_value: Int
