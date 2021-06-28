@@ -17,7 +17,7 @@
         android:fontFamily="@font/tondo_regular"
         android:layout_gravity="center_vertical|end"
         android:visibility="invisible"
-        android:textSize="@dimen/_10sdp" />
+        android:textSize="@dimen/_9sdp" />
 
     <FrameLayout
         android:id="@+id/playerViewNew"
@@ -101,6 +101,7 @@
                         android:layout_gravity="center"
                         android:textColor="@color/white"
                         android:textSize="18dp"
+                        android:visibility="invisible"
                         android:fontFamily="@font/tondo_regular"
                         tools:text="00" />
 

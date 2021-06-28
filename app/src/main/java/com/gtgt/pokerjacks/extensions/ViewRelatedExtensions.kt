@@ -3,9 +3,11 @@ package com.gtgt.pokerjacks.extensions
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PorterDuff
 import android.text.InputFilter
 import android.text.Spannable
 import android.text.SpannableString
@@ -21,9 +23,11 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.gtgt.pokerjacks.R
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.player.view.*
 import kotlinx.android.synthetic.main.player.view.iv_userProfile
 import kotlinx.android.synthetic.main.player_new.view.*
@@ -52,9 +56,40 @@ fun View.onRendered(callback: (View) -> Unit) {
     }
 }
 
-fun View.blurOut(){
-    this.alpha = 0.40f
-    (this as CircleImageView).circleBackgroundColor = Color.TRANSPARENT
+fun View.blurOut(canBlurOut: Boolean){
+   /* if(canBlurOut)
+    this.background.setColorFilter(ContextCompat.getColor(context, R.color.semi_transparent), PorterDuff.Mode.SRC_ATOP)
+    else{
+        this.background.clearColorFilter()
+    }*/
+    if(canBlurOut){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            this.foreground = context.getDrawable(R.drawable.bg_dim_overlay)
+        }else{
+            this.background.setColorFilter(ContextCompat.getColor(context, R.color.semi_transparent), PorterDuff.Mode.SRC_ATOP)
+        }
+    }else{
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            this.foreground = null
+        }
+        this.background.clearColorFilter()
+    }
+}
+
+/*fun View.blurForeground(canBlurOut: Boolean){
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        this.foreground = context.getDrawable(R.drawable.bg_dim_overlay)
+    }else{
+        this.alpha =  0.4f
+    }
+}*/
+
+fun ImageView.highlightCard(canHighlight: Boolean){
+    if(canHighlight)
+    this.setColorFilter(ContextCompat.getColor(context, R.color.semi_transparent), PorterDuff.Mode.SRC_ATOP);
+    else{
+        this.clearColorFilter()
+    }
 }
 
 fun View.resizeAnimation(newWidth: Int, newHeight: Int, animDuration:Long) {

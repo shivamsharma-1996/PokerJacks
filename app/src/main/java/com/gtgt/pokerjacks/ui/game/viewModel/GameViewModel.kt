@@ -351,31 +351,10 @@ class GameViewModel : SocketIOViewModel() {
                     val gameInfo = data.info
                     restoreGame(gameInfo)
                     if(gameInfo.gameDetails!=null){
-
                         gameInfo.gameDetails._id.let {
-                            gameTriggerLD.data = gameInfo.gameDetails
                             currentTableId = gameInfo.gameDetails._id
                         }
-/*
-                        if(!gameInfo.gameDetails._id.equals(currentGameId)){
-                            */
-/*if(currentTableId.isEmpty()){
-                                //here, if there is any ongoing game, then user will be able to resume
-                                restoreGame(gameInfo)
-                            }*//*
-
-                            //here, new game-timer is going to trigger
-                            log("gameInfo<>conenct", "restoring gametrigger")
-
-                            gameInfo.gameDetails._id.let {
-                                gameTriggerLD.data = gameInfo.gameDetails
-                                currentTableId = gameInfo.gameDetails._id
-                            }
-                        }
-*/
-                    }/*else{
-                       restoreGame(gameInfo)
-                   }*/
+                    }
                 } else {
                     activity?.showSnack(data.description)
                 }
@@ -389,15 +368,18 @@ class GameViewModel : SocketIOViewModel() {
         }
     }
 
-    fun restoreGame(gameInfo: GameModel.Info) {
+    private fun restoreGame(gameInfo: GameModel.Info) {
         gameCountdownTimeLeft = 0L
         if (mySlot != null && mySlot!!.status == SeatStatus.SIT_OUT.status
             && (gameInfo.gameDetails!=null && mySlot!!.sitout_details["game_id"].string != gameInfo.gameDetails._id)
             || currentTableId.isEmpty()) {
             iamBackLD.data = true
         }
-        if(gameInfo.gameDetails!=null && !checkIsNewGameStarting(gameInfo)){
+        if(gameInfo.gameDetails!=null /*&& !checkIsNewGameStarting(gameInfo)*/){
+            if(!checkIsNewGameStarting(gameInfo))
             gameDetailsLD.data = gameInfo.gameDetails
+            else
+            gameTriggerLD.data = gameInfo.gameDetails
         }
         /*dealCommunityCardsLD.data = DealCommunityCards(gameDetails.card_1, gameDetails.card_2, gameDetails.card_3, gameDetails.card_4
         ,gameDetails.card_5, emptyList(), gameDetails.total_pot_value)*/

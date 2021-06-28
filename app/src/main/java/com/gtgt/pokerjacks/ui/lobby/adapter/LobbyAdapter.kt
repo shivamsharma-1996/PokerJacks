@@ -42,6 +42,8 @@ class LobbyAdapter(val onClick: (LobbyTables.Info) -> Unit) :
 
         holder.binding.root.onOneClick { onClick(data) }
 
+        holder.binding.btnJoin.onOneClick { onClick(data) }
+
         holder.binding.table.postDelayed({
             if (tableWidth == 0) {
                 tableWidth = holder.binding.table.width

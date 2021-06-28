@@ -26,5 +26,6 @@
     <color name="wallet_quick_money_btn_color">#58657c</color>
     <color name="black_dull">#80000000</color>
     <color name="orange">#ff6633</color>
+    <color name="semi_transparent">#80000000</color>
 
 </resources>

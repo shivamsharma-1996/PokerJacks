@@ -39,7 +39,7 @@
                  android:layout_height="30dp"
                  android:src="@drawable/stats" />-->
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/reconnect"
                 style="@style/buton_tv"
                 android:layout_marginStart="10dp"
@@ -57,7 +57,7 @@
                 android:minWidth="70dp"
                 android:layout_marginTop="16dp"
                 android:text="Share Reconnect"
-                android:visibility="gone" />
+                android:visibility="gone" />-->
 
             <View
                 android:layout_width="0dp"
@@ -862,6 +862,34 @@
                  android:padding="10dp"
                  android:src="@drawable/signal_0" />
          </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_55sdp"
+            android:layout_above="@+id/user_cards_fl">
+
+            <ImageView
+                android:id="@+id/reconnect"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                style="@style/ripple"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/wifi_off"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/shareReconnect"
+                android:src="@drawable/share"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                style="@style/ripple"
+                android:layout_marginStart="12dp"
+                android:visibility="visible"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
