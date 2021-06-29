@@ -216,15 +216,6 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 //if(!slot.status.equals(PlayerActions.))
 
                 if (slot.status == TableSlotStatus.VACANT.name) {
-                    tv_sit_here.visibility = VISIBLE
-                    noPlayer.visibility = if (isJoined) {
-                        this.markSeatEmpty(true)
-                        GONE
-                    } else {
-                        this.markSeatEmpty(false)
-                        VISIBLE
-                    }
-
                     iv_userProfile.visibility = GONE
                     active_indication.visibility = GONE
                     player_action.visibility = GONE
@@ -234,6 +225,19 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     deduceRaiseAmtSpace(raise_amt)
                     name_inplay_group.visibility = GONE
                     cl_player.background = context.getDrawable(R.drawable.player_view_gradient)
+                    cl_player.backgroundTintList = null
+
+                    if (isJoined && position == BOTTOM_CENTER && userId == slot.user_unique_id
+                    ) {
+                        isJoined = false
+                    }
+
+                    if (isJoined) {
+                        this.markSeatEmpty(true)
+                    } else {
+                        log("ismeAya", "aya")
+                        this.markSeatEmpty(false)
+                    }
                 } else {
                     if (isJoined && position == BOTTOM_CENTER && userId == slot.user_unique_id) {
                         cl_player.backgroundTintList =
@@ -241,9 +245,10 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     } else {
                         cl_player.setBackgroundResource(R.drawable.player_view_gradient)
                     }
+
 //                    this.markSeatEmpty(false)
-                    vacant_dp.visibility = View.INVISIBLE
-                    tv_empty_seat.visibility = View.INVISIBLE
+                    vacant_dp.visibility = INVISIBLE
+                    tv_empty_seat.visibility = INVISIBLE
                     tv_sit_here.visibility = GONE
                     noPlayer.visibility = GONE
                     //player_action.visibility = GONE
@@ -312,13 +317,21 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                                     "%.2f",
                                     slot.user!!.current_round_invested
                                 )
-                        }else{
+                        }else if(slot.user!!.current_round_invested == 0.0){
+                            /*raise_amt.text =
+                                "₹" + String.format(
+                                    "%.2f",
+                                    slot.user!!.amount_invested
+                                )*/
+                            raise_amt.visibility = INVISIBLE
+                        }
+                        /*else{
                             raise_amt.text =
                                 "₹" + String.format(
                                     "%.2f",
                                     slot.user!!.amount_invested
                                 )
-                        }
+                        }*/
 
                         val coin = when (slot.user!!.status) {
                             "ACTIVE" -> R.drawable.bet
@@ -647,7 +660,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         !slotStatus.equals(SeatStatus.WAIT_FOR_BB.name)
                     ) {
                         log("ayaa", "sfvff")
-                        it.value.active_indication.visibility = View.INVISIBLE
+                        it.value.active_indication.visibility = INVISIBLE
                     }
                     //it.value.active_indication.visibility = View.INVISIBLE
                 } catch (e: java.lang.Exception) {

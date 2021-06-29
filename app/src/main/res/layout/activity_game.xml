@@ -723,7 +723,7 @@
 
         <include
             android:id="@+id/me"
-            layout="@layout/player"
+            layout="@layout/player_new"
             android:visibility="gone" />
 
         <TextView

@@ -110,12 +110,12 @@
         app:layout_constraintTop_toBottomOf="@+id/min_raise">
 
         <ImageView
-            android:id="@+id/increase_seek_raise"
+            android:id="@+id/decrease_seek_raise"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:padding="5dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_plus_raise" />
+            android:src="@drawable/ic_minus_raise" />
 
         <SeekBar
             android:id="@+id/seek_raise"
@@ -128,14 +128,12 @@
             android:progress="0" />
 
         <ImageView
-            android:id="@+id/decrease_seek_raise"
+            android:id="@+id/increase_seek_raise"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:padding="5dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_minus_raise" />
-
-
+            android:src="@drawable/ic_plus_raise" />
     </LinearLayout>
     <!--
         <LinearLayout

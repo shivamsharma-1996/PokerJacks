@@ -100,7 +100,7 @@ fun makeSlotPositions(
             inPlay = Position(),
             raiseAmt = Position(
                 mt = dpToPx(10),
-                ml = (playerSize + roundingSize * 10 + dpToPx(15)).toInt(),
+                ml = (playerSize + roundingSize * 10 + dpToPx(20)).toInt(),
                 alignment = Gravity.END or Gravity.CENTER
             ),
             activeIndication = Gravity.START,
@@ -482,7 +482,7 @@ fun makeSlotPositions(
                     ml = (playerSize / 4 + (playerSize - crownWidth)).toInt(),
                     mt = (roundingSize * 3).toInt()
                 ),
-                raiseAmt = Position(ml = (playerSize + roundingSize * 10 + dpToPx(15)).toInt(),
+                raiseAmt = Position(ml = (playerSize + roundingSize * 10 + dpToPx(20)).toInt(),
                     mt = dpToPx(10),
                     alignment = Gravity.END or Gravity.CENTER),
                 inPlay = Position(
@@ -533,7 +533,7 @@ fun makeSlotPositions(
             ),
             inPlay = Position(mt = (playerSize + roundingSize + topMargin / 2).toInt()),
             raiseAmt = Position(
-                ml =  (playerSize + roundingSize * 10 + dpToPx(10)).toInt(),
+                ml =  (playerSize + roundingSize * 10 + dpToPx(15)).toInt(),
                 mt = dpToPx(10),
                 alignment = Gravity.END or Gravity.CENTER),
             activeIndication = Gravity.START,

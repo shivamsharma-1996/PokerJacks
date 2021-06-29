@@ -42,8 +42,6 @@ import kotlinx.android.synthetic.main.byin_popup.view.close
 import kotlinx.android.synthetic.main.byin_popup.view.insufficient
 import kotlinx.android.synthetic.main.byin_popup.view.join
 import kotlinx.android.synthetic.main.join_status_popup.view.*
-import kotlinx.android.synthetic.main.player.*
-import kotlinx.android.synthetic.main.player.view.*
 import kotlinx.android.synthetic.main.raise_amt.*
 import java.lang.Math.abs
 
@@ -95,7 +93,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     private val gamePreferencesFragment by lazy { GamePreferencesFragment() }
 
     val topMarginLandscape = dpToPx(56).toFloat()
-    val topMarginPortrait = dpToPx(100).toFloat()
+    val topMarginPortrait = dpToPx(50).toFloat()
 
 
     private var tableDetailsTimer: CountDownTimer? = null
@@ -252,7 +250,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                         when (vm.mySlot!!.status) {
                             SeatStatus.SIT_OUT.status -> {
-                                // iAMBack.visibility = VISIBLE
+                              //   iAMBack.visibility = VISIBLE
+                                handleIamBack()
                             }
                             SeatStatus.ACTIVE.status -> {
                                 joinBBcb.visibility = GONE
@@ -738,12 +737,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                     fold_checkCB.visibility = VISIBLE
                                     checkCB.visibility = VISIBLE
                                     checkOrCallAnyCB.visibility = VISIBLE
+
                                     raiseBtnLL.visibility = INVISIBLE
                                     bottomPannel_new.visibility = VISIBLE
 
-                                    /*foldCB.visibility = GONE
-                                    callCB.visibility = GONE
-                                    callAnyCB.visibility = GONE*/
+                                    restoreAutoOptions()
+
                                 }
                                 else -> {
                                     fold_checkCB.visibility = VISIBLE
@@ -752,9 +751,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                     raiseBtnLL.visibility = INVISIBLE
                                     bottomPannel_new.visibility = VISIBLE
 
-                                    /* foldCB.visibility = VISIBLE
-                                     callCB.visibility = VISIBLE
-                                     callAnyCB.visibility = VISIBLE*/
+                                    restoreAutoOptions()
                                 }
                             }
                         }
@@ -1023,12 +1020,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             vm.iamBackLD.observe(this, Observer {
                 if (vm.mySlot != null && vm.mySlot!!.status == SeatStatus.SIT_OUT.status) {
                     if (it) {
-                        sitOutCB.visibility = INVISIBLE
-                        iAMBack.visibility = VISIBLE
-                        user_cards_fl.visibility = INVISIBLE
-                        waitingTv.visibility = INVISIBLE
-                        bottomPannel_new.visibility = INVISIBLE
-                        //totalPot.visibility = INVISIBLE
+                        handleIamBack()
                     } else {
                         iAMBack.visibility = GONE
                         bottomPannel_new.visibility = VISIBLE
@@ -1049,40 +1041,59 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 }
             }
 
-            fun selectedAutoActionView(actionView: CheckBox) {
-                vm.autoActionView?.let {
-                    if (!vm.autoActionView!!.equals(actionView)) //if actionView passed is not equals to previous view stored into vm
-                        vm.autoActionView!!.isChecked = false
+            fun setCurrentAutoActionView(actionView: CheckBox) {
+                if(actionView.isChecked){
+                    vm.currentAutoButton = actionView
+                }else{
+                    vm.currentAutoButton = null
                 }
-                vm.autoActionView = actionView
             }
-
-//            foldCB.onOneClick {
-//                selectedAutoActionView(foldCB)
-//                vm.autoGameAction(AutoGameAction.AUTO_FOLD, foldCB.isChecked) {}
-//            }
-//            callCB.onOneClick {
-//                selectedAutoActionView(callCB)
-//                vm.autoGameAction(AutoGameAction.AUTO_CALL, callCB.isChecked) {}
-//            }
-//            callAnyCB.onOneClick {
-//                selectedAutoActionView(callAnyCB)
-//                vm.autoGameAction(AutoGameAction.AUTO_CALL_ANY, callAnyCB.isChecked) {}
-//            }
             fold_checkCB.onOneClick {
-                selectedAutoActionView(fold_checkCB)
+                setCurrentAutoActionView(fold_checkCB)
+                checkCB.isChecked = false
+                checkOrCallAnyCB.isChecked = false
+
                 vm.autoGameAction(AutoGameAction.AUTO_FOLD_CHECK, fold_checkCB.isChecked) {}
             }
             checkCB.onOneClick {
-                selectedAutoActionView(checkCB)
-                log("poker::auto_action", "isChecked : $checkCB.isChecked")
+                setCurrentAutoActionView(checkCB)
+                fold_checkCB.isChecked = false
+                checkOrCallAnyCB.isChecked = false
+
                 vm.autoGameAction(AutoGameAction.AUTO_CHECK, checkCB.isChecked) {}
             }
             checkOrCallAnyCB.onOneClick {
-                selectedAutoActionView(checkOrCallAnyCB)
+                setCurrentAutoActionView(checkOrCallAnyCB)
+                fold_checkCB.isChecked = false
+                checkCB.isChecked = false
+
                 vm.autoGameAction(AutoGameAction.AUTO_CALLANY_CHECK, checkOrCallAnyCB.isChecked) {}
             }
         }
+    }
+
+    private fun restoreAutoOptions() {
+        if(!vm.isPlayerEventReceived){
+            vm.currentAutoButton?.let {
+                when (it.id) {
+                    fold_checkCB.id -> fold_checkCB.isChecked = true
+                    checkCB.id -> checkCB.isChecked = true
+                    checkOrCallAnyCB.id -> checkOrCallAnyCB.isChecked = true
+                }
+            }
+        }else{
+            vm.currentAutoButton = null //playerturn event received
+        }
+        vm.isPlayerEventReceived = false
+    }
+
+    private fun handleIamBack() {
+        sitOutCB.visibility = INVISIBLE
+        iAMBack.visibility = VISIBLE
+        user_cards_fl.visibility = INVISIBLE
+        waitingTv.visibility = INVISIBLE
+        bottomPannel_new.visibility = INVISIBLE
+        //totalPot.visibility = INVISIBLE
     }
 
     private fun goForallIn() {

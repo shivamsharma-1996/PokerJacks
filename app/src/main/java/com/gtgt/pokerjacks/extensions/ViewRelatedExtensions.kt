@@ -28,8 +28,7 @@ import com.bumptech.glide.Glide
 import com.gtgt.pokerjacks.R
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_game.*
-import kotlinx.android.synthetic.main.player.view.*
-import kotlinx.android.synthetic.main.player.view.iv_userProfile
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.player_new.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -113,11 +112,16 @@ fun View.markSeatEmpty(isEmpty: Boolean){
         this.vacant_dp.visibility = View.INVISIBLE
         this.tv_sit_here.visibility = View.INVISIBLE
         this.tv_empty_seat.visibility = View.VISIBLE
+        this.cl_player.blurOut(false)
         this.dealer.visibility = View.INVISIBLE
+        this.noPlayer.visibility = View.GONE
     }else{
         this.vacant_dp.visibility = View.VISIBLE
+        this.iv_userProfile.visibility = View.GONE
         this.tv_sit_here.visibility = View.VISIBLE
         this.tv_empty_seat.visibility = View.INVISIBLE
+        this.noPlayer.visibility = View.VISIBLE
+        this.cl_player.blurOut(false)
     }
 }
 

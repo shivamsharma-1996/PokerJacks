@@ -79,6 +79,7 @@ class GameViewModel : SocketIOViewModel() {
     var isCommunityCardsOpened : Boolean = false
     var isAutoRotateOn = MutableLiveData<Boolean>()
     var autoActionView: CheckBox? = null
+    var currentAutoButton: CheckBox? = null
     private var _isGameEnded = MutableLiveData<Boolean>()
     val isGameEnded : LiveData<Boolean>
         get() = _isGameEnded
@@ -88,6 +89,8 @@ class GameViewModel : SocketIOViewModel() {
         get() = _refillInPlayAmount
     //var isConfigurationChanged = false
     var isDealCommunityCardsEventReceived = false
+    var isPlayerEventReceived = false
+
     var previousOrientation = Configuration.ORIENTATION_LANDSCAPE
     var gameCountdownTimeLeft : Long = 0
     var isLandscape: Boolean = false
@@ -218,11 +221,11 @@ class GameViewModel : SocketIOViewModel() {
 
                         resetVmResources()
 
-                        if (gameInfo.canCreateNewGame) {
+                       /* if (gameInfo.canCreateNewGame) {
 
                         } else {
                             iamBackLD.data = true
-                        }
+                        }*/
 
                         playerTurnLD.data = null
                        // activity?.showSnack("Game is ended")
@@ -231,6 +234,7 @@ class GameViewModel : SocketIOViewModel() {
             }
 
             on<JsonElement>("playerTurn") {
+                isPlayerEventReceived = true
                 playerTurnLD.data = it["data"].to()
             }
 
