@@ -184,7 +184,9 @@ class GameViewModel : SocketIOViewModel() {
                 //isConfigurationChanged = false
                 try {
                     val previousCommunityCards = dealCommunityCardsLD.data
-                    if (previousCommunityCards != null
+                    dealCommunityCardsLD.data = community_cards
+
+                    /*if (previousCommunityCards != null
                         && previousCommunityCards.card_1 == community_cards.card_1
                         && previousCommunityCards.card_2 == community_cards.card_2
                         && previousCommunityCards.card_3 == community_cards.card_3
@@ -194,7 +196,7 @@ class GameViewModel : SocketIOViewModel() {
 
                     } else {
                         dealCommunityCardsLD.data = community_cards
-                    }
+                    }*/
                 } catch (ex: Exception) {
                     dealCommunityCardsLD.data = community_cards
                 }

@@ -51,6 +51,7 @@
                     android:src="@drawable/deck_card" />
             </LinearLayout>
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_player"
                 android:layout_width="@dimen/_92sdp"
@@ -58,7 +59,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginBottom="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
                 android:background="@drawable/player_view_gradient">
 
                 <FrameLayout
@@ -211,6 +212,19 @@
                     android:src="@drawable/ic_dealer"
                     android:visibility="invisible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/refund_amt"
+                android:layout_width="@dimen/_92sdp"
+                android:layout_height="wrap_content"
+                tools:text="Refund: 2000.00"
+                android:fontFamily="@font/tondo_bold"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_below="@+id/cl_player"
+                android:layout_alignStart="@+id/cl_player"
+                android:layout_alignEnd="@+id/cl_player"/>
 
             <ImageView
                 android:id="@+id/active_indication"

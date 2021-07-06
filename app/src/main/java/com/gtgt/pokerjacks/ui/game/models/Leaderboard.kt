@@ -1,5 +1,10 @@
 package com.gtgt.pokerjacks.ui.game.models
 
+enum class PotType(val type: String) {
+    GAME_POT("game_pot"),
+    REFUND("refund")
+}
+
 data class Leaderboard(
     val cards_reveal: Boolean,
     val pot_distributions: List<PotDistribution>,
@@ -19,7 +24,8 @@ data class potRefunds(
 )
 data class PotDistribution(
     val players: List<String>,
-    val pot_value: Int
+    val pot_value: Int,
+    val pot_type:String
 )
 
 data class PotWinning(

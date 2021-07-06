@@ -126,7 +126,8 @@ data class PlayerTurn(
 
 data class SidePot(
     val players: List<String>,
-    val pot_value: Double
+    val pot_value: Double,
+     val pot_type:String
 )
 
 data class DealCommunityCards(

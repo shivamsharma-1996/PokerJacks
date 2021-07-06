@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.CountDownTimer
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
@@ -17,6 +18,7 @@ import com.gtgt.pokerjacks.ui.game.models.*
 import com.gtgt.pokerjacks.ui.game.viewModel.PlayerActions
 import com.gtgt.pokerjacks.ui.game.viewModel.SeatStatus
 import com.gtgt.pokerjacks.utils.SlotPositions.*
+import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.android.synthetic.main.player_new.view.*
 import java.lang.Exception
@@ -581,6 +583,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
         slotViews.forEach {
             it.value.all_in_flag.visibility = GONE
             it.value.revealCards.visibility = GONE
+            it.value.refund_amt.visibility = GONE
             it.value.raise_amt.visibility = INVISIBLE
         }
     }
@@ -674,4 +677,40 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
         fun resetDealerIcon() {
             dealerPosition = 0
         }
+
+    fun displayRefundAmtWithAnimation(refundPlayersList: List<potRefunds>) {
+        val currentSlots = slots.values.toList()
+        currentSlots?.forEach { slot ->
+            val refundObject: potRefunds? = refundPlayersList.find { it.user_unique_id == slot.user_unique_id }
+            refundObject?.let {
+                val slotView = slotViews[slot.seat_no]
+                slotView?.apply {
+                    refund_amt.text =  "Refund: ₹" + String.format(
+                    "%.2f",
+                    refundObject.wonAmt
+                    )
+                    refund_amt.visibility = VISIBLE
+                }
+            }
+        }
+
+        Handler().postDelayed({
+            currentSlots?.forEach { slot ->
+                val refundObject: potRefunds? = refundPlayersList.find { it.user_unique_id == slot.user_unique_id }
+                refundObject?.let {
+                    val slotView = slotViews[slot.seat_no]
+                    slotView?.refund_amt?.animate()?.apply {
+                        x(slotView.in_play_amt.x  + slotView.in_play_amt.width/2)
+                        y((slotView.height/2).toFloat())
+                        duration = 2000
+                        withEndAction {
+                            slotView.refund_amt.visibility = GONE
+                            slotView.refund_amt.text = ""
+                        }
+                        start()
+                    }
+                }
+            }
+        }, 1000)
     }
+}
