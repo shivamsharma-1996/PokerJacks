@@ -90,29 +90,25 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/stats"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/stats" />
+
 
         <ImageView
             android:id="@+id/signalIv"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/signal_0" />
-
-        <TextView
-            android:id="@+id/tv_rankOrder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="normal"
-            android:textSize="12sp"
-            android:textColor="#ffffff"
-            android:lineSpacingExtra="3sp"
-            tools:text="A Pair"
-            android:visibility="gone"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="6dp"
-            android:layout_toEndOf="@+id/signalIv"
-            />
+            android:src="@drawable/signal_0"
+            android:layout_below="@+id/stats"
+            android:layout_alignTop="@+id/user_best_hand"
+            android:layout_alignStart="@+id/stats"
+            android:layout_alignEnd="@+id/stats"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -143,14 +139,30 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_rankOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:textColor="#ffffff"
+            android:lineSpacingExtra="3sp"
+            tools:text="A Pair"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_alignStart="@+id/user_best_hand"
+            android:layout_alignEnd="@+id/user_best_hand"
+            />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/user_best_hand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:visibility="gone"
-            android:layout_below="@+id/signalIv"
-            android:layout_alignStart="@+id/signalIv">
+            android:layout_marginStart="8dp"
+            android:layout_below="@+id/tv_rankOrder"
+            android:layout_toEndOf="@+id/stats">
 
             <ImageView
                 android:id="@+id/hand_c1"
@@ -807,7 +819,7 @@
             android:layout_height="wrap_content"
             android:background="@color/orange"
             android:padding="5dp"
-            android:text="You are offline"
+            android:text="Reconnecting..."
             android:textAlignment="center"
             android:textColor="@color/white"
             android:visibility="gone" />
@@ -924,6 +936,7 @@
                 android:paddingBottom="2dp"
                 android:letterSpacing="-0.07"
                 android:textSize="14sp"
+                android:visibility="gone"
                 android:text="Sit\nOut"
                 android:textColor="@drawable/selector_sitout_textcolor"
                 android:textStyle="bold"
@@ -953,22 +966,23 @@
 
     </RelativeLayout>
 
-    <!--<com.google.android.material.navigation.NavigationView
+    <com.google.android.material.navigation.NavigationView
         android:id="@+id/leftDrawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/transparent"
+        android:background="@drawable/black_gradient"
         android:elevation="0dp"
+        app:insetForeground="@android:color/transparent"
         android:fitsSystemWindows="true"
         android:theme="@style/Base.Theme.AppCompat.Light">
 
         <FrameLayout
-            android:id="@+id/openDeckFragment"
+            android:id="@+id/statsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.google.android.material.navigation.NavigationView>-->
+    </com.google.android.material.navigation.NavigationView>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/rightDrawer"

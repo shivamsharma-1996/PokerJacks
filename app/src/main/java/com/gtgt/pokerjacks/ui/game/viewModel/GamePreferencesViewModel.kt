@@ -22,6 +22,13 @@ class GamePreferencesViewModel : BaseViewModel() {
         }
         get() = retrieveBoolean("vibrate", true)
 
+    var colorDeck = false
+        set(value) {
+            field = value
+            putBoolean("colorDeck", value)
+        }
+        get() = retrieveBoolean("colorDeck", false)
+
     var autoRotate = false
         set(value) {
             field = value

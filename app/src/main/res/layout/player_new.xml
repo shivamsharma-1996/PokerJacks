@@ -222,6 +222,7 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:visibility="gone"
+                android:textColor="@color/green"
                 android:layout_below="@+id/cl_player"
                 android:layout_alignStart="@+id/cl_player"
                 android:layout_alignEnd="@+id/cl_player"/>

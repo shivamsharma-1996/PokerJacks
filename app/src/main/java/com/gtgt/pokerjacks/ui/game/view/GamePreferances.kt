@@ -63,7 +63,11 @@ class GamePreferencesFragment : BaseFragment() {
         if (vm.autoRotate) {
             auto_rotate.toggle()
         }
+        if(vm.colorDeck){
+            color_deck.toggle()
+        }
         gameVm.isAutoRotateOn.value = vm.autoRotate
+        isColorDeckEnabled = vm.colorDeck
         gameVm.userDetailsLD.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 if (auto_muck.isOn != it.auto_muck) {
@@ -92,10 +96,6 @@ class GamePreferencesFragment : BaseFragment() {
             gameVm.updateUserGameSettings(jsonObject("hand_strength" to !hand_Strength.isOn))
         }
 
-        color_deck.setOnClickListener {
-            isColorDeckEnabled = color_deck.toggle()
-        }
-
         auto_rotate.setOnClickListener{
             vm.autoRotate = auto_rotate.toggle()
             gameVm.isAutoRotateOn.value = vm.autoRotate
@@ -113,6 +113,11 @@ class GamePreferencesFragment : BaseFragment() {
         soundPref.setOnClickListener {
             //vm.vibrate = soundPref.toggle()
             vm.playSound = soundPref.toggle()
+        }
+
+        color_deck.setOnClickListener {
+            isColorDeckEnabled = color_deck.toggle()
+            vm.colorDeck = isColorDeckEnabled
         }
 
         vibratePref.setOnClickListener {

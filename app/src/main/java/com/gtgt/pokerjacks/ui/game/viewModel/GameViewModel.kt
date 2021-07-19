@@ -63,6 +63,10 @@ class GameViewModel : SocketIOViewModel() {
     var canDisplayWaitingIcon = false
     val userDetailsLD = MutableLiveData<UserDetails>()
 
+    private var _tableUserStatsLD = MutableLiveData<TableUserStats>()
+    val tableUserStatsLD : LiveData<TableUserStats>
+        get() = _tableUserStatsLD
+
     val tableSlotsLD = MutableLiveData<List<TableSlot>>()
     val gameTriggerLD = MutableLiveData<GameModel.GameDetails>()
     val gameDetailsLD = MutableLiveData<GameModel.GameDetails>()
@@ -83,6 +87,13 @@ class GameViewModel : SocketIOViewModel() {
     private var _isGameEnded = MutableLiveData<Boolean>()
     val isGameEnded : LiveData<Boolean>
         get() = _isGameEnded
+
+    private var _inPlayAmtOnGameEnd = MutableLiveData<List<TableSlot>>()
+    val inPlayAmtOnGameEnd : LiveData<List<TableSlot>>
+        get() = _inPlayAmtOnGameEnd
+
+    var isHandStrengthEnabled : Boolean? = null
+
     var refillNextInPlayAmount : Boolean = false
     var _refillInPlayAmount = MutableLiveData<Boolean>()
     val refillInPlayAmount : LiveData<Boolean>
@@ -216,9 +227,11 @@ class GameViewModel : SocketIOViewModel() {
                     "endGame" -> {
                         val gameInfo = data.to<GameModel.Info>()
                         tableSlots = gameInfo.tableSlots
-                        tableSlotsLD.data = gameInfo.tableSlots
+                        //tableSlotsLD.data = gameInfo.tableSlots
+                        _inPlayAmtOnGameEnd.data = gameInfo.tableSlots
+                        log("tableSlotsLDEndgame",  gameInfo.tableSlots)
                         gameUsers = gameInfo.gameUsers
-                        handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
+                       // handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
                         _isGameEnded.postValue(true)
 
                         resetVmResources()
@@ -244,6 +257,7 @@ class GameViewModel : SocketIOViewModel() {
         }
 
     fun resetVmResources() {
+        currentAutoButton = null
         gameCountdownTimeLeft = 0L
         isCommunityCardsOpened = false
         userDetailsLD.value?.let {
@@ -281,6 +295,7 @@ class GameViewModel : SocketIOViewModel() {
                         "hand_strength" -> {
                             userDetailsLD.value?.let {
                                 it.hand_strength = value.bool
+                                isHandStrengthEnabled = value.bool
                             }
                         }
                     }
@@ -399,10 +414,25 @@ class GameViewModel : SocketIOViewModel() {
         tableSlots = gameInfo.tableSlots
         gameUsers = gameInfo.gameUsers
         gameInfo.userDetails?.let {
+            log("userDetailsLD.data", userDetailsLD.data )
             userDetailsLD.data = it
         }
         handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
         currentTableId = tableId
+    }
+
+    fun getTableUserStats(){
+        if(tableId.isNotEmpty())
+        emit<AnyModel>(
+            "getTableUserStats",
+            jsonObject( "table_id" to tableId)
+        ){
+            if(it?.success == true){
+                val tableUserStats = it.info.to<TableUserStats>()
+                log("getTableUserStats", tableUserStats)
+                _tableUserStatsLD.data = tableUserStats
+            }
+        }
     }
 
     fun getHandStrength() {

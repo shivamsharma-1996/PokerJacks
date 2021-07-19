@@ -14,7 +14,9 @@ import android.view.WindowManager
 import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.devs.vectorchildfinder.VectorChildFinder
 import com.github.salomonbrys.kotson.*
@@ -29,6 +31,7 @@ import com.gtgt.pokerjacks.socket.socketInstance
 import com.gtgt.pokerjacks.ui.game.models.*
 import com.gtgt.pokerjacks.ui.game.view.GamePreferencesFragment
 import com.gtgt.pokerjacks.ui.game.view.SelectThemesFragment
+import com.gtgt.pokerjacks.ui.game.view.StatsFragment
 import com.gtgt.pokerjacks.ui.game.view.slot.SlotViews
 import com.gtgt.pokerjacks.ui.game.viewModel.*
 import com.gtgt.pokerjacks.ui.lobby.model.LobbyTables
@@ -37,10 +40,13 @@ import com.gtgt.pokerjacks.utils.CustomCountDownTimer
 import com.gtgt.pokerjacks.utils.EventObserver
 import com.gtgt.pokerjacks.utils.loadImage
 import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.activity_game.menu
+import kotlinx.android.synthetic.main.activity_game.settings
 import kotlinx.android.synthetic.main.byin_popup.view.*
 import kotlinx.android.synthetic.main.byin_popup.view.close
 import kotlinx.android.synthetic.main.byin_popup.view.insufficient
 import kotlinx.android.synthetic.main.byin_popup.view.join
+import kotlinx.android.synthetic.main.fragment_game_prefs.*
 import kotlinx.android.synthetic.main.join_status_popup.view.*
 import kotlinx.android.synthetic.main.raise_amt.*
 import java.lang.Math.abs
@@ -91,20 +97,23 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
     private val themesViewModel: ThemesViewModel by viewModel()
     private val gamePreferencesFragment by lazy { GamePreferencesFragment() }
+    private val statsFragment by lazy { StatsFragment.newInstance{
+        toggleDrawer(GravityCompat.START)
+    } }
 
     val topMarginLandscape = dpToPx(56).toFloat()
     val topMarginPortrait = dpToPx(50).toFloat()
-
 
     private var tableDetailsTimer: CountDownTimer? = null
     private var gameTriggerTimer: CustomCountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        configureOrientation(retrieveBoolean("autoRotate", false))
         setContentView(R.layout.activity_game)
-        requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
 
         mActivityTopLevelView = drawer_layout
+        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, leftDrawer)
 
         if (BuildConfig.DEBUG) {
             reconnect.visibility = VISIBLE
@@ -152,11 +161,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         raiseLL.z = 100f
 
         vm.isAutoRotateOn.observe(this, Observer {
-            if (it) {
-                requestedOrientation = SCREEN_ORIENTATION_FULL_SENSOR
-            } else {
-                requestedOrientation = SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-            }
+            configureOrientation(it)
             if (vm.isCommunityCardsOpened) {
                 totalPot.visibility = VISIBLE
             }
@@ -189,20 +194,26 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             replaceFragment(gamePreferencesFragment, R.id.settingsFragment, true)
             replaceFragment(SelectThemesFragment(), R.id.themeSelectFragment, true)
+            replaceFragment(statsFragment, R.id.statsFragment, true)
 
             settings.onOneClick {
                 gamePreferencesFragment.type = "settings"
-                openRightDrawer()
+                toggleDrawer(GravityCompat.END)
+            }
+
+            stats.onOneClick {
+                vm.getTableUserStats()
+                toggleDrawer(GravityCompat.START)
             }
 
             menu.onOneClick {
                 gamePreferencesFragment.type = "menu"
-                openRightDrawer()
+                toggleDrawer(GravityCompat.END)
             }
 
             val settingsVector = VectorChildFinder(this, R.drawable.settings, settings)
             val menuVector = VectorChildFinder(this, R.drawable.menu, menu)
-            //val statsVector = VectorChildFinder(this, R.drawable.stats, stats)
+            val statsVector = VectorChildFinder(this, R.drawable.stats, stats)
             val previousVector = VectorChildFinder(this, R.drawable.previous, previous)
             themesViewModel.onThemeSelected.observe(this, Observer { theme ->
                 if (theme != null) {
@@ -217,8 +228,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     settingsVector.changePathStrokeColor("stroke", theme.btn2)
                     settings.invalidate()
 
-                    //statsVector.changePathStrokeColor("stroke", theme.btn2)
-                   // stats.invalidate()
+                     statsVector.changePathStrokeColor("stroke", theme.btn2)
+                     stats.invalidate()
 
                     previousVector.changePathStrokeColor("stroke", theme.btn2)
                     previous.invalidate()
@@ -250,7 +261,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                         when (vm.mySlot!!.status) {
                             SeatStatus.SIT_OUT.status -> {
-                              //   iAMBack.visibility = VISIBLE
+                                //   iAMBack.visibility = VISIBLE
                                 handleIamBack()
                             }
                             SeatStatus.ACTIVE.status -> {
@@ -268,34 +279,35 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     }
 
                     vm.isWaitingForOthersShown = false
-                    val activeSlotsCount = vm.getFilteredSlotsCount(status = TableSlotStatus.ACTIVE.name)
+                    val activeSlotsCount =
+                        vm.getFilteredSlotsCount(status = TableSlotStatus.ACTIVE.name)
                     val inactiveSlotsCount = vm.getInactiveSlotsCount()
-                    val vacantSlotsCount = vm.getFilteredSlotsCount(status = TableSlotStatus.VACANT.name)
+                    val vacantSlotsCount =
+                        vm.getFilteredSlotsCount(status = TableSlotStatus.VACANT.name)
                     val totalSlotsCount = vm.tableSlots!!.size
                     val playerCountSatOnTable = totalSlotsCount - vacantSlotsCount
 
-                    if(vm.getFilteredSlotsCount(status = TableSlotStatus.VACANT.name) == totalSlotsCount){
-                            resetGameToDefault()
+                    if (vm.getFilteredSlotsCount(status = TableSlotStatus.VACANT.name) == totalSlotsCount) {
+                        resetGameToDefault()
                         slotViews.resetGame()
                         waitingTv.visibility = GONE
-                            iAMBack.visibility = GONE
-                        }
-                    else if(vm.mySlot != null){
+                        iAMBack.visibility = GONE
+                    } else if (vm.mySlot != null) {
                         /*if(activeSlotsCount == playerCountSatOnTable && allInSlotsCount == (playerCountSatOnTable - 1)){
                             bottomPannel_new.visibility = INVISIBLE
                         }*/
-                            if((vacantSlotsCount == totalSlotsCount-1)){
+                        if ((vacantSlotsCount == totalSlotsCount - 1)) {
                             // if one player himself is active while others are inactive
                             resetGameToDefault()
                             displayMessage(getString(R.string.waiting_for_opponents))
-                        }else if((activeSlotsCount == 1 && inactiveSlotsCount == (playerCountSatOnTable - activeSlotsCount) &&
-                                    vm.checkIfMySlotActive())){
+                        } else if ((activeSlotsCount == 1 && inactiveSlotsCount == (playerCountSatOnTable - activeSlotsCount) &&
+                                    vm.checkIfMySlotActive())
+                        ) {
                             displayMessage(getString(R.string.waiting_for_opponents))
                         }
-                    }
-                    else if(activeSlotsCount >= 2){
+                    } else if (activeSlotsCount >= 2) {
                         vm.canDisplayWaitingIcon = true
-                    }else if(activeSlotsCount == 0 && inactiveSlotsCount>0 && vm.isFirstGameStarted){
+                    } else if (activeSlotsCount == 0 && inactiveSlotsCount > 0 && vm.isFirstGameStarted) {
                         resetGameToDefault()
                     }
                     slotViews.checkCanRefillWallet(it)
@@ -303,24 +315,35 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 }
             })
 
+            vm.inPlayAmtOnGameEnd.observe(this, Observer {
+                slotViews.updateInPlayOnGameEnd(it)
+            })
+            vm.userDetailsLD.observe(this, Observer {
+                it.hand_strength?.let { handStrength ->
+                    vm.isHandStrengthEnabled = handStrength
+                }
+            })
+
             vm.isGameEnded.observe(this, Observer { isGameEnded ->
-                if(isGameEnded){
+                if (isGameEnded) {
                     slotViews.resetGame()
-                    isGameStartedAndRunning= false
+                    isGameStartedAndRunning = false
                 }
             })
 
             vm.gameTriggerLD.observe(this, Observer {
                 log("poker::gameTriggerLD", it)
                 resetAutoOptions()
+                vm.currentAutoButton = null
+
                 isGameStartedAndRunning = false
                 it?.let {
-                    if (gameIDTV!= null/* && vm.isLandscape*/) {
+                    if (gameIDTV != null/* && vm.isLandscape*/) {
                         gameIDTV.text = it.game_uid
-                    } else if(portrait_gameIDTV!=null) {
+                    } else if (portrait_gameIDTV != null) {
                         portrait_gameIDTV.text = it.game_uid
                     }
-                    if(it.small_blind!=null && it.big_blind!=null){
+                    if (it.small_blind != null && it.big_blind != null) {
                         gameBlindInfo.text = "" + it.small_blind + " /" + it.big_blind + "  | "
                     }
 
@@ -428,22 +451,31 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             })
 
             vm.dealCommunityCardsLD.observe(this, Observer {
-                if(it !=null){
-                    if(/*!vm.isConfigurationChanged && */vm.isDealCommunityCardsEventReceived){
+                if (it != null) {
+                    if (/*!vm.isConfigurationChanged && */vm.isDealCommunityCardsEventReceived) {
                         val slots = vm.tableSlotsLD.value
                         resetAutoOptions()
                         handleAllIn()
-                        log("poker::dealCommunityCardsLD", "dealCommunityCardsLD : ${it.toString()}")
+                        log(
+                            "poker::dealCommunityCardsLD",
+                            "dealCommunityCardsLD : ${it.toString()}"
+                        )
 //            val potSplitPadding = dpToPx(15).toFloat()
                         val potSplitTopLandscape = dpToPx(40).toFloat()
                         val potSplitTopPortrait = playArea.height / 4
 
                         slots?.forEach { slot ->
                             if (slot.user != null && slot.status == TableSlotStatus.ACTIVE.name) {
-                                val slotPosition = slotViews.getPositionBySeatNumber(slots.size, slot.seat_no)
+                                val slotPosition = slotViews.getPositionBySeatNumber(
+                                    slots.size,
+                                    slot.seat_no
+                                )
                                 val slotView = slotViews.slotViews[slot.seat_no]
 
-                                log("check123", ""+it.total_pot_value + " " + slot.user!!.current_round_invested)
+                                log(
+                                    "check123",
+                                    "" + it.total_pot_value + " " + slot.user!!.current_round_invested
+                                )
                                 if (slot.user!!.current_round_invested != 0.0) {
                                     val coinsTv = TextView(this)
                                     rootLayout.addView(coinsTv)
@@ -463,7 +495,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                                 if (vm.isLandscape) {
                                                     topMarginLandscape + potSplitTopLandscape
                                                 } else {
-                                                    topMarginPortrait + potSplitTopPortrait
+                                                   val y = (totalPot.layoutParams as ConstraintLayout.LayoutParams).topMargin + totalPot.measuredHeight / 2 + totalPot.top
+                                                    y.toFloat()
                                                 }
                                             )
 
@@ -478,24 +511,30 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                                                                     "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"*/
                                                         updatePotAmount(it.total_pot_value.toDecimalFormat())
 
-                                                            pot_split.removeAllViews()
-                                                            it.side_pots
-                                                                .filter { it.pot_value > 0 }
-                                                                .filter { it.pot_type == PotType.GAME_POT.type }
-                                                                 .forEach {
+                                                        pot_split.removeAllViews()
+                                                        it.side_pots
+                                                            .filter { it.pot_value > 0 }
+                                                            .filter { it.pot_type == PotType.GAME_POT.type }
+                                                            .forEach {
                                                                 pot_split.addView(TextView(this@GameActivity).apply {
                                                                     text =
                                                                         "  ₹ ${it.pot_value.toDecimalFormat()}  "
                                                                 })
-                                                                     log("finalPotForDistribution0123", " " + it)
-                                                                 }
-                                                            log("finalPotForDistribution01234", it.side_pots.toString())
+                                                                log(
+                                                                    "finalPotForDistribution0123",
+                                                                    " " + it
+                                                                )
+                                                            }
+                                                        log(
+                                                            "finalPotForDistribution01234",
+                                                            it.side_pots.toString()
+                                                        )
 
-                                                            pot_split.visibility =
-                                                                if (pot_split.childCount >=2)
-                                                                    VISIBLE else INVISIBLE
-                                                        }
-                                                    } catch (ex: Exception) {
+                                                        pot_split.visibility =
+                                                            if (pot_split.childCount >= 2)
+                                                                VISIBLE else INVISIBLE
+                                                    }
+                                                } catch (ex: Exception) {
 
                                                 }
 
@@ -527,7 +566,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         c4.coloredCard(it.card_4)
                         c5.coloredCard(it.card_5)
 
-                        if(vm.isUserBestHandAvailable(it)){
+                        if (vm.isUserBestHandAvailable(it)) {
                             vm.getHandStrength()
                         }
                     }
@@ -535,10 +574,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             })
 
             vm.refillInPlayAmount.observe(this, Observer { isRefill ->
-                if(isRefill){
+                if (isRefill) {
                     vm.resetRefillInPlayAmount()
                     vm.mySlot?.let {
-                        showBuyInAlert(true,vm.mySlot!!.seat_no)
+                        showBuyInAlert(true, vm.mySlot!!.seat_no)
                     }
                 }
             })
@@ -615,11 +654,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE*/
 
 
-                            if(!it.action_choices.contains(PlayerActions.RAISE.action) && it.action_choices.contains(PlayerActions.ALL_IN.action) &&
-                                it.action_choices.contains(PlayerActions.FOLD.action)){
+                            if (!it.action_choices.contains(PlayerActions.RAISE.action) && it.action_choices.contains(
+                                    PlayerActions.ALL_IN.action
+                                ) &&
+                                it.action_choices.contains(PlayerActions.FOLD.action)
+                            ) {
                                 allinBtnLL.visibility = VISIBLE
                                 allInValue.text = "₹${(it.allin_amount).toDecimalFormat()}"
-                            }else{
+                            } else {
                                 allinBtn.visibility =
                                     if (it.action_choices.contains(PlayerActions.ALL_IN.action)) VISIBLE else GONE
                                 allinBtnLL.visibility = GONE
@@ -639,27 +681,27 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                             isAmountRaisedViaAllInBtn = false
                             /*seek_raise.progress =
                                 ((minPossibleRaise) * 100).toInt()*/
-                            if(it.full_pot_value > it.game_inplay_amount){
+                            if (it.full_pot_value > it.game_inplay_amount) {
                                 onSeekChangeBtnClicked(it.game_inplay_amount)
-                            }else{
+                            } else {
                                 onSeekChangeBtnClicked(it.full_pot_value)
                             }
                         }
                         raise_3_4.onOneClick {
                             isAmountRaisedViaAllInBtn = false
 //                                ((minPossibleRaise) * 300 / 4).toInt()
-                            if(it.three_fourth_pot_value > it.game_inplay_amount){
+                            if (it.three_fourth_pot_value > it.game_inplay_amount) {
                                 onSeekChangeBtnClicked(it.game_inplay_amount)
-                            }else{
+                            } else {
                                 onSeekChangeBtnClicked(it.three_fourth_pot_value)
                             }
                         }
                         raise_1_2.onOneClick {
                             isAmountRaisedViaAllInBtn = false
                             // seek_raise.progress = ((minPossibleRaise) * 50).toInt()
-                            if(it.half_pot_value > it.game_inplay_amount){
+                            if (it.half_pot_value > it.game_inplay_amount) {
                                 onSeekChangeBtnClicked(it.game_inplay_amount)
-                            }else{
+                            } else {
                                 onSeekChangeBtnClicked(it.half_pot_value)
                             }
                         }
@@ -672,7 +714,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                         allinBtn.onOneClick {
                             isAmountRaisedViaAllInBtn = true
-                           // seek_raise.progress = seek_raise.max
+                            // seek_raise.progress = seek_raise.max
                             onSeekChangeBtnClicked(it.allin_amount)
                         }
 
@@ -691,11 +733,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                 progress: Int,
                                 fromUser: Boolean
                             ) {
-                                try {
-                                    isAmountRaisedViaAllInBtn = (progress  + minPossibleRaise) == vm.mySlot?.user?.game_inplay_amount
-                                }catch (e: Exception){
-
-                                }
+                                isAmountRaisedViaAllInBtn = progress == seek_raise.max
 
                                 if (!isAmountRaisedViaRaiseBar) {
                                     raiseBtn.text =
@@ -792,25 +830,25 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
 //                pot_split.removeAllViews()
 //                if(leaderboard.pot_distributions.size >= 2){
-                    val splitPot = leaderboard.pot_distributions
-                        .filter { leaderboard.pot_distributions.size >= 2 }
-                        .filter { it.pot_type == PotType.GAME_POT.type }
-                        .filter { it.pot_value > 0 }
-                        .reversed()
+                val splitPot = leaderboard.pot_distributions
+                    .filter { leaderboard.pot_distributions.size >= 2 }
+                    .filter { it.pot_type == PotType.GAME_POT.type }
+                    .filter { it.pot_value > 0 }
+                    .reversed()
 
-                    if(splitPot.size >= 2){
-                        pot_split.removeAllViews()
-                        splitPot.forEach {
-                            val textView = TextView(this@GameActivity)
-                            pot_split.addView(textView.apply {
-                                text =
-                                    "  ₹ ${it.pot_value.toDecimalFormat()}  "
-                            })
-                            pot_split.visibility = VISIBLE
-                        }
-                    }else{
-                        pot_split.visibility = INVISIBLE
+                if (splitPot.size >= 2) {
+                    pot_split.removeAllViews()
+                    splitPot.forEach {
+                        val textView = TextView(this@GameActivity)
+                        pot_split.addView(textView.apply {
+                            text =
+                                "  ₹ ${it.pot_value.toDecimalFormat()}  "
+                        })
+                        pot_split.visibility = VISIBLE
                     }
+                } else {
+                    pot_split.visibility = INVISIBLE
+                }
                 val potSplitTop = dpToPx(50).toFloat() + totalPot.height
                 val playAreaPadding = playArea.paddingStart
                 val potSplitPadding = dpToPx(15).toFloat()
@@ -820,19 +858,25 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                 var finalPotForDistribution = mutableListOf<PotWinnerDistribution>()
 
-                val refundPlayersList = leaderboard.pot_refunds.filter {it.wonAmt > 0}
-                if(refundPlayersList.isNotEmpty())
-                slotViews.displayRefundAmtWithAnimation(refundPlayersList)
+                val refundPlayersList = leaderboard.pot_refunds.filter { it.wonAmt > 0 }
+                if (refundPlayersList.isNotEmpty())
+                    slotViews.displayRefundAmtWithAnimation(refundPlayersList)
 
-                winningPots.forEach{ pair ->
-                    finalPotForDistribution.add(PotWinnerDistribution(pair.user_unique_id, pair.wonAmt.toDouble(), PotDistributionType.WINNER))
+                winningPots.forEach { pair ->
+                    finalPotForDistribution.add(
+                        PotWinnerDistribution(
+                            pair.user_unique_id,
+                            pair.wonAmt.toDouble(),
+                            PotDistributionType.WINNER
+                        )
+                    )
                 }
 
 
                 fun animatePots(potIndex: Int) {
-                    log("poker::animatePots1", ""+ finalPotForDistribution.size + " " + potIndex)
+                    log("poker::animatePots1", "" + finalPotForDistribution.size + " " + potIndex)
 
-                    if (finalPotForDistribution!=null && finalPotForDistribution.size > potIndex) {
+                    if (finalPotForDistribution != null && finalPotForDistribution.size > potIndex) {
                         isPotAnimationDone = false
                         slotViews.crownTo(-1)
 
@@ -876,34 +920,38 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         log("poker::animatePots4", "potRefunds meaya2 niche : " + potDistribution)
 
                         vm.tableSlotsLD.value?.let { slots ->
-                            slots.find { it.user_unique_id == potDistribution.user_unique_id }?.let {
-                                slotViews.slotViews[it.seat_no]?.let { slot ->
-                                    //c.visibility = GONE
-                                    log("poker::animatePots5", potDistribution.type == PotDistributionType.WINNER)
+                            slots.find { it.user_unique_id == potDistribution.user_unique_id }
+                                ?.let {
+                                    slotViews.slotViews[it.seat_no]?.let { slot ->
+                                        //c.visibility = GONE
+                                        log(
+                                            "poker::animatePots5",
+                                            potDistribution.type == PotDistributionType.WINNER
+                                        )
 
-                                    if(potDistribution.type == PotDistributionType.WINNER){
-                                        showLeaderBoard(potDistribution, leaderboard)
-                                    }
+                                        if (potDistribution.type == PotDistributionType.WINNER) {
+                                            showLeaderBoard(potDistribution, leaderboard)
+                                        }
 
-                                    currentPotView.animate().apply {
-                                        x(slot.x + slot.width / 2)
-                                        y(slot.y + slot.height / 2)
-                                        duration = 1000
-                                        withEndAction {
-                                            pot_split.removeView(c1)
-                                            rootLayout.removeView(currentPotView)
+                                        currentPotView.animate().apply {
+                                            x(slot.x + slot.width / 2)
+                                            y(slot.y + slot.height / 2)
+                                            duration = 1000
+                                            withEndAction {
+                                                pot_split.removeView(c1)
+                                                rootLayout.removeView(currentPotView)
 //                                            val updatedInPlayAmt = it.inplay_amount + potWinning.wonAmt
 //                                            slot.in_play_amt.text = "₹${updatedInPlayAmt?.toDecimalFormat()}"
-                                            animatePots(potIndex + 1)
+                                                animatePots(potIndex + 1)
+                                            }
+                                            start()
                                         }
-                                        start()
                                     }
                                 }
-                            }
                         }
                     } else {
                         isPotAnimationDone = true
-                        if(pot_split.visibility == VISIBLE && pot_split.childCount == 0){
+                        if (pot_split.visibility == VISIBLE && pot_split.childCount == 0) {
                             pot_split.visibility = INVISIBLE
                         }
                     }
@@ -959,13 +1007,13 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 //            }
 
             allinBtnLL.onOneClick {
-                goForallIn()
+                goForAllIn()
             }
 
             raiseBtnLL.onOneClick {
                 disableEnableActions(false)
                 if(isAmountRaisedViaAllInBtn){
-                   goForallIn()
+                   goForAllIn()
                     isAmountRaisedViaAllInBtn = false
                 }else{
                     vm.actionEvent(
@@ -1074,6 +1122,16 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
     }
 
+    private fun configureOrientation(autorotate:Boolean = false) {
+        requestedOrientation = if (autorotate) {
+            SCREEN_ORIENTATION_FULL_SENSOR
+        } else {
+            //requestedOrientation = SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+
+            SCREEN_ORIENTATION_LANDSCAPE
+        }
+    }
+
     private fun restoreAutoOptions() {
         if(!vm.isPlayerEventReceived){
             vm.currentAutoButton?.let {
@@ -1098,7 +1156,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         //totalPot.visibility = INVISIBLE
     }
 
-    private fun goForallIn() {
+    private fun goForAllIn() {
         disableEnableActions(false)
         vm.actionEvent(ActionEvent.ALL_IN, total_amount = callBtn.tag as Double) {
             disableEnableActions(true)
@@ -1121,6 +1179,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     }
 
     private fun onBestHandReveal(handStrength: UserBestHand) {
+        if(vm.isHandStrengthEnabled != null && vm.isHandStrengthEnabled == false){
+            tv_rankOrder.visibility = INVISIBLE
+            user_best_hand.visibility = INVISIBLE
+            return
+        }
         val userBestHand = handStrength.handDetails
         tv_rankOrder.visibility = VISIBLE
         user_best_hand.visibility = VISIBLE
@@ -1131,7 +1194,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             hand_c3.coloredCard(userBestHand.cards.get(2))
             hand_c4.coloredCard(userBestHand.cards.get(3))
             hand_c5.coloredCard(userBestHand.cards.get(4))
-        }catch(e: java.lang.Exception){
+        }catch (e: java.lang.Exception){
 
         }
     }
@@ -1286,15 +1349,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
     }
 
-    private fun openRightDrawer() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.END)) {
-            drawer_layout.closeDrawer(GravityCompat.END)
+    private fun toggleDrawer(gravity: Int) {
+        if (drawer_layout.isDrawerOpen(gravity)) {
+            drawer_layout.closeDrawer(gravity)
         } else {
-            drawer_layout.openDrawer(GravityCompat.END)
+            drawer_layout.openDrawer(gravity)
         }
     }
 
-    private fun byIn(isRefillAmt : Boolean, balance: Double, seatNo: Int, isCash: Boolean) {
+    private fun byIn(isRefillAmt: Boolean, balance: Double, seatNo: Int, isCash: Boolean) {
         var availableBalance = balance
 
         val builder = AlertDialog.Builder(this)
@@ -1344,11 +1407,11 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     }
                 }
             }else{
-                vm.refillNextInPlayAmount = false
                 vm.refillNextInPlayAmount(amt){
                     runOnMain {
                         onBackPressed()
                         if (it!!["success"].bool) {
+                            vm.refillNextInPlayAmount = false
                             slotViews.isRefillPopupVisible = false
                             dialog.dismiss()
                         } else {
@@ -1437,14 +1500,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                                 dialogView.insufficient.visibility =
                                                     GONE
 
-                                                if(isRefillAmt){
+                                                if (isRefillAmt) {
                                                     dialogView.join.text = "Re-fill"
-                                                }else{
+                                                } else {
                                                     dialogView.join.text =
                                                         "Join Table"
                                                 }
                                                 dialogView.join.onOneClick {
-                                                    when(dialogView.join.text){
+                                                    when (dialogView.join.text) {
                                                         "Join Table" -> joinNow()
                                                         "Re-fill" -> refillAmount()
                                                     }
@@ -1647,7 +1710,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         val vacantSlotsCount = vm.getFilteredSlotsCount(status = TableSlotStatus.VACANT.name)
         val totalSlotsCount = vm.tableSlots!!.size
         val playerCountSatOnTable = totalSlotsCount - vacantSlotsCount
-        val allInSlotsCount = vm.getFilteredSlotsCount(PlayerActions.ALL_IN.name, SlotsFilter.PLAYER_ACTION)
+        val allInSlotsCount = vm.getFilteredSlotsCount(
+            PlayerActions.ALL_IN.name,
+            SlotsFilter.PLAYER_ACTION
+        )
 
         if(activeSlotsCount == playerCountSatOnTable && allInSlotsCount == (playerCountSatOnTable - 1)){
             bottomPannel_new.visibility = INVISIBLE

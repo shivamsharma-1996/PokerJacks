@@ -171,11 +171,13 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         revealCards.visibility = GONE
                     } else {
                         //raise_amt.visibility = INVISIBLE
-                        deduceRaiseAmtSpace(raise_amt)
-                        revealCards.visibility = VISIBLE
-                        (revealCards.getChildAt(0) as ImageView).coloredCard(bestHand.card_1)
+                        if(!bestHand.best_hand_details.hideCards){
+                            deduceRaiseAmtSpace(raise_amt)
+                            revealCards.visibility = VISIBLE
+                            (revealCards.getChildAt(0) as ImageView).coloredCard(bestHand.card_1)
 
-                        (revealCards.getChildAt(1) as ImageView).coloredCard(bestHand.card_2)
+                            (revealCards.getChildAt(1) as ImageView).coloredCard(bestHand.card_2)
+                        }
                     }
                 }
                 stopTurnAnimation(slotView)
@@ -529,6 +531,13 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 active_indication.visibility = VISIBLE
               */
 
+               /* val inPlay = if(slot.user!=null && slot.user!!.game_inplay_amount != 0.0){
+                    slot.user!!.game_inplay_amount
+                }else if(slot.inplay_amount!=0.0){
+                    slot.inplay_amount
+                }else{
+                    0.0
+                }*/
                 val inPlay = (slot.user?.game_inplay_amount ?: slot.inplay_amount)
                 if (inPlay == 0.0) {
                     in_play_amt.text = "-"
@@ -685,6 +694,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
             refundObject?.let {
                 val slotView = slotViews[slot.seat_no]
                 slotView?.apply {
+                    refund_amt.setBackgroundColor(Color.parseColor("#AD000000"))
                     refund_amt.text =  "Refund: ₹" + String.format(
                     "%.2f",
                     refundObject.wonAmt
@@ -712,5 +722,17 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                 }
             }
         }, 1000)
+    }
+
+    fun updateInPlayOnGameEnd(slots: List<TableSlot>?) {
+        slots!!.forEach { slot ->
+            if(slot.status == TableSlotStatus.ACTIVE.name){
+                val slotView = slotViews[slot.seat_no]
+                slotView?.apply {
+                    in_play_amt.text =
+                        "₹${slot.inplay_amount?.toDecimalFormat()}"
+                }
+            }
+        }
     }
 }

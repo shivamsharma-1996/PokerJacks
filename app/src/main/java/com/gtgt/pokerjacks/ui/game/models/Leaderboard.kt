@@ -50,5 +50,6 @@ data class UsersWinning(
 
 data class BestHandDetails(
     val cards: List<String>,
-    val rankOrder: String
+    val rankOrder: String,
+    val hideCards: Boolean
 )

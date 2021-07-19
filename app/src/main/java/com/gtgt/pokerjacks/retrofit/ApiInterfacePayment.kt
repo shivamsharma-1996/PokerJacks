@@ -10,7 +10,7 @@ import retrofit2.http.POST
 
 interface ApiInterfacePayment {
 
-    @POST("paymentService/createPayment")
+    @POST("paymentService/createPaymentOrder")
     fun createPayment(
         @Body data: JsonElement
     ): Call<CreatePaymentResponse>

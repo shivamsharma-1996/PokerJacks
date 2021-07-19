@@ -131,7 +131,8 @@ fun makeSlotPositions(
         slotPositions[LEFT_TOP] = SlotPosition(
             x = 2.8f * playerSize - inPlayWidth + leftMargin + inPlayWidth,
             y = topMargin/15f - roundingSize.toInt() *1.5f,
-            player = Position(),
+            player = Position(
+                mb = dpToPx(15)),
             revealCards = Position(mt = roundingSize.toInt()),
             crown = Position(ml = (inPlayWidth + (playerSize - crownWidth) / 2f).toInt()),
             inPlay = Position(mt = topMargin / 4),
@@ -166,7 +167,9 @@ fun makeSlotPositions(
         slotPositions[TOP_CENTER] = SlotPosition(
             x = (tableWidth - meSlotSize) / 2 - inPlayWidth/2,
             y = -dpToPx(5).toFloat(),
-            player = Position(),
+            player = Position(
+                mb = dpToPx(15)
+            ),
             inPlay = Position(mt = topMargin / 4),
             revealCards = Position(mt = roundingSize.toInt()),
             crown = Position(ml = (inPlayWidth + (playerSize - crownWidth) / 2f).toInt()),
@@ -183,6 +186,7 @@ fun makeSlotPositions(
             x = (tableWidth - playerSize) / 2.3f -inPlayWidth/4,
             y = 1.8f * playerSize - inPlayWidth, //copied from left_bottom
             player = Position(
+                mb = dpToPx(15)
             ),
             inPlay = Position(mt = topMargin / 4),
             revealCards = Position(),
@@ -201,7 +205,9 @@ fun makeSlotPositions(
             SlotPosition(
                 x = tableWidth - 4f * playerSize - leftMargin - inPlayWidth / 2,
                 y = topMargin/15f - roundingSize.toInt() *1.5f,
-                player = Position(),
+                player = Position(
+                    mb = dpToPx(15)
+                ),
                 crown = Position(ml = ((inPlayWidth + playerSize - crownWidth) / 2f).toInt()),
                 inPlay = Position(ml = playerSize.toInt() + inPlayWidth / 2, mt = topMargin / 4),
                 raiseAmt = Position(

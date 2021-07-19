@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="com.gtgt.pokerjacks.ui.game.models.TableUserStatsItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/_6sdp"
+        android:paddingEnd="@dimen/_6sdp"
+        android:paddingTop="@dimen/_6sdp"
+        android:paddingBottom="@dimen/_6sdp">
+
+        <TextView
+            android:id="@+id/stats_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:lineSpacingExtra="4sp"
+            android:textColor="#f1f1f1"
+            android:textSize="10sp"
+            tools:text= "Chakri_Abhi"
+            android:text="@{data.user_name}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/stats_buy_in" />
+
+        <TextView
+            android:id="@+id/stats_buy_in"
+            android:text="@{`₹`+data.buyin_amount}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:lineSpacingExtra="4sp"
+            android:textColor="#f1f1f1"
+            android:textSize="10sp"
+            tools:text= "₹23.45"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/stats_winnings"
+            tools:text="-₹12.97"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:lineSpacingExtra="4sp"
+            android:textSize="10sp"
+            android:textColor="@{data.winningAmtColor}"
+            android:text="@{data.formattedWinnings}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/stats_buy_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
