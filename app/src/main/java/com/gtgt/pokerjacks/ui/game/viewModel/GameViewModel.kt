@@ -63,8 +63,8 @@ class GameViewModel : SocketIOViewModel() {
     var canDisplayWaitingIcon = false
     val userDetailsLD = MutableLiveData<UserDetails>()
 
-    private var _tableUserStatsLD = MutableLiveData<TableUserStats>()
-    val tableUserStatsLD : LiveData<TableUserStats>
+    private var _tableUserStatsLD = MutableLiveData<List<TableUserStatsItem>>()
+    val tableUserStatsLD : LiveData<List<TableUserStatsItem>>
         get() = _tableUserStatsLD
 
     val tableSlotsLD = MutableLiveData<List<TableSlot>>()
@@ -427,10 +427,10 @@ class GameViewModel : SocketIOViewModel() {
             "getTableUserStats",
             jsonObject( "table_id" to tableId)
         ){
-            if(it?.success == true){
-                val tableUserStats = it.info.to<TableUserStats>()
-                log("getTableUserStats", tableUserStats)
-                _tableUserStatsLD.data = tableUserStats
+            if(it?.success == true && it.info.isJsonArray){
+                val tableUserStatsList = it.info.to<List<TableUserStatsItem>>()
+                log("getTableUserStats", tableUserStatsList)
+                _tableUserStatsLD.data = tableUserStatsList
             }
         }
     }

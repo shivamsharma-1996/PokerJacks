@@ -50,7 +50,8 @@ class StatsAdapter(
     }
 
     private val mHeaderList: ArrayList<TableUserStatsHeader> = ArrayList()
-    fun addHeaderObject() {
+    fun addHeader() {
+        mHeaderList.clear()
         mHeaderList.add(TableUserStatsHeader())
     }
 
@@ -82,8 +83,8 @@ class StatsAdapter(
     }
 
     fun submitList(newList: ArrayList<TableUserStatsItem>) {
+        tableUserStatsItemList.clear()
         tableUserStatsItemList.addAll(newList)
         notifyDataSetChanged()
     }
-
 }
