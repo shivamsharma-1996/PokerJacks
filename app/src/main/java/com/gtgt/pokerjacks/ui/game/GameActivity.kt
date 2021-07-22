@@ -1175,6 +1175,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         waitingTv.visibility = VISIBLE
         waitingTv.text = message
         iAMBack.visibility = GONE
+        tv_rankOrder.visibility = INVISIBLE
+        user_best_hand.visibility = INVISIBLE
         user_cards_fl.visibility = INVISIBLE
     }
 
