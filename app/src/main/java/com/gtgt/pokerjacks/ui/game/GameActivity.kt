@@ -1606,6 +1606,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 vm.updateSeatStatus(SeatStatus.SIT_OUT) {
                     runOnMain {
                         if (it!!["success"].bool) {
+                            waitingTv.visibility = GONE
                             iAMBack.visibility = VISIBLE
                         bottomPannel_new.visibility = INVISIBLE
                         } else {

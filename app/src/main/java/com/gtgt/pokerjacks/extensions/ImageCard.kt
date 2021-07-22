@@ -1,6 +1,7 @@
 package com.gtgt.pokerjacks.extensions
 
 import android.graphics.Color
+import android.util.Log
 import android.widget.ImageView
 import com.devs.vectorchildfinder.VectorChildFinder
 import com.gtgt.pokerjacks.MyApplication
@@ -10,8 +11,12 @@ import com.gtgt.pokerjacks.ui.game.Card
 var isColorDeckEnabled = false
     set(value) {
         field = value
-        coloredImages.forEach {
-            it.key.coloredCard(it.value)
+        try {
+            coloredImages.forEach {
+                it.key.coloredCard(it.value)
+            }
+        }catch (e:Exception){
+            log("Exception::isColorDeckEnabled", Log.getStackTraceString(e))
         }
     }
 

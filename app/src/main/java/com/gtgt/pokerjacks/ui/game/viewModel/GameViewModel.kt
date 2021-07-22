@@ -461,7 +461,9 @@ class GameViewModel : SocketIOViewModel() {
     fun refillNextInPlayAmount(refillAmount: Double, callback: ChannelCallbackType<JsonElement?>) {
         emit(
             "refillNext",
-            jsonObject("amount" to refillAmount, "table_id" to tableId, "join_id" to mySlot!!.join_id, "game_id" to gameDetailsLD.data?.let {
+            jsonObject("amount" to refillAmount,
+                "table_id" to tableId, "join_id" to mySlot!!.join_id,
+                "game_id" to gameDetailsLD.data?.let {
                 gameDetailsLD.data!!._id
             }),
             callback = callback
