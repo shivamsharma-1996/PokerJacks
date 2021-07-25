@@ -1166,10 +1166,9 @@
 
     </com.google.android.material.navigation.NavigationView>
 
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/rightDrawer"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="@drawable/black_gradient"

@@ -43,12 +43,7 @@ import com.gtgt.pokerjacks.utils.EventObserver
 import com.gtgt.pokerjacks.utils.loadImage
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_game.menu
-import kotlinx.android.synthetic.main.activity_game.playArea
-import kotlinx.android.synthetic.main.activity_game.pot_split
-import kotlinx.android.synthetic.main.activity_game.rootLayout
 import kotlinx.android.synthetic.main.activity_game.settings
-import kotlinx.android.synthetic.main.activity_game.totalPot
-import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.android.synthetic.main.byin_popup.view.*
 import kotlinx.android.synthetic.main.byin_popup.view.close
 import kotlinx.android.synthetic.main.byin_popup.view.insufficient
