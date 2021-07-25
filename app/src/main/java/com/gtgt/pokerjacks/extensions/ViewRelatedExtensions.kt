@@ -25,7 +25,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.google.android.material.navigation.NavigationView
 import com.gtgt.pokerjacks.R
+import com.gtgt.pokerjacks.ui.game.GameActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
@@ -55,6 +57,11 @@ fun View.onRendered(callback: (View) -> Unit) {
     }
 }
 
+fun NavigationView.setPercentageWidth(percentage: Float){
+    val widthOfNav = (GameActivity.Screen.width) * percentage
+    this.layoutParams.width = widthOfNav.toInt()
+    this.requestLayout()
+}
 fun View.blurOut(canBlurOut: Boolean){
    /* if(canBlurOut)
     this.background.setColorFilter(ContextCompat.getColor(context, R.color.semi_transparent), PorterDuff.Mode.SRC_ATOP)

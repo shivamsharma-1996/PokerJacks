@@ -63,6 +63,14 @@ class GameViewModel : SocketIOViewModel() {
     var canDisplayWaitingIcon = false
     val userDetailsLD = MutableLiveData<UserDetails>()
 
+    private var _previousHandsLD = MutableLiveData<List<String>>()
+    val previousHandsLD : LiveData<List<String>>
+        get() = _previousHandsLD
+
+    private var _previousHandDetailsLD = MutableLiveData<PreviousHandDetails.Info>()
+    val previousHandDetailsLD : LiveData<PreviousHandDetails.Info>
+        get() = _previousHandDetailsLD
+
     private var _tableUserStatsLD = MutableLiveData<List<TableUserStatsItem>>()
     val tableUserStatsLD : LiveData<List<TableUserStatsItem>>
         get() = _tableUserStatsLD
@@ -431,6 +439,35 @@ class GameViewModel : SocketIOViewModel() {
                 val tableUserStatsList = it.info.to<List<TableUserStatsItem>>()
                 log("getTableUserStats", tableUserStatsList)
                 _tableUserStatsLD.data = tableUserStatsList
+            }
+        }
+    }
+
+    fun getPreviousHandsList(){
+        if(tableId.isNotEmpty())
+            emit<AnyModel>(
+                "getPreviousHandsList",
+                jsonObject( "table_id" to tableId)
+            ){
+                if(it?.success == true){
+                    val gamesList = it.info.to<PreviousHands.Info>()
+                    _previousHandsLD.data = gamesList.gamesList
+                }
+            }
+    }
+
+    fun getPreviousHandDetails(gameId: String){
+        if(tableId.isNotEmpty() && gameId.isNotEmpty()){
+            emit<AnyModel>(
+                "getPreviousHandDetails",
+                jsonObject( "table_id" to tableId,
+                    "game_id" to gameId)
+            ){
+                if(it?.success == true){
+                    val gameDetailsInfo = it.info.to<PreviousHandDetails.Info>()
+                    _previousHandDetailsLD.data = gameDetailsInfo
+
+                }
             }
         }
     }

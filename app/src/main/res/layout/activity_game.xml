@@ -98,6 +98,15 @@
             android:layout_marginStart="8dp"
             android:src="@drawable/stats" />
 
+        <ImageView
+            android:id="@+id/previousHandIv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/stats"
+            android:layout_toEndOf="@+id/user_best_hand"
+            />
 
         <ImageView
             android:id="@+id/signalIv"
@@ -971,14 +980,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@drawable/black_gradient"
-        android:elevation="0dp"
         app:insetForeground="@android:color/transparent"
-        android:fitsSystemWindows="true"
-        android:theme="@style/Base.Theme.AppCompat.Light">
+        android:elevation="0dp"
+        android:fitsSystemWindows="true">
 
         <FrameLayout
-            android:id="@+id/statsFragment"
+            android:id="@+id/leftNavFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

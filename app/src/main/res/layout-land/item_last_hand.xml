@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <variable
+            name="gameUser"
+            type="com.gtgt.pokerjacks.ui.game.models.PreviousHandDetails.GameUserX" />
+
+        <variable
+            name="gameDetail"
+            type="com.gtgt.pokerjacks.ui.game.models.PreviousHandDetails.GameDetails" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="18dp"
+        android:paddingEnd="12dp">
+
+        <ImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:src="@drawable/ic_last_hand_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/last_hand_revealCards"
+            app:layout_constraintBottom_toBottomOf="@+id/last_hand_revealCards" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/tondo_regular"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:textColor="#f7d000"
+            android:lineSpacingExtra="3sp"
+            tools:text="Saitej_Gidda"
+            android:maxEms="14"
+            android:maxLines="1"
+            android:maxWidth="@dimen/_50sdp"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:text="@{gameUser.user_name}"
+            app:layout_constraintEnd_toStartOf="@+id/last_hand_revealCards"
+            app:layout_constraintTop_toTopOf="@+id/last_hand_revealCards"
+            app:layout_constraintBottom_toBottomOf="@+id/last_hand_revealCards"
+            app:layout_constraintStart_toEndOf="@+id/user_avatar" />
+
+        <TextView
+            android:id="@+id/last_hand_rank_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="High Card"
+            android:fontFamily="@font/tondo_regular"
+            android:textColor="#e1c300"
+            android:textSize="10sp"
+            android:text="@{gameUser.best_hand_details.rankOrder}"
+            android:layout_marginTop="4dp"
+            android:lineSpacingExtra="3sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/last_hand_revealCards" />
+
+        <LinearLayout
+            android:id="@+id/last_hand_revealCards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@+id/user_name"
+            app:layout_constraintTop_toBottomOf="@+id/last_hand_rank_order">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/club_10"
+                android:maxHeight="40dp"
+                app:shortForm="@{gameUser.card_1}"
+                />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/heart_10"
+                android:maxHeight="40dp"
+                app:shortForm="@{gameUser.card_2}"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#575757"
+            android:layout_marginTop="10dp"
+            android:alpha="0.5"
+            app:layout_constraintStart_toStartOf="@+id/user_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/last_hand_revealCards" />
+
+        <TextView
+            android:id="@+id/tv_user_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Folded"
+            android:lineSpacingExtra="3sp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:fontFamily="@font/tondo_bold"
+            android:layout_marginStart="32dp"
+            android:visibility="@{gameUser.getFoldLabelVisibility}"
+            app:layout_constraintStart_toEndOf="@+id/last_hand_revealCards"
+            app:layout_constraintTop_toTopOf="@+id/last_hand_revealCards"
+            app:layout_constraintBottom_toBottomOf="@+id/last_hand_revealCards" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/last_hand_community_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/last_hand_revealCards"
+            android:layout_marginStart="32dp"
+            android:visibility="@{gameUser.getCommunityCardVisibility}"
+            app:layout_constraintTop_toTopOf="@+id/last_hand_revealCards"
+            app:layout_constraintBottom_toBottomOf="@+id/last_hand_revealCards">
+
+            <ImageView
+                android:id="@+id/last_hand_c1"
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="40dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/heart_10"
+                app:shortForm="@{gameDetail.card_1}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/last_hand_c2" />
+
+            <ImageView
+                android:id="@+id/last_hand_c2"
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="40dp"
+                android:adjustViewBounds="true"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/heart_j"
+                app:shortForm="@{gameDetail.card_2}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/last_hand_c1"
+                app:layout_constraintEnd_toStartOf="@+id/last_hand_c3" />
+
+            <ImageView
+                android:id="@+id/last_hand_c3"
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="40dp"
+                android:adjustViewBounds="true"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/club_10"
+                app:shortForm="@{gameDetail.card_3}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/last_hand_c2"
+                app:layout_constraintEnd_toStartOf="@+id/last_hand_c4" />
+
+            <ImageView
+                android:id="@+id/last_hand_c4"
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="40dp"
+                android:adjustViewBounds="true"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/club_2"
+                app:shortForm="@{gameDetail.card_4}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/last_hand_c3"
+                app:layout_constraintEnd_toStartOf="@+id/last_hand_c5" />
+
+            <ImageView
+                android:id="@+id/last_hand_c5"
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="40dp"
+                android:adjustViewBounds="true"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/heart_q"
+                app:shortForm="@{gameDetail.card_5}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/last_hand_c4"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/last_hand_won_amt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/tondo_bold"
+            android:textSize="14sp"
+            android:textColor="@{gameUser.winningAmtColor}"
+            android:text="@{gameUser.formattedWinnings}"
+            android:lineSpacingExtra="4sp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/last_hand_community_cards"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/last_hand_revealCards"
+            app:layout_constraintBottom_toBottomOf="@+id/last_hand_revealCards"
+            tools:text="+₹54" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

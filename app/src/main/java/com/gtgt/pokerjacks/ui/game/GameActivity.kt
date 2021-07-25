@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo.*
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -30,6 +31,7 @@ import com.gtgt.pokerjacks.socket.SocketIoInstance
 import com.gtgt.pokerjacks.socket.socketInstance
 import com.gtgt.pokerjacks.ui.game.models.*
 import com.gtgt.pokerjacks.ui.game.view.GamePreferencesFragment
+import com.gtgt.pokerjacks.ui.game.view.LastHandFragment
 import com.gtgt.pokerjacks.ui.game.view.SelectThemesFragment
 import com.gtgt.pokerjacks.ui.game.view.StatsFragment
 import com.gtgt.pokerjacks.ui.game.view.slot.SlotViews
@@ -41,7 +43,12 @@ import com.gtgt.pokerjacks.utils.EventObserver
 import com.gtgt.pokerjacks.utils.loadImage
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_game.menu
+import kotlinx.android.synthetic.main.activity_game.playArea
+import kotlinx.android.synthetic.main.activity_game.pot_split
+import kotlinx.android.synthetic.main.activity_game.rootLayout
 import kotlinx.android.synthetic.main.activity_game.settings
+import kotlinx.android.synthetic.main.activity_game.totalPot
+import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.android.synthetic.main.byin_popup.view.*
 import kotlinx.android.synthetic.main.byin_popup.view.close
 import kotlinx.android.synthetic.main.byin_popup.view.insufficient
@@ -59,6 +66,14 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
        //reconnect.text = "Go Offline"
         offlineMsg.visibility = GONE
         vm.tableId = tableId
+    }
+
+    object Screen {
+        val width: Int
+            get() = Resources.getSystem().displayMetrics.widthPixels
+
+        val height: Int
+            get() = Resources.getSystem().displayMetrics.heightPixels
     }
 
     override fun reconnected() {
@@ -100,6 +115,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
     private val statsFragment by lazy { StatsFragment.newInstance{
         toggleDrawer(GravityCompat.START)
     } }
+    private val lastHandFragment by lazy { LastHandFragment.newInstance{
+        toggleDrawer(GravityCompat.START)
+    } }
+
 
     val topMarginLandscape = dpToPx(56).toFloat()
     val topMarginPortrait = dpToPx(50).toFloat()
@@ -194,7 +213,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             replaceFragment(gamePreferencesFragment, R.id.settingsFragment, true)
             replaceFragment(SelectThemesFragment(), R.id.themeSelectFragment, true)
-            replaceFragment(statsFragment, R.id.statsFragment, true)
 
             settings.onOneClick {
                 gamePreferencesFragment.type = "settings"
@@ -202,7 +220,24 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             }
 
             stats.onOneClick {
+                if(vm.isLandscape){
+                    leftDrawer.setPercentageWidth(0.35f)
+                }else{
+                    leftDrawer.setPercentageWidth(0.7f)
+                }
+                replaceFragment(statsFragment, R.id.leftNavFragment, true)
                 vm.getTableUserStats()
+                toggleDrawer(GravityCompat.START)
+            }
+
+            previousHandIv.onOneClick {
+                if(vm.isLandscape){
+                    leftDrawer.setPercentageWidth(0.62f)
+                }else{
+                    leftDrawer.setPercentageWidth(0.75f)
+                }
+                replaceFragment(lastHandFragment, R.id.leftNavFragment, true)
+                vm.getPreviousHandsList()
                 toggleDrawer(GravityCompat.START)
             }
 
@@ -375,8 +410,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         //leaderboardView.visibility = GONE
 
                         bottomPannel_new.visibility = INVISIBLE
-                        user_best_hand.visibility = INVISIBLE
-                        tv_rankOrder.visibility = INVISIBLE
+                        user_best_hand.visibility = GONE
+                        tv_rankOrder.visibility = GONE
                         community_cards_ll.visibility = INVISIBLE
                         user_cards_fl.visibility = INVISIBLE
                         totalPot.visibility = INVISIBLE
@@ -1175,15 +1210,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         waitingTv.visibility = VISIBLE
         waitingTv.text = message
         iAMBack.visibility = GONE
-        tv_rankOrder.visibility = INVISIBLE
-        user_best_hand.visibility = INVISIBLE
+        tv_rankOrder.visibility = GONE
+        user_best_hand.visibility = GONE
         user_cards_fl.visibility = INVISIBLE
     }
 
     private fun onBestHandReveal(handStrength: UserBestHand) {
         if(vm.isHandStrengthEnabled != null && vm.isHandStrengthEnabled == false){
-            tv_rankOrder.visibility = INVISIBLE
-            user_best_hand.visibility = INVISIBLE
+            tv_rankOrder.visibility = GONE
+            user_best_hand.visibility = GONE
             return
         }
         val userBestHand = handStrength.handDetails
@@ -1207,8 +1242,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         slotViews.resetGame()
         slotViews.restartGame()
 
-        user_best_hand.visibility = INVISIBLE
-        tv_rankOrder.visibility = INVISIBLE
+        user_best_hand.visibility = GONE
+        tv_rankOrder.visibility = GONE
 
         if(vm.isFirstGameStarted){  //this condition is used reset the resources and to omit the case  when VACANT players count are "initially" equal to total size
             vm.resetVmResources()

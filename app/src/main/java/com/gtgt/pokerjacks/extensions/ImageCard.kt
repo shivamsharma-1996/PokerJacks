@@ -3,6 +3,7 @@ package com.gtgt.pokerjacks.extensions
 import android.graphics.Color
 import android.util.Log
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import com.devs.vectorchildfinder.VectorChildFinder
 import com.gtgt.pokerjacks.MyApplication
 import com.gtgt.pokerjacks.R
@@ -29,6 +30,7 @@ val suiteColorMap = mapOf(
 
 val coloredImages = mutableMapOf<ImageView, String>()
 
+@BindingAdapter("shortForm")
 fun ImageView.coloredCard(shortForm: String) {
     coloredImages[this] = shortForm
 

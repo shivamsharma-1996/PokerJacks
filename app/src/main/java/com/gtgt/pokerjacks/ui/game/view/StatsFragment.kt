@@ -51,9 +51,12 @@ class StatsFragment  : BaseFragment() {
         iv_close.onOneClick {
             navigationViewCloseListener()
         }
+        progress_bar_loading.visibility = VISIBLE
 
         gameVm.tableUserStatsLD.observe(viewLifecycleOwner, Observer {
             if(it!=null){
+                progress_bar_loading.visibility = GONE
+
                 if(!it.isNullOrEmpty()){
                     runOnMain {
                         tableUserStatsAdapter?.apply {
