@@ -232,7 +232,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             previousHandIv.onOneClick {
                 if (vm.isLandscape) {
-                    leftDrawer.setPercentageWidth(0.62f)
+                    leftDrawer.setPercentageWidth(0.65f)
                 } else {
                     leftDrawer.setPercentageWidth(0.75f)
                 }
