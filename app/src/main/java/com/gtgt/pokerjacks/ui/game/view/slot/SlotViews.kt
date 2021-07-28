@@ -17,8 +17,8 @@ import com.gtgt.pokerjacks.ui.game.GameActivity
 import com.gtgt.pokerjacks.ui.game.models.*
 import com.gtgt.pokerjacks.ui.game.viewModel.PlayerActions
 import com.gtgt.pokerjacks.ui.game.viewModel.SeatStatus
+import com.gtgt.pokerjacks.utils.SlotPositions
 import com.gtgt.pokerjacks.utils.SlotPositions.*
-import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.android.synthetic.main.player_new.view.*
 import java.lang.Exception
@@ -45,6 +45,9 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
     private var meSlotSize = dpToPx(73).toFloat()
     private val roundingSize = dpToPx(5).toFloat()
     private val tableWidth = rootLayout.width.toFloat()
+    private var tossCardHeight = dpToPx(R.dimen._40sdp).toFloat()
+    val tossCardWidth = dpToPx(R.dimen._26sdp).toFloat()
+
     private val tableHeight = rootLayout.playArea.height.toFloat()
     private lateinit var mySlotBottom: SlotPosition
     private lateinit var meSlotBottom: TableSlot
@@ -97,6 +100,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     playerSize,
                     topMargin,
                     leftMargin,
+                    tossCardWidth,
+                    tossCardHeight,
                     tableWidth,
                     tableHeight,
                     roundingSize,
@@ -172,7 +177,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     } else {
                         //raise_amt.visibility = INVISIBLE
                         if(!bestHand.best_hand_details.hideCards){
-                            deduceRaiseAmtSpace(raise_amt)
+                            //deduceRaiseAmtSpace(raise_amt)
                             revealCards.visibility = VISIBLE
                             (revealCards.getChildAt(0) as ImageView).coloredCard(bestHand.card_1)
 
@@ -226,7 +231,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     all_in_flag.visibility = GONE
                     in_play_amt.text = "-"
                     raise_amt.visibility = INVISIBLE
-                    deduceRaiseAmtSpace(raise_amt)
+                    //deduceRaiseAmtSpace(raise_amt)
                     name_inplay_group.visibility = GONE
                     cl_player.background = context.getDrawable(R.drawable.player_view_gradient)
                     cl_player.backgroundTintList = null
@@ -376,7 +381,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         }
                     } else {
                         raise_amt.visibility = INVISIBLE
-                        deduceRaiseAmtSpace(raise_amt)
+                       // deduceRaiseAmtSpace(raise_amt)
                     }
                 }
 
@@ -430,6 +435,11 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     }
                     slotPositions[position]!!
                 }
+                /*if (currentSlotPositionMap[slot.seat_no]!!.name.contains("BOTTOM")) {
+                    deduceMarginSpace(this.toss_card)
+                }*/
+
+                checkForToss(slot, this, currentSlotPositionMap, slotPosition)
 
                 if (slots.size == 6 && isLandscape) {
                     val fromX: Float
@@ -484,14 +494,8 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     rl_player.layoutGravity(slotPosition.player.alignment)
                 }
 
-                if (slot.user != null && !slot.user!!.status.equals(PlayerActions.ALL_IN.name)
-                    && (!(isJoined && position == BOTTOM_CENTER))
-                ) {
-                    raise_amt.marginsRaw(
-                        slotPosition.raiseAmt.ml, slotPosition.raiseAmt.mt,
-                        slotPosition.raiseAmt.mr, slotPosition.raiseAmt.mb
-                    )
-                }
+            if (slotPosition.tossCard.alignment != -1)
+                toss_card.layoutGravity(slotPosition.tossCard.alignment)
 
                 if (slotPosition.raiseAmt.alignment != -1)
                     raise_amt.layoutGravity(slotPosition.raiseAmt.alignment)
@@ -549,8 +553,57 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
         }
     }
 
-    private fun deduceRaiseAmtSpace(raise_amt: TextView) {
-        //raise_amt.marginsRaw(0, 0, 0, 0)
+    private fun checkForToss(
+        slot: TableSlot,
+        view: View,
+        currentSlotPositionMap: MutableMap<Int, SlotPositions>,
+        slotPosition: SlotPosition
+    ) {
+        try {
+            if((context as GameActivity).vm.isTossEnabledForCurrentGame
+                && slot.status == TableSlotStatus.ACTIVE.name){
+                if(slot.toss_card!=null){
+                    view.toss_card.marginsRaw(
+                        slotPosition.tossCard.ml, slotPosition.tossCard.mt,
+                        slotPosition.tossCard.mr, slotPosition.tossCard.mb
+                    )
+                    view.toss_card.visibility = VISIBLE
+                    deduceMarginSpace(view.raise_amt)
+                }
+            }else{
+                if (slot.user != null && !slot.user!!.status.equals(PlayerActions.ALL_IN.name))
+                {
+                    var topMargin = 0
+                    if (currentSlotPositionMap[slot.seat_no]!!.name.contains("BOTTOM")) {
+                        topMargin =  dpToPx(20)
+                    }
+                    view.raise_amt.marginsRaw(
+                        slotPosition.raiseAmt.ml, slotPosition.raiseAmt.mt + topMargin,
+                        slotPosition.raiseAmt.mr, slotPosition.raiseAmt.mb
+                    )
+                    deduceMarginSpace(view.toss_card)
+                }
+                view.toss_card.visibility = GONE
+                //TODO remove margins of tosscard here
+            }
+        }catch (e:Exception){
+
+        }
+    }
+
+    fun hideTossCards() {
+        try {
+            slotViews.forEach {
+                it.value.toss_card.visibility = GONE
+                deduceMarginSpace(it.value.toss_card)
+            }
+        }catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+    }
+
+    private fun deduceMarginSpace(view: View) {
+        view.marginsRaw(0, 0, 0, 0)
     }
 
     fun animateSelfView(playerAction: PlayerActions, seatNo: Int) {
@@ -662,7 +715,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 //                    deduceRaiseAmtSpace(it.value.raise_amt)
 //                }
                 //it.value.raise_amt.visibility = INVISIBLE
-                deduceRaiseAmtSpace(it.value.raise_amt)
+               // deduceRaiseAmtSpace(it.value.raise_amt)
 
                 try {
                     val slotStatus = slots[it.key]?.status!!

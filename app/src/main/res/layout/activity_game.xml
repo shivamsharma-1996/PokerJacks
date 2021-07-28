@@ -359,6 +359,26 @@
                     app:layout_constraintBottom_toTopOf="@+id/community_cards_ll"/>
 
 
+                <TextView
+                    android:id="@+id/tv_toss_message"
+                    android:fontFamily="@font/tondo_regular"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:textColor="#ffffff"
+                    android:lineSpacingExtra="4sp"
+                    android:gravity="center"
+                    tools:text="Sai_tej won the toss and
+will start the hand"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintVertical_bias="0.45"
+                    app:layout_constraintStart_toEndOf="@+id/gl_start"
+                    app:layout_constraintEnd_toStartOf="@+id/gl_end"
+                    app:layout_constraintTop_toBottomOf="@+id/gl_top"
+                    app:layout_constraintBottom_toTopOf="@+id/gl_bottom"
+                    />
+
                 <LinearLayout
                     android:id="@+id/community_cards_ll"
                     android:layout_width="0dp"
@@ -766,61 +786,6 @@
             tools:text="@string/waiting_for_opponents"
             android:textColor="@color/white"
             android:background="@drawable/game_message_gradient"/>
-
-
-        <FrameLayout
-            android:id="@+id/messageFL"
-            android:layout_width="@dimen/_165sdp"
-            android:layout_height="@dimen/_85sdp"
-            android:visibility="gone"
-            android:layout_centerInParent="true"
-            android:translationZ="10dp">
-
-            <ImageView
-                android:id="@+id/gameInfoIv"
-                android:layout_width="@dimen/_165sdp"
-                android:layout_height="@dimen/_85sdp"
-                android:alpha="0.4"
-                android:scaleType="fitXY"
-                android:src="@drawable/game_info_bg"
-                app:tint="#000" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="2dp">
-
-                <!--                <TextView-->
-                <!--                    android:id="@+id/waitingTv"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_gravity="center"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:text="Please wait while other player(s) join the table"-->
-                <!--                    android:textColor="@color/white"-->
-                <!--                    android:textSize="14sp"-->
-                <!--                    android:maxWidth="@dimen/_150sdp"-->
-                <!--                    android:visibility="gone"-->
-                <!--                    android:lineSpacingExtra="5sp"/>-->
-
-                <TextView
-                    android:id="@+id/gameStartsTimer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Game starts in"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:lineSpacingExtra="5sp"
-                    android:visibility="gone" />
-            </LinearLayout>
-        </FrameLayout>
 
         <TextView
             android:id="@+id/offlineMsg"

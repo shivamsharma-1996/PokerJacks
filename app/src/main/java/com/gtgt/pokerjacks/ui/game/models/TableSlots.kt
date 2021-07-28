@@ -22,6 +22,7 @@ data class TableSlot(
     val ref_txn_id: String,
     val seat_no: Int,
     val status: String,
+    val toss_card: String?,
     val table_id: String,
     val user_name: String,
     val user_unique_id: String,

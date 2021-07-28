@@ -40,7 +40,7 @@ class TestActivity : FullScreenScreenOnActivity() {
             if (theme != null) {
                 rootLayout.setBackgroundResource(theme.bg)
                 ivTable.loadImage(theme.landscapeTable)
-                gameInfoIv.imageTintList = ColorStateList.valueOf(theme.dark)
+                //gameInfoIv.imageTintList = ColorStateList.valueOf(theme.dark)
             }
         })
     }

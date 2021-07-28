@@ -6,19 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <TextView
-        android:id="@+id/raise_amt"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:drawablePadding="3dp"
-        android:paddingTop="4dp"
-        tools:text="₹40.208"
-        android:fontFamily="@font/tondo_regular"
-        android:layout_gravity="center_vertical|end"
-        android:visibility="invisible"
-        android:textSize="@dimen/_9sdp" />
-
     <FrameLayout
         android:id="@+id/playerViewNew"
         android:layout_width="wrap_content"
@@ -262,5 +249,27 @@
             android:tag="player_action_tag"
             android:textColor="@color/black" />
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/toss_card"
+        android:layout_width="26dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="40dp"
+        android:visibility="gone"
+        android:adjustViewBounds="true"
+        android:src="@drawable/heart_10"
+        android:layout_gravity="bottom|center_horizontal"/>
+
+    <TextView
+        android:id="@+id/raise_amt"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:drawablePadding="3dp"
+        android:paddingTop="4dp"
+        tools:text="₹40.208"
+        android:fontFamily="@font/tondo_regular"
+        android:layout_gravity="center_vertical|end"
+        android:visibility="invisible"
+        android:textSize="@dimen/_9sdp" />
 
 </FrameLayout>

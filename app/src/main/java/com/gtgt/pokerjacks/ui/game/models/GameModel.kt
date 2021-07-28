@@ -30,6 +30,8 @@ data class GameModel(val info: Info) : BaseModel() {
         val card_3: String,
         val card_4: String,
         val card_5: String,
+        var toss_enabled: Boolean,
+        val toss_won_player:TossWonPlayer,
         val community_cards: List<String>,
         val created_at: String,
         val current_bet_amount: Double,
@@ -51,6 +53,12 @@ data class GameModel(val info: Info) : BaseModel() {
         val side_pots: List<SidePot>
     )
 
+    data class TossWonPlayer(
+        val seat_no: Int,
+        val toss_card: String,
+        val user_name: String,
+        val user_unique_id: String
+    )
     data class TableDetails(
         val _id: String,
         val avg_bet: Int,

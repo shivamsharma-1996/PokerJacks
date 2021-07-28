@@ -60,6 +60,7 @@ class GameViewModel : SocketIOViewModel() {
 
     var isWaitingForOthersShown = false;
     var isFirstGameStarted = false
+    var isTossEnabledForCurrentGame = false
     var canDisplayWaitingIcon = false
     val userDetailsLD = MutableLiveData<UserDetails>()
 
@@ -74,6 +75,10 @@ class GameViewModel : SocketIOViewModel() {
     private var _tableUserStatsLD = MutableLiveData<List<TableUserStatsItem>>()
     val tableUserStatsLD : LiveData<List<TableUserStatsItem>>
         get() = _tableUserStatsLD
+
+    private var _tossEnabledLD = MutableLiveData<GameModel.GameDetails>()
+    val tossEnabledLD : LiveData<GameModel.GameDetails>
+        get() = _tossEnabledLD
 
     val tableSlotsLD = MutableLiveData<List<TableSlot>>()
     val gameTriggerLD = MutableLiveData<GameModel.GameDetails>()
@@ -150,15 +155,11 @@ class GameViewModel : SocketIOViewModel() {
                 }
 
                 val gameDetails = it["data"]["gameDetails"].to<GameModel.GameDetails>()
-                log("poker:gameEvent", "gameStart "+ gameDetails)
-
-                emit<AnyModel>("getUserCards", jsonObject("table_id" to tableId)) {
-                    if (!it!!.info["userContestDetails"].isJsonNull) {
-                        userContestDetailsLD.data = it.info["userContestDetails"].to()
-                    }
-                    gameDetailsLD.data = gameDetails
-
-                    playerTurnLD.data = it.info["playerTurn"].to()
+                if(gameDetails.toss_enabled){
+                    isTossEnabledForCurrentGame = gameDetails.toss_enabled
+                    _tossEnabledLD.data = gameDetails
+                }else{
+                    getUserCards()
                 }
             }
 
@@ -454,6 +455,21 @@ class GameViewModel : SocketIOViewModel() {
                     _previousHandsLD.data = gamesList.gamesList
                 }
             }
+    }
+    fun getUserCards(){
+        if(tableId.isNotEmpty())
+        emit<AnyModel>("getUserCards", jsonObject("table_id" to tableId)) {
+            if (!it!!.info["userContestDetails"].isJsonNull) {
+                userContestDetailsLD.data = it.info["userContestDetails"].to()
+            }
+            if(!it!!.info["gameDetails"].isJsonNull)
+            {
+                val gameDetails = it.info["gameDetails"].to<GameModel.GameDetails>()
+                gameDetailsLD.data = gameDetails
+                isTossEnabledForCurrentGame = false
+            }
+            playerTurnLD.data = it.info["playerTurn"].to()
+        }
     }
 
     fun getPreviousHandDetails(gameId: String){
