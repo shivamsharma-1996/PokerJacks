@@ -475,6 +475,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 if (vm.isGameStartEventReceived && gameDetails.toss_enabled) {
                     tv_toss_message.text = "${gameDetails.toss_won_player.user_name} won the toss and will start the hand"
                     tv_toss_message.visibility = VISIBLE
+                    vibrate(this) {}
 
                     gameTriggerTimer?.stop()
 
@@ -627,6 +628,8 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                                         "%.2f",
                                                         targetSidePot.pot_value
                                                     )
+                                                    gravity =  slotPosition.raiseAmt.alignment
+                                                    z = 100f
                                                     animate().apply {
                                                         x(slotView.x + slotView.width / 2)
                                                         y(slotView.y + slotView.height / 2)
