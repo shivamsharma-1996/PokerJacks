@@ -426,3 +426,11 @@ fun TextView.SpannableString(
 infix fun TextView.drawableLeft(resId: Int) {
     setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
 }
+
+
+fun TextView.type(style : Int) {
+    setTypeface(null, style)
+}
+fun TextView.size(size : Float) {
+    setTextSize(TypedValue.COMPLEX_UNIT_SP, size)
+}

@@ -87,7 +87,7 @@ class GameViewModel : SocketIOViewModel() {
     val playerTurnLD = MutableLiveData<PlayerTurn>()
     val dealCommunityCardsLD = MutableLiveData<DealCommunityCards>()
     val userBestHandLd = MutableLiveData<UserBestHand>()
-    val leaderboardLD = MutableLiveData<Event<Leaderboard>>()
+    val leaderboardLD = MutableLiveData<Leaderboard>()
     val iamBackLD = MutableLiveData<Boolean>()
     val enableActions = MutableLiveData<Boolean>()
     var tableSlots : List<TableSlot>? = null
@@ -114,6 +114,8 @@ class GameViewModel : SocketIOViewModel() {
     //var isConfigurationChanged = false
     var isDealCommunityCardsEventReceived = false
     var isPlayerEventReceived = false
+    var isGameStartEventReceived = false
+    var isLeaderBoardEventReceived = false
 
     var previousOrientation = Configuration.ORIENTATION_LANDSCAPE
     var gameCountdownTimeLeft : Long = 0
@@ -144,6 +146,7 @@ class GameViewModel : SocketIOViewModel() {
             }
             on<JsonElement>("gameStart") {
                 isFirstGameStarted = true
+                isGameStartEventReceived = true
                 val gameInfo = it["data"].to<GameModel.Info>()
 
                 val mySlot = gameInfo.tableSlots.find { it.user_unique_id == userId }
@@ -172,7 +175,7 @@ class GameViewModel : SocketIOViewModel() {
 
             on<JsonElement>("leaderboard") {
                 val leaderboard = it["data"].to<Leaderboard>()
-
+                isLeaderBoardEventReceived = true
                 try {
                     val previousCommunityCards = dealCommunityCardsLD.data
                     if (previousCommunityCards != null
@@ -192,7 +195,7 @@ class GameViewModel : SocketIOViewModel() {
 
 
                 socketIO.socketHandler.postDelayed({
-                    leaderboardLD.data = Event(leaderboard)
+                    leaderboardLD.data = leaderboard
                 }, 1000)
             }
 
@@ -417,7 +420,7 @@ class GameViewModel : SocketIOViewModel() {
         userContestDetailsLD.data = gameInfo.userContestDetails
         socketIO.socketHandler.delayedHandler(300) {
             if (gameInfo.leaderboard != null)
-                leaderboardLD.data = Event(gameInfo.leaderboard)
+                leaderboardLD.data = gameInfo.leaderboard
             playerTurnLD.data = gameInfo.playerTurn
         }
         tableSlots = gameInfo.tableSlots

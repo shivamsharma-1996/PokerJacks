@@ -435,9 +435,12 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     }
                     slotPositions[position]!!
                 }
-                /*if (currentSlotPositionMap[slot.seat_no]!!.name.contains("BOTTOM")) {
-                    deduceMarginSpace(this.toss_card)
-                }*/
+
+                if (slotPosition.tossCard.alignment != -1)
+                    toss_card.layoutGravity(slotPosition.tossCard.alignment)
+
+                if (slotPosition.raiseAmt.alignment != -1)
+                    raise_amt.layoutGravity(slotPosition.raiseAmt.alignment)
 
                 checkForToss(slot, this, currentSlotPositionMap, slotPosition)
 
@@ -470,10 +473,6 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         start()
                     }
                 }
-
-                /*x = slotPosition.x
-                y = slotPosition.y*/
-
                 nameTV.text = slot.user_name
                 if (isJoined && position == BOTTOM_CENTER && slot.user != null && slot.user!!.status.equals(
                         PlayerActions.FOLD.name
@@ -486,62 +485,21 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         slotPosition.player.mr, slotPosition.player.mb
                     )
                 }
-                /*name_inplay_group.marginsRaw(
-                    slotPosition.player.ml, slotPosition.player.mt,
-                    slotPosition.player.mr, slotPosition.player.mb
-                )*/
                 if (slotPosition.player.alignment != -1) {
                     rl_player.layoutGravity(slotPosition.player.alignment)
                 }
 
-            if (slotPosition.tossCard.alignment != -1)
-                toss_card.layoutGravity(slotPosition.tossCard.alignment)
-
-                if (slotPosition.raiseAmt.alignment != -1)
-                    raise_amt.layoutGravity(slotPosition.raiseAmt.alignment)
-//                dealer.marginsRaw(
-//                    slotPosition.deal.ml, slotPosition.deal.mt,
-//                    slotPosition.deal.mr, slotPosition.deal.mb
-//                )
-                //dealer.layoutGravity(slotPosition.deal.alignment)
                 player_action.marginsRaw(
                     slotPosition.playerAction.ml, slotPosition.playerAction.mt,
                     slotPosition.playerAction.mr, slotPosition.playerAction.mb
                 )
                 player_action.layoutGravity(slotPosition.playerAction.alignment)
 
-                /*crown.marginsRaw(
-                    slotPosition.crown.ml, slotPosition.crown.mt,
-                    slotPosition.crown.mr, slotPosition.crown.mb
-                )*/
-
                 revealCards.marginsRaw(
                     slotPosition.revealCards.ml, slotPosition.revealCards.mt,
                     slotPosition.revealCards.mr, slotPosition.revealCards.mb
                 )
-                //dealer.layoutGravity(slotPosition.deal)
 
-                /*if (slotPositionMap[slot.seat_no]!!.name.contains("RIGHT")) {
-                    active_indication.layoutGravity(Gravity.END)
-                    active_indication.rotationY = 0f
-                    raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.coin_small, 0)
-                } else {
-                    active_indication.layoutGravity(Gravity.START)
-                    active_indication.rotationY = 180f
-                    raise_amt.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.coin_small, 0, 0, 0)
-                }
-
-                dealer.visibility = VISIBLE
-                active_indication.visibility = VISIBLE
-              */
-
-               /* val inPlay = if(slot.user!=null && slot.user!!.game_inplay_amount != 0.0){
-                    slot.user!!.game_inplay_amount
-                }else if(slot.inplay_amount!=0.0){
-                    slot.inplay_amount
-                }else{
-                    0.0
-                }*/
                 val inPlay = (slot.user?.game_inplay_amount ?: slot.inplay_amount)
                 if (inPlay == 0.0) {
                     in_play_amt.text = "-"
@@ -571,12 +529,17 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     deduceMarginSpace(view.raise_amt)
                 }
             }else{
-                if (slot.user != null && !slot.user!!.status.equals(PlayerActions.ALL_IN.name))
+                if (slot.user != null/* && !slot.user!!.status.equals(PlayerActions.ALL_IN.name)*/)
                 {
                     var topMargin = 0
-                    if (currentSlotPositionMap[slot.seat_no]!!.name.contains("BOTTOM")) {
+                    val currentSlotPositionName = currentSlotPositionMap[slot.seat_no]!!.name
+                    if (currentSlotPositionName == BOTTOM_CENTER.name
+                        || (isLandscape && (currentSlotPositionName == RIGHT_BOTTOM.name
+                                || currentSlotPositionName == LEFT_BOTTOM.name))
+                    ) {
                         topMargin =  dpToPx(20)
                     }
+
                     view.raise_amt.marginsRaw(
                         slotPosition.raiseAmt.ml, slotPosition.raiseAmt.mt + topMargin,
                         slotPosition.raiseAmt.mr, slotPosition.raiseAmt.mb
