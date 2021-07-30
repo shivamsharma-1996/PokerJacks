@@ -525,6 +525,7 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                         slotPosition.tossCard.ml, slotPosition.tossCard.mt,
                         slotPosition.tossCard.mr, slotPosition.tossCard.mb
                     )
+                    view.toss_card.coloredCard(slot.toss_card)
                     view.toss_card.visibility = VISIBLE
                     deduceMarginSpace(view.raise_amt)
                 }

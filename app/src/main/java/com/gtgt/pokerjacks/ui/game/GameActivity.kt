@@ -54,6 +54,10 @@ import kotlinx.android.synthetic.main.fragment_game_prefs.*
 import kotlinx.android.synthetic.main.join_status_popup.view.*
 import kotlinx.android.synthetic.main.player_new.view.*
 import kotlinx.android.synthetic.main.raise_amt.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.lang.Math.abs
 
 
@@ -540,108 +544,112 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                                         "" + it.total_pot_value + " " + slot.user!!.current_round_invested
                                     )
                                     if (slot.user!!.current_round_invested != 0.0) {
-                                        val coinsTv = TextView(this)
-                                        rootLayout.addView(coinsTv)
-
-                                        //Animation towards totalPot from betAmount
-                                        coinsTv.apply {
-                                            drawableLeft(R.drawable.coin_small)
-                                            compoundDrawablePadding = dpToPx(3)
-                                            x = slotPosition.x + slotPosition.raiseAmt.ml
-                                            y = slotPosition.y + slotPosition.raiseAmt.mt
-                                            text = String.format(
-                                                "%.2f",
-                                                slot.user!!.current_round_invested
-                                            )
-
-                                            animate().apply {
-                                                x(totalPot.x + playArea.paddingTop + totalPot.width / 2)
-                                                y(
-                                                    if (vm.isLandscape) {
-                                                        topMarginLandscape + potSplitTopLandscape
-                                                    } else {
-                                                        val y =
-                                                            (totalPot.layoutParams as ConstraintLayout.LayoutParams).topMargin + totalPot.measuredHeight / 2 + totalPot.top
-                                                        y.toFloat()
-                                                    }
-                                                )
-
-                                                duration = 1000
-                                                withEndAction {
-
-                                                    try {
-                                                        if (it.total_pot_value > 0.0) {
-                                                            totalPot.visibility = VISIBLE
-                                                            vm.isCommunityCardsOpened = true
-                                                            /*totalPot.text =
-                                                                                        "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"*/
-                                                            updatePotAmount(it.total_pot_value.toDecimalFormat())
-
-                                                            pot_split.removeAllViews()
-                                                            it.side_pots
-                                                                .filter { it.pot_value > 0 }
-                                                                .filter { it.pot_type == PotType.GAME_POT.type }
-                                                                .forEach {
-                                                                    pot_split.addView(TextView(this@GameActivity).apply {
-                                                                        text =
-                                                                            "  ₹ ${it.pot_value.toDecimalFormat()}  "
-                                                                    })
-                                                                    log(
-                                                                        "finalPotForDistribution0123",
-                                                                        " " + it
-                                                                    )
-                                                                }
-                                                            log(
-                                                                "finalPotForDistribution01234",
-                                                                it.side_pots.toString()
-                                                            )
-
-                                                            pot_split.visibility =
-                                                                if (pot_split.childCount >= 2)
-                                                                    VISIBLE else INVISIBLE
-                                                        }
-                                                    } catch (ex: Exception) {
-
-                                                    }
-
-                                                    rootLayout.removeView(coinsTv)
-                                                }
-                                                start()
-                                            }
-                                        }
-
-                                        //Animation towards inplayAmt from betAmount
-                                        val refundAmtSidePot = it.side_pots.filter { it.pot_type == PotType.REFUND.type }
-                                        val targetSidePot = refundAmtSidePot.find { it.players[0] == slot.user_unique_id }
-                                        if(targetSidePot!=null){
-                                            val refundAmtTv = TextView(this)
-                                            refundAmtTv.setBackgroundColor(Color.parseColor("#AD000000"))
-                                            refundAmtTv.setTextColor(resources.getColor(R.color.green))
-                                            refundAmtTv.type(BOLD)
-                                            refundAmtTv.size(12f)
-                                            rootLayout.addView(refundAmtTv)
-                                            slotView?.let {
-                                                refundAmtTv.apply {
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            async {
+                                                //Animation towards totalPot from betAmount
+                                                val coinsTv = TextView(this@GameActivity)
+                                                rootLayout.addView(coinsTv)
+                                                coinsTv.apply {
+                                                    drawableLeft(R.drawable.coin_small)
+                                                    compoundDrawablePadding = dpToPx(3)
                                                     x = slotPosition.x + slotPosition.raiseAmt.ml
                                                     y = slotPosition.y + slotPosition.raiseAmt.mt
-                                                    text =  "Refund: ₹" + String.format(
+                                                    text = String.format(
                                                         "%.2f",
-                                                        targetSidePot.pot_value
+                                                        slot.user!!.current_round_invested
                                                     )
-                                                    gravity =  slotPosition.raiseAmt.alignment
-                                                    z = 100f
-                                                    animate().apply {
-                                                        x(slotView.x + slotView.width / 2)
-                                                        y(slotView.y + slotView.height / 2)
 
-                                                        duration = 2000
+                                                    animate().apply {
+                                                        x(totalPot.x + playArea.paddingTop + totalPot.width / 2)
+                                                        y(
+                                                            if (vm.isLandscape) {
+                                                                topMarginLandscape + potSplitTopLandscape
+                                                            } else {
+                                                                val y =
+                                                                    (totalPot.layoutParams as ConstraintLayout.LayoutParams).topMargin + totalPot.measuredHeight / 2 + totalPot.top
+                                                                y.toFloat()
+                                                            }
+                                                        )
+
+                                                        duration = 1000
                                                         withEndAction {
-                                                            rootLayout.removeView(refundAmtTv)
+
+                                                            try {
+                                                                if (it.total_pot_value > 0.0) {
+                                                                    totalPot.visibility = VISIBLE
+                                                                    vm.isCommunityCardsOpened = true
+                                                                    /*totalPot.text =
+                                                                                                "Total Pot: ₹${it.total_pot_value.toDecimalFormat()}"*/
+                                                                    updatePotAmount(it.total_pot_value.toDecimalFormat())
+
+                                                                    pot_split.removeAllViews()
+                                                                    it.side_pots
+                                                                        .filter { it.pot_value > 0 }
+                                                                        .filter { it.pot_type == PotType.GAME_POT.type }
+                                                                        .forEach {
+                                                                            pot_split.addView(TextView(this@GameActivity).apply {
+                                                                                text =
+                                                                                    "  ₹ ${it.pot_value.toDecimalFormat()}  "
+                                                                            })
+                                                                            log(
+                                                                                "finalPotForDistribution0123",
+                                                                                " " + it
+                                                                            )
+                                                                        }
+                                                                    log(
+                                                                        "finalPotForDistribution01234",
+                                                                        it.side_pots.toString()
+                                                                    )
+
+                                                                    pot_split.visibility =
+                                                                        if (pot_split.childCount >= 2)
+                                                                            VISIBLE else INVISIBLE
+                                                                }
+                                                            } catch (ex: Exception) {
+
+                                                            }
+
+                                                            rootLayout.removeView(coinsTv)
                                                         }
                                                         start()
                                                     }
                                                 }
+                                            }
+                                            async {
+                                                //Animation towards inplayAmt from betAmount
+                                                val refundAmtSidePot = it.side_pots.filter { it.pot_type == PotType.REFUND.type }
+                                                val targetSidePot = refundAmtSidePot.find { it.players[0] == slot.user_unique_id }
+                                                if(targetSidePot!=null){
+                                                    val refundAmtTv = TextView(this@GameActivity)
+                                                    refundAmtTv.setBackgroundColor(Color.parseColor("#AD000000"))
+                                                    refundAmtTv.setTextColor(resources.getColor(R.color.green))
+                                                    refundAmtTv.type(BOLD)
+                                                    refundAmtTv.size(12f)
+                                                    rootLayout.addView(refundAmtTv)
+                                                    slotView?.let {
+                                                        refundAmtTv.apply {
+                                                            x = slotPosition.x + slotPosition.raiseAmt.ml + slotView.raise_amt.width/2
+                                                            y = slotPosition.y + slotPosition.raiseAmt.mt
+                                                            text =  "₹" + String.format(
+                                                                "%.2f",
+                                                                targetSidePot.pot_value
+                                                            )
+                                                            gravity =  slotPosition.raiseAmt.alignment
+                                                            z = 100f
+                                                            animate().apply {
+                                                                x(slotView.x + slotView.width / 2)
+                                                                y(slotView.y + slotView.height/2)
 
+                                                                duration = 1000
+                                                                withEndAction {
+                                                                    rootLayout.removeView(refundAmtTv)
+                                                                }
+                                                                start()
+                                                            }
+                                                        }
+
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -955,7 +963,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     val refundPlayersList = leaderboard.pot_refunds.filter { it.wonAmt > 0 }
                     if (refundPlayersList.isNotEmpty())
-                        slotViews.displayRefundAmtWithAnimation(refundPlayersList)
+                        //slotViews.displayRefundAmtWithAnimation(refundPlayersList)
 
                     winningPots.forEach { pair ->
                         finalPotForDistribution.add(
