@@ -3,6 +3,7 @@ package com.gtgt.pokerjacks.ui.game.view.slot
 import android.view.Gravity
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.extensions.dpToPx
+import com.gtgt.pokerjacks.extensions.log
 import com.gtgt.pokerjacks.ui.lobby.adapter.cardHeight
 import com.gtgt.pokerjacks.utils.SlotPositions
 import com.gtgt.pokerjacks.utils.SlotPositions.*
@@ -96,6 +97,7 @@ fun makeSlotPositions(
     val revealCardsTop = dpToPx(14)
     val dealerBottomMargin = dpToPx(10)
 
+    log("makeSlotPositions123", "makeSlotPositions")
     if (isLandscape) {
         slotPositions[LEFT_TOP_CENTER] = SlotPosition(
             x = playerSize / 3 + leftMargin / 2,

@@ -433,7 +433,10 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
                     } else {
                         //   playerView1.widthHeightRaw(playerSize, playerSize + dpToPx(20))
                     }
+
+                    log("makeSlotPositions123", "makeSlotPositions" + position +"\n")
                     slotPositions[position]!!
+
                 }
 
                 if (slotPosition.tossCard.alignment != -1)
