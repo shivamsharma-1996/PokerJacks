@@ -10,7 +10,6 @@ import android.graphics.Typeface.BOLD
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.os.ResultReceiver
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View.*
 import android.view.WindowManager
@@ -33,7 +32,7 @@ import com.gtgt.pokerjacks.socket.SocketIoInstance
 import com.gtgt.pokerjacks.socket.socketInstance
 import com.gtgt.pokerjacks.ui.game.models.*
 import com.gtgt.pokerjacks.ui.game.view.GamePreferencesFragment
-import com.gtgt.pokerjacks.ui.game.view.LastHandFragment
+import com.gtgt.pokerjacks.ui.game.view.PreviousHandFragment
 import com.gtgt.pokerjacks.ui.game.view.SelectThemesFragment
 import com.gtgt.pokerjacks.ui.game.view.StatsFragment
 import com.gtgt.pokerjacks.ui.game.view.slot.SlotViews
@@ -41,7 +40,6 @@ import com.gtgt.pokerjacks.ui.game.viewModel.*
 import com.gtgt.pokerjacks.ui.lobby.model.LobbyTables
 import com.gtgt.pokerjacks.ui.wallet.wallet.WalletViewModel
 import com.gtgt.pokerjacks.utils.CustomCountDownTimer
-import com.gtgt.pokerjacks.utils.EventObserver
 import com.gtgt.pokerjacks.utils.loadImage
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_game.menu
@@ -120,7 +118,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         }
     }
     private val lastHandFragment by lazy {
-        LastHandFragment.newInstance {
+        PreviousHandFragment.newInstance {
             toggleDrawer(GravityCompat.START)
         }
     }

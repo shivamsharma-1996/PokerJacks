@@ -78,7 +78,8 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/club_10"
                     android:maxHeight="40dp"
-                    app:shortForm="@{gameUser.card_1}"
+                    app:gameDetails="@{gameDetail}"
+                    app:targetGameUser="@{gameUser}"
                     />
 
                 <ImageView
@@ -88,7 +89,8 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/heart_10"
                     android:maxHeight="40dp"
-                    app:shortForm="@{gameUser.card_2}"
+                    app:gameDetails="@{gameDetail}"
+                    app:targetGameUser="@{gameUser}"
                     />
             </LinearLayout>
 

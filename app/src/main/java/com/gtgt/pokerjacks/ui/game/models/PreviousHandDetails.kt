@@ -88,6 +88,7 @@ data class PreviousHandDetails(val info: Info) : BaseModel() {
         val player_grace_timer: Long,
         val start_time: Long,
         val status: String,
-        val table_id: String
+        val table_id: String,
+        val cards_reveal: Boolean?
     )
 }

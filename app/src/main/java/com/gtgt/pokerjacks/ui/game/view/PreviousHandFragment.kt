@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_last_hand.*
 import kotlinx.android.synthetic.main.fragment_last_hand.iv_close
 import kotlinx.android.synthetic.main.fragment_last_hand.tv_no_data
 
-class LastHandFragment : BaseFragment() {
+class PreviousHandFragment : BaseFragment() {
     private val gameVm: GameViewModel by sharedViewModel()
     lateinit var navigationViewCloseListener:()->Unit
 
@@ -33,7 +33,7 @@ class LastHandFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(navigationViewCloseListener:() -> Unit ) = LastHandFragment().apply {
+        fun newInstance(navigationViewCloseListener:() -> Unit ) = PreviousHandFragment().apply {
             this.navigationViewCloseListener = navigationViewCloseListener
         }
     }
@@ -68,9 +68,14 @@ class LastHandFragment : BaseFragment() {
                     val currentGameId = previousHandsList[currentPageIndex]
                     loadCurrentPage(currentGameId)
                     updatePageStatus()
-                    tv_no_data.visibility = View.GONE
+
+                    iv_previous_page.visibility = VISIBLE
+                    iv_next_page.visibility = VISIBLE
+                    tv_no_data.visibility = GONE
                 }else{
-                    tv_no_data.visibility = View.VISIBLE
+                    iv_previous_page.visibility = GONE
+                    iv_next_page.visibility = GONE
+                    tv_no_data.visibility = VISIBLE
                 }
             }
         })

@@ -1,13 +1,16 @@
 package com.gtgt.pokerjacks.extensions
 
 import android.graphics.Color
+import android.opengl.Visibility
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.devs.vectorchildfinder.VectorChildFinder
 import com.gtgt.pokerjacks.MyApplication
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.ui.game.Card
+import com.gtgt.pokerjacks.ui.game.models.PreviousHandDetails
 
 var isColorDeckEnabled = false
     set(value) {
@@ -56,5 +59,19 @@ fun ImageView.coloredCard(shortForm: String) {
             vector.changePathColor("p5", suiteColorMap[card.suite]!!)
         }
         invalidate()
+    }
+}
+
+@BindingAdapter("gameDetails", "targetGameUser")
+fun ImageView.revealLastHandCards(gameDetails: PreviousHandDetails.GameDetails, targetGameUser: PreviousHandDetails.GameUserX){
+    val currentUserId = retrieveString("USER_ID")
+    val cardsReveal = gameDetails.cards_reveal
+    if(currentUserId != targetGameUser.user_unique_id && cardsReveal!=null){
+        (if(cardsReveal) {
+            coloredCard(targetGameUser.card_1)
+            View.VISIBLE
+        } else View.INVISIBLE).also { this.visibility = it }
+    }else{
+        coloredCard(targetGameUser.card_1)
     }
 }
