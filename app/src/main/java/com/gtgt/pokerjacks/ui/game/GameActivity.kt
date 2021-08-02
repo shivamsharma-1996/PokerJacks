@@ -52,10 +52,7 @@ import kotlinx.android.synthetic.main.fragment_game_prefs.*
 import kotlinx.android.synthetic.main.join_status_popup.view.*
 import kotlinx.android.synthetic.main.player_new.view.*
 import kotlinx.android.synthetic.main.raise_amt.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.lang.Math.abs
 
 
@@ -368,6 +365,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             vm.isGameEnded.observe(this, Observer { isGameEnded ->
                 if (isGameEnded) {
+                    vm.canDisplayWaitingIcon = false
                     slotViews.resetGame()
                     isGameStartedAndRunning = false
                 }
@@ -972,20 +970,9 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                     var finalPotForDistribution = mutableListOf<PotWinnerDistribution>()
 
-                    val refundPlayersList = leaderboard.pot_refunds.filter { it.wonAmt > 0 }
-                    if (refundPlayersList.isNotEmpty())
+                 //   val refundPlayersList = leaderboard.pot_refunds.filter { it.wonAmt > 0 }
+//                    if (refundPlayersList.isNotEmpty())
                         //slotViews.displayRefundAmtWithAnimation(refundPlayersList)
-
-                    winningPots.forEach { pair ->
-                        finalPotForDistribution.add(
-                            PotWinnerDistribution(
-                                pair.user_unique_id,
-                                pair.wonAmt.toDouble(),
-                                PotDistributionType.WINNER
-                            )
-                        )
-                    }
-
 
                     fun animatePots(potIndex: Int) {
                         log("poker::animatePots1", "" + finalPotForDistribution.size + " " + potIndex)
@@ -1071,9 +1058,24 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         }
                     }
 
-                    if (isPotAnimationDone) {
-                        animatePots(0)
-                    }
+                    CoroutineScope(Dispatchers.IO).launch {
+                            async {
+                                winningPots.forEach { pair ->
+                                    finalPotForDistribution.add(
+                                        PotWinnerDistribution(
+                                            pair.user_unique_id,
+                                            pair.wonAmt.toDouble(),
+                                            PotDistributionType.WINNER
+                                        )
+                                    )
+                                }
+                            }.await()
+                            withContext(Dispatchers.Main){
+                                if (isPotAnimationDone) {
+                                    animatePots(0)
+                                }
+                            }
+                        }
                 }
                 vm.isLeaderBoardEventReceived = false
             })

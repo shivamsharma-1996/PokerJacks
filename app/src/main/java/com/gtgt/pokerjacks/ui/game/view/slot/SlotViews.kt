@@ -610,7 +610,9 @@ class SlotViews(private val rootLayout: RelativeLayout, val onSlotClicked: (Int)
 
     fun restartGame(){
         slotViews.forEach {
+            ((context as GameActivity).vm.canDisplayWaitingIcon) = false
             it.value.all_in_flag.visibility = GONE
+            it.value.active_indication.visibility  = GONE
             it.value.revealCards.visibility = GONE
             it.value.refund_amt.visibility = GONE
             it.value.raise_amt.visibility = INVISIBLE
