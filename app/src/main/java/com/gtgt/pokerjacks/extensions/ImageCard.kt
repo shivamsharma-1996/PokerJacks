@@ -11,6 +11,8 @@ import com.gtgt.pokerjacks.MyApplication
 import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.ui.game.Card
 import com.gtgt.pokerjacks.ui.game.models.PreviousHandDetails
+import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
+import com.gtgt.pokerjacks.ui.game.viewModel.PlayerActions
 
 var isColorDeckEnabled = false
     set(value) {
@@ -66,12 +68,15 @@ fun ImageView.coloredCard(shortForm: String) {
 fun ImageView.revealLastHandCards(gameDetails: PreviousHandDetails.GameDetails, targetGameUser: PreviousHandDetails.GameUserX){
     val currentUserId = retrieveString("USER_ID")
     val cardsReveal = gameDetails.cards_reveal
-    if(currentUserId != targetGameUser.user_unique_id && cardsReveal!=null){
-        (if(cardsReveal) {
+    if(currentUserId != targetGameUser.user_unique_id){
+        visibility = if((cardsReveal!=null && cardsReveal) && targetGameUser.status != TableSlotStatus.FOLD.name) {
             coloredCard(targetGameUser.card_1)
             View.VISIBLE
-        } else View.INVISIBLE).also { this.visibility = it }
+        } else {
+            View.INVISIBLE
+        }
     }else{
+        visibility = View.VISIBLE
         coloredCard(targetGameUser.card_1)
     }
 }
