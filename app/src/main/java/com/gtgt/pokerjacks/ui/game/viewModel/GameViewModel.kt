@@ -337,8 +337,12 @@ class GameViewModel : SocketIOViewModel() {
             mySlot = slots.firstOrNull { it.user_unique_id == userId }
             log("gameUsers123", "123")
 
-            isSlot6PostitionLandscapeMapInitialized = slots.size == 6 && isLandscape && !isSlot6PostitionLandscapeMapInitialized
-            isSlot6PostitionPortraitMapInitialized = slots.size == 6 && !isLandscape && !isSlot6PostitionLandscapeMapInitialized
+            if(slots.size == 6){
+                if(isLandscape)
+                isSlot6PostitionLandscapeMapInitialized = true
+                else
+                    isSlot6PostitionPortraitMapInitialized = true
+            }
 
             var currentSlot = mySlot ?: slots[0]
 

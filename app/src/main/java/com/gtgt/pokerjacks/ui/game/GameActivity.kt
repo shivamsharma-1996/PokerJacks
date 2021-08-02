@@ -327,6 +327,10 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     val totalSlotsCount = vm.tableSlots!!.size
                     val playerCountSatOnTable = totalSlotsCount - vacantSlotsCount
 
+                    if (activeSlotsCount >= 2) {
+                        vm.canDisplayWaitingIcon = true
+                    }
+
                     if (vm.getFilteredSlotsCount(status = TableSlotStatus.VACANT.name) == totalSlotsCount) {
                         resetGameToDefault()
                         slotViews.resetGame()
@@ -345,8 +349,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         ) {
                             displayMessage(getString(R.string.waiting_for_opponents))
                         }
-                    } else if (activeSlotsCount >= 2) {
-                        vm.canDisplayWaitingIcon = true
                     } else if (activeSlotsCount == 0 && inactiveSlotsCount > 0 && vm.isFirstGameStarted) {
                         resetGameToDefault()
                     }

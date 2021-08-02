@@ -102,9 +102,7 @@ fun makeSlotPositions(
         slotPositions[LEFT_TOP_CENTER] = SlotPosition(
             x = playerSize / 3 + leftMargin / 2,
             y = playerSize/1.5f,
-            player = Position(
-                mt = dpToPx(5)
-                ),
+            player = Position(),
             crown = Position(ml = (playerSize / 4 + (playerSize - crownWidth) *1.2f).toInt()),
             revealCards = Position(),
             inPlay = Position(),
@@ -153,15 +151,15 @@ fun makeSlotPositions(
             y = topMargin/15f - roundingSize.toInt() *1.5f,
             player = Position(
                 mt = dpToPx(5),
-                mb = dpToPx(15)),
-            revealCards = Position(mt = roundingSize.toInt()),
+                mb = dpToPx(20)),
+            revealCards = Position(mt = roundingSize.toInt() - dpToPx(5)),
             crown = Position(ml = (inPlayWidth + (playerSize - crownWidth) / 2f).toInt()),
             inPlay = Position(mt = topMargin / 4),
             raiseAmt = Position(
                 alignment = Gravity.BOTTOM or Gravity.CENTER
             ),
             tossCard = Position(
-                mt = (playerSize - roundingSize).toInt() + playerMargin - dpToPx(5),
+                mt = (playerSize - roundingSize).toInt() + playerMargin,
                 alignment = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
             ),
             activeIndication = Gravity.END,
@@ -199,17 +197,17 @@ fun makeSlotPositions(
             y = -dpToPx(5).toFloat(),
             player = Position(
                 mt = dpToPx(5),
-                mb = dpToPx(15)
+                mb = dpToPx(20)
             ),
             inPlay = Position(mt = topMargin / 4),
-            revealCards = Position(mt = roundingSize.toInt()),
+            revealCards = Position(mt = roundingSize.toInt() + dpToPx(5)),
             crown = Position(ml = (inPlayWidth + (playerSize - crownWidth) / 2f).toInt()),
             raiseAmt = Position(
                 mt = (playerSize - roundingSize).toInt() + playerMargin / 2,
                 alignment = Gravity.BOTTOM or Gravity.CENTER
             ),
             tossCard = Position(
-                mt = (playerSize - roundingSize).toInt() + playerMargin - dpToPx(5),
+                mt = (playerSize - roundingSize).toInt() + playerMargin,
                 alignment = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
             ),
             activeIndication = Gravity.END,
@@ -246,7 +244,7 @@ fun makeSlotPositions(
                 y = topMargin/15f - roundingSize.toInt() *1.5f,
                 player = Position(
                     mt = dpToPx(5),
-                    mb = dpToPx(15)
+                    mb = dpToPx(20)
                 ),
                 crown = Position(ml = ((inPlayWidth + playerSize - crownWidth) / 2f).toInt()),
                 inPlay = Position(ml = playerSize.toInt() + inPlayWidth / 2, mt = topMargin / 4),
@@ -254,10 +252,10 @@ fun makeSlotPositions(
                     alignment = Gravity.BOTTOM or Gravity.CENTER
                 ),
                 tossCard = Position(
-                    mt = (playerSize - roundingSize).toInt() + playerMargin - dpToPx(5),
+                    mt = (playerSize - roundingSize).toInt() + playerMargin,
                     alignment = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
                 ),
-                revealCards = Position(mt = roundingSize.toInt()),
+                revealCards = Position(mt = roundingSize.toInt() - dpToPx(5)),
                 activeIndication = Gravity.START,
                 playerAction =  Position(alignment = Gravity.BOTTOM or Gravity.CENTER),
                 deal = Position(alignment = Gravity.END or Gravity.TOP, mt = topMargin*2 - dpToPx(12))
@@ -295,7 +293,6 @@ fun makeSlotPositions(
                 x = tableWidth - playerSize - leftMargin - inPlayWidth - (roundingSize * 10).toInt(),
                 y = playerSize/1.5f,
                 player = Position(
-                    mt = dpToPx(5),
                     ml = (playerSize/1.2f).toInt()
                 ),
                 crown = Position(
