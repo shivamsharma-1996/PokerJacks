@@ -69,7 +69,7 @@ fun ImageView.revealLastHandCards(gameDetails: PreviousHandDetails.GameDetails, 
     val currentUserId = retrieveString("USER_ID")
     val cardsReveal = gameDetails.cards_reveal
     if(currentUserId != targetGameUser.user_unique_id){
-        visibility = if((cardsReveal!=null && cardsReveal) && targetGameUser.status != TableSlotStatus.FOLD.name) {
+        visibility = if((cardsReveal!=null && cardsReveal) || targetGameUser.status != TableSlotStatus.FOLD.name) {
             coloredCard(targetGameUser.card_1)
             View.VISIBLE
         } else {

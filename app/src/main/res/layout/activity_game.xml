@@ -94,7 +94,7 @@
             android:id="@+id/stats"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/stats" />
 
@@ -102,7 +102,7 @@
             android:id="@+id/previousHandIv"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="12dp"
             android:src="@drawable/stats"
             android:layout_toEndOf="@+id/user_best_hand"
