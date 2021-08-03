@@ -17,6 +17,7 @@ class LastHandAdapter(
     private lateinit var lastHandDetails: PreviousHandDetails.Info
     private var previousHandGameUsers: ArrayList<PreviousHandDetails.GameUserX> = ArrayList()
     private lateinit var previousHandGameDetails: PreviousHandDetails.GameDetails
+    private var isAllOpponentFolded: Boolean = false
 
     class LastHandHolder(itemLastHandBinding: ItemLastHandBinding) : RecyclerView.ViewHolder(
         itemLastHandBinding.root
@@ -25,10 +26,12 @@ class LastHandAdapter(
 
         fun bind(
             previousHandGameUser: PreviousHandDetails.GameUserX,
-            previousHandGameDetails: PreviousHandDetails.GameDetails
+            previousHandGameDetails: PreviousHandDetails.GameDetails,
+            isAllOpponentFolded: Boolean
         ) {
             itemRowBinding.setVariable(BR.gameUser, previousHandGameUser)
             itemRowBinding.setVariable(BR.gameDetail, previousHandGameDetails)
+            itemRowBinding.setVariable(BR.isAllOpponentFolded, isAllOpponentFolded)
             itemRowBinding.executePendingBindings()
         }
     }
@@ -43,14 +46,15 @@ class LastHandAdapter(
 
     override fun onBindViewHolder(holder: LastHandHolder, position: Int) {
         val previousHandGameUsers = previousHandGameUsers[position]
-        holder.bind(previousHandGameUsers, previousHandGameDetails)
+        holder.bind(previousHandGameUsers, previousHandGameDetails, isAllOpponentFolded)
     }
 
     override fun getItemCount(): Int {
         return previousHandGameUsers.size
     }
 
-    fun submitNewInfo(newInfo: PreviousHandDetails.Info) {
+    fun submitNewInfo(newInfo: PreviousHandDetails.Info, isAllOpponentFolded: Boolean) {
+        this.isAllOpponentFolded = isAllOpponentFolded
         lastHandDetails = newInfo
         previousHandGameDetails = newInfo.gameDetails
         previousHandGameUsers.clear()

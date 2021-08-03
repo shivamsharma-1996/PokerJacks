@@ -13,6 +13,7 @@ import com.gtgt.pokerjacks.base.BaseFragment
 import com.gtgt.pokerjacks.extensions.onOneClick
 import com.gtgt.pokerjacks.extensions.runOnMain
 import com.gtgt.pokerjacks.extensions.sharedViewModel
+import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
 import com.gtgt.pokerjacks.ui.game.view.slot.LastHandAdapter
 import com.gtgt.pokerjacks.ui.game.viewModel.GameViewModel
 import kotlinx.android.synthetic.main.fragment_last_hand.*
@@ -84,7 +85,8 @@ class PreviousHandFragment : BaseFragment() {
             runOnMain {
                 progress_bar_loading.visibility = GONE
                 lastHandAdapter?.apply {
-                    submitNewInfo(it)
+                    val isAllOpponentFolded = it.gameUsers.count { it.status == TableSlotStatus.FOLD.name} == it.gameUsers.size -1
+                    submitNewInfo(it, isAllOpponentFolded)
                     updatePageStatus()
                     tv_game_id.text = it.gameDetails.game_uid
                     disableEnableActions(currentPageIndex)

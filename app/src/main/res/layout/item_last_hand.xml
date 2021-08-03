@@ -11,6 +11,11 @@
         <variable
             name="gameDetail"
             type="com.gtgt.pokerjacks.ui.game.models.PreviousHandDetails.GameDetails" />
+
+        <variable
+            name="isAllOpponentFolded"
+            type="java.lang.Boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +67,7 @@
             tools:text="+₹54"
             app:layout_constraintTop_toTopOf="@+id/user_avatar"
             app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
-            app:layout_constraintEnd_toEndOf="@+id/last_hand_community_cards"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/last_hand_rank_order"
@@ -72,6 +77,8 @@
             android:fontFamily="@font/tondo_regular"
             android:textColor="#e1c300"
             android:textSize="10sp"
+            app:gameUser="@{gameUser}"
+            app:isAllOpponentsFolded="@{isAllOpponentFolded}"
             android:text="@{gameUser.best_hand_details.rankOrder}"
             android:layout_marginTop="8dp"
             android:lineSpacingExtra="3sp"
@@ -83,7 +90,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            app:gameUser="@{gameUser}"
+            app:isAllOpponentsFolded="@{isAllOpponentFolded}"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@+id/user_avatar"
+            app:layout_constraintEnd_toStartOf="@+id/last_hand_community_cards"
             app:layout_constraintTop_toBottomOf="@+id/last_hand_rank_order">
 
             <ImageView
@@ -120,9 +131,11 @@
             android:textSize="14sp"
             android:visibility="@{gameUser.getFoldLabelVisibility}"
             android:fontFamily="@font/tondo_bold"
-            app:layout_constraintStart_toStartOf="@+id/last_hand_community_cards"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@+id/last_hand_revealCards"
             app:layout_constraintTop_toTopOf="@+id/last_hand_revealCards"
-            app:layout_constraintBottom_toBottomOf="@+id/last_hand_revealCards" />
+            app:layout_constraintBottom_toBottomOf="@+id/last_hand_community_cards" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -130,12 +143,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/last_hand_revealCards"
-            android:layout_marginStart="18dp"
+            android:layout_marginTop="4dp"
             android:visibility="@{gameUser.getCommunityCardVisibility}"
-            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/last_hand_revealCards"
-            app:layout_constraintBottom_toBottomOf="@+id/last_hand_revealCards">
+            app:layout_constraintTop_toBottomOf="@+id/last_hand_rank_order">
 
             <ImageView
                 android:id="@+id/last_hand_c1"
@@ -211,7 +222,7 @@
             android:alpha="0.5"
             app:layout_constraintStart_toStartOf="@+id/user_avatar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/last_hand_revealCards" />
+            app:layout_constraintTop_toBottomOf="@+id/last_hand_community_cards" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

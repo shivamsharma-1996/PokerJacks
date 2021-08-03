@@ -12,6 +12,10 @@
         <variable
             name="gameDetail"
             type="com.gtgt.pokerjacks.ui.game.models.PreviousHandDetails.GameDetails" />
+
+        <variable
+            name="isAllOpponentFolded"
+            type="java.lang.Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,6 +61,9 @@
                 android:fontFamily="@font/tondo_regular"
                 android:textColor="#e1c300"
                 android:textSize="10sp"
+                app:gameUser="@{gameUser}"
+                app:isAllOpponentsFolded="@{isAllOpponentFolded}"
+                handStrengthVisibility= "@{gameUser}"
                 android:text="@{gameUser.best_hand_details.rankOrder}"
                 android:layout_marginTop="4dp"
                 android:lineSpacingExtra="3sp"
@@ -69,7 +76,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:gameUser="@{gameUser}"
+                app:isAllOpponentsFolded="@{isAllOpponentFolded}"
                 app:layout_constraintStart_toEndOf="@+id/user_name"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/last_hand_rank_order">
 
                 <ImageView
