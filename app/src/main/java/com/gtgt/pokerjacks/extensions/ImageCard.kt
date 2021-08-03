@@ -64,19 +64,20 @@ fun ImageView.coloredCard(shortForm: String) {
     }
 }
 
-@BindingAdapter("gameDetails", "targetGameUser")
-fun ImageView.revealLastHandCards(gameDetails: PreviousHandDetails.GameDetails, targetGameUser: PreviousHandDetails.GameUserX){
+@BindingAdapter("gameDetails", "targetGameUser", "showCard")
+fun ImageView.revealLastHandCards(gameDetails: PreviousHandDetails.GameDetails, targetGameUser: PreviousHandDetails.GameUserX,
+                                  showCard: String){
     val currentUserId = retrieveString("USER_ID")
     val cardsReveal = gameDetails.cards_reveal
     if(currentUserId != targetGameUser.user_unique_id){
         visibility = if((cardsReveal!=null && cardsReveal) || targetGameUser.status != TableSlotStatus.FOLD.name) {
-            coloredCard(targetGameUser.card_1)
+            coloredCard(showCard)
             View.VISIBLE
         } else {
             View.INVISIBLE
         }
     }else{
         visibility = View.VISIBLE
-        coloredCard(targetGameUser.card_1)
+        coloredCard(showCard)
     }
 }

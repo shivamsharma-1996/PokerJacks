@@ -78,6 +78,7 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/club_10"
                     android:maxHeight="40dp"
+                    app:showCard="@{gameUser.card_1}"
                     app:gameDetails="@{gameDetail}"
                     app:targetGameUser="@{gameUser}"
                     />
@@ -89,6 +90,7 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/heart_10"
                     android:maxHeight="40dp"
+                    app:showCard="@{gameUser.card_2}"
                     app:gameDetails="@{gameDetail}"
                     app:targetGameUser="@{gameUser}"
                     />
