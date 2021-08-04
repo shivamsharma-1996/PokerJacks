@@ -15,7 +15,8 @@
         <RelativeLayout
             android:id="@+id/rl_player"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
             <LinearLayout
                 android:id="@+id/revealCards"
                 android:layout_width="wrap_content"
@@ -46,7 +47,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginBottom="@dimen/_6sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/player_view_gradient">
 
                 <FrameLayout
@@ -263,13 +264,14 @@
     <TextView
         android:id="@+id/raise_amt"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:drawablePadding="3dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="5dp"
         android:paddingTop="4dp"
         tools:text="₹40.208"
+        android:translationZ="10dp"
         android:fontFamily="@font/tondo_regular"
         android:layout_gravity="center_vertical|end"
         android:visibility="invisible"
-        android:textSize="@dimen/_9sdp" />
+        android:textSize="10sp" />
 
 </FrameLayout>

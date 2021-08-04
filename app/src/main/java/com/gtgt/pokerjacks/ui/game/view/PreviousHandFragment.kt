@@ -97,6 +97,7 @@ class PreviousHandFragment : BaseFragment() {
 
     private fun updatePageStatus() {
         runOnMain {
+            if(tv_page_status!=null)
             tv_page_status.text = String.format("%s/%s", currentPageIndex+1, previousHandsList.size)
         }
     }

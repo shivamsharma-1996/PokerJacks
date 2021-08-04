@@ -32,7 +32,7 @@ fun ImageView.revealLastHandCards(gameDetails: PreviousHandDetails.GameDetails, 
 
 @BindingAdapter("isAllOpponentsFolded", "gameUser")
 fun View.isAllOpponentsFolded(isAllOpponentsFolded: Boolean, targetGameUser: PreviousHandDetails.GameUserX){
-    visibility = if(isAllOpponentsFolded && targetGameUser.won_amt > 0){
+    visibility = if(isAllOpponentsFolded /*&& targetGameUser.won_amt > 0*/){
         INVISIBLE
     }else{
         VISIBLE
