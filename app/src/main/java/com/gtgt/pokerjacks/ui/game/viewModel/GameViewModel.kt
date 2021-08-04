@@ -331,18 +331,15 @@ class GameViewModel : SocketIOViewModel() {
             slotPositionMap
         }
 
+        if(slots.count{it.status == SeatStatus.ACTIVE.name} > 0){
+            isSlotPositionsInitialzedAtleastOnce = true
+        }
         //TODO currentSlotPositionMap pe condition lga skta hu
-        if (mySlot == null || (slots.size == 6 &&
+        if ((mySlot == null && !isSlotPositionsInitialzedAtleastOnce)|| (slots.size == 6 &&
                     (isLandscape && !isSlot6PostitionLandscapeMapInitialized) || (!isLandscape && !isSlot6PostitionPortraitMapInitialized))){
-            mySlot = slots.firstOrNull { it.user_unique_id == userId }
             log("gameUsers123", "123")
 
-            if(slots.size == 6){
-                if(isLandscape)
-                isSlot6PostitionLandscapeMapInitialized = true
-                else
-                    isSlot6PostitionPortraitMapInitialized = true
-            }
+            mySlot = slots.firstOrNull { it.user_unique_id == userId }
 
             var currentSlot = mySlot ?: slots[0]
 
@@ -357,6 +354,14 @@ class GameViewModel : SocketIOViewModel() {
             slots.forEach { slot ->
                 slot.user = gameUsers.firstOrNull { it.user_unique_id == slot.user_unique_id }
             }
+        }
+
+
+        if(slots.size == 6 && (mySlot != null || isSlotPositionsInitialzedAtleastOnce)){
+            if(isLandscape)
+                isSlot6PostitionLandscapeMapInitialized = true
+            else
+                isSlot6PostitionPortraitMapInitialized = true
         }
 
         tableSlotsLD.data = slots
@@ -618,6 +623,7 @@ class GameViewModel : SocketIOViewModel() {
     var mySlot: TableSlot? = null
     var isSlot6PostitionPortraitMapInitialized = false
     var isSlot6PostitionLandscapeMapInitialized = false
+    var isSlotPositionsInitialzedAtleastOnce = false
 
     var me: GameUser? = null
 
