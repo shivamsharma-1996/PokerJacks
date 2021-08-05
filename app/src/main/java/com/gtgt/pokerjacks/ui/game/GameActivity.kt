@@ -98,7 +98,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
     private var isAmountRaisedViaRaiseBar = false
     private var isAmountRaisedViaAllInBtn = false
-    open var isGameStartedAndRunning = false
+    var isGameStartedAndRunning = false
     private lateinit var slotViews: SlotViews
     public val vm: GameViewModel by viewModel()
     private val preferencesvm: GamePreferencesViewModel by viewModel()
@@ -368,6 +368,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     vm.canDisplayWaitingIcon = false
                     slotViews.resetGame()
                     isGameStartedAndRunning = false
+                    vm.isGameTriggered = false
                 }
             })
 
@@ -377,6 +378,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 vm.currentAutoButton = null
 
                 isGameStartedAndRunning = false
+                vm.isGameTriggered = true
                 it?.let {
                     if (gameIDTV != null/* && vm.isLandscape*/) {
                         gameIDTV.text = it.game_uid
@@ -1324,6 +1326,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
     private fun resetGameToDefault() {
         isGameStartedAndRunning = false
+        vm.isGameTriggered = false
         slotViews.crownTo(-1)
         slotViews.resetGame()
         slotViews.restartGame()

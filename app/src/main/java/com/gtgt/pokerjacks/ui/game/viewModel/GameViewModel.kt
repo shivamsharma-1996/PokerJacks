@@ -14,7 +14,6 @@ import com.gtgt.pokerjacks.socket.ChannelCallbackType
 import com.gtgt.pokerjacks.socket.SocketIOViewModel
 import com.gtgt.pokerjacks.ui.game.models.*
 import com.gtgt.pokerjacks.ui.game.view.slot.*
-import com.gtgt.pokerjacks.utils.Event
 import com.gtgt.pokerjacks.utils.SlotPositions
 
 enum class ActionEvent(val event: String) {
@@ -58,6 +57,7 @@ enum class PlayerActions(val action: String) {
 class GameViewModel : SocketIOViewModel() {
     val userId = retrieveString("USER_ID")
 
+    var isGameTriggered = false
     var isWaitingForOthersShown = false;
     var isFirstGameStarted = false
     var isTossEnabledForCurrentGame = false
@@ -331,16 +331,27 @@ class GameViewModel : SocketIOViewModel() {
             slotPositionMap
         }
 
-        if(slots.count{it.status == SeatStatus.ACTIVE.name} > 0){
-            isSlotPositionsInitialzedAtleastOnce = true
+
+        log("handleTableSlots:flags", "" + (mySlot == null  && !isSlotPositionsInitializedForWatchUser) +isSlotPositionsInitializedForWatchUser +isSlot6PostitionLandscapeMapInitialized+
+            isSlot6PostitionPortraitMapInitialized)
+
+        log("handleTableSlots:flags123", ""+slots.count{it.status == SeatStatus.ACTIVE.name} + " "  + mySlot)
+        if(slots.firstOrNull { it.user_unique_id == userId } == null &&
+            ((slots.size == 6  && slotPosition6TableMap.isNotEmpty()) ||
+            (slots.size == 9 && slotPositionMap.isNotEmpty()))){
+            isSlotPositionsInitializedForWatchUser = true
+        }else{
+            isSlotPositionsInitializedForWatchUser = false
         }
         //TODO currentSlotPositionMap pe condition lga skta hu
-        if ((mySlot == null && !isSlotPositionsInitialzedAtleastOnce)|| (slots.size == 6 &&
-                    (isLandscape && !isSlot6PostitionLandscapeMapInitialized) || (!isLandscape && !isSlot6PostitionPortraitMapInitialized))){
+        if (mySlot == null || (slots.size == 6 &&
+                    ((isLandscape && !isSlot6PostitionLandscapeMapInitialized) || (!isLandscape && !isSlot6PostitionPortraitMapInitialized)))){
             log("gameUsers123", "123")
 
             mySlot = slots.firstOrNull { it.user_unique_id == userId }
-
+            if(mySlot == null && isGameTriggered){
+                return
+            }
             var currentSlot = mySlot ?: slots[0]
 
             slots.forEachIndexed { i, slot ->
@@ -356,15 +367,21 @@ class GameViewModel : SocketIOViewModel() {
             }
         }
 
-
-        if(slots.size == 6 && (mySlot != null || isSlotPositionsInitialzedAtleastOnce)){
-            if(isLandscape)
-                isSlot6PostitionLandscapeMapInitialized = true
-            else
-                isSlot6PostitionPortraitMapInitialized = true
+        if(slots.size == 6 && (mySlot != null /*|| isSlotPositionsInitializedForWatchUser*/)){
+            setSlotPositionsFlag()
+        }
+        if(slots.size == 9 && mySlot != null){
+            isSlot9PostitionLandscapeMapInitialized = true
         }
 
         tableSlotsLD.data = slots
+    }
+
+    private fun setSlotPositionsFlag() {
+        if(isLandscape)
+            isSlot6PostitionLandscapeMapInitialized = true
+        else
+            isSlot6PostitionPortraitMapInitialized = true
     }
 
     private fun setSelectedSlotPositions(size: Int) {
@@ -623,7 +640,8 @@ class GameViewModel : SocketIOViewModel() {
     var mySlot: TableSlot? = null
     var isSlot6PostitionPortraitMapInitialized = false
     var isSlot6PostitionLandscapeMapInitialized = false
-    var isSlotPositionsInitialzedAtleastOnce = false
+    var isSlot9PostitionLandscapeMapInitialized = false
+    var isSlotPositionsInitializedForWatchUser = false
 
     var me: GameUser? = null
 
