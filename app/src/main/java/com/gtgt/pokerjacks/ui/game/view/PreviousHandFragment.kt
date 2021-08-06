@@ -14,7 +14,7 @@ import com.gtgt.pokerjacks.extensions.onOneClick
 import com.gtgt.pokerjacks.extensions.runOnMain
 import com.gtgt.pokerjacks.extensions.sharedViewModel
 import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
-import com.gtgt.pokerjacks.ui.game.view.slot.LastHandAdapter
+import com.gtgt.pokerjacks.ui.game.view.slot.PreviousHandAdapter
 import com.gtgt.pokerjacks.ui.game.viewModel.GameViewModel
 import kotlinx.android.synthetic.main.fragment_last_hand.*
 import kotlinx.android.synthetic.main.fragment_last_hand.iv_close
@@ -28,7 +28,7 @@ class PreviousHandFragment : BaseFragment() {
     private var currentPageIndex: Int = 0
     private val lastHandAdapter by lazy {
         context?.let {
-            LastHandAdapter(it)
+            PreviousHandAdapter(it)
         }
     }
 
@@ -72,11 +72,18 @@ class PreviousHandFragment : BaseFragment() {
 
                     iv_previous_page.visibility = VISIBLE
                     iv_next_page.visibility = VISIBLE
+                    rec_previous_hands.visibility = VISIBLE
+                    tv_game_id.visibility = VISIBLE
+                    tv_page_status.visibility = VISIBLE
                     tv_no_data.visibility = GONE
                 }else{
+                    tv_no_data.visibility = VISIBLE
+
                     iv_previous_page.visibility = GONE
                     iv_next_page.visibility = GONE
-                    tv_no_data.visibility = VISIBLE
+                    rec_previous_hands.visibility = GONE
+                    tv_game_id.visibility = GONE
+                    tv_page_status.visibility = GONE
                 }
             }
         })
@@ -86,7 +93,7 @@ class PreviousHandFragment : BaseFragment() {
                 progress_bar_loading.visibility = GONE
                 lastHandAdapter?.apply {
                     val isAllOpponentFolded = it.gameUsers.count { it.status == TableSlotStatus.FOLD.name} == it.gameUsers.size -1
-                    submitNewInfo(it, isAllOpponentFolded)
+                    submitNewInfo(it, isAllOpponentFolded, it.cards_reveal)
                     updatePageStatus()
                     tv_game_id.text = it.gameDetails.game_uid
                     disableEnableActions(currentPageIndex)

@@ -10,14 +10,15 @@ import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.databinding.ItemLastHandBinding
 import com.gtgt.pokerjacks.ui.game.models.PreviousHandDetails
 
-class LastHandAdapter(
+class PreviousHandAdapter(
     val context: Context
-) : RecyclerView.Adapter<LastHandAdapter.LastHandHolder>() {
+) : RecyclerView.Adapter<PreviousHandAdapter.LastHandHolder>() {
 
     private lateinit var lastHandDetails: PreviousHandDetails.Info
     private var previousHandGameUsers: ArrayList<PreviousHandDetails.GameUserX> = ArrayList()
     private lateinit var previousHandGameDetails: PreviousHandDetails.GameDetails
     private var isAllOpponentFolded: Boolean = false
+    private var revealCards: Boolean = false
 
     class LastHandHolder(itemLastHandBinding: ItemLastHandBinding) : RecyclerView.ViewHolder(
         itemLastHandBinding.root
@@ -27,11 +28,13 @@ class LastHandAdapter(
         fun bind(
             previousHandGameUser: PreviousHandDetails.GameUserX,
             previousHandGameDetails: PreviousHandDetails.GameDetails,
-            isAllOpponentFolded: Boolean
+            isAllOpponentFolded: Boolean,
+            revealCards: Boolean
         ) {
             itemRowBinding.setVariable(BR.gameUser, previousHandGameUser)
             itemRowBinding.setVariable(BR.gameDetail, previousHandGameDetails)
             itemRowBinding.setVariable(BR.isAllOpponentFolded, isAllOpponentFolded)
+            itemRowBinding.setVariable(BR.revealCards, revealCards)
             itemRowBinding.executePendingBindings()
         }
     }
@@ -46,15 +49,16 @@ class LastHandAdapter(
 
     override fun onBindViewHolder(holder: LastHandHolder, position: Int) {
         val previousHandGameUsers = previousHandGameUsers[position]
-        holder.bind(previousHandGameUsers, previousHandGameDetails, isAllOpponentFolded)
+        holder.bind(previousHandGameUsers, previousHandGameDetails, isAllOpponentFolded, revealCards)
     }
 
     override fun getItemCount(): Int {
         return previousHandGameUsers.size
     }
 
-    fun submitNewInfo(newInfo: PreviousHandDetails.Info, isAllOpponentFolded: Boolean) {
+    fun submitNewInfo(newInfo: PreviousHandDetails.Info, isAllOpponentFolded: Boolean, revealCards: Boolean) {
         this.isAllOpponentFolded = isAllOpponentFolded
+        this.revealCards = revealCards
         lastHandDetails = newInfo
         previousHandGameDetails = newInfo.gameDetails
         previousHandGameUsers.clear()

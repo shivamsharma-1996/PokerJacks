@@ -9,7 +9,8 @@ import java.io.Serializable
 data class PreviousHandDetails(val info: Info) : BaseModel() {
     data class Info(
         val gameDetails: GameDetails,
-        val gameUsers: List<GameUserX>
+        val gameUsers: List<GameUserX>,
+        val cards_reveal: Boolean
     )
 
     data class GameUserX(
@@ -88,7 +89,6 @@ data class PreviousHandDetails(val info: Info) : BaseModel() {
         val player_grace_timer: Long,
         val start_time: Long,
         val status: String,
-        val table_id: String,
-        val cards_reveal: Boolean?
+        val table_id: String
     )
 }

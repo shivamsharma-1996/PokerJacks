@@ -6,45 +6,56 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.gtgt.pokerjacks.R
 import com.gtgt.pokerjacks.ui.game.models.PreviousHandDetails
 import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
 
-@BindingAdapter("gameDetails", "targetGameUser", "showCard")
+@BindingAdapter("gameDetails", "targetGameUser", "showCard", "isAllOpponentsFolded", "revealCards")
 fun ImageView.revealLastHandCards(gameDetails: PreviousHandDetails.GameDetails, targetGameUser: PreviousHandDetails.GameUserX,
-                                  showCard: String){
+                                  showCard: String, isAllOpponentFolded: Boolean, revealCards: Boolean){
     val currentUserId = retrieveString("USER_ID")
-    val cardsReveal = gameDetails.cards_reveal
     if(currentUserId != targetGameUser.user_unique_id){
-        visibility = if((cardsReveal!=null && cardsReveal) || targetGameUser.status != TableSlotStatus.FOLD.name) {
-            coloredCard(showCard)
-            VISIBLE
+        //these are opponents
+        //if opponents is winner(wonAmt>0) and rest of all has FOLD status
+        if(targetGameUser.won_amt > 0 && isAllOpponentFolded){
+            setImageResource(R.drawable.deck_card)
+            return
+        }
+       if((revealCards!=null && revealCards)) {
+            if(targetGameUser.status == TableSlotStatus.FOLD.name){
+                setImageResource(R.drawable.deck_card)
+            }else{
+                coloredCard(showCard)
+            }
         } else {
-            INVISIBLE
+           setImageResource(R.drawable.deck_card)
         }
 
-        //need to hide Winner's cards and hand strength if  his all opponents are folded
-
     }else{
-        visibility = VISIBLE
         coloredCard(showCard)
     }
 }
 
-@BindingAdapter("isAllOpponentsFolded", "gameUser")
+/*@BindingAdapter("isAllOpponentsFolded", "gameUser")
 fun View.isAllOpponentsFolded(isAllOpponentsFolded: Boolean, targetGameUser: PreviousHandDetails.GameUserX){
-    visibility = if(isAllOpponentsFolded /*&& targetGameUser.won_amt > 0*/){
-        INVISIBLE
+     if(isAllOpponentsFolded *//*&& targetGameUser.won_amt > 0*//*){
+         setImageResource(R.drawable.deck_card)
+//         INVISIBLE
     }else{
-        VISIBLE
+        //VISIBLE
     }
-}
+}*/
 
-@BindingAdapter("handStrengthVisibility")
-fun TextView.bindHandStrengthVisibility(targetGameUser: PreviousHandDetails.GameUserX){
-    if(targetGameUser.status != TableSlotStatus.FOLD.name){
-        visibility = VISIBLE
-    }else{
-        visibility = GONE
+@BindingAdapter("handStrengthVisibility", "isAllOpponentFolded")
+fun TextView.bindHandStrengthVisibility(targetGameUser: PreviousHandDetails.GameUserX, isAllOpponentFolded: Boolean){
+    val currentUserId = retrieveString("USER_ID")
+    if(currentUserId != targetGameUser.user_unique_id){
+        if(targetGameUser.status == TableSlotStatus.FOLD.name || isAllOpponentFolded){
+            visibility = GONE
+        }else{
+            visibility = VISIBLE
+        }
     }
+
 }
 

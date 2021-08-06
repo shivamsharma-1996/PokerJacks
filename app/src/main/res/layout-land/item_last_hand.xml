@@ -14,6 +14,10 @@
             type="com.gtgt.pokerjacks.ui.game.models.PreviousHandDetails.GameDetails" />
 
         <variable
+            name="revealCards"
+            type="java.lang.Boolean" />
+
+        <variable
             name="isAllOpponentFolded"
             type="java.lang.Boolean" />
     </data>
@@ -61,8 +65,7 @@
                 android:fontFamily="@font/tondo_regular"
                 android:textColor="#e1c300"
                 android:textSize="10sp"
-                app:gameUser="@{gameUser}"
-                app:isAllOpponentsFolded="@{isAllOpponentFolded}"
+                app:isAllOpponentFolded="@{isAllOpponentFolded}"
                 handStrengthVisibility= "@{gameUser}"
                 android:text="@{gameUser.best_hand_details.rankOrder}"
                 android:layout_marginTop="4dp"
@@ -77,8 +80,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                app:gameUser="@{gameUser}"
-                app:isAllOpponentsFolded="@{isAllOpponentFolded}"
                 app:layout_constraintStart_toEndOf="@+id/user_name"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/last_hand_rank_order">
@@ -87,8 +88,10 @@
                     android:layout_width="26dp"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/club_10"
+                    android:src="@drawable/deck_card"
                     android:maxHeight="40dp"
+                    app:revealCards="@{revealCards}"
+                    app:isAllOpponentsFolded="@{isAllOpponentFolded}"
                     app:showCard="@{gameUser.card_1}"
                     app:gameDetails="@{gameDetail}"
                     app:targetGameUser="@{gameUser}"
@@ -99,8 +102,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/heart_10"
+                    android:src="@drawable/deck_card"
                     android:maxHeight="40dp"
+                    app:revealCards="@{revealCards}"
+                    app:isAllOpponentsFolded="@{isAllOpponentFolded}"
                     app:showCard="@{gameUser.card_2}"
                     app:gameDetails="@{gameDetail}"
                     app:targetGameUser="@{gameUser}"
@@ -152,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:maxHeight="40dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/heart_10"
+                    android:src="@drawable/deck_card"
                     app:shortForm="@{gameDetail.card_1}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintHorizontal_chainStyle="packed"
@@ -166,7 +171,7 @@
                     android:maxHeight="40dp"
                     android:adjustViewBounds="true"
                     android:layout_marginStart="3dp"
-                    android:src="@drawable/heart_j"
+                    android:src="@drawable/deck_card"
                     app:shortForm="@{gameDetail.card_2}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/last_hand_c1"
@@ -179,7 +184,7 @@
                     android:maxHeight="40dp"
                     android:adjustViewBounds="true"
                     android:layout_marginStart="3dp"
-                    android:src="@drawable/club_10"
+                    android:src="@drawable/deck_card"
                     app:shortForm="@{gameDetail.card_3}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/last_hand_c2"
@@ -192,7 +197,7 @@
                     android:maxHeight="40dp"
                     android:adjustViewBounds="true"
                     android:layout_marginStart="3dp"
-                    android:src="@drawable/club_2"
+                    android:src="@drawable/deck_card"
                     app:shortForm="@{gameDetail.card_4}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/last_hand_c3"
@@ -205,7 +210,7 @@
                     android:maxHeight="40dp"
                     android:adjustViewBounds="true"
                     android:layout_marginStart="3dp"
-                    android:src="@drawable/heart_q"
+                    android:src="@drawable/deck_card"
                     app:shortForm="@{gameDetail.card_5}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/last_hand_c4"
