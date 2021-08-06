@@ -49,6 +49,7 @@ import kotlinx.android.synthetic.main.byin_popup.view.close
 import kotlinx.android.synthetic.main.byin_popup.view.insufficient
 import kotlinx.android.synthetic.main.byin_popup.view.join
 import kotlinx.android.synthetic.main.fragment_game_prefs.*
+import kotlinx.android.synthetic.main.game_popup.*
 import kotlinx.android.synthetic.main.join_status_popup.view.*
 import kotlinx.android.synthetic.main.player_new.view.*
 import kotlinx.android.synthetic.main.raise_amt.*
@@ -477,7 +478,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             vm.tossEnabledLD.observe(this, Observer { gameDetails ->
                 if (vm.isGameStartEventReceived && gameDetails.toss_enabled) {
-                    tv_toss_message.text = "${gameDetails.toss_won_player.user_name} won the toss and will start the hand"
+                    val currentUserId = retrieveString("USER_ID")
+                    if(currentUserId == gameDetails.toss_won_player.user_unique_id){
+                        tv_toss_message.text = "You won the Toss and you will be the Dealer"
+                    }else{
+                        tv_toss_message.text = "${gameDetails.toss_won_player.user_name} has won the Toss and he will be the Dealer"
+                    }
                     tv_toss_message.visibility = VISIBLE
                     vibrate(this) {}
 
@@ -1797,12 +1803,16 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             "Are you sure you want to return to lobby?"
         ) { isPositive, dialog ->
             if (isPositive) {
+                dialog.progressBar.visibility = VISIBLE
                 vm.leaveTable{
-                    dialog.dismiss()
-                    socketInstance.disConnect()
-                    socketInstance.removeSocketChangeListener(this)
-                    vm.isCommunityCardsOpened = false
-                    super.onBackPressed()
+                    runOnMain {
+                        dialog.progressBar.visibility = GONE
+                        dialog.dismiss()
+                        socketInstance.disConnect()
+                        socketInstance.removeSocketChangeListener(this)
+                        vm.isCommunityCardsOpened = false
+                        super.onBackPressed()
+                    }
                 }
             } else {
                 dialog.dismiss()
