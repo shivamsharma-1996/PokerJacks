@@ -602,10 +602,11 @@ class GameViewModel : SocketIOViewModel() {
         )
     }
 
-    fun leaveTable() {
-        emit<JsonElement>("leaveTable", jsonObject("table_id" to tableId)) {
-
-        }
+    fun leaveTable(callback: ChannelCallbackType<JsonElement?>) {
+        emit<JsonElement>(
+            "leaveTable",
+            jsonObject("table_id" to tableId),
+        callback = callback)
     }
 
     fun resetGame() {

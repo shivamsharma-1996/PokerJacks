@@ -1797,12 +1797,13 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             "Are you sure you want to return to lobby?"
         ) { isPositive, dialog ->
             if (isPositive) {
-                dialog.dismiss()
-                vm.leaveTable()
-                socketInstance.disConnect()
-                socketInstance.removeSocketChangeListener(this)
-                vm.isCommunityCardsOpened = false
-                super.onBackPressed()
+                vm.leaveTable{
+                    dialog.dismiss()
+                    socketInstance.disConnect()
+                    socketInstance.removeSocketChangeListener(this)
+                    vm.isCommunityCardsOpened = false
+                    super.onBackPressed()
+                }
             } else {
                 dialog.dismiss()
             }
