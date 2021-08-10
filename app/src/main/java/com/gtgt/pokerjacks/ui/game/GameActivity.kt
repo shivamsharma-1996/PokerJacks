@@ -61,7 +61,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
     override fun connectionAvailable() {
         reconnect.setImageResource(R.drawable.wifi_off)
-        //reconnect.text = "Go Offline"
         offlineMsg.visibility = GONE
         vm.tableId = tableId
     }
@@ -81,7 +80,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
     override fun connectionUnavailable() {
         reconnect.setImageResource(R.drawable.wifi_on)
-        //reconnect.text = "Go Online"
         offlineMsg.visibility = VISIBLE
     }
 
@@ -198,9 +196,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             slotViews.isLandscape = orientation == Configuration.ORIENTATION_LANDSCAPE
             vm.isLandscape = slotViews.isLandscape
 
-            //vm.isConfigurationChanged = orientation != vm.previousOrientation
             vm.previousOrientation = orientation
-
 
             slotViews.totalSlots = plan.max_players
 
@@ -256,8 +252,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             themesViewModel.onThemeSelected.observe(this, Observer { theme ->
                 if (theme != null) {
                     rootLayout.setBackgroundResource(theme.bg)
-//                gameInfoIv.imageTintList = ColorStateList.valueOf(theme.dark)
-
                     iAMBack.background = theme.btnDrawable
 
                     menuVector.changePathStrokeColor("stroke", theme.btn2)
@@ -276,16 +270,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         ivTable.loadImage(theme.landscapeTable)
                     } else {
                         ivTable.loadImage(theme.portraitTable)
-                        /*val matrix = Matrix()
-                        matrix.postRotate(90f)
-                        val myImg = BitmapFactory.decodeResource(resources, theme.table)
-
-                        val rotated = Bitmap.createBitmap(
-                            myImg, 0, 0, myImg.width, myImg.height,
-                            matrix, true
-                        )
-
-                        ivTable.setImageBitmap(rotated)*/
                     }
                 }
             })
@@ -299,18 +283,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
                         when (vm.mySlot!!.status) {
                             SeatStatus.SIT_OUT.status -> {
-                                //   iAMBack.visibility = VISIBLE
                                 handleIamBack()
                             }
                             SeatStatus.ACTIVE.status -> {
                                 joinBBcb.visibility = GONE
                             }
                             SeatStatus.WAIT_FOR_BB.status -> {
-                                //joinBBcb.visibility = VISIBLE
                                 joinBBcb.isChecked = true
                             }
                             SeatStatus.WAIT_FOR_NEXT.status -> {
-                                //joinBBcb.visibility = VISIBLE
                                 joinBBcb.isChecked = false
                             }
                         }
@@ -335,9 +316,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         waitingTv.visibility = GONE
                         iAMBack.visibility = GONE
                     } else if (vm.mySlot != null) {
-                        /*if(activeSlotsCount == playerCountSatOnTable && allInSlotsCount == (playerCountSatOnTable - 1)){
-                            bottomPannel_new.visibility = INVISIBLE
-                        }*/
                         if ((vacantSlotsCount == totalSlotsCount - 1)) {
                             // if one player himself is active while others are inactive
                             resetGameToDefault()
@@ -390,13 +368,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         gameBlindInfo.text = "" + it.small_blind + " /" + it.big_blind + "  | "
                     }
 
-//                gameIDTV.invalidate()
-
-                    /*gamePreferencesFragment.dismissExitLobbyDialog()
-
-                          gameIdTV.visibility = View.VISIBLE
-                          gameIdTV.text = it.gameUID*/
-
                     slotViews.usersBestHand = null
                     isAmountRaisedViaAllInBtn = false
                     isAmountRaisedViaRaiseBar = false
@@ -416,8 +387,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                     tv_toss_message.visibility = GONE
 
                     if (it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || vm.gameCountdownTimeLeft != 0L) {
-                        //leaderboardView.visibility = GONE
-
                         bottomPannel_new.visibility = INVISIBLE
                         user_best_hand.visibility = GONE
                         tv_rankOrder.visibility = GONE
@@ -426,22 +395,12 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         totalPot.visibility = INVISIBLE
                         pot_split.visibility = INVISIBLE
 
-//                exit.visibility = View.GONE
-//                playArea.visibility = GONE
-
-
-                        /*slotViews.showTime = 0L
-                slotViews.stopTimers()*/
-
                         raiseLL.visibility = INVISIBLE
 
-                        //afterSubmit.visibility = GONE
                         vm.resetGame()
 
                         waitingTv.visibility = VISIBLE
-                        //gameStartsTimer.visibility = VISIBLE
                         iAMBack.visibility = GONE
-//                gamePreferencesViewModel.exitVisibility.value = View.GONE
 
                         closeShow.visibility = GONE
                         blur.visibility = GONE
@@ -454,7 +413,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         startGameCountdownTicker(it, vm.gameCountdownTimeLeft)
                     } else {
                         try {
-//                    gamePreferencesViewModel.exitVisibility.value = View.VISIBLE
                             playArea.visibility = VISIBLE
 
                             tableDetailsTimer?.cancel()
@@ -469,10 +427,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 log("poker::userContestDetailsLD", it)
                 it?.let {
                     onUserContestDetailsLDObserved(it)
-
-                    /*if(vm.gameCountdownTimeLeft == 0L){
-                        onUserContestDetailsLDObserved(it)
-                    }*/
                 }
             })
 
@@ -510,9 +464,6 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                 it?.let {
                     isGameStartedAndRunning = true
                     onGameDetailsLdObserved(it)
-                    /*if(vm.gameCountdownTimeLeft == 0L){
-                        onGameDetailsLdObserved(it)
-                    }*/
                 }
             })
 
@@ -524,17 +475,15 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
 
             vm.dealCommunityCardsLD.observe(this, Observer { it ->
                 if (it != null) {
-                    if (/*!vm.isConfigurationChanged && */vm.isDealCommunityCardsEventReceived) {
+                    if (vm.isDealCommunityCardsEventReceived) {
                         val slots = vm.tableSlotsLD.value
                         resetAutoOptions()
                         handleAllIn()
                         log(
                             "poker::dealCommunityCardsLD",
-                            "dealCommunityCardsLD : ${it.toString()}"
+                            "dealCommunityCardsLD : $it"
                         )
-//            val potSplitPadding = dpToPx(15).toFloat()
                         val potSplitTopLandscape = dpToPx(40).toFloat()
-                        val potSplitTopPortrait = playArea.height / 4
 
                         try {
                             slots?.forEach { slot ->
