@@ -392,7 +392,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
                         tv_rankOrder.visibility = GONE
                         community_cards_ll.visibility = INVISIBLE
                         user_cards_fl.visibility = INVISIBLE
-                        totalPot.visibility = INVISIBLE
+                        totalPot.visibility = GONE
                         pot_split.visibility = INVISIBLE
 
                         raiseLL.visibility = INVISIBLE
@@ -1300,7 +1300,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
         bottomPannel_new.visibility = INVISIBLE
         community_cards_ll.visibility = INVISIBLE
         user_cards_fl.visibility = INVISIBLE
-        totalPot.visibility = INVISIBLE
+        totalPot.visibility = GONE
         pot_split.visibility = INVISIBLE
         raiseLL.visibility = INVISIBLE
         //iAMBack.visibility = GONE
@@ -1336,7 +1336,7 @@ class GameActivity : FullScreenScreenOnActivity(), SocketIoInstance.SocketConnec
             updatePotAmount(it.total_pot_value.toDecimalFormat())
             totalPot.visibility = VISIBLE
         } else {
-            totalPot.visibility = INVISIBLE
+            totalPot.visibility = GONE
         }
         community_cards_ll.visibility = VISIBLE
 

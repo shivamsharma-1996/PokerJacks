@@ -23,7 +23,7 @@
             android:paddingTop="@dimen/_70sdp"
             android:paddingBottom="@dimen/_100sdp"
             android:layout_centerInParent="true"
-            android:src="@drawable/portrait_green_table" />
+            android:src="@drawable/portrait_blue_table" />
 
         <LinearLayout
             android:id="@+id/topPanel"
@@ -332,7 +332,7 @@
                     android:paddingEnd="15dp"
                     android:fontFamily="@font/tondo_regular"
                     tools:text="Total Pot: ₹12.20"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     app:layout_constraintVertical_bias="0.35"
                     app:layout_constraintVertical_chainStyle="packed"
                     app:layout_constraintTop_toBottomOf="@+id/gl_top"
@@ -352,7 +352,7 @@
                     android:orientation="horizontal"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/totalPot"

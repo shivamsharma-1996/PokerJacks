@@ -275,6 +275,7 @@ class GameViewModel : SocketIOViewModel() {
         userDetailsLD.value?.let {
             it.auto_next_game = false
         }
+        _tossEnabledLD.postValue(null)
         userDetailsLD.forceRefresh()
         dealCommunityCardsLD.postValue(null)
         gameDetailsLD.postValue(null)
