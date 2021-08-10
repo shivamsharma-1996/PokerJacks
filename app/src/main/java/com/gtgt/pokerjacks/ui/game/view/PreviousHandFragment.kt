@@ -14,7 +14,6 @@ import com.gtgt.pokerjacks.extensions.onOneClick
 import com.gtgt.pokerjacks.extensions.runOnMain
 import com.gtgt.pokerjacks.extensions.sharedViewModel
 import com.gtgt.pokerjacks.ui.game.models.TableSlotStatus
-import com.gtgt.pokerjacks.ui.game.view.slot.PreviousHandAdapter
 import com.gtgt.pokerjacks.ui.game.viewModel.GameViewModel
 import kotlinx.android.synthetic.main.fragment_last_hand.*
 import kotlinx.android.synthetic.main.fragment_last_hand.iv_close

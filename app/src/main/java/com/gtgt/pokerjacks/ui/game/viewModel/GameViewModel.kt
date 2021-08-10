@@ -38,9 +38,6 @@ enum class SeatStatus(val status: String) {
 }
 
 enum class AutoGameAction(val action: String) {
-    //    AUTO_FOLD("AUTO_FOLD"),
-//    AUTO_CALL("AUTO_CALL"),
-//AUTO_CALL_ANY("AUTO_CALL_ANY"),
     AUTO_FOLD_CHECK("AUTO_FOLD_CHECK"),
     AUTO_CHECK("AUTO_CHECK"),
     AUTO_CALLANY_CHECK("AUTO_CALLANY_CHECK"),
@@ -57,11 +54,22 @@ enum class PlayerActions(val action: String) {
 class GameViewModel : SocketIOViewModel() {
     val userId = retrieveString("USER_ID")
 
+    var currentTableId: String = ""
+    var currentGameId: String = ""
+
     var isGameTriggered = false
     var isWaitingForOthersShown = false;
     var isFirstGameStarted = false
     var isTossEnabledForCurrentGame = false
     var canDisplayWaitingIcon = false
+
+    //Flag vars(Starting): used to apply lock on LiveData observers while orientation changes
+    var isDealCommunityCardsEventReceived = false
+    var isPlayerEventReceived = false
+    var isGameStartEventReceived = false
+    var isLeaderBoardEventReceived = false
+    //Flag vars(Ended)
+
     val userDetailsLD = MutableLiveData<UserDetails>()
 
     private var _previousHandsLD = MutableLiveData<List<String>>()
@@ -95,7 +103,6 @@ class GameViewModel : SocketIOViewModel() {
     var totalPotAmount : String? = null
     var isCommunityCardsOpened : Boolean = false
     var isAutoRotateOn = MutableLiveData<Boolean>()
-    var autoActionView: CheckBox? = null
     var currentAutoButton: CheckBox? = null
     private var _isGameEnded = MutableLiveData<Boolean>()
     val isGameEnded : LiveData<Boolean>
@@ -111,11 +118,6 @@ class GameViewModel : SocketIOViewModel() {
     var _refillInPlayAmount = MutableLiveData<Boolean>()
     val refillInPlayAmount : LiveData<Boolean>
         get() = _refillInPlayAmount
-    //var isConfigurationChanged = false
-    var isDealCommunityCardsEventReceived = false
-    var isPlayerEventReceived = false
-    var isGameStartEventReceived = false
-    var isLeaderBoardEventReceived = false
 
     var previousOrientation = Configuration.ORIENTATION_LANDSCAPE
     var gameCountdownTimeLeft : Long = 0
@@ -128,22 +130,21 @@ class GameViewModel : SocketIOViewModel() {
                 }
             }
         }
-    var currentTableId: String = ""
-    var currentGameId: String = ""
+
 
     var tableId: String = ""
         set(value) {
             field = value
 
-            on<JsonElement>("gameTrigger") {
-                coloredImages.clear()
-                _isGameEnded.postValue(false)
-                gameTriggerLD.data = it["data"]["gameDetails"].to()
-                log("poker:gameEvent", "gameTrigger "+ it["data"]["gameDetails"].to())
-
-                currentGameId = gameTriggerLD.data!!._id
-
-            }
+            //This is the initial event triggers when atLeast two players joined the table
+            //Toss functionality depends upon the <gameDetails.toss_enabled> received here
+            //if toss_enabled is true {
+                //1) Toss cards along with the toss winner reveals upto 4000L millis
+                //2) Once timer stops, getUserCards event emits to fetch the userContestDetailsLD & gameDetails
+                //3) Later, gameTrigger event receives from BE to let the user know that game is going to start in N seconds.
+            //} else {
+            //      2) and 3) performs directly
+            //}
             on<JsonElement>("gameStart") {
                 isFirstGameStarted = true
                 isGameStartEventReceived = true
@@ -166,6 +167,16 @@ class GameViewModel : SocketIOViewModel() {
                 }
             }
 
+            //this event triggers later getUserCards emit
+            on<JsonElement>("gameTrigger") {
+                coloredImages.clear()
+                _isGameEnded.postValue(false)
+                gameTriggerLD.data = it["data"]["gameDetails"].to()
+                log("poker:gameEvent", "gameTrigger "+ it["data"]["gameDetails"].to())
+                currentGameId = gameTriggerLD.data!!._id
+            }
+
+            //It will trigger each time when a player joins the table, playerTurn switches or status of any player gets changed
             on<TablePlayers>("tablePlayers") {
                 log("poker::tablePlayers", "tablePlayers : " + Gson().toJson(it))
                 tableSlots = it.tableSlots
@@ -173,6 +184,7 @@ class GameViewModel : SocketIOViewModel() {
                 handleTableSlots(it.tableSlots, it.gameUsers)
             }
 
+            //this event triggers to display game winner declares before the 'gameEnd' event
             on<JsonElement>("leaderboard") {
                 val leaderboard = it["data"].to<Leaderboard>()
                 isLeaderBoardEventReceived = true
@@ -199,38 +211,18 @@ class GameViewModel : SocketIOViewModel() {
                 }, 1000)
             }
 
+            //Triggers 3 times in a game to reveal the CommunityCards
             on<JsonElement>("dealCommunityCards") {
                 val community_cards: DealCommunityCards = it["community_cards"].to()
                 community_cards.total_pot_value = it["total_pot_value"].double
                 community_cards.side_pots = it["side_pots"].to()
                 isDealCommunityCardsEventReceived = true
-                //isConfigurationChanged = false
                 try {
-                    val previousCommunityCards = dealCommunityCardsLD.data
                     dealCommunityCardsLD.data = community_cards
-
-                    /*if (previousCommunityCards != null
-                        && previousCommunityCards.card_1 == community_cards.card_1
-                        && previousCommunityCards.card_2 == community_cards.card_2
-                        && previousCommunityCards.card_3 == community_cards.card_3
-                        && previousCommunityCards.card_4 == community_cards.card_4
-                        && previousCommunityCards.card_5 == community_cards.card_5
-                    ) {
-
-                    } else {
-                        dealCommunityCardsLD.data = community_cards
-                    }*/
                 } catch (ex: Exception) {
                     dealCommunityCardsLD.data = community_cards
                 }
             }
-
-            /* on<JsonElement>("refill") {
-                 val data = it["data"]
-                 _refillInPlayAmount.postValue(true)
-                 log("poker::refill", it)
-                     //show buyin popup here
-             }*/
 
             on<JsonElement>("gameEvent") {
                 val data = it["data"]
@@ -239,31 +231,23 @@ class GameViewModel : SocketIOViewModel() {
                     "endGame" -> {
                         val gameInfo = data.to<GameModel.Info>()
                         tableSlots = gameInfo.tableSlots
-                        //tableSlotsLD.data = gameInfo.tableSlots
                         _inPlayAmtOnGameEnd.data = gameInfo.tableSlots
-                        log("tableSlotsLDEndgame",  gameInfo.tableSlots)
                         gameUsers = gameInfo.gameUsers
-                       // handleTableSlots(gameInfo.tableSlots, gameInfo.gameUsers)
                         _isGameEnded.postValue(true)
 
                         resetVmResources()
 
-                       /* if (gameInfo.canCreateNewGame) {
-
-                        } else {
-                            iamBackLD.data = true
-                        }*/
-
                         playerTurnLD.data = null
-                       // activity?.showSnack("Game is ended")
                     }
                 }
             }
 
+            //triggers when player's turn switches
             on<JsonElement>("playerTurn") {
                 isPlayerEventReceived = true
                 playerTurnLD.data = it["data"].to()
             }
+
 
             connectTable()
         }
@@ -320,10 +304,18 @@ class GameViewModel : SocketIOViewModel() {
         }
     }
 
+    var mySlot: TableSlot? = null
+    var me: GameUser? = null
+    var isSlot6PostitionPortraitMapInitialized = false
+    var isSlot6PostitionLandscapeMapInitialized = false
+    var isSlot9PostitionLandscapeMapInitialized = false
+    var isSlotPositionsInitializedForWatchUser = false
+
+    //This is the heart of handling the arrangement and positioning of the slots for,
+    // 9/6 player tables in both (Landscape/Portrait) orientations
     private fun handleTableSlots(slots: List<TableSlot>, gameUsers: List<GameUser>) {
         setSelectedSlotPositions(slots.size)
 
-        log("gameUsers12", gameUsers)
         me = gameUsers.find { it.user_unique_id == userId }
 
         val currentSlotPositionMap = if(slots.size == 6 && !isLandscape){
@@ -332,22 +324,12 @@ class GameViewModel : SocketIOViewModel() {
             slotPositionMap
         }
 
+        isSlotPositionsInitializedForWatchUser = slots.firstOrNull { it.user_unique_id == userId } == null &&
+                ((slots.size == 6  && slotPosition6TableMap.isNotEmpty()) ||
+                        (slots.size == 9 && slotPositionMap.isNotEmpty()))
 
-        log("handleTableSlots:flags", "" + (mySlot == null  && !isSlotPositionsInitializedForWatchUser) +isSlotPositionsInitializedForWatchUser +isSlot6PostitionLandscapeMapInitialized+
-            isSlot6PostitionPortraitMapInitialized)
-
-        log("handleTableSlots:flags123", ""+slots.count{it.status == SeatStatus.ACTIVE.name} + " "  + mySlot)
-        if(slots.firstOrNull { it.user_unique_id == userId } == null &&
-            ((slots.size == 6  && slotPosition6TableMap.isNotEmpty()) ||
-            (slots.size == 9 && slotPositionMap.isNotEmpty()))){
-            isSlotPositionsInitializedForWatchUser = true
-        }else{
-            isSlotPositionsInitializedForWatchUser = false
-        }
-        //TODO currentSlotPositionMap pe condition lga skta hu
         if (mySlot == null || (slots.size == 6 &&
                     ((isLandscape && !isSlot6PostitionLandscapeMapInitialized) || (!isLandscape && !isSlot6PostitionPortraitMapInitialized)))){
-            log("gameUsers123", "123")
 
             mySlot = slots.firstOrNull { it.user_unique_id == userId }
             if(mySlot == null && isGameTriggered){
@@ -361,14 +343,13 @@ class GameViewModel : SocketIOViewModel() {
                 currentSlot = currentSlot.next(slots)
             }
         } else {
-            log("gameUsers123", "456")
             mySlot = slots.firstOrNull { it.user_unique_id == userId }
             slots.forEach { slot ->
                 slot.user = gameUsers.firstOrNull { it.user_unique_id == slot.user_unique_id }
             }
         }
 
-        if(slots.size == 6 && (mySlot != null /*|| isSlotPositionsInitializedForWatchUser*/)){
+        if(slots.size == 6 && (mySlot != null)){
             setSlotPositionsFlag()
         }
         if(slots.size == 9 && mySlot != null){
@@ -389,11 +370,8 @@ class GameViewModel : SocketIOViewModel() {
         selectedSlotPositions =  when (size) {
             9 -> slots9Positions
             6 -> if(isLandscape){
-                log("poker::handleTableSlots" , "isLandscape : " +isLandscape)
-
-                slots6PositionsTable
+                slots6LandscapePositionsTable
             }else{
-                log("poker::handleTableSlots" , "isLandscape : " +isLandscape)
                 slots6PortraitPositionsTable
             }
             else -> slots2Positions
@@ -409,12 +387,13 @@ class GameViewModel : SocketIOViewModel() {
                 activity?.showSnack("Error in connecting to table")
             } else {
                 coloredImages.clear()
-
                 val data = it.to<GameModel>()
-
                 if (data.success) {
                     val gameInfo = data.info
+
+                    //function the restore the game State on each reconnection
                     restoreGame(gameInfo)
+
                     if(gameInfo.gameDetails!=null){
                         gameInfo.gameDetails._id.let {
                             currentTableId = gameInfo.gameDetails._id
@@ -427,7 +406,7 @@ class GameViewModel : SocketIOViewModel() {
         }
     }
 
-    fun checkIsNewGameStarting(gameInfo: GameModel.Info): Boolean{
+    private fun checkIsNewGameStarting(gameInfo: GameModel.Info): Boolean{
         gameInfo?.gameDetails?.let {
             return it.start_time > (System.currentTimeMillis() - timeDiffWithServer) || gameCountdownTimeLeft != 0L
         }
@@ -440,14 +419,12 @@ class GameViewModel : SocketIOViewModel() {
             || currentTableId.isEmpty()) {
             iamBackLD.data = true
         }
-        if(gameInfo.gameDetails!=null /*&& !checkIsNewGameStarting(gameInfo)*/){
+        if(gameInfo.gameDetails!=null){
             if(!checkIsNewGameStarting(gameInfo))
             gameDetailsLD.data = gameInfo.gameDetails
             else
             gameTriggerLD.data = gameInfo.gameDetails
         }
-        /*dealCommunityCardsLD.data = DealCommunityCards(gameDetails.card_1, gameDetails.card_2, gameDetails.card_3, gameDetails.card_4
-        ,gameDetails.card_5, emptyList(), gameDetails.total_pot_value)*/
 
         userContestDetailsLD.data = gameInfo.userContestDetails
         socketIO.socketHandler.delayedHandler(300) {
@@ -491,6 +468,7 @@ class GameViewModel : SocketIOViewModel() {
                 }
             }
     }
+
     fun getUserCards(){
         if(tableId.isNotEmpty())
         emit<AnyModel>("getUserCards", jsonObject("table_id" to tableId)) {
@@ -571,7 +549,6 @@ class GameViewModel : SocketIOViewModel() {
         enable: Boolean = true,
         callback: ChannelCallbackType<JsonElement?>
     ) {
-        log("poker::autoGameAction", "enable : $enable")
         emit(
             "autoGameAction",
             jsonObject(
@@ -610,10 +587,6 @@ class GameViewModel : SocketIOViewModel() {
         callback = callback)
     }
 
-    fun resetGame() {
-
-    }
-
     fun getFilteredSlotsCount(status: String, filterType: SlotsFilter = SlotsFilter.SEAT_STATUS) : Int {
         when (filterType) {
             SlotsFilter.SEAT_STATUS -> return (tableSlots!!.count { it.status == status })
@@ -636,22 +609,9 @@ class GameViewModel : SocketIOViewModel() {
         val waitForBBSlotsCount = (tableSlots!!.count { it.status == SeatStatus.WAIT_FOR_BB.name })
         return sitoutSlotsCount + waitForNextCount + waitForBBSlotsCount
     }
+
     fun resetRefillInPlayAmount(){
         _refillInPlayAmount.postValue(false)
-    }
-    var mySlot: TableSlot? = null
-    var isSlot6PostitionPortraitMapInitialized = false
-    var isSlot6PostitionLandscapeMapInitialized = false
-    var isSlot9PostitionLandscapeMapInitialized = false
-    var isSlotPositionsInitializedForWatchUser = false
-
-    var me: GameUser? = null
-
-    fun checkIfMySlotInactive() : Boolean{
-        tableSlots!!.forEach {
-            return it.user_unique_id == userId &&
-                    (it.status == SeatStatus.SIT_OUT.name) || (it.status == SeatStatus.WAIT_FOR_BB.name) || (it.status == SeatStatus.WAIT_FOR_NEXT.name)}
-        return false
     }
 
     fun checkIfMySlotActive() : Boolean{

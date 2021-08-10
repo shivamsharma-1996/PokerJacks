@@ -10,8 +10,7 @@ import com.gtgt.pokerjacks.extensions.widthHeightRaw
 import com.gtgt.pokerjacks.ui.game.Card
 import com.gtgt.pokerjacks.ui.game.createCard
 import com.gtgt.pokerjacks.ui.game.view.slot.slots2Positions
-import com.gtgt.pokerjacks.ui.game.view.slot.slots6Positions
-import com.gtgt.pokerjacks.ui.game.view.slot.slots6PositionsTable
+import com.gtgt.pokerjacks.ui.game.view.slot.slots6LandscapePositionsTable
 import com.gtgt.pokerjacks.ui.game.view.slot.slots9Positions
 import com.gtgt.pokerjacks.ui.lobby.model.LobbyTables
 import com.gtgt.pokerjacks.utils.EasyBindingAdapter
@@ -76,7 +75,7 @@ class LobbyAdapter(val onClick: (LobbyTables.Info) -> Unit) :
             holder.binding.table.removeAllViews()
             when (data.plan_details.max_players) {
                 9 -> slots9Positions
-                6 -> slots6PositionsTable
+                6 -> slots6LandscapePositionsTable
                 else -> slots2Positions
             }.forEachIndexed { index, position ->
                 val player = ImageView(holder.binding.root.context)

@@ -261,7 +261,7 @@
                 android:paddingEnd="15dp"
                 android:fontFamily="@font/tondo_regular"
                 android:text="Total Pot: ₹12.20"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintVertical_bias="0.47"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -282,7 +282,7 @@
                 android:paddingStart="15dp"
                 android:fontFamily="@font/tondo_regular"
                 android:paddingEnd="15dp"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintTop_toBottomOf="@+id/totalPot"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -364,66 +364,6 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- <TextView
-                 android:id="@+id/afterSubmit"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="center"
-                 android:background="@drawable/transparent_black_curve"
-                 android:paddingStart="20dp"
-                 android:paddingTop="10dp"
-                 android:paddingEnd="20dp"
-                 android:paddingBottom="10dp"
-                 android:text=""
-                 android:textColor="@color/white"
-                 android:textSize="20dp"
-                 android:visibility="gone" />-->
-
-            <!--<RelativeLayout
-                android:id="@+id/leaderboardView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/play_area_padding"
-                android:layout_marginEnd="@dimen/play_area_padding"
-                android:orientation="vertical"
-                android:padding="20dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/title"
-                    style="@style/headline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="10dp"
-                    android:text="Scorecard"
-                    android:textColor="@color/white" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/leaderboardRv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/leaderboardMsg"
-                    android:layout_below="@id/title"
-                    android:layout_marginStart="80dp"
-                    android:layout_marginEnd="80dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-                <TextView
-                    android:id="@+id/leaderboardMsg"
-                    style="@style/headline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="10dp"
-                    android:text="Waiting for other players to submit"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_20dp" />
-
-
-            </RelativeLayout>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -753,18 +693,6 @@
             android:paddingBottom="2dp"
             android:visibility="visible">
 
-            <!--            <CheckBox-->
-            <!--                android:id="@+id/sitOutCB"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:background="@drawable/stroke_cb"-->
-            <!--                android:button="@drawable/cb"-->
-            <!--                android:paddingStart="10dp"-->
-            <!--                android:paddingEnd="5dp"-->
-            <!--                android:text="Sit Out"-->
-            <!--                android:visibility="gone"-->
-            <!--                tools:ignore="RtlSymmetry" />-->
-
             <CheckBox
                 android:id="@+id/joinBBcb"
                 android:layout_width="wrap_content"
@@ -783,220 +711,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <!--            <RadioGroup
-                            android:id="@+id/auto_options_rg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">-->
-
-            <!--<CheckBox
-                android:id="@+id/foldCB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:button="@android:color/transparent"
-                android:drawableBottom="@drawable/cb_fold"
-                android:gravity="center_horizontal"
-                android:text="Fold"
-                android:visibility="visible" />-->
-
-            <!--             <CheckBox
-                             android:id="@+id/callCB"
-                             android:layout_width="wrap_content"
-                             android:layout_height="wrap_content"
-                             android:layout_marginStart="20dp"
-                             android:background="@android:color/transparent"
-                             android:button="@android:color/transparent"
-                             android:drawableBottom="@drawable/cb_call"
-                             android:gravity="center_horizontal"
-                             android:text="Call"
-                             android:visibility="visible" />-->
-
-            <!--  <CheckBox
-               android:id="@+id/callAnyCB"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="20dp"
-               android:background="@android:color/transparent"
-               android:button="@android:color/transparent"
-               android:drawableBottom="@drawable/cb_call"
-               android:gravity="center_horizontal"
-               android:text="CallAny"
-               android:visibility="visible" />-->
-
-            <!-- <CheckBox
-                 android:id="@+id/fold_checkCB"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:background="@android:color/transparent"
-                 android:button="@android:color/transparent"
-                 android:drawableBottom="@drawable/cb_fold_check"
-                 android:gravity="center_horizontal"
-                 android:layout_marginStart="15dp"
-                 android:text="Fold/Check"
-                 android:visibility="gone" />
-
-             <CheckBox
-                 android:id="@+id/checkCB"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginStart="20dp"
-                 android:background="@android:color/transparent"
-                 android:button="@android:color/transparent"
-                 android:drawableBottom="@drawable/cb_check"
-                 android:gravity="center_horizontal"
-                 android:text="Check"
-                 android:visibility="gone" />
-
-             <CheckBox
-                 android:id="@+id/checkOrCallAnyCB"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginStart="20dp"
-                 android:background="@android:color/transparent"
-                 android:button="@android:color/transparent"
-                 android:drawableBottom="@drawable/cb_call"
-                 android:gravity="center_horizontal"
-                 android:text="CallAny/Check"
-                 android:visibility="gone" />-->
-
-            <!--
-                        </RadioGroup>
-            -->
-
-            <!-- <TextView
-                 android:id="@+id/foldBtn"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:background="@android:color/transparent"
-                 android:drawableBottom="@drawable/fold"
-                 android:gravity="center"
-                 android:minWidth="62dp"
-                 android:textColor="@color/white"
-                 android:text="Fold"
-                 android:textAllCaps="false"
-                 android:textSize="13dp"
-                 android:visibility="gone" />
-
-             <TextView
-                 android:id="@+id/checkBtn"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:background="@android:color/transparent"
-                 android:drawableBottom="@drawable/check"
-                 android:gravity="center"
-                 android:minWidth="62dp"
-                 android:text="Check"
-                 android:textAllCaps="false"
-                 android:textSize="13dp"
-                 android:visibility="gone" />-->
-
-            <!--  <LinearLayout
-                  android:id="@+id/callLL"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:visibility="gone"
-                  android:layout_marginStart="20dp"
-                  android:gravity="center_horizontal">
-
-                  <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="Call"
-                      android:textColor="@color/white" />
-
-                  <Button
-                      android:id="@+id/callBtn"
-                      android:layout_width="wrap_content"
-                      android:layout_height="32dp"
-                      android:background="@drawable/btn_blue"
-                      android:gravity="center"
-                      android:minWidth="62dp"
-                      android:text="10"
-                      android:textAllCaps="false"
-                      android:textSize="13dp" />
-              </LinearLayout>
-  -->
-            <!--
-                        <LinearLayout
-                            android:id="@+id/raiseBtnLL"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:visibility="gone"
-                            android:layout_marginStart="20dp"
-                            android:gravity="center_horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Raise To"
-                                android:textColor="@color/white" />
-
-                            <Button
-                                android:id="@+id/raiseBtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:background="@drawable/btn_orange"
-                                android:gravity="center"
-                                android:minWidth="62dp"
-                                android:textAllCaps="false"
-                                android:textSize="13dp"/>
-                        </LinearLayout>
-            -->
-            <!--
-                        <LinearLayout
-                            android:id="@+id/raiseBtnLL"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:visibility="gone"
-                            android:layout_marginStart="20dp"
-                            android:gravity="center_horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Raise To"
-                                android:textColor="@color/white" />
-
-                            <Button
-                                android:id="@+id/raiseBtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:background="@drawable/btn_orange"
-                                android:gravity="center"
-                                android:minWidth="62dp"
-                                android:textAllCaps="false"
-                                android:textSize="13dp"/>
-                        </LinearLayout>
-            -->
-            <!-- <LinearLayout
-                 android:id="@+id/allinLL"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:orientation="vertical"
-                 android:visibility="gone"
-                 android:layout_marginStart="20dp"
-                 android:gravity="center_horizontal">
-
-                 <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="All in"
-                     android:textColor="@color/white" />
-
-                 <TextView
-                     android:id="@+id/allinBtn"
-                     android:layout_width="wrap_content"
-                     android:layout_height="32dp"
-                     android:background="@drawable/btn_orange"
-                     android:gravity="center"
-                     android:minWidth="62dp"
-                     android:textAllCaps="false"
-                     android:textSize="13dp"/>
-             </LinearLayout>-->
         </LinearLayout>
 
         <FrameLayout
@@ -1056,15 +770,6 @@ will start the hand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!--   <include
-               android:id="@+id/raiseLL"
-               layout="@layout/raise_amt"
-               android:layout_width="wrap_content"
-               android:layout_height="match_parent"
-               android:layout_alignParentEnd="true"
-               android:layout_marginBottom="62dp"
-               android:visibility="gone" />-->
-
         <Button
             android:id="@+id/iAMBack"
             android:layout_width="wrap_content"
@@ -1115,13 +820,6 @@ will start the hand"
                 android:textStyle="bold"
                 tools:ignore="RtlSymmetry" />
 
-            <!-- <ImageView
-                 android:id="@+id/signalIv"
-                 android:layout_width="50dp"
-                 android:layout_height="50dp"
-                 android:padding="10dp"
-                 android:visibility="gone"
-                 android:src="@drawable/signal_0" />-->
         </LinearLayout>
 
 

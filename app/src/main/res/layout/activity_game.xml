@@ -33,32 +33,6 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp">
 
-            <!-- <ImageView
-                 android:id="@+id/stats"
-                 android:layout_width="30dp"
-                 android:layout_height="30dp"
-                 android:src="@drawable/stats" />-->
-
-            <!--<TextView
-                android:id="@+id/reconnect"
-                style="@style/buton_tv"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/stroke_blue"
-                android:minWidth="70dp"
-                android:layout_marginTop="16dp"
-                android:text="Go Offline"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/shareReconnect"
-                style="@style/buton_tv"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/stroke_blue"
-                android:minWidth="70dp"
-                android:layout_marginTop="16dp"
-                android:text="Share Reconnect"
-                android:visibility="gone" />-->
-
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -332,7 +306,7 @@
                     android:paddingEnd="15dp"
                     android:fontFamily="@font/tondo_regular"
                     tools:text="Total Pot: ₹12.20"
-                    android:visibility="gone"
+                    android:visibility="invisible"
                     app:layout_constraintVertical_bias="0.35"
                     app:layout_constraintVertical_chainStyle="packed"
                     app:layout_constraintTop_toBottomOf="@+id/gl_top"
@@ -352,7 +326,7 @@
                     android:orientation="horizontal"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:visibility="gone"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/totalPot"
@@ -825,30 +799,6 @@ will start the hand"
             android:textSize="13dp"
             android:visibility="invisible" />
 
-        <!-- <LinearLayout
-             android:id="@+id/network_status_ll"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentBottom="true"
-             android:layout_marginStart="10dp"
-             android:layout_marginBottom="@dimen/_60sdp"
-             android:orientation="vertical">
-
-             <ImageView
-                 android:id="@+id/refresh"
-                 android:layout_width="50dp"
-                 android:layout_height="50dp"
-                 android:padding="10dp"
-                 android:src="@drawable/reset" />
-
-             <ImageView
-                 android:id="@+id/signalIv"
-                 android:layout_width="50dp"
-                 android:layout_height="50dp"
-                 android:padding="10dp"
-                 android:src="@drawable/signal_0" />
-         </LinearLayout>-->
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -916,13 +866,6 @@ will start the hand"
                 android:textStyle="bold"
                 tools:ignore="RtlSymmetry" />
 
-            <!--<ImageView
-                android:id="@+id/signalIv"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="10dp"
-                android:visibility="gone"
-                android:src="@drawable/signal_0" />-->
         </LinearLayout>
 
         <TextView

@@ -1,4 +1,4 @@
-package com.gtgt.pokerjacks.ui.game.view.slot
+package com.gtgt.pokerjacks.ui.game.view
 
 import android.content.Context
 import android.view.LayoutInflater

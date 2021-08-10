@@ -116,16 +116,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/fl_userProfile" />
 
-                <!-- <ImageView
-                     android:id="@+id/crown"
-                     android:layout_width="40dp"
-                     android:layout_height="wrap_content"
-                     android:adjustViewBounds="true"
-                     android:src="@drawable/crown"
-                     app:layout_constraintTop_toTopOf="parent"
-                     app:layout_constraintStart_toStartOf="@id/fl_userProfile"
-                     app:layout_constraintEnd_toEndOf="@+id/fl_userProfile"/>
--->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/crown"
                     android:layout_width="@dimen/_40sdp"
@@ -226,7 +216,6 @@
                 android:layout_alignParentStart="true"
                 android:src="@drawable/active_indication"
                 android:textColor="@color/black" />
-
 
         </RelativeLayout>
 

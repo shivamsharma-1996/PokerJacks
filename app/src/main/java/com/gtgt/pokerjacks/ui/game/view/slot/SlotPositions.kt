@@ -22,17 +22,16 @@ data class SlotPosition(
     val x: Float,
     val y: Float,
     val player: Position,
-    val inPlay: Position,
     val raiseAmt: Position = Position(),
-    val crown: Position = Position(),
     val revealCards: Position = Position(),
     val activeIndication: Int,
     val playerAction: Position = Position(),
-    val deal: Position = Position(),
     val tossCard: Position = Position()
 )
 
 var slotPositions = mutableMapOf<SlotPositions, SlotPosition>()
+
+//Common list used for both orientations in 9 player table but in case of 6 player table, we would have two lists one for each orientation
 var slots9Positions = listOf(
     BOTTOM_CENTER,
     LEFT_BOTTOM,
@@ -45,16 +44,7 @@ var slots9Positions = listOf(
     RIGHT_BOTTOM
 )
 
-var slots6Positions = listOf(
-    RIGHT_BOTTOM,
-    RIGHT_CENTER,
-    RIGHT_TOP,
-    LEFT_TOP,
-    LEFT_CENTER,
-    LEFT_BOTTOM
-)
-
-var slots6PositionsTable = listOf(
+var slots6LandscapePositionsTable = listOf(
     BOTTOM_CENTER,
     LEFT_CENTER,
     LEFT_TOP,
@@ -71,17 +61,18 @@ var slots6PortraitPositionsTable = listOf(
     RIGHT_TOP_CENTER,
     RIGHT_BOTTOM_CENTER
 )
+
 val slots2Positions = listOf(TOP_CENTER, BOTTOM_CENTER)
 
+//mutableMaps to track the dynamic arrangements of the slots according to their position on table
 val slotPositionMap = mutableMapOf<Int, SlotPositions>()
 val slotPosition6TableMap = mutableMapOf<Int, SlotPositions>()
 
+//responsible for dynamic placements of slotViews for both 9/6 player tables (Lanscape/Portrait)
 fun makeSlotPositions(
     playerSize: Float,
     topMargin: Int,
     leftMargin: Int,
-    tossCardWidth: Float,
-    tossCardHeight: Float,
     tableWidth: Float,
     tableHeight: Float,
     roundingSize: Float,
@@ -91,21 +82,13 @@ fun makeSlotPositions(
     val playerMargin = dpToPx(26)
     val inPlayWidth = dpToPx(65)
     val inPlayHeight = dpToPx(30)
-    val crownWidth = dpToPx(40)
-    val slotViewWidth = dpToPx(R.dimen._92sdp).toFloat()
-    val slotMarginEnd = dpToPx(R.dimen._12sdp).toFloat()
-    val revealCardsTop = dpToPx(14)
-    val dealerBottomMargin = dpToPx(10)
 
-    log("makeSlotPositions123", "makeSlotPositions")
     if (isLandscape) {
         slotPositions[LEFT_TOP_CENTER] = SlotPosition(
             x = playerSize / 3 + leftMargin / 2,
             y = playerSize/1.5f,
             player = Position(),
-            crown = Position(ml = (playerSize / 4 + (playerSize - crownWidth) *1.2f).toInt()),
             revealCards = Position(),
-            inPlay = Position(),
             raiseAmt = Position(
                 mt = dpToPx(10),
                 ml = (playerSize + roundingSize * 10 + dpToPx(20)).toInt(),
@@ -117,20 +100,13 @@ fun makeSlotPositions(
                 alignment = Gravity.END or Gravity.CENTER_VERTICAL
             ),
             activeIndication = Gravity.START,
-            playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)),
-            deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = topMargin-5, ml =  playerMargin - dpToPx(10))
-        )
+            playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)))
     } else {
         slotPositions[LEFT_TOP_CENTER] = SlotPosition(
             x = playerMargin.toFloat() /  4 - roundingSize * 2,
             y = (tableHeight / 3.2f), //copied from left-center-bottom
             player = Position(),
-            crown = Position(
-                ml = (playerSize / 4 + (playerSize - crownWidth) / 2).toInt(),
-                mt = (roundingSize * 2).toInt()
-            ),
             revealCards = Position(),
-            inPlay = Position(),
             raiseAmt = Position(
                 alignment = Gravity.END or Gravity.CENTER,
                 mt = dpToPx(5),
@@ -141,9 +117,7 @@ fun makeSlotPositions(
                 ml = (playerSize + roundingSize * 10 + dpToPx(20)).toInt(),
                 alignment = Gravity.END or Gravity.CENTER_VERTICAL
             ),
-            playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)),
-            deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/3 -dpToPx(5))
-        )
+            playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)))
     }
     if (isLandscape) {
         slotPositions[LEFT_TOP] = SlotPosition(
@@ -152,8 +126,6 @@ fun makeSlotPositions(
             player = Position(
                 mb = dpToPx(15)),
             revealCards = Position(/*mt = roundingSize.toInt()*/),
-            crown = Position(ml = (inPlayWidth + (playerSize - crownWidth) / 2f).toInt()),
-            inPlay = Position(mt = topMargin / 4),
             raiseAmt = Position(
                 mb = dpToPx(10),
                 alignment = Gravity.BOTTOM or Gravity.CENTER
@@ -163,19 +135,13 @@ fun makeSlotPositions(
                 alignment = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
             ),
             activeIndication = Gravity.END,
-            playerAction =  Position(alignment = Gravity.BOTTOM or Gravity.CENTER),
-            deal = Position(alignment = Gravity.START or Gravity.TOP, mt = topMargin*2 - dpToPx(12), ml = playerMargin*2 - dpToPx(3))
-        )
+            playerAction =  Position(alignment = Gravity.BOTTOM or Gravity.CENTER))
     } else {
         slotPositions[LEFT_TOP] = SlotPosition(
             x = playerMargin.toFloat() /  4 - roundingSize * 2,
             y = 2.2f * playerSize + leftMargin - inPlayWidth,
             player = Position(),
             revealCards = Position(),
-            crown = Position(
-                ml = (playerSize / 4 + (playerSize - crownWidth) / 2).toInt()
-            ),
-            inPlay = Position(mt = topMargin / 4),
             raiseAmt = Position(
                 alignment = Gravity.END or Gravity.CENTER,
                 mt = dpToPx(5),
@@ -186,8 +152,7 @@ fun makeSlotPositions(
                 alignment = Gravity.END or Gravity.CENTER_VERTICAL
             ),
             activeIndication = Gravity.END,
-            playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)),
-            deal = Position(alignment = Gravity.START or Gravity.TOP, mt = topMargin + roundingSize.toInt()*3)
+            playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5))
         )
     }
 
@@ -198,9 +163,7 @@ fun makeSlotPositions(
             player = Position(
                 mb = dpToPx(15)
             ),
-            inPlay = Position(mt = topMargin / 4),
             revealCards = Position(),
-            crown = Position(ml = (inPlayWidth + (playerSize - crownWidth) / 2f).toInt()),
             raiseAmt = Position(
                 mt = (playerSize - roundingSize).toInt() + playerMargin / 2,
                 mb = dpToPx(10),
@@ -211,9 +174,7 @@ fun makeSlotPositions(
                 alignment = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
             ),
             activeIndication = Gravity.END,
-            playerAction =  Position(alignment = Gravity.BOTTOM or Gravity.CENTER),
-            deal = Position(alignment = Gravity.END or Gravity.BOTTOM, mb = inPlayHeight - topMargin/3)
-        )
+            playerAction =  Position(alignment = Gravity.BOTTOM or Gravity.CENTER))
     } else {
         slotPositions[TOP_CENTER] = SlotPosition(
             x = (tableWidth - playerSize) / 2.3f -inPlayWidth/4,
@@ -221,9 +182,7 @@ fun makeSlotPositions(
             player = Position(
                 mb = dpToPx(15)
             ),
-            inPlay = Position(mt = topMargin / 4),
             revealCards = Position(),
-            crown = Position(ml = (inPlayWidth + (playerSize - crownWidth) / 2f).toInt()),
             raiseAmt = Position(
                 alignment = Gravity.BOTTOM or Gravity.CENTER
             ),
@@ -232,9 +191,7 @@ fun makeSlotPositions(
                 alignment = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
             ),
             activeIndication = Gravity.END,
-            playerAction = Position(alignment = Gravity.BOTTOM or Gravity.CENTER),
-            deal = Position(alignment = Gravity.START or Gravity.TOP , mt = topMargin*2 - dpToPx(10) - playerMargin, ml = inPlayWidth+ playerSize.toInt() + dpToPx(3))
-        )
+            playerAction = Position(alignment = Gravity.BOTTOM or Gravity.CENTER))
     }
 
     if (isLandscape) {
@@ -245,8 +202,6 @@ fun makeSlotPositions(
                 player = Position(
                     mb = dpToPx(15)
                 ),
-                crown = Position(ml = ((inPlayWidth + playerSize - crownWidth) / 2f).toInt()),
-                inPlay = Position(ml = playerSize.toInt() + inPlayWidth / 2, mt = topMargin / 4),
                 raiseAmt = Position(
                     mb = dpToPx(10),
                     alignment = Gravity.BOTTOM or Gravity.CENTER
@@ -257,9 +212,7 @@ fun makeSlotPositions(
                 ),
                 revealCards = Position(/*mt = roundingSize.toInt()*/),
                 activeIndication = Gravity.START,
-                playerAction =  Position(alignment = Gravity.BOTTOM or Gravity.CENTER),
-                deal = Position(alignment = Gravity.END or Gravity.TOP, mt = topMargin*2 - dpToPx(12))
-        )
+                playerAction =  Position(alignment = Gravity.BOTTOM or Gravity.CENTER))
     } else {
         slotPositions[RIGHT_TOP] =
             SlotPosition(
@@ -268,10 +221,6 @@ fun makeSlotPositions(
                 player = Position(
                     ml = (playerSize/1.5f).toInt()),
                 revealCards = Position(),
-                crown = Position(
-                    ml = (playerSize / 4 + inPlayWidth + (playerSize - crownWidth) / 2).toInt()
-                ),
-                inPlay = Position(ml = playerSize.toInt() + inPlayWidth / 2, mt = topMargin / 4),
                 raiseAmt = Position(
                     alignment = Gravity.START or Gravity.CENTER,
                     mt = dpToPx(5),
@@ -283,8 +232,7 @@ fun makeSlotPositions(
                     alignment = Gravity.START or Gravity.CENTER
                 ),
                 activeIndication = Gravity.START,
-                playerAction =  Position(alignment = Gravity.START or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.END or Gravity.TOP, mt = topMargin + roundingSize.toInt()*3)
+                playerAction =  Position(alignment = Gravity.START or Gravity.CENTER, mt = dpToPx(5))
             )
     }
 
@@ -296,11 +244,6 @@ fun makeSlotPositions(
                 player = Position(
                     ml = (playerSize/1.2f).toInt()
                 ),
-                crown = Position(
-                    ml = (playerSize / 4 + inPlayWidth + (playerSize - crownWidth) / 1.5f).toInt(),
-                    mt = (roundingSize * 3).toInt()
-                ),
-                inPlay = Position(ml = (inPlayWidth / 3.5).toInt()),
                 revealCards = Position(),
                 raiseAmt = Position(
                     mt = dpToPx(10),
@@ -312,8 +255,7 @@ fun makeSlotPositions(
                     alignment = Gravity.START or Gravity.CENTER
                 ),
                 activeIndication = Gravity.END,
-                playerAction =  Position(alignment = Gravity.START or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.END or Gravity.BOTTOM, mb = playerMargin + playerMargin/2)
+                playerAction =  Position(alignment = Gravity.START or Gravity.CENTER, mt = dpToPx(5))
         )
     } else {
         slotPositions[RIGHT_TOP_CENTER] =
@@ -322,16 +264,11 @@ fun makeSlotPositions(
                 y = (tableHeight / 3.2f), //copied from left-center-bottom
                 player = Position(
                     ml = (playerSize/1.5f).toInt()),
-                crown = Position(
-                    ml = (playerSize / 4 + inPlayWidth + (playerSize - crownWidth) / 2).toInt(),
-                    mt = (roundingSize * 2).toInt()
-                ),
                 tossCard = Position(
                     ml = ((playerSize/1.2f)/2).toInt(),
                     mt = dpToPx(10),
                     alignment = Gravity.START or Gravity.CENTER
                 ),
-                inPlay = Position(ml = (inPlayWidth / 3.5).toInt()),
                 revealCards = Position(),
                 raiseAmt = Position(
                     alignment = Gravity.START or Gravity.CENTER,
@@ -341,8 +278,7 @@ fun makeSlotPositions(
                 activeIndication = Gravity.START,
                 playerAction =  Position(
                     alignment = Gravity.START or Gravity.CENTER,
-                    mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.END or Gravity.BOTTOM, mb = inPlayHeight - topMargin/3 -dpToPx(5))
+                    mt = dpToPx(5))
             )
     }
 
@@ -353,15 +289,7 @@ fun makeSlotPositions(
                 y = tableHeight - 2f * playerSize + topMargin,
                 player = Position(
                     ml = (playerSize/1.2f).toInt()),
-                crown = Position(
-                    ml = (playerSize / 4 + inPlayWidth + (playerSize - crownWidth) / 2).toInt(),
-                    mt = (roundingSize * 3).toInt()
-                ),
                 revealCards = Position(),
-                inPlay = Position(
-                    mt = playerSize.toInt() + inPlayHeight - playerMargin / 2,
-                    ml = 2 * roundingSize.toInt() + inPlayWidth
-                ),
                 tossCard = Position(
                     ml = ((playerSize/1.2f)/2).toInt(),
                     mt = dpToPx(10),
@@ -371,8 +299,7 @@ fun makeSlotPositions(
                     mt = dpToPx(10),
                 alignment = Gravity.START or Gravity.CENTER),
                 activeIndication = Gravity.END,
-                playerAction =  Position(alignment = Gravity.START or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.END or Gravity.BOTTOM, mb = playerMargin + playerMargin/2)
+                playerAction =  Position(alignment = Gravity.START or Gravity.CENTER, mt = dpToPx(5))
         )
     } else {
         slotPositions[RIGHT_BOTTOM_CENTER] =
@@ -381,15 +308,7 @@ fun makeSlotPositions(
                 y = tableHeight / 1.8f,
                 player = Position(
                     ml = (playerSize/1.5f).toInt()),
-                crown = Position(
-                    ml = (playerSize / 4 + inPlayWidth + (playerSize - crownWidth) / 2).toInt(),
-                    mt = (roundingSize * 3).toInt()
-                ),
                 revealCards = Position(),
-                inPlay = Position(
-                    mt = playerSize.toInt() + inPlayHeight - playerMargin / 2,
-                    ml = 2 * roundingSize.toInt() + inPlayWidth
-                ),
                 raiseAmt = Position(
                     alignment = Gravity.START or Gravity.CENTER,
                     mt = dpToPx(5),
@@ -402,8 +321,7 @@ fun makeSlotPositions(
                 activeIndication = Gravity.START,
                 playerAction =  Position(
                     alignment = Gravity.START or Gravity.CENTER,
-                    mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.END or Gravity.TOP, mt = topMargin + roundingSize.toInt()*6)
+                    mt = dpToPx(5))
             )
     }
 
@@ -415,24 +333,15 @@ fun makeSlotPositions(
                 player = Position(
                     mt = dpToPx(20)
                 ),
-                crown = Position(
-                    ml = (inPlayWidth + (playerSize - crownWidth) / 2).toInt(),
-                    mt = (roundingSize * 4).toInt()
-                ),
                 revealCards = Position(
                     alignment = Gravity.TOP or Gravity.END
                 ),
                 raiseAmt = Position(ml = 0, alignment = Gravity.TOP or Gravity.CENTER),
-                inPlay = Position(
-                    mt = (playerSize).toInt(),
-                    ml = playerSize.toInt() + inPlayWidth
-                ),
                 tossCard = Position(
                     alignment = Gravity.TOP or Gravity.CENTER_HORIZONTAL
                 ),
                 activeIndication = Gravity.END,
-                playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.END or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2)
+                playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5))
             )
     } else {
         slotPositions[RIGHT_BOTTOM] =
@@ -441,15 +350,7 @@ fun makeSlotPositions(
                 y = tableHeight / 1.45f,
                 player = Position(
                     ml = (playerSize/1.5f).toInt()),
-                crown = Position(
-                    ml = (playerSize / 4 + inPlayWidth + (playerSize - crownWidth) / 2).toInt(),
-                    mt = (roundingSize * 4).toInt()
-                ),
                 revealCards = Position(),
-                inPlay = Position(
-                    mt = (playerSize).toInt(),
-                    ml = playerSize.toInt() + inPlayWidth
-                ),
                 raiseAmt = Position(
                     alignment = Gravity.START or Gravity.CENTER,
                     mt = dpToPx(5),
@@ -464,8 +365,7 @@ fun makeSlotPositions(
                     ml = ((playerSize/1.2f)/2).toInt(),
                     mt = dpToPx(10),
                     alignment = Gravity.START or Gravity.CENTER
-                ),
-                deal = Position(alignment = Gravity.END or Gravity.BOTTOM, mb = inPlayHeight - topMargin/3 -dpToPx(5))
+                )
             )
     }
     if (isLandscape) {
@@ -476,14 +376,6 @@ fun makeSlotPositions(
                 player = Position(
                     mt = dpToPx(20)
                 ),
-                crown = Position(
-                    ml = ((meSlotSize - crownWidth)/1.2).toInt(),
-                    mt = (topMargin / 1.5).toInt()
-                ),
-                inPlay = Position(
-                    mt = (playerSize - inPlayHeight / 1.5 + topMargin).toInt(),
-                    ml = playerSize.toInt()
-                ),
                 revealCards = Position(
                     alignment = -1
                 ),
@@ -492,9 +384,7 @@ fun makeSlotPositions(
                 ),
                 raiseAmt = Position(ml = 0, alignment = Gravity.TOP or Gravity.CENTER,  mt =  dpToPx(5)),
                 activeIndication = Gravity.START,
-                playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2)
-            )
+                playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5)))
     } else {
         slotPositions[BOTTOM_CENTER] =
             SlotPosition(
@@ -504,22 +394,12 @@ fun makeSlotPositions(
                 x = (tableWidth - playerSize) / 2.3f -inPlayWidth/4,
                 y = tableHeight / 1.2f- dpToPx(20),
                 player = Position( mt = dpToPx(20)),
-                crown = Position(
-                    ml = ((playerSize - crownWidth)/1.2).toInt(),
-                    mt = (topMargin / 1.5).toInt()
-                ),
-                inPlay = Position(
-                    mt = (playerSize - inPlayHeight / 1.5 + topMargin).toInt(),
-                    ml = playerSize.toInt()
-                ),
                 tossCard = Position(
                     alignment = Gravity.TOP or Gravity.CENTER_HORIZONTAL
                 ),
                 raiseAmt = Position(alignment = Gravity.TOP or Gravity.CENTER, mt =  dpToPx(5)),
                 activeIndication = Gravity.START,
-                playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(Gravity.BOTTOM or Gravity.START,mb = inPlayHeight - topMargin/2 + dpToPx(5))
-            )
+                playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5)))
     }
 
 
@@ -531,10 +411,6 @@ fun makeSlotPositions(
                 player = Position(
                     mt = dpToPx(20)
                 ),
-                crown = Position(
-                    ml = (inPlayWidth + (playerSize - crownWidth) / 2).toInt(),
-                    mt = (roundingSize * 3).toInt()
-                ),
                 revealCards = Position(
                     alignment = Gravity.TOP or Gravity.END
                 ),
@@ -542,24 +418,16 @@ fun makeSlotPositions(
                     alignment = Gravity.TOP or Gravity.CENTER_HORIZONTAL
                 ),
                 raiseAmt = Position(ml = 0, alignment = Gravity.TOP or Gravity.CENTER),
-                inPlay = Position(mt = (playerSize - inPlayHeight / 1.5 + inPlayHeight / 2).toInt()),
                 activeIndication = Gravity.START,
-                playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2, ml = playerMargin*2 - dpToPx(5))
-        )
+                playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5)))
     } else {
         slotPositions[LEFT_BOTTOM] =
             SlotPosition(
                 x = playerMargin.toFloat() /  4 - roundingSize * 2,
                 y = tableHeight / 1.45f,
                 player = Position(),
-                crown = Position(
-                    ml = (playerSize / 4 + (playerSize - crownWidth) / 2).toInt(),
-                    mt = (roundingSize * 3).toInt()
-                ),
                 revealCards = Position(
                 ),
-                inPlay = Position(mt = (playerSize - inPlayHeight / 1.5 + inPlayHeight / 2).toInt()),
                 raiseAmt = Position(
                     alignment = Gravity.END or Gravity.CENTER,
                     mt = dpToPx(5),
@@ -570,9 +438,7 @@ fun makeSlotPositions(
                     alignment = Gravity.END or Gravity.CENTER_VERTICAL
                 ),
                 activeIndication = Gravity.START,
-                playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/3 -dpToPx(5))
-            )
+                playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)))
 
     }
 
@@ -582,26 +448,16 @@ fun makeSlotPositions(
                 x = playerSize / 3 + leftMargin / 2,
                 y = tableHeight - 2f * playerSize + topMargin,
                 player = Position(),
-                crown = Position(
-                    ml = (playerSize / 4 + (playerSize - crownWidth)).toInt(),
-                    mt = (roundingSize * 3).toInt()
-                ),
                 raiseAmt = Position(ml = (playerSize + roundingSize * 10 + dpToPx(20)).toInt(),
                     mt = dpToPx(10),
                     alignment = Gravity.END or Gravity.CENTER),
-                inPlay = Position(
-                    mt = playerSize.toInt() + inPlayHeight - playerMargin / 2,
-                    ml = 2 * roundingSize.toInt()
-                ),
                 tossCard = Position(
                     mt = dpToPx(10),
                     ml = (playerSize + roundingSize * 10 + dpToPx(20)).toInt(),
                     alignment = Gravity.END or Gravity.CENTER_VERTICAL
                 ),
                 activeIndication = Gravity.START,
-                playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = topMargin, ml = playerMargin - dpToPx(15))
-        )
+                playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)))
     } else {
         slotPositions[LEFT_BOTTOM_CENTER] =
             SlotPosition(
@@ -609,13 +465,7 @@ fun makeSlotPositions(
                 y = tableHeight / 1.8f,
                 player = Position(
                 ),
-                crown = Position(
-                    ml = (playerSize / 4 + (playerSize - crownWidth) / 2).toInt(),
-                    mt = (roundingSize * 3).toInt()
-                ),
                 revealCards = Position(
-                ),
-                inPlay = Position(
                 ),
                 tossCard = Position(
                     mt = dpToPx(10),
@@ -627,9 +477,7 @@ fun makeSlotPositions(
                     mt = dpToPx(5),
                     ml =  (playerSize + roundingSize * 10 + dpToPx(10)).toInt()),
                 activeIndication = Gravity.START,
-                playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)),
-                deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/3 -dpToPx(5))
-            )
+                playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)))
     }
 
 
@@ -639,11 +487,6 @@ fun makeSlotPositions(
             y = (tableHeight - playerSize) / 2 + topMargin / 2,
             player = Position(),
             revealCards = Position(),
-            crown = Position(
-                ml = ((playerSize - crownWidth)).toInt(),
-                mt = topMargin / 2
-            ),
-            inPlay = Position(mt = (playerSize + roundingSize + topMargin / 2).toInt()),
             raiseAmt = Position(
                 ml =  (playerSize + roundingSize * 10 + dpToPx(15)).toInt(),
                 mt = dpToPx(10),
@@ -654,9 +497,7 @@ fun makeSlotPositions(
                 alignment = Gravity.END or Gravity.CENTER_VERTICAL
             ),
             activeIndication = Gravity.START,
-            playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)),
-            deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2)
-        )
+            playerAction =  Position(alignment = Gravity.END or Gravity.CENTER, mt = dpToPx(5)))
     slotPositions[RIGHT_CENTER] =
         SlotPosition(
             x = tableWidth - playerSize - leftMargin - inPlayWidth - (roundingSize * 10).toInt(),
@@ -665,14 +506,6 @@ fun makeSlotPositions(
                 ml = (playerSize/1.2f).toInt()
             ),
             revealCards = Position(),
-            crown = Position(
-                ml = (inPlayWidth + (playerSize - crownWidth) / 2f).toInt(),
-                mt = topMargin / 2
-            ),
-            inPlay = Position(
-                ml = inPlayWidth,
-                mt = (playerSize + roundingSize + topMargin / 2).toInt()
-            ),
             raiseAmt = Position(
                 mt = dpToPx(10),
                 alignment = Gravity.START or Gravity.CENTER
@@ -683,52 +516,30 @@ fun makeSlotPositions(
                 alignment = Gravity.START or Gravity.CENTER
             ),
             activeIndication = Gravity.START,
-            playerAction =  Position(alignment = Gravity.START or Gravity.CENTER, mt = dpToPx(5)),
-            deal = Position(alignment = Gravity.END or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2)
-        )
+            playerAction =  Position(alignment = Gravity.START or Gravity.CENTER, mt = dpToPx(5)))
 
     if (isLandscape) {
         return SlotPosition(
             x = (tableWidth - meSlotSize) / 2 - inPlayWidth/2,
             y = tableHeight - playerSize * 1.3f + topMargin * 2.17f - dpToPx(20),
             player = Position(ml = inPlayWidth/4, mr = inPlayWidth/4, mt = dpToPx(20)),
-            crown = Position(
-                ml = ((meSlotSize - crownWidth) ).toInt(),
-                mt = (topMargin / 1.5).toInt()
-            ),
-            inPlay = Position(
-                mt = (meSlotSize - inPlayHeight / 1.5 + topMargin).toInt(),
-                ml = meSlotSize.toInt()
-            ),
             tossCard = Position(
                 alignment = Gravity.TOP or Gravity.CENTER_HORIZONTAL
             ),
             raiseAmt = Position(ml = 0, alignment = Gravity.TOP or Gravity.CENTER),
             activeIndication = Gravity.START,
-            playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5)),
-            deal = Position(alignment = Gravity.START or Gravity.BOTTOM, mb = inPlayHeight - topMargin/2)
-        )
+            playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt = dpToPx(5)))
     } else {
         return SlotPosition(
             x = (tableWidth - playerSize) / 2.3f -inPlayWidth/4,
             y = tableHeight / 1.2f - dpToPx(20),
             player = Position( mt = dpToPx(20)),
-            crown = Position(
-                ml = ((meSlotSize - crownWidth)).toInt(),
-                mt = (topMargin / 1.5).toInt()
-            ),
-            inPlay = Position(
-                mt = (meSlotSize - inPlayHeight / 1.5 + topMargin).toInt(),
-                ml = meSlotSize.toInt()
-            ),
             tossCard = Position(
                 alignment = Gravity.TOP or Gravity.CENTER_HORIZONTAL
             ),
             raiseAmt = Position(alignment = Gravity.TOP or Gravity.CENTER, mt =  dpToPx(5)),
             activeIndication = Gravity.START,
-            playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt =  dpToPx(5)),
-            deal = Position(Gravity.BOTTOM or Gravity.START,mb = inPlayHeight - topMargin/2 + dpToPx(5))
-        )
+            playerAction =  Position(alignment = Gravity.TOP or Gravity.CENTER, mt =  dpToPx(5)))
     }
 
 }

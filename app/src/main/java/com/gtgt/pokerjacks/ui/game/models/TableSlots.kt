@@ -4,9 +4,6 @@ import com.google.gson.JsonElement
 
 enum class TableSlotStatus(status: String) {
     ACTIVE("ACTIVE"),
-    WAITING("WAITING"),
-    LEFT("LEFT"),
-    INACTIVE("INACTIVE"),
     VACANT("VACANT"),
     FOLD("FOLD"),
     REFILL("REFILL"),
